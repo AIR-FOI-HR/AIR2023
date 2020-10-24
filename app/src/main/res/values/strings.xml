@@ -2,7 +2,7 @@
     <string name="app_name">Digitalna ribarnica</string>
     <string name="welcome">Dobro došli u digitalnu ribarnicu</string>
     <string name="login">Prijava</string>
-    <string name="username">Korisnički email</string>
+    <string name="username">Email</string>
     <string name="password">Lozinka</string>
     <string name="forgotPassword">Zaboravljena lozinka?</string>
     <string name="facebook_app_id">345456403402437</string>
