@@ -5,4 +5,6 @@
     <string name="username">Korisnički email</string>
     <string name="password">Lozinka</string>
     <string name="forgotPassword">Zaboravljena lozinka?</string>
+    <string name="facebook_app_id">345456403402437</string>
+    <string name="fb_login_protocol_scheme">fb345456403402437</string>
 </resources>
