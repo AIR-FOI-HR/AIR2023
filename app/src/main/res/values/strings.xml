@@ -7,4 +7,10 @@
     <string name="forgotPassword">Zaboravljena lozinka?</string>
     <string name="facebook_app_id">345456403402437</string>
     <string name="fb_login_protocol_scheme">fb345456403402437</string>
+    <string name="title_activity_register_form">RegisterActivityForm</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
