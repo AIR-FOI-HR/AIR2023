@@ -6,21 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".LoadingActivity">
 
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/slikaPocetna"
-        android:background="@drawable/group1"/>
+        android:background="@drawable/okvir"
+/>
+
+    <RelativeLayout
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/logo"
+            />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/logoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorBlueT"
+        android:textSize="25sp"
+        android:layout_below="@+id/logo"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        />
+
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/progress"
         android:layout_centerHorizontal="true"
-        android:layout_marginVertical="450dp"
         android:max="100"
         android:progress="0"
         android:paddingHorizontal="30dp"
+        android:layout_below="@+id/logoText"
+        android:layout_marginTop="20dp"
         />
 
 </RelativeLayout>
