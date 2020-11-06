@@ -198,7 +198,25 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="30dp" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_button"
+                style="@style/Widget.MaterialComponents.Button"
+                android:backgroundTint="@color/colorBlue"
+                android:layout_marginHorizontal="35dp"
+                android:text="@string/registration"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/registracija_button"
+                >
+
+            </Button>
+
         </RelativeLayout>
+
+
+
+
     </ScrollView>
 
 </RelativeLayout>
