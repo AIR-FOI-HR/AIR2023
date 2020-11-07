@@ -12,14 +12,23 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bgHeader"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="95dp"
         android:elevation="5dp"
         app:cardElevation="0dp">
 
         <RelativeLayout
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_width="110dp"
+            android:layout_height="92dp"
+            android:layout_marginRight="-2dp"
+            android:background="@drawable/header_bubble_login">
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/header_login"/>
+            android:background="@drawable/header_login" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -28,8 +37,8 @@
         android:id="@+id/tvDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="12dp"
         android:elevation="5dp"
         android:text="Registracija"
         android:textColor="@color/colorWhite"
@@ -59,9 +68,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="0dp">
+                    android:paddingBottom="0dp"
+                    android:layout_marginTop="5dp">
+
 
                     <TextView
+                        android:id="@+id/ime_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -76,7 +88,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:inputType="text"
-
                         />
 
                     <TextView
@@ -176,7 +187,7 @@
                     <Button
                         android:id="@+id/btnRegistracija"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="35dp"
                         android:layout_marginRight="35dp"
                         android:layout_marginBottom="5dp"
@@ -184,7 +195,7 @@
                         android:text="@string/registration"
                         android:textColor="@color/colorWhite"
                         android:textAlignment="center"
-                        android:backgroundTint="@color/colorBlueT"
+                        android:backgroundTint="@color/colorBlue"
                         style="@style/Widget.MaterialComponents.Button"
                         />
                 </LinearLayout>

@@ -12,11 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.digitalnaribarnica.databinding.ActivityRegistrationBinding;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public class RegistrationActivity extends AppCompatActivity {
+
+    private TextView imeTextView;
 
     private EditText ime;
     private EditText prezime;
@@ -45,6 +48,8 @@ public class RegistrationActivity extends AppCompatActivity {
         binding = ActivityRegistrationBinding.inflate((getLayoutInflater()));
         View view = binding.getRoot();
         setContentView(view);
+
+        imeTextView = binding.imeTextView;
 
         ime = binding.imeR;
         prezime = binding.prezimeR;
@@ -89,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    ime.setTextColor(Color.BLACK);
+                    ime.setTextColor(imeTextView.getCurrentTextColor());
                 }
             }
         });
@@ -128,7 +133,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    prezime.setTextColor(Color.BLACK);
+                    prezime.setTextColor(imeTextView.getCurrentTextColor());
                 }
             }
         });
@@ -166,7 +171,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    adresa.setTextColor(Color.BLACK);
+                    adresa.setTextColor(imeTextView.getCurrentTextColor());
                 }
             }
         });
@@ -204,7 +209,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    brojMobitela.setTextColor(Color.BLACK);
+                    brojMobitela.setTextColor(imeTextView.getCurrentTextColor());
                 }
             }
         });
@@ -239,7 +244,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    email.setTextColor(Color.BLACK);
+                    email.setTextColor(imeTextView.getCurrentTextColor());
                 }
             }
         });
@@ -292,7 +297,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     showToast(view, "Nije unesena ponovljena lozinka");
                 }
                 else if(!boolLozinka){
-                    showToast(view, "Lozinka mora imati barem 1 malo, 1 veliko slovo i 1 broj te minimalno 6 znamenki");
+                    showToast(view, "Lozinka mora imati barem 1 malo, 1 veliko slovo i 1 broj te minimalno 6 znakova");
                     lozinka.setText("");
                     ponovljenaLozinka.setText("");
                 }

@@ -19,12 +19,12 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="170dp"
         >
 
         <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_centerInParent="true"
             android:background="@drawable/logo"
             />
@@ -58,7 +58,7 @@
         android:progress="0"
         android:paddingHorizontal="30dp"
         android:layout_below="@+id/logoText"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         />
 
 </RelativeLayout>
