@@ -31,7 +31,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:elevation="5dp"
-        android:text="@string/registrationHeader"
+        android:text="Registracija"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         android:textStyle="bold"/>
@@ -65,12 +65,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="@string/name"
+                        android:text="Ime"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/imeRegistracije"
+                        android:id="@+id/ime_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -88,11 +88,12 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/prezime_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword" />
+                        android:inputType="text" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,11 +104,12 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/adresa_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword" />
+                        android:inputType="text" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,11 +119,12 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/broj_mobitela_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword" />
+                        android:inputType="text" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -131,11 +134,12 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/email_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword" />
+                        android:inputType="text" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,6 +150,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/lozinka_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -161,12 +166,13 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/ponovljena_lozinka_r"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword"
-                        android:id="@+id/secondPassword"/>
+                        android:inputType="textPassword"/>
+
                     <Button
                         android:id="@+id/btnRegistracija"
                         android:layout_width="match_parent"
