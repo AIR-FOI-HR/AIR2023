@@ -7,8 +7,6 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bgHeader"
         android:layout_width="match_parent"
@@ -33,37 +31,36 @@
             android:layout_marginLeft="-2dp"
             >
 
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:elevation="5dp"
+                android:text="@string/welcome"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDesc"
+                android:transitionName="tvLogin"
+                android:layout_alignLeft="@+id/tvDesc"
+                android:elevation="5dp"
+                android:text="@string/login"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+
+
         </RelativeLayout>
 
 
     </com.google.android.material.card.MaterialCardView>
-
-
-    <TextView
-        android:id="@+id/tvDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="40dp"
-        android:elevation="5dp"
-        android:text="@string/welcome"
-        android:textColor="@color/colorWhite"
-        android:textSize="17sp" />
-
-    <TextView
-        android:id="@+id/tvLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDesc"
-        android:transitionName="tvLogin"
-        android:layout_alignLeft="@+id/tvDesc"
-        android:elevation="5dp"
-        android:text="@string/login"
-        android:textColor="@color/colorWhite"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-
 
 
     <ImageView
@@ -214,7 +211,9 @@
 
             </Button>
 
+
         </RelativeLayout>
+
 
 
 

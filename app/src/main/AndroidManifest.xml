@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DigitalnaRibarnica">
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".KorisnickePostavke"></activity>
+        <activity android:name=".RegistrationActivity" />
         <activity
             android:name=".LoadingActivity"
             android:theme="@style/Theme.DigitalnaRibarnica">
@@ -23,7 +24,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.DigitalnaRibarnica"></activity>
+            android:theme="@style/Theme.DigitalnaRibarnica" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
