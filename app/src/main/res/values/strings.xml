@@ -4,6 +4,7 @@
     <string name="login">Prijava</string>
     <string name="registration">Registriraj se</string>
     <string name="registrationHeader">Registracija</string>
+    <string name="urediProfil">Uredi profil</string>
     <string name="username">Email</string>
     <string name="password">Lozinka</string>
     <string name="secondpassword">Ponovljena lozinka</string>
@@ -14,5 +15,12 @@
     <string name="forgotPassword">Zaboravljena lozinka?</string>
     <string name="facebook_app_id">345456403402437</string>
     <string name="fb_login_protocol_scheme">fb345456403402437</string>
+    <string name="fishSpecies">Vrsta ribe</string>
+    <string name="location">Lokacija</string>
+    <string name="price">Cijena</string>
+    <string name="fishClass">Razred ribe</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Odustani</string>
+    <string name="newOffer">Nova ponuda</string>
 
 </resources>

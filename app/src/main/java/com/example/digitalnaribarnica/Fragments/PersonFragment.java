@@ -70,10 +70,10 @@ public class PersonFragment extends Fragment {
         binding=FragmentPersonBinding.inflate(inflater,container,false);
         View view =binding.getRoot();
 
-        binding.Email.setText(email);
-        binding.ID.setText(id);
-        binding.Name.setText(ime);
-        binding.odjava.setOnClickListener(new View.OnClickListener() {
+        binding.emailP.setText(email);
+        binding.adresaP.setText(id);
+        binding.brojMobitelaP.setText(ime);
+       /* binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -87,12 +87,12 @@ public class PersonFragment extends Fragment {
                         break;
                 }
             }
-        });
-        Glide.with(this).load(photo).into(binding.Slika);
+        });*/
+        //Glide.with(this).load(photo).into(binding.Slika);
         return  view;
-        /*
 
-        View personFragmentView = inflater.inflate(R.layout.fragment_person, container, false);
+
+        /*View personFragmentView = inflater.inflate(R.layout.fragment_person, container, false);
         TextView Email = (TextView)personFragmentView.findViewById(R.id.Email);
         TextView ID = (TextView)personFragmentView.findViewById(R.id.ID);
         TextView Ime = (TextView)personFragmentView.findViewById(R.id.Name);
@@ -112,19 +112,19 @@ public class PersonFragment extends Fragment {
                         break;
                 }
             }
-        });
+        });*/
 
 
-        Email.setText(email);
+        /*Email.setText(email);
         ID.setText(id);
         Ime.setText(this.ime);
-        Glide.with(this).load(photo).into((ImageView) personFragmentView.findViewById(R.id.Slika));
+        Glide.with(this).load(photo).into((ImageView) personFragmentView.findViewById(R.id.Slika));*/
 
 
 
-        return personFragmentView;
+        //return personFragmentView;
 
-        */
+
 
     }
 

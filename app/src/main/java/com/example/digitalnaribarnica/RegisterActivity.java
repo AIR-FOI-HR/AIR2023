@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.digitalnaribarnica.Fragments.ChatFragment;
-import com.example.digitalnaribarnica.Fragments.HomeFragment;
+import com.example.digitalnaribarnica.Fragments.AddOfferFragment;
 import com.example.digitalnaribarnica.Fragments.PersonFragment;
-import com.example.digitalnaribarnica.Fragments.RegistrationFragment;
+import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.databinding.ActivityRegisterBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = new AddOfferFragment();
                             break;
                         case R.id.nav_chat:
                             selectedFragment = new ChatFragment();
@@ -144,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,acct,mUser,mAuth,mGoogleSignInClient);
                             break;
                         case R.id.nav_ponude:
-                            selectedFragment = new RegistrationFragment();
+                            selectedFragment = new ReservationFragment();
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment();

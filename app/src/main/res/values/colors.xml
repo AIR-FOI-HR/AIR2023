@@ -8,4 +8,7 @@
     <color name="colorPurpleT">#64983cff</color>
     <color name="colorBlue">#2FB4FF</color>
     <color name="colorBlueT">#1081EB</color>
+    <color name="colorGray">#989898</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorGreen">#30c23d</color>
 </resources>
