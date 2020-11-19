@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import com.bumptech.glide.Glide;
+import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.databinding.FragmentPersonBinding;
@@ -38,6 +39,7 @@ public class PersonFragment extends Fragment {
     private String id="";
     private String photo="";
     private String email="";
+    private Button edit;
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
@@ -70,9 +72,26 @@ public class PersonFragment extends Fragment {
         binding=FragmentPersonBinding.inflate(inflater,container,false);
         View view =binding.getRoot();
 
+        edit = binding.btnUrediProfil;
+
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View v) {
+                Log.d("NOVITAG", "Trebalo bi pokrenuti");
+                selectedFragment = new EditProfileFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
+
+
         binding.emailP.setText(email);
         binding.adresaP.setText(id);
         binding.brojMobitelaP.setText(ime);
+
        /* binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,9 +143,8 @@ public class PersonFragment extends Fragment {
 
         //return personFragmentView;
 
-
-
     }
+
 
     private void signOut() {
         mGoogleSignInClient.signOut()

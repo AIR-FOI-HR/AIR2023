@@ -201,7 +201,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean fokusiran) {
                 if (!fokusiran) {
-                    Log.d("NOVITAG", "Probaj ovo: " + brojMobitela.getText().toString().matches("^([+])([0-9\\s]){2,13}$|(0)([0-9\\s]){2,12}$"));
+                    //Log.d("NOVITAG", "Probaj ovo: " + brojMobitela.getText().toString().matches("^([+])([0-9\\s]){2,13}$|(0)([0-9\\s]){2,12}$"));
                     if(brojMobitela.getText().toString().equals("")){}
                     else if (!boolMobitel) {
                         showToast(view, "Neispravan unos mobitela");

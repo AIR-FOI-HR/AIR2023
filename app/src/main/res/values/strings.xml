@@ -22,5 +22,7 @@
     <string name="add">Dodaj</string>
     <string name="cancel">Odustani</string>
     <string name="newOffer">Nova ponuda</string>
+    <string name="editImage">Promijeni sliku</string>
+    <string name="saveChanges">Spremi</string>
 
 </resources>
