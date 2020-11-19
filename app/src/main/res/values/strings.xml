@@ -24,5 +24,6 @@
     <string name="newOffer">Nova ponuda</string>
     <string name="editImage">Promijeni sliku</string>
     <string name="saveChanges">Spremi</string>
-
+    <string name="reserve">Rezerviraj</string>
+    <string name="offerDetails">Detalji ponude</string>
 </resources>

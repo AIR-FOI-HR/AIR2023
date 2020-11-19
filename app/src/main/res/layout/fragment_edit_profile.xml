@@ -219,6 +219,18 @@
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_marginBottom="8dp"/>
 
+                    <Button
+                        android:id="@+id/btnDetaljiPonude"
+                        android:layout_gravity="center"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:text="detalji"
+                        android:textColor="@color/colorWhite"
+                        android:textAlignment="center"
+                        android:backgroundTint="@color/colorBlue"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_marginBottom="8dp"/>
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
