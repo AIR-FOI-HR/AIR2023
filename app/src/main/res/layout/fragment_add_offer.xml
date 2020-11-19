@@ -7,4 +7,170 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bgHeader"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="5dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorBlue">
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="12dp"
+        android:elevation="5dp"
+        android:text="@string/newOffer"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bgHeader">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutPodaci"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fishSpecies"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="30dp"
+                        android:elevation="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <Spinner
+                        android:id="@+id/cbVrstaRibe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/location"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="12dp"
+                        android:elevation="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <Spinner
+                        android:id="@+id/cbLokacija"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="12dp"
+                        android:elevation="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:inputType="numberDecimal"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fishClass"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="12dp"
+                        android:elevation="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max = "5"
+                        android:min="1"
+                        android:progress="1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="70dp"
+                        android:layout_marginTop="15dp"/>
+
+                    <Button
+                        android:id="@+id/btnDodaj"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:text="@string/add"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:textAlignment="center"
+                        android:backgroundTint="@color/colorGreen"
+                        style="@style/Widget.MaterialComponents.Button"/>
+
+                    <Button
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/btnOdustani"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="@string/cancel"
+                        android:textColor="@color/colorWhite"
+                        android:textAlignment="center"
+                        android:backgroundTint="@color/colorRed"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_toRightOf="@+id/btnDodaj"
+                        android:layout_marginBottom="30dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>
