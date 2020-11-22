@@ -26,4 +26,7 @@
     <string name="saveChanges">Spremi</string>
     <string name="reserve">Rezerviraj</string>
     <string name="offerDetails">Detalji ponude</string>
+    <string name="offers">Ponude</string>
+    <string name="picture">Slika</string>
+    <string name="offer_title">Naslov ponude</string>
 </resources>
