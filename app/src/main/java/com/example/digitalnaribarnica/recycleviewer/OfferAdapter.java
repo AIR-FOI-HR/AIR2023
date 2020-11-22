@@ -9,11 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
 import com.example.digitalnaribarnica.R;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -44,9 +47,13 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
         holder.peti.setText(offers.get(position).getFishClass());
 
         cardView.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, offers.get(position).getDescription() , Toast.LENGTH_LONG).show();
+                selectedFragment = new OfferDetailFragment();
+                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
             }
         });
 

@@ -32,7 +32,6 @@ public class EditProfileFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Log.d("NOVITAG", "Trebalo bi pokrenuti");
                 selectedFragment = new OfferDetailFragment();
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();

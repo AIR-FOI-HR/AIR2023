@@ -41,6 +41,8 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+
         return view;
     }
 
