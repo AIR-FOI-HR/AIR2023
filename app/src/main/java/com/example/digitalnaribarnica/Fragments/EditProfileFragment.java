@@ -24,20 +24,6 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
-        btnDetails = binding.btnDetaljiPonude;
-
-        btnDetails.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment = null;
-
-            @Override
-            public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
-            }
-        });
-
         return  view;
     }
 }
