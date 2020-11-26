@@ -15,6 +15,7 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding=ActivityLoadingBinding.inflate((getLayoutInflater()));
         View view=binding.getRoot();
         setContentView(view);

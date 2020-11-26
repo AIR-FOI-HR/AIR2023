@@ -40,6 +40,7 @@ public class KorisnickePostavke extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_korisnicke_postavke);
 
         //Incijalizacija Firebase

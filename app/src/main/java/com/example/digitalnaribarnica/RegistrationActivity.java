@@ -45,6 +45,7 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         binding = ActivityRegistrationBinding.inflate((getLayoutInflater()));
         View view = binding.getRoot();
         setContentView(view);
