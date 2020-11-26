@@ -207,21 +207,22 @@
                         android:layout_marginBottom="10dp"
                         android:inputType="textPassword"/>
 
-                    <Button
-                        android:id="@+id/btnSpremiPromjene"
-                        android:layout_gravity="center"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:text="@string/saveChanges"
-                        android:textColor="@color/colorWhite"
-                        android:textAlignment="center"
-                        android:backgroundTint="@color/colorBlue"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_marginBottom="8dp"/>
-
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
+
+                    <Button
+                        android:id="@+id/btnSpremiPromjene"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/cv"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="@string/saveChanges"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorBlue"
+                        style="@style/Widget.MaterialComponents.Button"
+                        tools:ignore="NotSibling"/>
 
         </RelativeLayout>
 
