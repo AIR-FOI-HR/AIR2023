@@ -9,4 +9,10 @@
     app:showAsAction="always|collapseActionView"
     app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <item
+        android:id="@+id/dialog_filter_offers"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_format_list_bulleted_24"/>
+
 </menu>

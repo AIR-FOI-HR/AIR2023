@@ -76,6 +76,19 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+
+        MenuItem filter = menu.findItem((R.id.dialog_filter_offers));
+        filter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                selectedFragment = new FilterOffersFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+                return false;
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 }

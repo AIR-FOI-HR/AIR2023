@@ -29,4 +29,9 @@
     <string name="offers">Ponude</string>
     <string name="picture">Slika</string>
     <string name="offer_title">Naslov ponude</string>
+    <string name="filter">Filtriranje</string>
+    <string name="sort">Sortiraj:</string>
+    <string name="least_expensive">Najjeftinije</string>
+    <string name="most_expensive">Najskuplje</string>
+    <string name="search">Pretraži</string>
 </resources>
