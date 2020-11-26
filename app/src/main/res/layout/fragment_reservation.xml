@@ -1,10 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.digitalnaribarnica.Fragments.ReservationFragment">
+
+    <RelativeLayout
+        android:id="@+id/reservationHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Ovo je registration"
-        android:textAlignment="center"/>
+        android:layout_height="60dp"
+        android:background="@color/colorBlue">
+
+        <TextView
+            android:id="@+id/rezervacija_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="12dp"
+            android:elevation="5dp"
+            android:text="@string/reservation_title"
+            android:textColor="@color/colorWhite"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/reservationFilterIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@id/rezervacija_text"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/ic_baseline_search_24">
+
+
+        </ImageView>
+
+        <EditText
+            android:id="@+id/filterReservation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_toRightOf="@id/reservationFilterIcon"
+            android:layout_marginRight="35dp"
+
+            >
+
+        </EditText>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/middleRezervation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/reservationHeader"
+        >
+
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:checkedButton="@id/myReservations_button"
+            app:selectionRequired="true"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/myReservations_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/myReservations" />
+            <Button
+                android:id="@+id/requests_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/requests"
+                style="?attr/materialButtonOutlinedStyle"
+                />
+            <Button
+                android:id="@+id/acceptedRequests_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acceptedRequests"
+                style="?attr/materialButtonOutlinedStyle"
+                />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerReservations"
+            android:layout_below="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+
 </RelativeLayout>
