@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
+import com.example.database.Offer;
 import com.example.database.User;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -153,6 +154,14 @@ public class Repository {
             }
         });
     }
+    public void DodajPonudu(String name,String description, String imageurl, String price, String fishClass,String imageurlTrophey,String idKorisnika){
+        //Offer offer=new Offer("Štuka","Požega","https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/ribe%2Fstuka.png?alt=media&token=f29a9276-9b02-4a00-94e0-d6166c15bcfd","40,00kn","Razred 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png");
+        Offer offer=new Offer(name,description,imageurl,price,fishClass,imageurlTrophey);
+        if(idKorisnika!="")
+            offer.setIdKorisnika(idKorisnika);
+        firestoreService.writeOffer(offer,"Offers");
+    }
+
     public boolean ProvjeriPassword(String sha256,String unesenaLozinka){
         return sha256.equals(unesenaLozinka);
     }
