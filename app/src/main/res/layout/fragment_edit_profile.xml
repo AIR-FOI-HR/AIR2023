@@ -224,6 +224,38 @@
                         style="@style/Widget.MaterialComponents.Button"
                         tools:ignore="NotSibling"/>
 
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnSpremiPromjene">
+                    <Button
+
+                        android:id="@+id/btnUcitajSLiku"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="left"
+                        android:text="@string/ucitaj_sliku"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorBlue"
+                        android:layout_marginLeft="20dp"
+                        style="@style/Widget.MaterialComponents.Button"
+                        tools:ignore="NotSibling"/>
+                    <Button
+                        android:id="@+id/btnOdustani"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:text="@string/Odustani"
+                        android:layout_marginLeft="@dimen/general_margin"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorBlue"
+                        style="@style/Widget.MaterialComponents.Button"
+                        tools:ignore="NotSibling"/>
+                </RelativeLayout>
+
         </RelativeLayout>
 
     </ScrollView>

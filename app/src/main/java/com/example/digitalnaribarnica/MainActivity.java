@@ -1,15 +1,22 @@
 package com.example.digitalnaribarnica;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.database.FirestoreService;
+import com.example.database.User;
+import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.databinding.ActivityMainBinding;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -24,14 +31,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -111,10 +125,58 @@ public class MainActivity extends AppCompatActivity {
         binding.btnPrijava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 Intent intent =new Intent(MainActivity.this,RegisterActivity.class);
                 MainActivity.this.startActivity(intent);
+                 */
+                Repository repository=new Repository();
+                //Toast.makeText(MainActivity.this, binding.emailEDIT.getText(), Toast.LENGTH_LONG).show();
+                repository.DohvatiKorisnikaPoEmailu(binding.emailEDIT.getText().toString(), new FirestoreCallback() {
+                    @Override
+                    public void onCallback(User user) {
+                        if(user!=null) {
+                            //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                            //SHA256.getSHA(binding.)
+                            //Toast.makeText(MainActivity.this,user.getPassword() , Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, user.getBlokiran().toString(), Toast.LENGTH_SHORT).show();
+                            if (!user.getBlokiran()) {
+                                String s1 = binding.passwordEDIT.getText().toString();
+
+                                try {
+                                    //Toast.makeText(MainActivity.this, String.valueOf(repository.ProvjeriPassword(user.getPassword(),SHA256.toHexString(SHA256.getSHA(s1)))), Toast.LENGTH_SHORT).show();
+                                    //Log.d("SHA256",SHA256.toHexString(SHA256.getSHA(s1)));
+                                    if (repository.ProvjeriPassword(user.getPassword(), SHA256.toHexString(SHA256.getSHA(s1)))) {
+                                        //Toast.makeText(MainActivity.this, "Pass je isti", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                                        intent.putExtra("CurrentUser", user);
+                                        MainActivity.this.startActivity(intent);
+
+
+                                    } else
+                                        Toast.makeText(MainActivity.this, "Unijeli ste krivu lozinku!!!", Toast.LENGTH_SHORT).show();
+
+                                } catch (NoSuchAlgorithmException e) {
+                                    Toast.makeText(MainActivity.this, "Nije moguće izračunati SHA256", Toast.LENGTH_SHORT).show();
+                                }
+                            }else
+                                Toast.makeText(MainActivity.this, "Korisnik je blokiran", Toast.LENGTH_SHORT).show();
+                        } else
+                                Toast.makeText(MainActivity.this, "Korisnik nije pronađen u bazi", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
             }
         });
+
+
+    }
+    public void saveInformation(String username,String password) {
+        SharedPreferences shared = getSharedPreferences("shared", MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.commit();
     }
 
     private void signIn() {
@@ -195,6 +257,46 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please sign in to continue ", Toast.LENGTH_SHORT).show();
         }
     }
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
 
+        if (doubleBackToExitPressedOnce) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Želite izaći iz aplikacije?");
+            alertDialogBuilder
+                    .setMessage("Stisnite DA ako želite")
+                    .setCancelable(false)
+                    .setPositiveButton("Da",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    moveTaskToBack(true);
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                    System.exit(1);
+                                }
+                            })
+
+                    .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Stisnite BACK još jedno za izlaz", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
 }

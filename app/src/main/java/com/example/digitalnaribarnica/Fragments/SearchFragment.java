@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,16 +19,50 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
     RecyclerView recyclerView;
+    private String ime="";
+    private String id="";
+    private String photo="";
+    private String email="";
+    private String adress="";
+    private String phone="";
+    private Button edit;
+    GoogleSignInAccount acct;
+    FirebaseUser mUser;
+    FirebaseAuth mAuth;
+    GoogleSignInClient mGoogleSignInClient;
+    public SearchFragment() {
+    }
+    public SearchFragment(String ime, String id, String photo, String email, String adress, String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
+        this.ime = ime;
+        this.id = id;
+        this.photo = photo;
+        this.email = email;
+        this.acct = acct;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+        this.adress=adress;
+        this.phone=phone;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+    }
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,17 +77,25 @@ public class SearchFragment extends Fragment {
         recyclerView = binding.recycleViewOffer;
 
         ArrayList<OffersData> offers=new ArrayList<>();
+        /*
         offers.add(new OffersData("Prva ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "25,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
         offers.add(new OffersData("Druga ponuda","Zagreb", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 3","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
         offers.add(new OffersData("Treća ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
         offers.add(new OffersData("Četvrta ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "25,00 kn", "Razred: 1","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
         offers.add(new OffersData("Peta ponuda","Čakovec", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+        */
+        Repository repository=new Repository();
+        repository.DohvatiSvePonude(new FirestoreOffer() {
+            @Override
+            public void onCallback(ArrayList<OffersData> offersData) {
+                OfferAdapter adapter=new OfferAdapter(getActivity());
+                adapter.setOffers(offersData);
 
-        OfferAdapter adapter=new OfferAdapter(getActivity());
-        adapter.setOffers(offers);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+        });
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
 

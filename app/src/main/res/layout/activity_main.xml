@@ -109,6 +109,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/emailEDIT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -124,6 +125,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/passwordEDIT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"

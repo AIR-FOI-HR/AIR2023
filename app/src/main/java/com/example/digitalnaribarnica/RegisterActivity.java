@@ -1,6 +1,8 @@
 package com.example.digitalnaribarnica;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -11,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.database.User;
 import com.example.digitalnaribarnica.Fragments.ChatFragment;
 import com.example.digitalnaribarnica.Fragments.AddOfferFragment;
 import com.example.digitalnaribarnica.Fragments.PersonFragment;
@@ -46,6 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
     String personEmail ="";
     String personId="";
     String personPhoto="";
+    String phone="";
+    String adress="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(view);
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
         /*
         imageView = binding.Slika;
         name = binding.Name;
@@ -115,9 +122,18 @@ public class RegisterActivity extends AppCompatActivity {
             Glide.with(this).load(personPhoto).into(imageView);
             */
         }
+        else {
+            User user=(User)getIntent().getSerializableExtra("CurrentUser");
+            personName=user.getFullName();
+            personEmail=user.getEmail();
+            personId=user.getUserID();
+            personPhoto=user.getPhoto();
+            adress=user.getAdress();
+            phone=user.getPhone();
+            //personPhoto=mUser.getPhotoUrl().toString();
+        }
 
     }
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -141,13 +157,13 @@ public class RegisterActivity extends AppCompatActivity {
                             args.putString("photo",personPhoto);
                             selectedFragment.setArguments(args);
                             */
-                            selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,acct,mUser,mAuth,mGoogleSignInClient);
+                            selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
                             break;
                         case R.id.nav_ponude:
                             selectedFragment = new ReservationFragment();
                             break;
                         case R.id.nav_search:
-                            selectedFragment = new SearchFragment();
+                            selectedFragment = new SearchFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -166,5 +182,69 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+    boolean doubleBackToExitPressedOnce = false;
 
+    @Override
+    public void onBackPressed() {
+        /*
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Želite izaći iz aplikacije?");
+        alertDialogBuilder
+                .setMessage("Stisnite DA ako želite")
+                .setCancelable(false)
+                .setPositiveButton("Da",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                moveTaskToBack(true);
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                                System.exit(1);
+                            }
+                        })
+
+                .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        */
+        if (doubleBackToExitPressedOnce) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Želite izaći iz aplikacije?");
+            alertDialogBuilder
+                    .setMessage("Stisnite DA ako želite")
+                    .setCancelable(false)
+                    .setPositiveButton("Da",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    moveTaskToBack(true);
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                    System.exit(1);
+                                }
+                            })
+
+                    .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Stisnite BACK još jedno za izlaz", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }

@@ -9,6 +9,15 @@ public class OffersData {
     private String price;
     private String fishClass;
     private String imageurltrophey;
+    private String idKorisnika;
+
+    public String getIdKorisnika() {
+        return idKorisnika;
+    }
+
+    public void setIdKorisnika(String idKorisnika) {
+        this.idKorisnika = idKorisnika;
+    }
 
     public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey) {
         this.name = name;
@@ -17,6 +26,16 @@ public class OffersData {
         this.price = price;
         this.fishClass = fishClass;
         this.imageurltrophey = imageurltrophey;
+    }
+
+    public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika) {
+        this.name = name;
+        this.description = description;
+        this.imageurl = imageurl;
+        this.price = price;
+        this.fishClass = fishClass;
+        this.imageurltrophey = imageurltrophey;
+        this.idKorisnika = idKorisnika;
     }
 
     public String getPrice() {

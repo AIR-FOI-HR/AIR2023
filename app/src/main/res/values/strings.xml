@@ -34,4 +34,7 @@
     <string name="least_expensive">Najjeftinije</string>
     <string name="most_expensive">Najskuplje</string>
     <string name="search">Pretraži</string>
+    <string name="Odjava">ODJAVA</string>
+    <string name="ucitaj_sliku">Učitaj sliku</string>
+    <string name="Odustani">Odustani</string>
 </resources>
