@@ -29,7 +29,6 @@
     <string name="offers">Ponude</string>
     <string name="picture">Slika</string>
     <string name="offer_title">Naslov ponude</string>
-<<<<<<< HEAD
     <string name="filter">Filtriranje</string>
     <string name="sort">Sortiraj:</string>
     <string name="least_expensive">Najjeftinije</string>
@@ -38,7 +37,6 @@
     <string name="Odjava">ODJAVA</string>
     <string name="ucitaj_sliku">Učitaj sliku</string>
     <string name="Odustani">Odustani</string>
-=======
     <string name="reservation_title">Rezervacije</string>
     <string name="myReservations">Moje rezervacije</string>
     <string name="requests">Zahtjevi</string>
@@ -46,5 +44,4 @@
     <string name="reservationRecyclerView">Naziv rezervacije</string>
     <string name="reservationLocation">Lokacija</string>
     <string name="gradeReservation">Ocjena</string>
->>>>>>> origin/reservationDesign
 </resources>
