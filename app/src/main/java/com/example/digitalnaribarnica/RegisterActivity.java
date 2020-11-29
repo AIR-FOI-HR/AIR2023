@@ -133,7 +133,14 @@ public class RegisterActivity extends AppCompatActivity {
             //personPhoto=mUser.getPhotoUrl().toString();
         }
 
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                new SearchFragment()).commit();
+
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);
     }
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -238,7 +245,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Stisnite BACK još jedno za izlaz", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Stisnite BACK još jednom za izlaz", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override

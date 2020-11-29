@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -57,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN=0;
     int SIGN_IN_FB=1;
+
+    private View view;
+    private Boolean vrijemeTece = false;
+
     CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
     @Override
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 switch (v.getId()) {
                     case R.id.sign_in_button:
                         signIn();
@@ -131,10 +139,14 @@ public class MainActivity extends AppCompatActivity {
                  */
                 Repository repository=new Repository();
                 //Toast.makeText(MainActivity.this, binding.emailEDIT.getText(), Toast.LENGTH_LONG).show();
+
                 repository.DohvatiKorisnikaPoEmailu(binding.emailEDIT.getText().toString(), new FirestoreCallback() {
-                    @Override
-                    public void onCallback(User user) {
-                        if(user!=null) {
+
+                        @Override
+                        public void onCallback (User user){
+
+                        if (user != null) {
+                            Log.d("TagPolje", "Ulazi");
                             //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
                             //SHA256.getSHA(binding.)
                             //Toast.makeText(MainActivity.this,user.getPassword() , Toast.LENGTH_SHORT).show();
@@ -153,17 +165,22 @@ public class MainActivity extends AppCompatActivity {
 
 
                                     } else
-                                        Toast.makeText(MainActivity.this, "Unijeli ste krivu lozinku!!!", Toast.LENGTH_SHORT).show();
+                                        showToast(view, "Unijeli ste krivu lozinku!!!");
+                                        //Toast.makeText(MainActivity.this, "Unijeli ste krivu lozinku!!!",Toast.LENGTH_SHORT).show();
 
                                 } catch (NoSuchAlgorithmException e) {
-                                    Toast.makeText(MainActivity.this, "Nije moguće izračunati SHA256", Toast.LENGTH_SHORT).show();
+                                    showToast(view, "Nije moguće izračunati SHA256");
+                                    //Toast.makeText(MainActivity.this, "Nije moguće izračunati SHA256", Toast.LENGTH_SHORT).show();
                                 }
-                            }else
-                                Toast.makeText(MainActivity.this, "Korisnik je blokiran", Toast.LENGTH_SHORT).show();
+                            } else
+                                showToast(view, "Korisnik je blokiran");
+                                //Toast.makeText(MainActivity.this, "Korisnik je blokiran", Toast.LENGTH_SHORT).show();
                         } else
-                                Toast.makeText(MainActivity.this, "Korisnik nije pronađen u bazi", Toast.LENGTH_SHORT).show();
+                            showToast(view, "Korisnik nije pronađen u bazi");
+                            //Toast.makeText(MainActivity.this, "Korisnik nije pronađen u bazi", Toast.LENGTH_SHORT).show();
 
                     }
+
                 });
 
             }
@@ -171,6 +188,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void showToast(View v, String poruka){
+        if(!vrijemeTece){
+            vrijemeTece = true;
+            StyleableToast.makeText(this, poruka, 3, R.style.Toast).show();
+            new CountDownTimer(3000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                }
+                public void onFinish() {
+                    vrijemeTece = false;
+                }
+            }.start();
+        }
+    }
+
+
     public void saveInformation(String username,String password) {
         SharedPreferences shared = getSharedPreferences("shared", MODE_PRIVATE);
         SharedPreferences.Editor editor = shared.edit();
@@ -288,6 +321,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
+
+        showToast(view, "Ime premašuje broj znakova");
+
         Toast.makeText(this, "Stisnite BACK još jedno za izlaz", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {

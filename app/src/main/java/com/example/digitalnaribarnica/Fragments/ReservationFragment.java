@@ -52,7 +52,7 @@ public class ReservationFragment extends Fragment {
 
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Rezervacije");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
 
         setHasOptionsMenu(true);
@@ -62,9 +62,6 @@ public class ReservationFragment extends Fragment {
         View view = binding.getRoot();
 
         toggleButtonGroup =binding.toggleButton;
-
-
-
 
         buttonReservation=binding.myReservationsButton;
         buttonRequest=binding.requestsButton;
@@ -85,8 +82,6 @@ public class ReservationFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
 
         /*
 
@@ -175,7 +170,6 @@ public class ReservationFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        Log.d("TagPolje", "ulazi");
         inflater.inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem((R.id.action_search));
         SearchView searchView = (SearchView) item.getActionView();
