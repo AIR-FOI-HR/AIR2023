@@ -25,6 +25,8 @@
             <Button
                 android:id="@+id/myReservations_button"
                 style="?attr/materialButtonOutlinedStyle"
+                android:layout_weight="1"
+                android:textSize="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/myReservations" />
@@ -32,6 +34,8 @@
                 android:id="@+id/requests_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="10dp"
                 android:text="@string/requests"
                 style="?attr/materialButtonOutlinedStyle"
                 />
@@ -40,6 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/acceptedRequests"
+                android:layout_weight="1"
+                android:textSize="10dp"
                 style="?attr/materialButtonOutlinedStyle"
                 />
         </com.google.android.material.button.MaterialButtonToggleGroup>
