@@ -7,23 +7,6 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorBlue"/>
-
-    <TextView
-        android:id="@+id/tvDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="12dp"
-        android:elevation="5dp"
-        android:text="@string/offerDetails"
-        android:textColor="@color/colorWhite"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
-
     <RelativeLayout
         android:id="@+id/relativeIcon"
         android:layout_width="match_parent"

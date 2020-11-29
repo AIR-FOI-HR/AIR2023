@@ -10,19 +10,38 @@
     <RelativeLayout
         android:id="@+id/relativeBlueBackground"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="190dp"
         android:background="@color/colorBlue">
+
+ <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentRight="true"
+     android:layout_margin="20dp">
+
+    <ImageView
+            android:id="@+id/btnUrediProfil"
+            android:layout_width="35dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_height="35dp"
+            android:src="@drawable/edit_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="18dp"
+            android:contentDescription="@string/Odjava"/>
 
         <ImageView
             android:id="@+id/odjava"
-            android:layout_width="40dp"
+            android:layout_width="34dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_height="40dp"
+            android:layout_height="34dp"
             android:src="@drawable/logout_icon"
             android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
-            android:contentDescription="@string/Odjava" />
+            android:contentDescription="@string/urediProfil"
+            android:layout_toRightOf="@id/btnUrediProfil"/>
+
+</LinearLayout>
 
     </RelativeLayout>
 
@@ -30,7 +49,7 @@
         android:id="@+id/relativeIcon"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginTop="115dp">
+        android:layout_marginTop="130dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="120dp"
@@ -181,7 +200,7 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
+<!--
             <Button
                 android:id="@+id/btnUrediProfil"
                 android:layout_centerHorizontal="true"
@@ -193,7 +212,7 @@
                 android:textColor="@color/colorWhite"
                 android:backgroundTint="@color/colorBlue"
                 style="@style/Widget.MaterialComponents.Button"
-                tools:ignore="NotSibling"/>
+                tools:ignore="NotSibling"/>-->
 
         </RelativeLayout>
 

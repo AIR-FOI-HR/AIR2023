@@ -1,5 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +29,14 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
+    @SuppressLint("RestrictedApi")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Nova ponuda");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding= FragmentAddOfferBinding.inflate(inflater,container,false);
         View view =binding.getRoot();
         String compareValue = "some value";

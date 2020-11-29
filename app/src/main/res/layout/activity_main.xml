@@ -7,19 +7,17 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-    <com.google.android.material.card.MaterialCardView
+    <RelativeLayout
         android:id="@+id/bgHeader"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:elevation="5dp"
-        app:cardElevation="0dp">
+        android:elevation="5dp">
 
         <RelativeLayout
-            android:layout_gravity="right"
-            android:gravity="right"
+            android:layout_alignParentEnd="true"
             android:layout_width="110dp"
             android:layout_height="180dp"
-            android:layout_marginRight="-2dp"
+            android:layout_marginEnd="-2dp"
             android:background="@drawable/header_bubble_login">
         </RelativeLayout>
 
@@ -28,14 +26,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/header_login"
             android:layout_marginTop="-2dp"
-            android:layout_marginLeft="-2dp"
+            android:layout_marginStart="-2dp"
             >
 
             <TextView
                 android:id="@+id/tvDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="40dp"
                 android:elevation="5dp"
                 android:text="@string/welcome"
@@ -48,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDesc"
                 android:transitionName="tvLogin"
-                android:layout_alignLeft="@+id/tvDesc"
+                android:layout_alignStart="@+id/tvDesc"
                 android:elevation="5dp"
                 android:text="@string/login"
                 android:textColor="@color/colorWhite"
@@ -59,38 +57,38 @@
 
         </RelativeLayout>
 
-
-    </com.google.android.material.card.MaterialCardView>
-
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/circle3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-80dp"
-        android:layout_marginRight="-2dp"
         android:src="@drawable/header_login3"
-        />
-
+        android:scaleType="fitXY"
+        android:layout_marginBottom="-115dp"
+        android:contentDescription="@string/picture" />
 
 
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bgHeader">
+        android:layout_below="@+id/bgHeader"
+        android:layout_marginTop="-1dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
 
@@ -98,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="50dp">
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="text" />
+                        android:inputType="text"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,94 +129,109 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:inputType="textPassword" />
+
+                    <TextView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/tvForgot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="10dp"
+                       android:layout_marginEnd="20dp"
+                        android:textColor="@color/colorBlue"
+                        android:elevation="5dp"
+                        android:text="@string/forgotPassword"
+                        android:textSize="15sp"
+                        tools:ignore="RtlHardcoded" />
+
                 </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <RelativeLayout
+                android:id="@+id/relative_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cv"
-                android:layout_alignLeft="@+id/cv"
-                android:layout_alignRight="@+id/cv"
+                android:layout_alignStart="@+id/cv"
+                android:layout_alignEnd="@+id/cv"
                 android:layout_marginLeft="35dp"
-                android:layout_marginTop="-50dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="35dp"
                 android:elevation="10dp">
 
-
                 <Button
                     android:id="@+id/btnPrijava"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/login"
-                    android:textColor="@color/colorWhite"
-                    android:textAlignment="center"
                     android:backgroundTint="@color/colorBlue"
-                    style="@style/Widget.MaterialComponents.Button"
-                    />
+                    android:text="@string/login"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnPrijava"
+                    android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:elevation="5dp"
+                    android:text="@string/noAccount"
+                    android:layout_marginEnd="2dp"
+                    android:textSize="15sp" />
+
+                    <TextView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/registracija_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="2dp"
+                        android:textColor="@color/colorBlue"
+                        android:elevation="5dp"
+                        android:text="@string/registerHere"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/cv"
-                android:layout_alignRight="@+id/cv"
-                android:layout_marginTop="-20dp"
-                android:layout_marginRight="-20dp"
-                android:elevation="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_below="@id/relative_register"
+                android:layout_centerHorizontal="true">
 
+                <com.facebook.login.widget.LoginButton
+                    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+                    facebook:com_facebook_login_text="Facebook"
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sign_in_button"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="30dp" />
 
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvForgot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cv"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:elevation="5dp"
-                android:text="@string/forgotPassword"
-                android:textSize="14sp" />
-
-            <com.google.android.gms.common.SignInButton
+                <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvForgot"
-                android:layout_centerInParent="true"/>
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true" />
 
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_below="@id/sign_in_button"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="30dp" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_button"
-                style="@style/Widget.MaterialComponents.Button"
-                android:backgroundTint="@color/colorBlue"
-                android:layout_marginHorizontal="35dp"
-                android:text="@string/registration"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/registracija_button"
-                >
-
-            </Button>
-
+            </RelativeLayout>
 
         </RelativeLayout>
-
-
-
-
 
     </ScrollView>
 

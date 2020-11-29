@@ -7,23 +7,6 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorBlue"/>
-
-    <TextView
-        android:id="@+id/tvDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="17dp"
-        android:elevation="5dp"
-        android:text="@string/newOffer"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
@@ -146,7 +129,7 @@
                 android:layout_gravity="center"
                 android:text="@string/add"
                 android:textColor="@color/colorWhite"
-                android:backgroundTint="@color/colorGreen"
+                android:backgroundTint="@color/colorBlue"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_marginEnd="10dp"/>
 
@@ -157,7 +140,7 @@
                 android:layout_gravity="center"
                 android:text="@string/cancel"
                 android:textColor="@color/colorWhite"
-                android:backgroundTint="@color/colorRed"
+                android:backgroundTint="@color/colorGrayBlue"
                 android:layout_toEndOf="@id/btnDodaj"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_marginStart="10dp"/>

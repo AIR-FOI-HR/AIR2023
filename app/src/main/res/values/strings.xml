@@ -46,4 +46,6 @@
     <string name="gradeReservation">Ocjena</string>
     <string name="nameSurname">Ime prezime</string>
     <string name="badge">Značka</string>
+    <string name="registerHere">Registriraj se!</string>
+    <string name="noAccount">Nemaš račun?</string>
 </resources>

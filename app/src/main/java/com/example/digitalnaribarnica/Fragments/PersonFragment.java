@@ -1,5 +1,6 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -45,7 +46,7 @@ public class PersonFragment extends Fragment {
     private String email="";
     private String adress="";
     private String phone="";
-    private Button edit;
+    private ImageView edit;
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
@@ -74,10 +75,12 @@ public class PersonFragment extends Fragment {
         this.mGoogleSignInClient = mGoogleSignInClient;
     }
 
+    @SuppressLint("RestrictedApi")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding=FragmentPersonBinding.inflate(inflater,container,false);
         View view =binding.getRoot();
 

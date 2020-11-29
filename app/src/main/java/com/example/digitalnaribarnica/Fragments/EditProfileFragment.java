@@ -1,5 +1,6 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -70,10 +71,12 @@ public class EditProfileFragment extends Fragment {
         this.mGoogleSignInClient = mGoogleSignInClient;
     }
 
+    @SuppressLint("RestrictedApi")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         Glide.with(this).load(photo).into(binding.slikaProfila);

@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.database.FirestoreService;
@@ -52,7 +53,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button registracija;
+    private TextView registracija;
 
     ActivityMainBinding binding;
     SignInButton signin;

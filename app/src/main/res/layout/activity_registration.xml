@@ -7,31 +7,27 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/bgHeader"
-        android:layout_width="match_parent"
-        android:layout_height="95dp"
-        android:elevation="5dp"
-        app:cardElevation="0dp">
+<RelativeLayout
+    android:id="@+id/bgHeader"
+    android:elevation="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="95dp">
 
         <RelativeLayout
+            android:layout_alignParentRight="true"
             android:layout_gravity="right"
             android:gravity="right"
             android:layout_width="110dp"
             android:layout_height="92dp"
             android:layout_marginRight="-2dp"
-            android:background="@drawable/header_bubble_login">
-        </RelativeLayout>
+            android:background="@drawable/header_bubble_login"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/header_login" />
 
-    </com.google.android.material.card.MaterialCardView>
-
+</RelativeLayout>
 
     <TextView
         android:id="@+id/tvDesc"
@@ -184,40 +180,28 @@
                         android:layout_marginRight="10dp"
                         android:inputType="textPassword"/>
 
-                    <Button
-                        android:id="@+id/btnRegistracija"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="35dp"
-                        android:layout_marginRight="35dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/registration"
-                        android:textColor="@color/colorWhite"
-                        android:textAlignment="center"
-                        android:backgroundTint="@color/colorBlue"
-                        style="@style/Widget.MaterialComponents.Button"
-                        />
                 </LinearLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
 
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/cv"
-                android:layout_alignRight="@+id/cv"
-                android:layout_marginTop="-20dp"
-                android:layout_marginRight="-20dp"
-                android:elevation="10dp">
-
-
-            </RelativeLayout>
+            <Button
+                android:id="@+id/btnRegistracija"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="-10dp"
+                android:text="@string/registration"
+                android:textColor="@color/colorWhite"
+                android:layout_below="@id/cv"
+                android:textAlignment="center"
+                android:backgroundTint="@color/colorBlue"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_gravity="center" />
 
         </RelativeLayout>
+
     </ScrollView>
 
 </RelativeLayout>
