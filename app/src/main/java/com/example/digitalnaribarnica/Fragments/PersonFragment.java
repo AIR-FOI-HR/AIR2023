@@ -88,6 +88,7 @@ public class PersonFragment extends Fragment {
         binding.imePrezime.setText(ime);
         //binding.brojMobitelaP.setText(ime);
         Glide.with(this).load(photo).into(binding.slikaProfila);
+
         binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -44,4 +44,6 @@
     <string name="reservationRecyclerView">Naziv rezervacije</string>
     <string name="reservationLocation">Lokacija</string>
     <string name="gradeReservation">Ocjena</string>
+    <string name="nameSurname">Ime prezime</string>
+    <string name="badge">Značka</string>
 </resources>

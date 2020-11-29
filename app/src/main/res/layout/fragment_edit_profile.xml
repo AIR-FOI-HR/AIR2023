@@ -16,7 +16,7 @@
     <RelativeLayout
         android:id="@+id/relativeIcon"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="110dp"
         android:layout_marginTop="10dp">
 
         <androidx.cardview.widget.CardView
@@ -40,14 +40,17 @@
                     android:layout_centerHorizontal="true"
                     android:id="@+id/slikaProfila"
                     android:src="@drawable/profil"
-                    android:background="@color/colorWhite"/>
+                    android:background="@color/colorWhite"
+                    android:contentDescription="@string/picture" />
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/slikaProfila"
-                    android:id="@+id/slikaZnacke"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/slikaProfila"
+                    android:id="@+id/slikaZnacke"
+                    android:contentDescription="@string/badge" />
+
 
             </androidx.cardview.widget.CardView>
 
@@ -55,31 +58,35 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/relativeIcon">
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/btnUcitajSLiku"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/relativeIcon"
+        android:text="@string/ucitaj_sliku"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorBlue"
+        style="@style/Widget.MaterialComponents.Button" />
 
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/relativeBlueBackground">
+        android:layout_below="@+id/btnUcitajSLiku">
 
         <RelativeLayout
             android:id="@+id/relativeLayoutPodaci"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="25dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="4dp">
 
@@ -96,7 +103,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="20dp"
-                        android:inputType="text"
                         android:text="@string/name"
                         android:textStyle="bold"
                         android:textSize="14sp"/>
@@ -128,7 +134,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:inputType="text"
-                        android:text="" />
+                        android:text=""/>
 
                     <TextView
                         android:id="@+id/email_text_pe"
@@ -137,7 +143,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
-                        android:text="Email"
+                        android:text="@string/username"
                         android:textStyle="bold"
                         android:textSize="14sp"/>
 
@@ -146,8 +152,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:inputType="text"/>
+                        android:layout_marginRight="10dp" />
 
                     <TextView
                         android:id="@+id/adresa_text_pe"
@@ -163,8 +168,8 @@
                         android:id="@+id/adresa_edit_pe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
                         android:inputType="text"/>
 
                     <TextView
@@ -174,7 +179,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
-                        android:inputType="text"
                         android:text="@string/telefon"
                         android:textStyle="bold"
                         android:textSize="14sp"/>
@@ -183,8 +187,8 @@
                         android:id="@+id/broj_mobitela_edit_pe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
                         android:inputType="text"/>
 
                     <TextView
@@ -202,8 +206,8 @@
                         android:id="@+id/lozinka_edit_pe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:inputType="textPassword"/>
 
@@ -211,49 +215,34 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                    <Button
-                        android:id="@+id/btnSpremiPromjene"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/cv"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:text="@string/saveChanges"
-                        android:textColor="@color/colorWhite"
-                        android:backgroundTint="@color/colorBlue"
-                        style="@style/Widget.MaterialComponents.Button"
-                        tools:ignore="NotSibling"/>
-
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnSpremiPromjene">
+                    android:layout_below="@+id/cv"
+                    android:gravity="center">
                     <Button
-
-                        android:id="@+id/btnUcitajSLiku"
+                        android:id="@+id/btnSpremiPromjene"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_gravity="left"
-                        android:text="@string/ucitaj_sliku"
-                        android:layout_alignParentLeft="true"
+                        android:gravity="center"
+                        android:text="@string/saveChanges"
                         android:textColor="@color/colorWhite"
-                        android:backgroundTint="@color/colorBlue"
-                        android:layout_marginLeft="20dp"
+                        android:backgroundTint="@color/colorGreen"
                         style="@style/Widget.MaterialComponents.Button"
-                        tools:ignore="NotSibling"/>
+                        android:layout_marginEnd="10dp"/>
+
                     <Button
                         android:id="@+id/btnOdustani"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
                         android:text="@string/Odustani"
-                        android:layout_marginLeft="@dimen/general_margin"
+                        android:gravity="center"
+                        android:layout_toEndOf="@id/btnSpremiPromjene"
                         android:textColor="@color/colorWhite"
-                        android:backgroundTint="@color/colorBlue"
+                        android:backgroundTint="@color/colorRed"
                         style="@style/Widget.MaterialComponents.Button"
-                        tools:ignore="NotSibling"/>
+                        android:layout_marginStart="10dp"/>
+
                 </RelativeLayout>
 
         </RelativeLayout>

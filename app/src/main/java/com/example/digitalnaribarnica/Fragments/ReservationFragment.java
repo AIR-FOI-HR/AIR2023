@@ -1,13 +1,20 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +50,12 @@ public class ReservationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
+
+        setHasOptionsMenu(true);
 
 
         binding = FragmentReservationBinding.inflate(inflater, container, false);
@@ -159,4 +172,38 @@ public class ReservationFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        Log.d("TagPolje", "ulazi");
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem item = menu.findItem((R.id.action_search));
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        MenuItem filter = menu.findItem((R.id.dialog_filter_offers));
+        filter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                selectedFragment = new FilterOffersFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 }

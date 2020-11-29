@@ -6,55 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.digitalnaribarnica.Fragments.ReservationFragment">
 
-    <RelativeLayout
-        android:id="@+id/reservationHeader"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorBlue">
-
-        <TextView
-            android:id="@+id/rezervacija_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="12dp"
-            android:elevation="5dp"
-            android:text="@string/reservation_title"
-            android:textColor="@color/colorWhite"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:id="@+id/reservationFilterIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_toRightOf="@id/rezervacija_text"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="100dp"
-            android:background="@drawable/ic_baseline_search_24">
-
-
-        </ImageView>
-
-        <EditText
-            android:id="@+id/filterReservation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_toRightOf="@id/reservationFilterIcon"
-            android:layout_marginRight="35dp"
-
-            >
-
-        </EditText>
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/middleRezervation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/reservationHeader"
         >
 
 
@@ -87,8 +43,6 @@
                 style="?attr/materialButtonOutlinedStyle"
                 />
         </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerReservations"
