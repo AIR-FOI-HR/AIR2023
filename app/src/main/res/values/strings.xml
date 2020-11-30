@@ -17,8 +17,8 @@
     <string name="fb_login_protocol_scheme">fb345456403402437</string>
     <string name="fishSpecies">Vrsta ribe</string>
     <string name="location">Lokacija</string>
-    <string name="price">Cijena</string>
-    <string name="fishClass">Razred ribe</string>
+    <string name="pricePerKg">Cijena po kilogramu:</string>
+    <string name="fishClass">Razred ribe:</string>
     <string name="add">Dodaj</string>
     <string name="cancel">Odustani</string>
     <string name="newOffer">Nova ponuda</string>
@@ -31,11 +31,15 @@
     <string name="offer_title">Naslov ponude</string>
     <string name="filter">Filtriranje</string>
     <string name="sort">Sortiraj:</string>
-    <string name="least_expensive">Najjeftinije</string>
-    <string name="most_expensive">Najskuplje</string>
+    <string name="small">Male</string>
+    <string name="medium">Srednje</string>
+    <string name="large">Velike</string>
     <string name="search">Pretraži</string>
     <string name="Odjava">ODJAVA</string>
     <string name="ucitaj_sliku">Učitaj sliku</string>
+    <string name="smallDescription">1 mala riba = 0,1 do 0,19 kg </string>
+    <string name="mediumDescription">1 srednja riba = 0,2 do 0,49 kg</string>
+    <string name="largeDescription">1 velika riba = 0,5 kg i više</string>
     <string name="Odustani">Odustani</string>
     <string name="reservation_title">Rezervacije</string>
     <string name="myReservations">Moje rezervacije</string>
@@ -48,4 +52,14 @@
     <string name="badge">Značka</string>
     <string name="registerHere">Registriraj se!</string>
     <string name="noAccount">Nemaš račun?</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="least_expensive">Najjeftinije</string>
+    <string name="most_expensive">Najskuplje</string>
+    <string name="kg">kg</string>
+    <string name="kn">kn</string>
+    <string name="_0_00">0.00</string>
+    <string name="_0">0</string>
+    <string name="_0">0</string>
+    <string name="_0">0</string>
 </resources>

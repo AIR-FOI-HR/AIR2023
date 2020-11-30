@@ -133,7 +133,7 @@
 
                     <TextView
                         android:id="@+id/textOfferPrice"
-                        android:text="@string/price"
+                        android:text="@string/pricePerKg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
