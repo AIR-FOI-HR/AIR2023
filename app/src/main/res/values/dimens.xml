@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
+
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
     to square screens.
@@ -13,7 +13,5 @@
     inner_frame_layout_padding (below variable) on round screens.
     -->
     <dimen name="inner_frame_layout_padding">5dp</dimen>
-=======
     <dimen name="general_margin">5dp</dimen>
->>>>>>> database
 </resources>
