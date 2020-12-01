@@ -10,6 +10,7 @@ public class OffersData {
     private String fishClass;
     private String imageurltrophey;
     private String idKorisnika;
+    private String offerID;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -36,6 +37,25 @@ public class OffersData {
         this.fishClass = fishClass;
         this.imageurltrophey = imageurltrophey;
         this.idKorisnika = idKorisnika;
+    }
+
+    public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika, String offerID) {
+        this.name = name;
+        this.description = description;
+        this.imageurl = imageurl;
+        this.price = price;
+        this.fishClass = fishClass;
+        this.imageurltrophey = imageurltrophey;
+        this.idKorisnika = idKorisnika;
+        this.offerID = offerID;
+    }
+
+    public String getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(String offerID) {
+        this.offerID = offerID;
     }
 
     public String getPrice() {

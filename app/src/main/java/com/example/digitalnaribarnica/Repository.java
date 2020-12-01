@@ -173,6 +173,11 @@ public class Repository {
         firestoreService.writeOffer(offer,"Offers");
     }
 
+    public void DodajPonuduSAutoID(String name,String description, String imageurl, String price, String fishClass,String imageurlTrophey){
+        Offer offer=new Offer(name,description,imageurl,price,fishClass,imageurlTrophey);
+        firestoreService.writeOfferWithAutoID(offer,"Offers");
+    }
+
     public boolean ProvjeriPassword(String sha256,String unesenaLozinka){
         return sha256.equals(unesenaLozinka);
     }
