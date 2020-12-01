@@ -8,6 +8,7 @@ import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.database.Offer;
+import com.example.database.Rezervation;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
@@ -156,6 +157,33 @@ public class Repository {
                     //Log.d("TEST",offersData.getFullName());
                 }
                 firestoreCallback.onCallback(locationArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
+    public void DohvatiRezervacije(RezervationCallback firestoreCallback){
+        firestoreService.getCollection("Rezervation").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<Rezervation> rezervationArrayList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    Rezervation rezervation=new Gson().fromJson(json,Rezervation.class);
+                    rezervationArrayList.add(rezervation);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                    //Log.d("TEST",offersData.getFullName());
+                }
+                firestoreCallback.onCallback(rezervationArrayList);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
