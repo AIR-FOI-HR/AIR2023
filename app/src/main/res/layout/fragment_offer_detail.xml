@@ -36,12 +36,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/profil" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/slikaProfila"
-                    android:id="@+id/slikaZnacke"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -230,6 +224,16 @@
                 android:backgroundTint="@color/colorBlue"
                 style="@style/Widget.MaterialComponents.Button"
                 tools:ignore="NotSibling"/>
+
+            <ImageView
+                android:id="@+id/slikaRibe"
+                android:layout_below="@+id/btnRezerviraj"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorWhite"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profil" />
 
         </RelativeLayout>
 

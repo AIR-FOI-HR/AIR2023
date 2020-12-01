@@ -49,6 +49,31 @@ public class Repository {
             }
         });
     }
+
+    public void DohvatiKorisnikaPoIDu(String id, FirestoreCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Users","userID",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d: ime){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    User user=new Gson().fromJson(json,User.class);
+                    firestoreCallback.onCallback(user);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                    Log.d("TEST",user.getFullName());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
     public void DohvatiPonudePoID(String id, FirestoreOffer firestoreCallback){
         firestoreService.getCollectionWithField("Offers","idKorisnika",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

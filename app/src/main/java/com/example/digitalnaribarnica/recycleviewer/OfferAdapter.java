@@ -51,7 +51,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
             @Override
             public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment();
+                OffersData offersData=offers.get(position);
+                selectedFragment = new OfferDetailFragment(offersData);
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
