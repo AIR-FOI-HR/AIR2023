@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Repository {
     FirestoreService firestoreService;
@@ -164,5 +165,16 @@ public class Repository {
 
     public boolean ProvjeriPassword(String sha256,String unesenaLozinka){
         return sha256.equals(unesenaLozinka);
+    }
+
+    public String random(int length) {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        char tempChar;
+        for (int i = 0; i < length; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
     }
 }
