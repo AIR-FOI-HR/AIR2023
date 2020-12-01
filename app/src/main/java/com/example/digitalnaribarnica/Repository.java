@@ -9,6 +9,7 @@ import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.database.Offer;
 import com.example.database.User;
+import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,6 +51,14 @@ public class Repository {
                 firestoreCallback.onCallback(null);
             }
         });
+    }
+
+    public void DodajKorisnikaUBazu(String name, String email, String phone,String password,String photo,String adress){
+        try {
+            firestoreService.writeNewUserWithoutID(name,email,phone, SHA256.toHexString(SHA256.getSHA(password)),photo,adress,"Users");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
     public void DohvatiPonudePoID(String id, FirestoreOffer firestoreCallback){
         firestoreService.getCollectionWithField("Offers","idKorisnika",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

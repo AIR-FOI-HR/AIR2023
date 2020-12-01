@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +17,9 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -109,6 +112,15 @@ public class FirestoreService {
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
         //FirebaseFirestore.getInstance().collection(collection).add(user);
         FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
+    }
+    public void writeNewUserWithoutID(String name, String email, String phone,String password,String photo,String adress,String collection) {
+
+        //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
+        //FirebaseFirestore.getInstance().collection(collection).add(user);
+        String id=FirebaseFirestore.getInstance().collection(collection).document().getId();
+        //FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
+        User user = new User(id,name,email,phone,adress,photo,password,false);
+        FirebaseFirestore.getInstance().collection(collection).document(id).set(user);
     }
 
     public void writeOffer(Offer offer,String collection) {
