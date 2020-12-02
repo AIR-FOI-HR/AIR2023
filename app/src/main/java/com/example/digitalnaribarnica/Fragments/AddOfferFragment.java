@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,17 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
+    private Button btnMinusSmall;
+    private Button btnPlusSmall;
+    private Button btnMinusMedium;
+    private Button btnPlusMedium;
+    private Button btnMinusLarge;
+    private Button btnPlusLarge;
+
+    private EditText smallQuantity;
+    private EditText mediumQuantity;
+    private EditText largeQuantity;
+
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
@@ -68,9 +81,78 @@ public class AddOfferFragment extends Fragment {
                 binding.cbLokacija.setAdapter(adapter);
             }
         });
+
+        btnMinusSmall = binding.btnMinusSmall;
+        btnPlusSmall = binding.btnPlusSmall;
+        btnMinusMedium = binding.btnMinusMedium;
+        btnPlusMedium = binding.btnPlusMedium;
+        btnMinusLarge = binding.btnMinusLarge;
+        btnPlusLarge = binding.btnPlusLarge;
+
+        smallQuantity = binding.smallFishQuantity;
+        mediumQuantity = binding.mediumFishQuantity;
+        largeQuantity = binding.largeFishQuantity;
+
+        smallQuantity.setText("0");
+        mediumQuantity.setText("0");
+        largeQuantity.setText("0");
+
+        btnPlusSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentValue = smallQuantity.getText().toString();
+                smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.1)*100.0)/100.0));
+            }
+        });
+
+        btnMinusSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentValue = smallQuantity.getText().toString();
+                if (Double.parseDouble(currentValue) >= 0.1){
+                    smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.1)*100.0)/100.0));
+                }
+            }
+        });
+
+        btnPlusMedium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentValue = mediumQuantity.getText().toString();
+                mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+0.2)*100.0)/100.0));
+            }
+        });
+
+        btnMinusMedium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentValue = mediumQuantity.getText().toString();
+                if (Double.parseDouble(currentValue) >= 0.2){
+                    mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.2)*100.0)/100.0));
+                }
+            }
+        });
+
+        btnMinusLarge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentValue = largeQuantity.getText().toString();
+                if(Double.parseDouble(currentValue) >= 0.5) {
+                    largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) - 0.5) * 100.0) / 100.0));
+                }
+            }
+        });
+
+        btnPlusLarge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentValue = largeQuantity.getText().toString();
+                largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.5)*100.0)/100.0));
+            }
+        });
+
         return view;
         //return inflater.inflate(R.layout.fragment_add_offer,container,false);
-
     }
 
 
