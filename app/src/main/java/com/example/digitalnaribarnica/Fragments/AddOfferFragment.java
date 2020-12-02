@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -115,29 +116,28 @@ public class AddOfferFragment extends Fragment {
         mediumQuantity.setText("0");
         largeQuantity.setText("0");
 
-        btnPlusSmall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentValue = smallQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.1)*100.0)/100.0));
+        smallQuantity.setFilters(new InputFilter[] { filterDecimals });
+        mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
+        largeQuantity.setFilters(new InputFilter[] { filterDecimals });
+
+
+        btnPlusSmall.setOnClickListener(view1 -> {
+            String currentValue = smallQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
             }
+            smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.1)*100.0)/100.0));
         });
 
-        btnMinusSmall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentValue = smallQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                if (Double.parseDouble(currentValue) >= 0.1){
-                    smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.1)*100.0)/100.0));
-                } else if(Double.parseDouble(currentValue) < 0.1 && Double.parseDouble(currentValue) > 0) {
-                    smallQuantity.setText("0");
-                }
+        btnMinusSmall.setOnClickListener(view12 -> {
+            String currentValue = smallQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
+            }
+            if (Double.parseDouble(currentValue) >= 0.1){
+                smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.1)*100.0)/100.0));
+            } else if(Double.parseDouble(currentValue) < 0.1 && Double.parseDouble(currentValue) > 0) {
+                smallQuantity.setText("0");
             }
         });
 
@@ -162,29 +162,23 @@ public class AddOfferFragment extends Fragment {
             }
         });
 
-        btnPlusMedium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentValue = mediumQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+0.2)*100.0)/100.0));
+        btnPlusMedium.setOnClickListener(view13 -> {
+            String currentValue = mediumQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
             }
+            mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+0.2)*100.0)/100.0));
         });
 
-        btnMinusMedium.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentValue = mediumQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                if (Double.parseDouble(currentValue) >= 0.2){
-                    mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.2)*100.0)/100.0));
-                } else if(Double.parseDouble(currentValue) < 0.2 && Double.parseDouble(currentValue) > 0){
-                    mediumQuantity.setText("0");
-                }
+        btnMinusMedium.setOnClickListener(view14 -> {
+            String currentValue = mediumQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
+            }
+            if (Double.parseDouble(currentValue) >= 0.2){
+                mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.2)*100.0)/100.0));
+            } else if(Double.parseDouble(currentValue) < 0.2 && Double.parseDouble(currentValue) > 0){
+                mediumQuantity.setText("0");
             }
         });
 
@@ -209,30 +203,24 @@ public class AddOfferFragment extends Fragment {
             }
         });
 
-        btnMinusLarge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentValue = largeQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                if(Double.parseDouble(currentValue) >= 0.5) {
-                    largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) - 0.5) * 100.0) / 100.0));
-                } else if(Double.parseDouble(currentValue) < 0.5 && Double.parseDouble(currentValue) > 0){
-                    largeQuantity.setText("0");
-                }
+        btnMinusLarge.setOnClickListener(v -> {
+            String currentValue = largeQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
+            }
+            if(Double.parseDouble(currentValue) >= 0.5) {
+                largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) - 0.5) * 100.0) / 100.0));
+            } else if(Double.parseDouble(currentValue) < 0.5 && Double.parseDouble(currentValue) > 0){
+                largeQuantity.setText("0");
             }
         });
 
-        btnPlusLarge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentValue = largeQuantity.getText().toString();
-                if(currentValue.equals("")){
-                    currentValue="0";
-                }
-                largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.5)*100.0)/100.0));
+        btnPlusLarge.setOnClickListener(v -> {
+            String currentValue = largeQuantity.getText().toString();
+            if(currentValue.equals("")){
+                currentValue="0";
             }
+            largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.5)*100.0)/100.0));
         });
 
         largeQuantity.addTextChangedListener(new TextWatcher() {
@@ -257,8 +245,20 @@ public class AddOfferFragment extends Fragment {
         });
 
         return view;
-        //return inflater.inflate(R.layout.fragment_add_offer,container,false);
     }
 
+    InputFilter filterDecimals = (source, start, end, dest, dstart, dend) -> {
+        StringBuilder builder = new StringBuilder(dest);
+        builder.replace(dstart, dend, source
+                .subSequence(start, end).toString());
+        if (!builder.toString().matches(
+                "(([1-9])([0-9]{0,"+(3 - 1)+"})?)?(\\.[0-9]{0,"+ 2 +"})?"
+        )) {
+            if(source.length()==0)
+                return dest.subSequence(dstart, dend);
+            return "";
+        }
+        return null;
+    };
 
 }
