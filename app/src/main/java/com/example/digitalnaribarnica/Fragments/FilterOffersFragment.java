@@ -23,11 +23,6 @@ import java.util.ArrayList;
 
 public class FilterOffersFragment extends Fragment {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     FilterOffersBinding binding;
     private AutoCompleteTextView editFishSpecies;
 

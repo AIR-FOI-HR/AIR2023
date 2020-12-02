@@ -3,6 +3,8 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.digitalnaribarnica.LocationCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
 
@@ -116,6 +119,9 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = smallQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.1)*100.0)/100.0));
             }
         });
@@ -124,9 +130,35 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = smallQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if (Double.parseDouble(currentValue) >= 0.1){
                     smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.1)*100.0)/100.0));
+                } else if(Double.parseDouble(currentValue) < 0.1 && Double.parseDouble(currentValue) > 0) {
+                    smallQuantity.setText("0");
                 }
+            }
+        });
+
+        smallQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentValue = smallQuantity.getText().toString();
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    smallQuantity.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -134,6 +166,9 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = mediumQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+0.2)*100.0)/100.0));
             }
         });
@@ -142,9 +177,35 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = mediumQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if (Double.parseDouble(currentValue) >= 0.2){
                     mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.2)*100.0)/100.0));
+                } else if(Double.parseDouble(currentValue) < 0.2 && Double.parseDouble(currentValue) > 0){
+                    mediumQuantity.setText("0");
                 }
+            }
+        });
+
+        mediumQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentValue = mediumQuantity.getText().toString();
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    mediumQuantity.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -152,8 +213,13 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String currentValue = largeQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if(Double.parseDouble(currentValue) >= 0.5) {
                     largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) - 0.5) * 100.0) / 100.0));
+                } else if(Double.parseDouble(currentValue) < 0.5 && Double.parseDouble(currentValue) > 0){
+                    largeQuantity.setText("0");
                 }
             }
         });
@@ -162,7 +228,31 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String currentValue = largeQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.5)*100.0)/100.0));
+            }
+        });
+
+        largeQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String currentValue = largeQuantity.getText().toString();
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    largeQuantity.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

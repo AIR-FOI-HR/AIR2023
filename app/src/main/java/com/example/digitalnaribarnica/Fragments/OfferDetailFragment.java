@@ -100,7 +100,11 @@ public class OfferDetailFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String currentValue = smallQuantity.getText().toString();
                 String smallAvailable= availableSmall.getText().toString();
-               if(!currentValue.isEmpty()){
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    smallQuantity.setText("");
+                }
+                if(!currentValue.isEmpty()){
                   if(Double.parseDouble(smallAvailable) < Double.parseDouble(currentValue)){
                       StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
                       smallQuantity.setText(smallAvailable);
@@ -118,8 +122,13 @@ public class OfferDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = smallQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if (Double.parseDouble(currentValue) >= 0.1){
                     smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.1)*100.0)/100.0));
+                } else if(Double.parseDouble(currentValue) < 0.1 && Double.parseDouble(currentValue) > 0){
+                    smallQuantity.setText("0");
                 }
             }
         });
@@ -150,6 +159,10 @@ public class OfferDetailFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String currentValue = mediumQuantity.getText().toString();
                 String mediumAvailable= availableMedium.getText().toString();
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    mediumQuantity.setText("");
+                }
                 if(!currentValue.isEmpty()){
                     if(Double.parseDouble(mediumAvailable) < Double.parseDouble(currentValue)){
                         StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
@@ -168,8 +181,13 @@ public class OfferDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String currentValue = mediumQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if (Double.parseDouble(currentValue) >= 0.2){
                     mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)-0.2)*100.0)/100.0));
+                }  else if(Double.parseDouble(currentValue) < 0.2 && Double.parseDouble(currentValue) > 0){
+                    mediumQuantity.setText("0");
                 }
             }
         });
@@ -178,8 +196,13 @@ public class OfferDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String currentValue = largeQuantity.getText().toString();
+                if(currentValue.equals("")){
+                    currentValue="0";
+                }
                 if(Double.parseDouble(currentValue) >= 0.5) {
                     largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) - 0.5) * 100.0) / 100.0));
+                }  else if(Double.parseDouble(currentValue) < 0.5 && Double.parseDouble(currentValue) > 0){
+                    largeQuantity.setText("0");
                 }
             }
         });
@@ -210,6 +233,10 @@ public class OfferDetailFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String currentValue = largeQuantity.getText().toString();
                 String largeAvailable = availableLarge.getText().toString();
+                if(currentValue.equals(".")){
+                    currentValue = "";
+                    largeQuantity.setText("");
+                }
                 if(!currentValue.isEmpty()){
                     if(Double.parseDouble(largeAvailable) < Double.parseDouble(currentValue)){
                         StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
