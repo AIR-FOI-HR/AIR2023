@@ -68,6 +68,10 @@
     <string name="kn">kn</string>
     <string name="_0_00">0.00</string>
     <string name="_0">0</string>
+    <string name="pricePlaceholder">25,00 kn/kg</string>
+    <string name="available">Dostupno:</string>
+    <string name="quantityNull">0 kg</string>
+    <string name="chooseQuantity">Odaberite količinu:</string>
     <!--
     <string name="_0">0</string>
     <string name="_0">0</string>

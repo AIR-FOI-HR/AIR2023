@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
+    private Button btnCancel;
+
     private Button btnMinusSmall;
     private Button btnPlusSmall;
     private Button btnMinusMedium;
@@ -81,6 +84,18 @@ public class AddOfferFragment extends Fragment {
                 binding.cbLokacija.setAdapter(adapter);
             }
         });
+
+        btnCancel = binding.btnOdustani;
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new SearchFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();    }
+        });
+
 
         btnMinusSmall = binding.btnMinusSmall;
         btnPlusSmall = binding.btnPlusSmall;
