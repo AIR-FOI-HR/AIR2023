@@ -1,20 +1,25 @@
 package com.example.digitalnaribarnica;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.digitalnaribarnica.databinding.ActivityRegistrationBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -28,6 +33,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText email;
     private EditText lozinka;
     private EditText ponovljenaLozinka;
+
+    FirebaseAuth fAuth;
+    Repository repository;
+    String imePrezime;
+    String userID;
 
     private Button registracija;
 
@@ -49,6 +59,8 @@ public class RegistrationActivity extends AppCompatActivity {
         binding = ActivityRegistrationBinding.inflate((getLayoutInflater()));
         View view = binding.getRoot();
         setContentView(view);
+
+        fAuth = FirebaseAuth.getInstance();
 
         imeTextView = binding.imeTextView;
 
@@ -308,11 +320,48 @@ public class RegistrationActivity extends AppCompatActivity {
                     ponovljenaLozinka.setText("");
                 }
                 else if (boolIme == true && boolPrezime == true && boolAdresa == true && boolMobitel == true && boolEmail == true && boolLozinka == true) {
-                    Intent intent = new Intent (RegistrationActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    /*Intent intent = new Intent (RegistrationActivity.this, MainActivity.class);
+                    startActivity(intent);*/
+
+                    kreirajKorisnika(email.getText().toString().trim(), lozinka.getText().toString().trim());
                 }
                 else{
                     showToast(view, "Nisu svi podaci ispravno uneseni");
+                }
+            }
+        });
+    }
+
+    //kreiranje novog korisnika i slanje verifikacijskog mail-a
+    private void kreirajKorisnika(String user_email, String user_lozinka) {
+        fAuth.createUserWithEmailAndPassword(user_email, user_lozinka).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    fAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                Toast.makeText(RegistrationActivity.this, "Uspješna registracija. Za dovršetak registracije potvrdite email.", Toast.LENGTH_LONG).show();
+                                imePrezime = ime.getText().toString() + " " +  prezime.getText().toString();
+                                userID = fAuth.getUid();
+                                repository = new Repository();
+
+                                //dodaj za sliku neku default (photo atribut)
+                                repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
+                                        lozinka.getText().toString(), "slika korisnika", adresa.getText().toString());
+
+                                //kada se korisnik uspješno registrira, preusmjeri ga na stranicu Login (MainActivity)
+                                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                            }
+                            else {
+                                Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

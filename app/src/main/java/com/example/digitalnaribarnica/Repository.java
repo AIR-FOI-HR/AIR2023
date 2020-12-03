@@ -60,6 +60,16 @@ public class Repository {
             e.printStackTrace();
         }
     }
+
+    //dodavanje novog korisnika sa ID
+    public void DodajKorisnikaUBazuSaID(String id, String name, String email, String phone,String password,String photo,String adress){
+        try {
+            firestoreService.writeNewUser(id,name,email,phone, SHA256.toHexString(SHA256.getSHA(password)),photo,adress,"Users");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void DohvatiPonudePoID(String id, FirestoreOffer firestoreCallback){
         firestoreService.getCollectionWithField("Offers","idKorisnika",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
