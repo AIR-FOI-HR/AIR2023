@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.example.digitalnaribarnica.Fragments.AddOfferFragment"
     tools:ignore="VectorDrawableCompat">
 
     <ScrollView
@@ -45,13 +45,13 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/cbVrstaRibe"
+                    <AutoCompleteTextView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/auto_fish_species"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="10dp" />
+                        android:hint="@string/chooseFish"
+                        android:completionThreshold="1"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -64,13 +64,13 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/cbLokacija"
+                    <AutoCompleteTextView
+                        android:layout_centerInParent="true"
+                        android:id="@+id/auto_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="10dp" />
+                        android:hint="@string/chooseLocation"
+                        android:completionThreshold="1"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -88,6 +88,7 @@
                         android:textStyle="bold"/>
 
                     <EditText
+                        android:id="@+id/price_offer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"

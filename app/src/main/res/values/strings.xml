@@ -73,6 +73,8 @@
     <string name="quantityNull">0 kg</string>
     <string name="chooseQuantity">Odaberite količinu:</string>
     <string name="contact">Kontaktiraj</string>
+    <string name="chooseFish">Odaberi vrstu</string>
+    <string name="chooseLocation">Odaberi lokaciju</string>
     <!--
     <string name="_0">0</string>
     <string name="_0">0</string>

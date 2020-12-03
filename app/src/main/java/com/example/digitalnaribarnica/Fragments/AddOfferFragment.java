@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -20,8 +21,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.database.CallbackUser;
+import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
+import com.example.database.Offer;
+import com.example.database.User;
+import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FishCallback;
 import com.example.digitalnaribarnica.LocationCallback;
 import com.example.digitalnaribarnica.R;
@@ -44,10 +50,20 @@ public class AddOfferFragment extends Fragment {
     private Button btnPlusMedium;
     private Button btnMinusLarge;
     private Button btnPlusLarge;
+    private Button btnSaveNewOffer;
 
+    private AutoCompleteTextView fishSpecies;
+    private AutoCompleteTextView location;
+    private EditText price;
     private EditText smallQuantity;
     private EditText mediumQuantity;
     private EditText largeQuantity;
+
+    private String userId = "";
+
+    public AddOfferFragment (String userId){
+        this.userId = userId;
+    }
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -62,7 +78,8 @@ public class AddOfferFragment extends Fragment {
         String compareValue = "some value";
 
         Repository repository =new Repository();
-        repository.DohvatiRibe(new FishCallback() {
+
+        /*repository.DohvatiRibe(new FishCallback() {
             @Override
             public void onCallback(ArrayList<Fish> fishes) {
                 ArrayList<String> ribe=new ArrayList<>();
@@ -74,8 +91,9 @@ public class AddOfferFragment extends Fragment {
                 adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
                 binding.cbVrstaRibe.setAdapter(adapter);
             }
-        });
-        repository.DohvatiLokacije(new LocationCallback() {
+        });*/
+
+        /*repository.DohvatiLokacije(new LocationCallback() {
             @Override
             public void onCallback(ArrayList<Location> locations) {
                 ArrayList<String> lokacije=new ArrayList<>();
@@ -87,7 +105,7 @@ public class AddOfferFragment extends Fragment {
                 adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
                 binding.cbLokacija.setAdapter(adapter);
             }
-        });
+        });*/
 
         btnCancel = binding.btnOdustani;
 
@@ -100,6 +118,8 @@ public class AddOfferFragment extends Fragment {
                         selectedFragment).commit();    }
         });
 
+
+        price = binding.priceOffer;
 
         btnMinusSmall = binding.btnMinusSmall;
         btnPlusSmall = binding.btnPlusSmall;
@@ -242,6 +262,36 @@ public class AddOfferFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
 
             }
+        });
+
+        fishSpecies = binding.autoFishSpecies;
+        location = binding.autoLocation;
+
+        repository.DohvatiRibe(fishes -> {
+            ArrayList<String> fishArrayList=new ArrayList<>();
+            for(Fish fish: fishes){
+                fishArrayList.add(fish.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
+            adapter.notifyDataSetChanged();
+            fishSpecies.setAdapter(adapter);
+        });
+
+        repository.DohvatiLokacije(locations -> {
+            ArrayList<String> locationArrayList=new ArrayList<>();
+            for(Location location: locations){
+                locationArrayList.add(location.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
+            adapter.notifyDataSetChanged();
+            location.setAdapter(adapter);
+        });
+
+        btnSaveNewOffer = binding.btnDodaj;
+
+        btnSaveNewOffer.setOnClickListener(v -> {
+            repository.DodajPonudu(fishSpecies.getText().toString(), price.getText().toString(), location.getText().toString(), smallQuantity.getText().toString(),
+                    mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userId);
         });
 
         return view;

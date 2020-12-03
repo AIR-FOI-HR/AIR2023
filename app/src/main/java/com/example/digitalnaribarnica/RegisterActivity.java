@@ -149,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new AddOfferFragment();
+                            selectedFragment = new AddOfferFragment(personId);
                             break;
                         case R.id.nav_chat:
                             selectedFragment = new ChatFragment();

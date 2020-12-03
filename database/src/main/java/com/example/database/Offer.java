@@ -11,6 +11,10 @@ public class Offer {
     private String imageurltrophey;
     private String idKorisnika;
     private String offerID;
+    private String location;
+    private String smallFish;
+    private String mediumFish;
+    private String largeFish;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -27,6 +31,16 @@ public class Offer {
         this.price = price;
         this.fishClass = fishClass;
         this.imageurltrophey = imageurltrophey;
+    }
+
+    public Offer(String name, String price, String location, String smallFish, String mediumFish, String largeFish, String idKorisnika, int i) {
+        this.name = name;
+        this.price = price;
+        this.description = location;
+        this.smallFish = smallFish;
+        this.mediumFish = mediumFish;
+        this.largeFish = largeFish;
+        this.idKorisnika = idKorisnika;
     }
 
     public Offer(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika) {
@@ -82,6 +96,38 @@ public class Offer {
 
     public String getImageurl() {
         return imageurl;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getSmallFish() {
+        return smallFish;
+    }
+
+    public void setSmallFish(String smallFish) {
+        this.smallFish = smallFish;
+    }
+
+    public String getMediumFish() {
+        return mediumFish;
+    }
+
+    public void setMediumFish(String mediumFish) {
+        this.mediumFish = mediumFish;
+    }
+
+    public String getLargeFish() {
+        return largeFish;
+    }
+
+    public void setLargeFish(String largeFish) {
+        this.largeFish = largeFish;
     }
 
     public void setImageurl(String imageurl) {
