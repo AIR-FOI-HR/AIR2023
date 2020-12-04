@@ -168,8 +168,7 @@
                                 android:layout_marginEnd="2dp"
                                 android:elevation="5dp"
                                 android:text="@string/kg"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textSize="14sp"/>
 
                             <Button
                                 android:id="@+id/btn_plus_small"
@@ -242,8 +241,7 @@
                                 android:layout_marginEnd="2dp"
                                 android:elevation="5dp"
                                 android:text="@string/kg"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textSize="14sp"/>
 
                             <Button
                                 android:id="@+id/btn_plus_medium"
@@ -316,8 +314,7 @@
                                 android:layout_marginEnd="2dp"
                                 android:elevation="5dp"
                                 android:text="@string/kg"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textSize="14sp"/>
 
                             <Button
                                 android:id="@+id/btn_plus_large"

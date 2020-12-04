@@ -65,7 +65,7 @@ public class AddOfferFragment extends Fragment {
         this.userId = userId;
     }
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint({"RestrictedApi", "SetTextI18n"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,34 +78,6 @@ public class AddOfferFragment extends Fragment {
         String compareValue = "some value";
 
         Repository repository =new Repository();
-
-        /*repository.DohvatiRibe(new FishCallback() {
-            @Override
-            public void onCallback(ArrayList<Fish> fishes) {
-                ArrayList<String> ribe=new ArrayList<>();
-                for(Fish riba: fishes){
-                    ribe.add(riba.getName());
-                }
-                ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item, ribe);
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-                binding.cbVrstaRibe.setAdapter(adapter);
-            }
-        });*/
-
-        /*repository.DohvatiLokacije(new LocationCallback() {
-            @Override
-            public void onCallback(ArrayList<Location> locations) {
-                ArrayList<String> lokacije=new ArrayList<>();
-                for(Location lokacija: locations){
-                    lokacije.add(lokacija.getName());
-                }
-                ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item, lokacije);
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-                binding.cbLokacija.setAdapter(adapter);
-            }
-        });*/
 
         btnCancel = binding.btnOdustani;
 
@@ -182,6 +154,19 @@ public class AddOfferFragment extends Fragment {
             }
         });
 
+        smallQuantity.setOnFocusChangeListener((v, fokusiran) -> {
+            if (!fokusiran) {
+                if (smallQuantity.getText().length() > 1) {
+                    if (smallQuantity.getText().toString().charAt(0) == '0' && smallQuantity.getText().toString().charAt(1) != '.') {
+                        smallQuantity.setText(smallQuantity.getText().toString().substring(1));
+                    }
+                    if (smallQuantity.getText().toString().charAt(0) == '.') {
+                        smallQuantity.setText(getString(R.string._0) + smallQuantity.getText().toString());
+                    }
+                }
+            }
+        });
+
         btnPlusMedium.setOnClickListener(view13 -> {
             String currentValue = mediumQuantity.getText().toString();
             if(currentValue.equals("")){
@@ -220,6 +205,19 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        mediumQuantity.setOnFocusChangeListener((v, fokusiran) -> {
+            if (!fokusiran) {
+                if (mediumQuantity.getText().length() > 1) {
+                    if (mediumQuantity.getText().toString().charAt(0) == '0' && mediumQuantity.getText().toString().charAt(1) != '.') {
+                        mediumQuantity.setText(mediumQuantity.getText().toString().substring(1));
+                    }
+                    if (mediumQuantity.getText().toString().charAt(0) == '.') {
+                        mediumQuantity.setText(getString(R.string._0) + mediumQuantity.getText().toString());
+                    }
+                }
             }
         });
 
@@ -264,6 +262,19 @@ public class AddOfferFragment extends Fragment {
             }
         });
 
+        largeQuantity.setOnFocusChangeListener((v, fokusiran) -> {
+            if (!fokusiran) {
+                if (largeQuantity.getText().length() > 1) {
+                    if (largeQuantity.getText().toString().charAt(0) == '0' && largeQuantity.getText().toString().charAt(1) != '.') {
+                        largeQuantity.setText(largeQuantity.getText().toString().substring(1));
+                    }
+                    if (largeQuantity.getText().toString().charAt(0) == '.') {
+                        largeQuantity.setText(getString(R.string._0) + largeQuantity.getText().toString());
+                    }
+                }
+            }
+        });
+
         fishSpecies = binding.autoFishSpecies;
         location = binding.autoLocation;
 
@@ -290,8 +301,9 @@ public class AddOfferFragment extends Fragment {
         btnSaveNewOffer = binding.btnDodaj;
 
         btnSaveNewOffer.setOnClickListener(v -> {
-            repository.DodajPonudu(fishSpecies.getText().toString(), price.getText().toString(), location.getText().toString(), smallQuantity.getText().toString(),
-                    mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userId);
+            smallQuantity.clearFocus();
+            mediumQuantity.clearFocus();
+            largeQuantity.clearFocus();
         });
 
         return view;
@@ -302,7 +314,7 @@ public class AddOfferFragment extends Fragment {
         builder.replace(dstart, dend, source
                 .subSequence(start, end).toString());
         if (!builder.toString().matches(
-                "(([1-9])([0-9]{0,"+(3 - 1)+"})?)?(\\.[0-9]{0,"+ 2 +"})?"
+                "(([0-9])([0-9]{0,"+(3 - 1)+"})?)?(\\.[0-9]{0,"+ 3 +"})?"
         )) {
             if(source.length()==0)
                 return dest.subSequence(dstart, dend);

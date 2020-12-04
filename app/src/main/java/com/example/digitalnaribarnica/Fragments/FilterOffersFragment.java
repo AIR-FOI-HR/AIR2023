@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.database.Fish;
+import com.example.database.Location;
 import com.example.digitalnaribarnica.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
@@ -25,6 +26,7 @@ public class FilterOffersFragment extends Fragment {
 
     FilterOffersBinding binding;
     private AutoCompleteTextView editFishSpecies;
+    private AutoCompleteTextView editLocations;
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -36,7 +38,8 @@ public class FilterOffersFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
 
-        editFishSpecies = binding.autoCompleteFiltriranje;
+        editFishSpecies = binding.autoCompleteFish;
+        editLocations = binding.autoCompleteLocation;
 
         Repository repository =new Repository();
 
@@ -48,6 +51,16 @@ public class FilterOffersFragment extends Fragment {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
             adapter.notifyDataSetChanged();
             editFishSpecies.setAdapter(adapter);
+        });
+
+        repository.DohvatiLokacije(locations -> {
+            ArrayList<String> locationArrayList=new ArrayList<>();
+            for(Location location: locations){
+                locationArrayList.add(location.getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
+            adapter.notifyDataSetChanged();
+            editLocations.setAdapter(adapter);
         });
 
         return view;
