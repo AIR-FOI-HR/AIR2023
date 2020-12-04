@@ -60,6 +60,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
+    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
     compileOnly 'com.google.android.wearable:wearable:2.8.1'
 

@@ -1,12 +1,18 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +26,8 @@ import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
 import com.example.digitalnaribarnica.R;
 
+import org.florescu.android.rangeseekbar.RangeSeekBar;
+
 import java.util.ArrayList;
 
 public class FilterOffersFragment extends Fragment {
@@ -27,7 +35,9 @@ public class FilterOffersFragment extends Fragment {
     FilterOffersBinding binding;
     private AutoCompleteTextView editFishSpecies;
     private AutoCompleteTextView editLocations;
-
+    private RangeSeekBar rangePrice;
+    private TextView rangeMinimum;
+    private TextView rangeMaximum;
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
@@ -40,7 +50,9 @@ public class FilterOffersFragment extends Fragment {
 
         editFishSpecies = binding.autoCompleteFish;
         editLocations = binding.autoCompleteLocation;
-
+        rangePrice = binding.rangeSeekBar;
+        rangeMinimum = binding.rangeMin;
+        rangeMaximum = binding.rangeMax;
         Repository repository =new Repository();
 
         repository.DohvatiRibe(fishes -> {
@@ -63,6 +75,25 @@ public class FilterOffersFragment extends Fragment {
             editLocations.setAdapter(adapter);
         });
 
+
+
+
+
+
+        rangePrice.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                rangeMinimum.setText(String.valueOf(minValue));
+                rangeMaximum.setText(String.valueOf(maxValue));
+
+            }
+        });
+
+        rangePrice.setNotifyWhileDragging(true);
+
         return view;
     }
+
+
+
 }

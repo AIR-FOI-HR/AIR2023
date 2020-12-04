@@ -130,13 +130,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        <RadioButton
+                        <CheckBox
                             android:id="@+id/radio_small"
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/small"
-                            android:checked="true"/>
+                            android:text="@string/small"/>
 
                             <Button
                                 android:id="@+id/btn_minus_small"
@@ -203,13 +202,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/radio_medium"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="@string/medium"
-                                android:checked="true"/>
+                                android:text="@string/medium"/>
 
                             <Button
                                 android:id="@+id/btn_minus_medium"
@@ -276,13 +274,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <RadioButton
+                            <CheckBox
                                 android:id="@+id/radio_large"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="@string/large"
-                                android:checked="false"/>
+                                android:text="@string/large"/>
 
                             <Button
                                 android:id="@+id/btn_minus_large"
