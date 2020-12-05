@@ -4,13 +4,14 @@ import androidx.annotation.NonNull;
 
 public class OffersData {
     private String name;
-    private String description;
+    private String location;
     private String imageurl;
     private String price;
-    private String fishClass;
-    private String imageurltrophey;
     private String idKorisnika;
     private String offerID;
+    private String smallFish;
+    private String mediumFish;
+    private String largeFish;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -20,34 +21,47 @@ public class OffersData {
         this.idKorisnika = idKorisnika;
     }
 
-    public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey) {
+    public OffersData (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, int i) {
         this.name = name;
-        this.description = description;
+        this.location = location;
         this.imageurl = imageurl;
         this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
+        this.idKorisnika = idKorisnika;
+        this.smallFish = smallFish;
+        this.mediumFish = mediumFish;
+        this.largeFish = largeFish;
     }
 
-    public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika) {
-        this.name = name;
-        this.description = description;
-        this.imageurl = imageurl;
-        this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
-        this.idKorisnika = idKorisnika;
+    public String getLocation() {
+        return location;
     }
 
-    public OffersData(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika, String offerID) {
-        this.name = name;
-        this.description = description;
-        this.imageurl = imageurl;
-        this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
-        this.idKorisnika = idKorisnika;
-        this.offerID = offerID;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getSmallFish() {
+        return smallFish;
+    }
+
+    public void setSmallFish(String smallFish) {
+        this.smallFish = smallFish;
+    }
+
+    public String getMediumFish() {
+        return mediumFish;
+    }
+
+    public void setMediumFish(String mediumFish) {
+        this.mediumFish = mediumFish;
+    }
+
+    public String getLargeFish() {
+        return largeFish;
+    }
+
+    public void setLargeFish(String largeFish) {
+        this.largeFish = largeFish;
     }
 
     public String getOfferID() {
@@ -66,22 +80,6 @@ public class OffersData {
         this.price = price;
     }
 
-    public String getFishClass() {
-        return fishClass;
-    }
-
-    public void setFishClass(String fishClass) {
-        this.fishClass = fishClass;
-    }
-
-    public String getImageurltrophey() {
-        return imageurltrophey;
-    }
-
-    public void setImageurltrophey(String imageurltrophey) {
-        this.imageurltrophey = imageurltrophey;
-    }
-
     public String getImageurl() {
         return imageurl;
     }
@@ -98,22 +96,14 @@ public class OffersData {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public OffersData(String name, String description) {
+    public OffersData(String name, String location) {
         this.name = name;
-        this.description = description;
+        this.location = location;
     }
 
-    public OffersData(String name, String description, String imageurl) {
+    public OffersData(String name, String location, String imageurl) {
         this.name = name;
-        this.description = description;
+        this.location = location;
         this.imageurl = imageurl;
     }
 

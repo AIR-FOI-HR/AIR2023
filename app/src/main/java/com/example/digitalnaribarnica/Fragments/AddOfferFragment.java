@@ -324,6 +324,16 @@ public class AddOfferFragment extends Fragment {
             largeQuantity.clearFocus();
             price.clearFocus();
 
+            repository.DohvatiRibe(fishes -> {
+                for (int i = 0; i < fishes.size(); i++) {
+                    if (fishes.get(i).getName().contains(fishSpecies.getText().toString())) {
+                        repository.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(),fishes.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
+                                mediumQuantity.getText().toString(), largeQuantity.getText().toString());
+                        break;
+                    }
+                }
+            });
+
             Fragment newFragment;
             ((RegisterActivity)getActivity()).changeOnOffersNavigationBar();
             newFragment = new ReservationFragment();

@@ -4,11 +4,8 @@ import androidx.annotation.NonNull;
 
 public class Offer {
     private String name;
-    private String description;
     private String imageurl;
     private String price;
-    private String fishClass;
-    private String imageurltrophey;
     private String idKorisnika;
     private String offerID;
     private String location;
@@ -24,44 +21,17 @@ public class Offer {
         this.idKorisnika = idKorisnika;
     }
 
-    public Offer(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey) {
+    public Offer (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, int i) {
         this.name = name;
-        this.description = description;
+        this.location = location;
         this.imageurl = imageurl;
         this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
-    }
-
-    public Offer(String name, String price, String location, String smallFish, String mediumFish, String largeFish, String idKorisnika, int i) {
-        this.name = name;
-        this.price = price;
-        this.description = location;
+        this.idKorisnika = idKorisnika;
         this.smallFish = smallFish;
         this.mediumFish = mediumFish;
         this.largeFish = largeFish;
-        this.idKorisnika = idKorisnika;
     }
 
-    public Offer(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika) {
-        this.name = name;
-        this.description = description;
-        this.imageurl = imageurl;
-        this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
-        this.idKorisnika = idKorisnika;
-    }
-    public Offer(String name, String description, String imageurl, String price, String fishClass, String imageurltrophey, String idKorisnika, String offerID) {
-        this.name = name;
-        this.description = description;
-        this.imageurl = imageurl;
-        this.price = price;
-        this.fishClass = fishClass;
-        this.imageurltrophey = imageurltrophey;
-        this.idKorisnika = idKorisnika;
-        this.offerID = offerID;
-    }
 
     public String getOfferID() {
         return offerID;
@@ -76,22 +46,6 @@ public class Offer {
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getFishClass() {
-        return fishClass;
-    }
-
-    public void setFishClass(String fishClass) {
-        this.fishClass = fishClass;
-    }
-
-    public String getImageurltrophey() {
-        return imageurltrophey;
-    }
-
-    public void setImageurltrophey(String imageurltrophey) {
-        this.imageurltrophey = imageurltrophey;
     }
 
     public String getImageurl() {
@@ -142,22 +96,14 @@ public class Offer {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Offer(String name, String description) {
+    public Offer(String name, String location) {
         this.name = name;
-        this.description = description;
+        this.location = location;
     }
 
-    public Offer(String name, String description, String imageurl) {
+    public Offer(String name, String location, String imageurl) {
         this.name = name;
-        this.description = description;
+        this.location = location;
         this.imageurl = imageurl;
     }
 

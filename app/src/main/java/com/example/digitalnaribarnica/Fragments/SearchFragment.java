@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment {
         repository.DohvatiSvePonude(offersData -> {
             ArrayList<OffersData> offersList = new ArrayList<>();
             for (int i = 0; i < offersData.size(); i++) {
-                if (offersData.get(i).getName().equals(search) || offersData.get(i).getDescription().equals(search)) {
+                if (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase())) {
                     offersList.add(offersData.get(i));
                 }
             }

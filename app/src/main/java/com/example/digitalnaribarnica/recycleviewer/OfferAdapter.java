@@ -42,9 +42,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.prvi.setText(offers.get(position).getName());
-        holder.drugi.setText(offers.get(position).getDescription());
+        holder.drugi.setText(offers.get(position).getLocation());
         holder.cetvrti.setText(offers.get(position).getPrice());
-        holder.peti.setText(offers.get(position).getFishClass());
 
         cardView.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
@@ -62,10 +61,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
                 .load(offers.get(position).getImageurl())
                 .into(holder.treci);
 
-        Glide.with(context)
+      /*  Glide.with(context)
                 .asBitmap()
                 .load(offers.get(position).getImageurltrophey())
-                .into(holder.sesti);
+                .into(holder.sesti);*/
     }
 
     @Override
