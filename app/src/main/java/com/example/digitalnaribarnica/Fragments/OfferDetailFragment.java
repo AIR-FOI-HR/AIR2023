@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.example.database.FirestoreService;
+import com.example.database.User;
+import com.example.digitalnaribarnica.FirestoreCallback;
+import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
 import com.example.digitalnaribarnica.databinding.FragmentOfferDetailBinding;
+import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+
+import java.util.ArrayList;
 
 public class OfferDetailFragment extends Fragment {
 
@@ -44,6 +54,21 @@ public class OfferDetailFragment extends Fragment {
     private TextView availableSmall;
     private TextView availableMedium;
     private TextView availableLarge;
+    private ImageView userImage;
+    private ImageView fishImage;
+    private ImageView trophyImage;
+    private TextView userName;
+
+    private TextView price;
+    private TextView location;
+    private TextView fish;
+
+    private String offerID;
+
+    public OfferDetailFragment(String offerID){
+        this.offerID = offerID;
+        Log.d("TagPolje", offerID);
+    }
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -56,6 +81,13 @@ public class OfferDetailFragment extends Fragment {
         binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        price = binding.cijenaPonude;
+        location = binding.lokacijaPonude;
+        fish = binding.nazivPonude;
+        fishImage = binding.slikaRibe;
+        userImage = binding.slikaPonuditelja;
+        trophyImage = binding.slikaZnacke;
+        userName = binding.imePrezimePonuditelja;
         btnMinusSmall = binding.btnMinusSmall;
         btnPlusSmall = binding.btnPlusSmall;
         btnMinusMedium = binding.btnMinusMedium;
@@ -77,25 +109,66 @@ public class OfferDetailFragment extends Fragment {
         availableMedium = binding.availableMedium;
         availableLarge = binding.availableLarge;
 
-        availableSmall.setText("3.5");
-        availableMedium.setText("4.2");
-        availableLarge.setText("5");
-
         smallQuantity.setFilters(new InputFilter[] { filterDecimals });
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
-        btnPlusSmall.setOnClickListener(view1 -> {
-            btnPlusSmall.requestFocus();
-            String currentValue = smallQuantity.getText().toString();
-            if(currentValue.equals("")){
-                currentValue="0";
-            }
-            String availableQuantity = availableSmall.getText().toString();
-            if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)){
-                smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.1)*100.0)/100.0));
-            }
-        });
+        Repository repository = new Repository();
+        FirestoreService firestoreService=new FirestoreService();
+
+        repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
+                    @Override
+                    public void onCallback(ArrayList<OffersData> offersData) {
+                       fish.setText(offersData.get(0).getName());
+                       location.setText(offersData.get(0).getLocation());
+                       String priceText = offersData.get(0).getPrice() + " " + getString(R.string.knperkg);
+                       price.setText(priceText);
+                        availableSmall.setText(offersData.get(0).getSmallFish());
+                        availableMedium.setText(offersData.get(0).getMediumFish());
+                        availableLarge.setText(offersData.get(0).getLargeFish());
+                        String fishPhoto = offersData.get(0).getImageurl();
+                        if(fishPhoto!=""){
+                            Glide.with(getContext())
+                                    .asBitmap()
+                                    .load(fishPhoto)
+                                    .into(fishImage);
+                        }
+
+
+                        String userID = offersData.get(0).getIdKorisnika();
+                        repository.DohvatiKorisnikaPoID(userID, user -> {
+                            userName.setText(user.getFullName());
+                            String userPhoto = user.getPhoto();
+                            if(userPhoto!=""){
+                                Glide.with(getContext())
+                                        .asBitmap()
+                                        .load(userPhoto)
+                                        .into(userImage);
+                            }
+                            String trophyPhoto = user.getTrophyImageUrl();
+                            if(trophyPhoto!=""){
+                                Glide.with(getContext())
+                                        .asBitmap()
+                                        .load(trophyPhoto)
+                                        .into(trophyImage);
+                            }
+
+                        });
+                }
+         });
+
+
+                btnPlusSmall.setOnClickListener(view1 -> {
+                    btnPlusSmall.requestFocus();
+                    String currentValue = smallQuantity.getText().toString();
+                    if (currentValue.equals("")) {
+                        currentValue = "0";
+                    }
+                    String availableQuantity = availableSmall.getText().toString();
+                    if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)) {
+                        smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.1) * 100.0) / 100.0));
+                    }
+                });
 
         smallQuantity.addTextChangedListener(new TextWatcher() {
             @Override

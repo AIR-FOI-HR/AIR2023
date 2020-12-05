@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Offer;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
@@ -46,6 +48,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.fish.setText(offers.get(position).getName());
         holder.location.setText(offers.get(position).getLocation());
         String priceText = offers.get(position).getPrice() + " " + context.getString(R.string.knperkg);
@@ -79,7 +82,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
             @Override
             public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment();
+                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID());
+
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -94,16 +98,13 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
 
-        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
-            @Override
-            public void onCallback(User user) {
-                String trophy = user.getTrophyImageUrl();
-                if(trophy!=""){
-                    Glide.with(context)
-                            .asBitmap()
-                            .load(trophy)
-                            .into(holder.trophyImage);
-                }
+        repository.DohvatiKorisnikaPoID(userID, user -> {
+            String trophy = user.getTrophyImageUrl();
+            if(trophy!=""){
+                Glide.with(context)
+                        .asBitmap()
+                        .load(trophy)
+                        .into(holder.trophyImage);
             }
         });
     }

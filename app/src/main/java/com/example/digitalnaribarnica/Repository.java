@@ -111,6 +111,28 @@ public class Repository {
         });
     }
 
+    public void DohvatiPonuduPrekoIdPonude(String id, FirestoreOffer firestoreCallback){
+        firestoreService.getCollectionWithField("Offers","offerID",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<OffersData> offersDataArrayList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    OffersData offersData=new Gson().fromJson(json,OffersData.class);
+                    offersDataArrayList.add(offersData);
+                }
+                firestoreCallback.onCallback(offersDataArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public void DohvatiSvePonude(FirestoreOffer firestoreCallback){
         firestoreService.getCollection("Offers").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

@@ -41,7 +41,7 @@
                         app:cardCornerRadius="58dp">
 
                         <ImageView
-                            android:id="@+id/slikaProfila"
+                            android:id="@+id/slikaRibe"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_centerHorizontal="true"
@@ -73,7 +73,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/naziv_ponude_od"
+                        android:id="@+id/naziv_ponude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -96,7 +96,7 @@
                             android:contentDescription="@string/picture" />
 
                         <TextView
-                            android:id="@+id/lokacija_ponude_od"
+                            android:id="@+id/lokacija_ponude"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/location"
@@ -106,7 +106,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/cijena_ponude_od"
+                        android:id="@+id/cijena_ponude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -444,7 +444,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="85dp"
+                        android:layout_height="100dp"
                         android:layout_marginTop="28dp"
                         android:layout_marginBottom="20dp">
 
@@ -452,7 +452,7 @@
                             android:layout_width="74dp"
                             android:layout_height="74dp"
                             android:layout_marginStart="15dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="15dp"
                             android:backgroundTint="@color/colorWhite"
                             app:cardCornerRadius="70dp">
 
@@ -474,6 +474,31 @@
                                     android:contentDescription="@string/picture" />
 
                             </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"
+                            android:layout_marginStart="-30dp"
+                            android:backgroundTint="@color/colorWhite"
+                            app:cardCornerRadius="70dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="2dp"
+                            app:cardCornerRadius="58dp">
+
+                        <ImageView
+                            android:id="@+id/slikaZnacke"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:elevation="5dp"
+                            android:contentDescription="@string/badge" />
+
+                        </androidx.cardview.widget.CardView>
 
                         </androidx.cardview.widget.CardView>
 
@@ -500,7 +525,7 @@
 
                                 <ImageView
                                     android:id="@+id/chat"
-                                    android:layout_width="18dp"
+                                    android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_marginStart="15dp"
                                     android:contentDescription="@string/picture"
