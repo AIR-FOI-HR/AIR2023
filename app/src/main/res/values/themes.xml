@@ -21,7 +21,12 @@
         <item name = "colorBackground">
             #B53737
         </item>
+    </style>
 
+    <style name="ToastGreen">
+        <item name = "colorBackground">
+            #00cc00
+        </item>
     </style>
 
 </resources>
