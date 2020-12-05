@@ -31,6 +31,7 @@ import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FishCallback;
 import com.example.digitalnaribarnica.LocationCallback;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -42,6 +43,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
+
+    private Button btnSaveNewOffer;
     private Button btnCancel;
 
     private Button btnMinusSmall;
@@ -50,7 +53,6 @@ public class AddOfferFragment extends Fragment {
     private Button btnPlusMedium;
     private Button btnMinusLarge;
     private Button btnPlusLarge;
-    private Button btnSaveNewOffer;
 
     private AutoCompleteTextView fishSpecies;
     private AutoCompleteTextView location;
@@ -79,17 +81,8 @@ public class AddOfferFragment extends Fragment {
 
         Repository repository =new Repository();
 
-        btnCancel = binding.btnOdustani;
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment =null;
-            @Override
-            public void onClick(View view) {
-                selectedFragment = new SearchFragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();    }
-        });
-
+        btnSaveNewOffer = binding.btnAdd;
+        btnCancel = binding.btnCancel;
 
         price = binding.priceOffer;
 
@@ -112,6 +105,7 @@ public class AddOfferFragment extends Fragment {
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
+        price.setFilters(new InputFilter[]{filterDecimals});
 
         btnPlusSmall.setOnClickListener(view1 -> {
             String currentValue = smallQuantity.getText().toString();
@@ -162,6 +156,9 @@ public class AddOfferFragment extends Fragment {
                     }
                     if (smallQuantity.getText().toString().charAt(0) == '.') {
                         smallQuantity.setText(getString(R.string._0) + smallQuantity.getText().toString());
+                    }
+                    if(smallQuantity.getText().toString().charAt(smallQuantity.getText().toString().length() - 1) == '.'){
+                        smallQuantity.setText(smallQuantity.getText().toString() + getString(R.string._0));
                     }
                 }
             }
@@ -217,6 +214,9 @@ public class AddOfferFragment extends Fragment {
                     if (mediumQuantity.getText().toString().charAt(0) == '.') {
                         mediumQuantity.setText(getString(R.string._0) + mediumQuantity.getText().toString());
                     }
+                    if(mediumQuantity.getText().toString().charAt(mediumQuantity.getText().toString().length() - 1) == '.'){
+                        mediumQuantity.setText(mediumQuantity.getText().toString() + getString(R.string._0));
+                    }
                 }
             }
         });
@@ -271,6 +271,9 @@ public class AddOfferFragment extends Fragment {
                     if (largeQuantity.getText().toString().charAt(0) == '.') {
                         largeQuantity.setText(getString(R.string._0) + largeQuantity.getText().toString());
                     }
+                    if(largeQuantity.getText().toString().charAt(largeQuantity.getText().toString().length() - 1) == '.'){
+                        largeQuantity.setText(largeQuantity.getText().toString() + getString(R.string._0));
+                    }
                 }
             }
         });
@@ -298,12 +301,43 @@ public class AddOfferFragment extends Fragment {
             location.setAdapter(adapter);
         });
 
-        btnSaveNewOffer = binding.btnDodaj;
+        price.setOnFocusChangeListener((v, hasFocus) -> {
+            if (price.getText().length() > 1) {
+                if (price.getText().toString().charAt(0) == '0' && price.getText().toString().charAt(1) != '.') {
+                    price.setText(price.getText().toString().substring(1));
+                }
+                if (price.getText().toString().charAt(0) == '.') {
+                    price.setText(getString(R.string._0) + price.getText().toString());
+                }
+                if(price.getText().toString().charAt(price.getText().toString().length() - 1) == '.'){
+                    price.setText(price.getText().toString() + getString(R.string._0));
+                }
+            }
+            if(price.getText().toString().equals(".")){
+                price.setText("0");
+            }
+        });
 
         btnSaveNewOffer.setOnClickListener(v -> {
             smallQuantity.clearFocus();
             mediumQuantity.clearFocus();
             largeQuantity.clearFocus();
+            price.clearFocus();
+
+            Fragment newFragment;
+            ((RegisterActivity)getActivity()).changeOnOffersNavigationBar();
+            newFragment = new ReservationFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                ((RegisterActivity)getActivity()).changeOnSeachNavigationBar();
+                selectedFragment = new SearchFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();    }
         });
 
         return view;

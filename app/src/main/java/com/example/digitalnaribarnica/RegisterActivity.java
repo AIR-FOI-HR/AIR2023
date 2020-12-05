@@ -191,6 +191,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
     boolean doubleBackToExitPressedOnce = false;
 
+    public void changeOnSeachNavigationBar(){
+        bottomNavigationView.setSelectedItemId(R.id.nav_search);
+    }
+
+    public void changeOnOffersNavigationBar(){
+        bottomNavigationView.setSelectedItemId(R.id.nav_ponude);
+    }
+
     @Override
     public void onBackPressed() {
         /*

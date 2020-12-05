@@ -350,7 +350,7 @@
                 android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btnDodaj"
+                android:id="@+id/btnAdd"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -361,14 +361,14 @@
                 android:layout_marginEnd="10dp"/>
 
             <Button
-                android:id="@+id/btnOdustani"
+                android:id="@+id/btnCancel"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:text="@string/cancel"
                 android:textColor="@color/colorWhite"
                 android:backgroundTint="@color/colorGrayBlue"
-                android:layout_toEndOf="@id/btnDodaj"
+                android:layout_toEndOf="@id/btnAdd"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_marginStart="10dp"/>
 

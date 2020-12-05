@@ -134,6 +134,9 @@ public class OfferDetailFragment extends Fragment {
                     if (smallQuantity.getText().toString().charAt(0) == '.') {
                         smallQuantity.setText(getString(R.string._0) + smallQuantity.getText().toString());
                     }
+                    if(smallQuantity.getText().toString().charAt(smallQuantity.getText().toString().length() - 1) == '.'){
+                        smallQuantity.setText(smallQuantity.getText().toString() + getString(R.string._0));
+                    }
                 }
             }
         });
@@ -152,8 +155,6 @@ public class OfferDetailFragment extends Fragment {
         });
 
         btnPlusMedium.setOnClickListener(view13 -> {
-            //btnPlusMedium.setFocusableInTouchMode(true);
-            //btnPlusMedium.requestFocus();
             String currentValue = mediumQuantity.getText().toString();
             if(currentValue.equals("")){
                 currentValue="0";
@@ -200,6 +201,9 @@ public class OfferDetailFragment extends Fragment {
                     }
                     if (mediumQuantity.getText().toString().charAt(0) == '.') {
                         mediumQuantity.setText(getString(R.string._0) + mediumQuantity.getText().toString());
+                    }
+                    if(mediumQuantity.getText().toString().charAt(mediumQuantity.getText().toString().length() - 1) == '.'){
+                        mediumQuantity.setText(mediumQuantity.getText().toString() + getString(R.string._0));
                     }
                 }
             }
@@ -276,6 +280,9 @@ public class OfferDetailFragment extends Fragment {
                 }
                 if (largeQuantity.getText().toString().charAt(0) == '.') {
                     largeQuantity.setText(getString(R.string._0) + largeQuantity.getText().toString());
+                }
+                if(largeQuantity.getText().toString().charAt(largeQuantity.getText().toString().length() - 1) == '.'){
+                    largeQuantity.setText(largeQuantity.getText().toString() + getString(R.string._0));
                 }
             }
         }

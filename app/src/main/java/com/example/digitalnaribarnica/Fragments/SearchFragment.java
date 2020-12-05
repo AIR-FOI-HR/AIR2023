@@ -97,11 +97,24 @@ public class SearchFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
-
-
         return view;
+    }
 
+    public void searchOffers(String search) {
+        Repository repository = new Repository();
+        repository.DohvatiSvePonude(offersData -> {
+            ArrayList<OffersData> offersList = new ArrayList<>();
+            for (int i = 0; i < offersData.size(); i++) {
+                if (offersData.get(i).getName().equals(search) || offersData.get(i).getDescription().equals(search)) {
+                    offersList.add(offersData.get(i));
+                }
+            }
+            OfferAdapter adapter = new OfferAdapter(getActivity());
+            adapter.setOffers(offersList);
 
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        });
     }
 
     @Override
@@ -113,12 +126,14 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                searchOffers(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                searchOffers(newText);
+                return true;
             }
         });
 
