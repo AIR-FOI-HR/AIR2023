@@ -12,6 +12,7 @@ public class User implements Serializable {
     String email ="";
     String phone ="";
     String adress="";
+    String trophyImageUrl="";
     Boolean blokiran=false;
 
     public Boolean getBlokiran() {
@@ -48,6 +49,15 @@ public class User implements Serializable {
     }
 
     String password="";
+
+    public String getTrophyImageUrl() {
+        return trophyImageUrl;
+    }
+
+    public void setTrophyImageUrl(String trophyImageUrl) {
+        this.trophyImageUrl = trophyImageUrl;
+    }
+
     public User() {
     }
 

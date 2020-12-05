@@ -53,6 +53,30 @@ public class Repository {
         });
     }
 
+    public void DohvatiKorisnikaPoID(String userID, FirestoreCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Users","userID",userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d: objekti){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    User user= new Gson().fromJson(json,User.class);
+                    firestoreCallback.onCallback(user);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public void DodajKorisnikaUBazu(String name, String email, String phone,String password,String photo,String adress){
         try {
             firestoreService.writeNewUserWithoutID(name,email,phone, SHA256.toHexString(SHA256.getSHA(password)),photo,adress,"Users");

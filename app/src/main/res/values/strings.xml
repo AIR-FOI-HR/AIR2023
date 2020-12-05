@@ -66,6 +66,7 @@
     <string name="most_expensive">Najskuplje</string>
     <string name="kg">kg</string>
     <string name="kn">kn</string>
+    <string name="knperkg">kn/kg</string>
     <string name="_0_00">0.00</string>
     <string name="_0">0</string>
     <string name="pricePlaceholder">25,00 kn/kg</string>

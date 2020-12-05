@@ -195,10 +195,11 @@ public class SearchFragment extends Fragment {
                         i = i - 1;
                         continue;
                     }
-
-                    if(!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))){
-                        offersList.remove(offersData.get(i));
-                        i = i - 1;
+                    if (!(!smallFish && !mediumFish && !largeFish)) {
+                        if (!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))) {
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                        }
                     }
                 }
 
