@@ -99,10 +99,10 @@
                     android:layout_width="match_parent"
                     android:layout_margin="10dp"
                     android:layout_height="wrap_content"
-                    app:selectionRequired="true"
+                    app:selectionRequired="false"
                     app:singleSelection="true">
                     <Button
-                        android:id="@+id/button1"
+                        android:id="@+id/btn_least_expensive"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                         android:textStyle="bold"
                         style="?attr/materialButtonOutlinedStyle"/>
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/btn_most_expensive"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                     android:id="@+id/range_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/_0"
+                    android:text="@string/_99"
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
                     android:layout_marginEnd="25dp"
@@ -219,7 +219,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/btnSort"
+            android:id="@+id/btnFilter"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/cv"
             android:layout_width="150dp"

@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
@@ -43,12 +44,26 @@ public class SearchFragment extends Fragment {
     private String adress="";
     private String phone="";
     private Button edit;
+
+    private String fishSpecies;
+    private String location;
+    private String minPrice;
+    private String maxPrice;
+    private Boolean smallFish = false;
+    private Boolean mediumFish = false;
+    private Boolean largeFish = false;
+    private Boolean leastExpensive = false;
+    private Boolean mostExpensive = false;
+
+    private Boolean filtered = false;
+
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     public SearchFragment() {
     }
+
     public SearchFragment(String ime, String id, String photo, String email, String adress, String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
         this.ime = ime;
         this.id = id;
@@ -62,7 +77,18 @@ public class SearchFragment extends Fragment {
         this.mGoogleSignInClient = mGoogleSignInClient;
     }
 
-
+    public SearchFragment(String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish, Boolean leastExpensive, Boolean mostExpensive){
+        this.fishSpecies = fishSpecies;
+        this.location = location;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.smallFish = smallFish;
+        this.mediumFish = mediumFish;
+        this.largeFish = largeFish;
+        this.leastExpensive = leastExpensive;
+        this.mostExpensive = mostExpensive;
+        this.filtered = true;
+    };
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -79,13 +105,7 @@ public class SearchFragment extends Fragment {
         recyclerView = binding.recycleViewOffer;
 
         ArrayList<OffersData> offers=new ArrayList<>();
-        /*
-        offers.add(new OffersData("Prva ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "25,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        offers.add(new OffersData("Druga ponuda","Zagreb", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 3","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        offers.add(new OffersData("Treća ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        offers.add(new OffersData("Četvrta ponuda","Varaždin", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "25,00 kn", "Razred: 1","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        offers.add(new OffersData("Peta ponuda","Čakovec", "https://www.pngitem.com/pimgs/m/263-2638542_fishing-icon-png-fish-circle-png-transparent-png.png", "30,00 kn", "Razred: 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        */
+
         Repository repository=new Repository();
         repository.DohvatiSvePonude(new FirestoreOffer() {
             @Override
@@ -148,6 +168,56 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+
+        if(this.filtered){
+            Repository repository = new Repository();
+            repository.DohvatiSvePonude(offersData -> {
+                ArrayList<OffersData> offersList = offersData;
+                for (int i = 0; i < offersList.size(); i++) {
+                    if (this.fishSpecies != null && !this.fishSpecies.equals("")) {
+                        if (!offersList.get(i).getName().contains(this.fishSpecies)) {
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                            continue;
+                        }
+                    }
+
+                    if (this.location != null && !this.location.equals("")) {
+                        if (!offersList.get(i).getLocation().contains(this.location)) {
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                            continue;
+                        }
+                    }
+
+                    if (Double.parseDouble(this.minPrice) > Double.parseDouble(offersList.get(i).getPrice()) || Double.parseDouble(this.maxPrice) < Double.parseDouble(offersList.get(i).getPrice())) {
+                        offersList.remove(offersData.get(i));
+                        i = i - 1;
+                        continue;
+                    }
+
+                    if(!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))){
+                        offersList.remove(offersData.get(i));
+                        i = i - 1;
+                    }
+                }
+
+                if (leastExpensive){
+                    Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp1.getPrice()), Double.parseDouble(exp2.getPrice())));
+                }
+
+                if(mostExpensive){
+                    Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
+                }
+
+                OfferAdapter adapter = new OfferAdapter(getActivity());
+                adapter.setOffers(offersList);
+
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            });
+        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }

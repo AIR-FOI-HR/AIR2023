@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.database.Fish;
 import com.example.database.Location;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
@@ -33,11 +36,26 @@ import java.util.ArrayList;
 public class FilterOffersFragment extends Fragment {
 
     FilterOffersBinding binding;
+
     private AutoCompleteTextView editFishSpecies;
     private AutoCompleteTextView editLocations;
+
     private RangeSeekBar rangePrice;
+
     private TextView rangeMinimum;
     private TextView rangeMaximum;
+
+    private CheckBox smallRadio;
+    private CheckBox mediumRadio;
+    private CheckBox largeRadio;
+
+    private Button btnFilter;
+    private Button btnLeastExpensive;
+    private Button btnMostExpensive;
+
+    private Boolean leastExpensiveClicked = false;
+    private Boolean mostExpensiveClicked = false;
+
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
@@ -53,6 +71,15 @@ public class FilterOffersFragment extends Fragment {
         rangePrice = binding.rangeSeekBar;
         rangeMinimum = binding.rangeMin;
         rangeMaximum = binding.rangeMax;
+
+        smallRadio = binding.radioSmall;
+        mediumRadio = binding.radioMedium;
+        largeRadio = binding.radioLarge;
+
+        btnFilter = binding.btnFilter;
+        btnLeastExpensive = binding.btnLeastExpensive;
+        btnMostExpensive = binding.btnMostExpensive;
+
         Repository repository =new Repository();
 
         repository.DohvatiRibe(fishes -> {
@@ -75,11 +102,6 @@ public class FilterOffersFragment extends Fragment {
             editLocations.setAdapter(adapter);
         });
 
-
-
-
-
-
         rangePrice.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
@@ -89,7 +111,38 @@ public class FilterOffersFragment extends Fragment {
             }
         });
 
+        btnLeastExpensive.setOnClickListener(v -> {
+            if(leastExpensiveClicked){
+                leastExpensiveClicked = false;
+            }
+            else {
+                leastExpensiveClicked = true;
+                mostExpensiveClicked = false;
+            }
+        });
+
+        btnMostExpensive.setOnClickListener(v -> {
+            if(mostExpensiveClicked){
+                mostExpensiveClicked = false;
+            }
+            else {
+                mostExpensiveClicked = true;
+                leastExpensiveClicked = false;
+            }
+        });
+
         rangePrice.setNotifyWhileDragging(true);
+
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View v) {
+                ((RegisterActivity)getActivity()).changeOnSeachNavigationBar();
+                selectedFragment = new SearchFragment(editFishSpecies.getText().toString(), editLocations.getText().toString(),rangeMinimum.getText().toString(), rangeMaximum.getText().toString(), smallRadio.isChecked(),
+                        mediumRadio.isChecked(), largeRadio.isChecked(), leastExpensiveClicked, mostExpensiveClicked);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();    }
+        });
 
         return view;
     }
