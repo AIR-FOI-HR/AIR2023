@@ -72,4 +72,10 @@
     <string name="_0">0</string>
     <string name="_0">0</string>
     -->
+    <string name="accountExists">Imaš račun?</string>
+    <string name="signinhere">Prijavi se!</string>
+    <string name="forgotPass">Zaboravljena lozinka?</string>
+    <string name="resetPassTxt">Unesite email kako bi zaprimili poveznicu za promjenu lozinke.</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="sendEmail">Pošalji</string>
 </resources>

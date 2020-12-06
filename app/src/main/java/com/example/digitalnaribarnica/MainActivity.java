@@ -44,7 +44,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView registracija;
+    private TextView registracija, zaboravljenaLozinka;
 
     ActivityMainBinding binding;
     SignInButton signin;
@@ -72,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (MainActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //klikom na poveznicu "Zaboravljena lozinka?" korisnik se preusmjerava na aktivnost ResetPasswordActivity
+        zaboravljenaLozinka = findViewById(R.id.tvForgot);
+        zaboravljenaLozinka.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (MainActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });

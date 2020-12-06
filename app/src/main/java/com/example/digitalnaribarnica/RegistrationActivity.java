@@ -24,7 +24,7 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private TextView imeTextView;
+    private TextView imeTextView, prijava;
 
     private EditText ime;
     private EditText prezime;
@@ -73,6 +73,16 @@ public class RegistrationActivity extends AppCompatActivity {
         ponovljenaLozinka = binding.ponovljenaLozinkaR;
 
         registracija = binding.btnRegistracija;
+
+        //klikom na poveznicu "Prijavi se!", korisnik se usmjerava na MainActivity.java (login)
+        prijava = binding.buttonPrijava;
+        prijava.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (RegistrationActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ime.addTextChangedListener(new TextWatcher() {
             @Override
