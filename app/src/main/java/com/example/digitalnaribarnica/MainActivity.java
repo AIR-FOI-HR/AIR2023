@@ -1,23 +1,20 @@
 package com.example.digitalnaribarnica;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.database.FirestoreService;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.databinding.ActivityMainBinding;
@@ -25,6 +22,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,26 +32,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.facebook.FacebookSdk;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView registracija;
+    private TextView registracija, zaboravljenaLozinka;
 
     ActivityMainBinding binding;
     SignInButton signin;
@@ -81,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (MainActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //klikom na poveznicu "Zaboravljena lozinka?" korisnik se preusmjerava na aktivnost ResetPasswordActivity
+        zaboravljenaLozinka = findViewById(R.id.tvForgot);
+        zaboravljenaLozinka.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (MainActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });
@@ -134,6 +135,27 @@ public class MainActivity extends AppCompatActivity {
         binding.btnPrijava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //ne dopusti login bez potvrde mail-a
+                mAuth.signInWithEmailAndPassword(binding.emailEDIT.getText().toString(),
+                        binding.passwordEDIT.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            if(mAuth.getCurrentUser().isEmailVerified()) {
+                                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                            }
+                            else {
+                                Toast.makeText(MainActivity.this, "Molimo potvrdite email!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
                 /*
                 Intent intent =new Intent(MainActivity.this,RegisterActivity.class);
                 MainActivity.this.startActivity(intent);
@@ -146,40 +168,44 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onCallback (User user){
 
-                        if (user != null) {
-                            Log.d("TagPolje", "Ulazi");
-                            //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
-                            //SHA256.getSHA(binding.)
-                            //Toast.makeText(MainActivity.this,user.getPassword() , Toast.LENGTH_SHORT).show();
-                            //Toast.makeText(MainActivity.this, user.getBlokiran().toString(), Toast.LENGTH_SHORT).show();
-                            if (!user.getBlokiran()) {
-                                String s1 = binding.passwordEDIT.getText().toString();
+                            //ne dopusti login bez potvrde mail-a
+                            FirebaseUser fUser = mAuth.getCurrentUser();
+                            if(fUser != null && mAuth.getCurrentUser().isEmailVerified()) {
 
-                                try {
-                                    //Toast.makeText(MainActivity.this, String.valueOf(repository.ProvjeriPassword(user.getPassword(),SHA256.toHexString(SHA256.getSHA(s1)))), Toast.LENGTH_SHORT).show();
-                                    //Log.d("SHA256",SHA256.toHexString(SHA256.getSHA(s1)));
-                                    if (repository.ProvjeriPassword(user.getPassword(), SHA256.toHexString(SHA256.getSHA(s1)))) {
-                                        //Toast.makeText(MainActivity.this, "Pass je isti", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                                        intent.putExtra("CurrentUser", user);
-                                        MainActivity.this.startActivity(intent);
+                                if (user != null) {
+                                    Log.d("TagPolje", "Ulazi");
+                                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                                    //SHA256.getSHA(binding.)
+                                    //Toast.makeText(MainActivity.this,user.getPassword() , Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(MainActivity.this, user.getBlokiran().toString(), Toast.LENGTH_SHORT).show();
+                                    if (!user.getBlokiran()) {
+                                        String s1 = binding.passwordEDIT.getText().toString();
+
+                                        try {
+                                            //Toast.makeText(MainActivity.this, String.valueOf(repository.ProvjeriPassword(user.getPassword(),SHA256.toHexString(SHA256.getSHA(s1)))), Toast.LENGTH_SHORT).show();
+                                            //Log.d("SHA256",SHA256.toHexString(SHA256.getSHA(s1)));
+                                            if (repository.ProvjeriPassword(user.getPassword(), SHA256.toHexString(SHA256.getSHA(s1)))) {
+                                                //Toast.makeText(MainActivity.this, "Pass je isti", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                                                intent.putExtra("CurrentUser", user);
+                                                MainActivity.this.startActivity(intent);
 
 
+                                            } else
+                                                showToast(view, "Unijeli ste krivu lozinku!!!");
+                                            //Toast.makeText(MainActivity.this, "Unijeli ste krivu lozinku!!!",Toast.LENGTH_SHORT).show();
+
+                                        } catch (NoSuchAlgorithmException e) {
+                                            showToast(view, "Nije moguće izračunati SHA256");
+                                            //Toast.makeText(MainActivity.this, "Nije moguće izračunati SHA256", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else
-                                        showToast(view, "Unijeli ste krivu lozinku!!!");
-                                        //Toast.makeText(MainActivity.this, "Unijeli ste krivu lozinku!!!",Toast.LENGTH_SHORT).show();
-
-                                } catch (NoSuchAlgorithmException e) {
-                                    showToast(view, "Nije moguće izračunati SHA256");
-                                    //Toast.makeText(MainActivity.this, "Nije moguće izračunati SHA256", Toast.LENGTH_SHORT).show();
-                                }
-                            } else
-                                showToast(view, "Korisnik je blokiran");
-                                //Toast.makeText(MainActivity.this, "Korisnik je blokiran", Toast.LENGTH_SHORT).show();
-                        } else
-                            showToast(view, "Korisnik nije pronađen u bazi");
-                            //Toast.makeText(MainActivity.this, "Korisnik nije pronađen u bazi", Toast.LENGTH_SHORT).show();
-
+                                        showToast(view, "Korisnik je blokiran");
+                                    //Toast.makeText(MainActivity.this, "Korisnik je blokiran", Toast.LENGTH_SHORT).show();
+                                } else
+                                    showToast(view, "Korisnik nije pronađen u bazi");
+                                //Toast.makeText(MainActivity.this, "Korisnik nije pronađen u bazi", Toast.LENGTH_SHORT).show();
+                            }
                     }
 
                 });
@@ -284,7 +310,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        if(user !=null){
+        //spriječi login ako mail nije verificiran
+        if(user !=null && user.isEmailVerified()){
             Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
             startActivity(intent);
         }else{

@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
             personName = acct.getDisplayName();
             personEmail = acct.getEmail();
             personId = acct.getId();
-            personPhoto = acct.getPhotoUrl().toString();
+            //personPhoto = acct.getPhotoUrl().toString();
             /*
             name.setText(personName);
             email.setText(personEmail);
@@ -114,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
             personName=mUser.getDisplayName();
             personEmail=mUser.getEmail();
             personId=mUser.getUid();
-            personPhoto=mUser.getPhotoUrl().toString();
+            //personPhoto=mUser.getPhotoUrl().toString();
             /*
             name.setText(personName);
             email.setText(personEmail);
