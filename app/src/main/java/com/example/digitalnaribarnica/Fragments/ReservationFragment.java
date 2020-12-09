@@ -130,7 +130,7 @@ public class ReservationFragment extends Fragment {
             }
         });
 
-
+/*
         buttonReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +144,7 @@ public class ReservationFragment extends Fragment {
                             //Toast.makeText(getActivity(), r.getDate().toDate().toString(), Toast.LENGTH_SHORT).show();
 
                             Calendar calendar = DateParse.dateToCalendar(r.getDate().toDate());
-                            reservations.add(new ReservationsData(r.getIDponude(),calendar.getTime().toString(), "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", String.valueOf(r.getKolicina()), "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+                            reservations.add(new ReservationsData(r.getOfferID(),calendar.getTime().toString(), "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", String.valueOf(r.getKolicina()), "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
                         }
                         adapter.setReservations(reservations);
 
@@ -152,6 +152,9 @@ public class ReservationFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     }
                 });
+
+
+ */
                 /*
                 reservations.clear();
                 reservations.add(new ReservationsData("Rezervacija 1","Jelas", "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
@@ -164,16 +167,15 @@ public class ReservationFragment extends Fragment {
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                  */
-            }
-        });
+
 
 
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reservations.clear();
-                reservations.add(new ReservationsData("Rezervacija 5","Brod","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 6","Pozega","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "30,00 kn", "4","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+             //   reservations.add(new ReservationsData("Rezervacija 5","Brod","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+              //  reservations.add(new ReservationsData("Rezervacija 6","Pozega","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "30,00 kn", "4","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
                 adapter.setReservations(reservations);
 
                 recyclerView.setAdapter(adapter);

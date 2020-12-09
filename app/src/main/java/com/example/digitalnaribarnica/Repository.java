@@ -14,6 +14,7 @@ import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
@@ -258,6 +259,10 @@ public class Repository {
         firestoreService.writeOffer(offer,"Offers");
     }
 
+    public void DodajRezervacijuAutoID(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status){
+        Rezervation reservation = new Rezervation(offerID, date, price, smallFish, mediumFish, largeFish, customerID, status);
+        firestoreService.writeReservationWithAutoID(reservation,"Rezervation");
+    }
 
 
     public void DodajPonuduSAutoID(String name,String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish){

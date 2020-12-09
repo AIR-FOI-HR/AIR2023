@@ -81,6 +81,8 @@
 
 
                 </LinearLayout>
+
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -103,32 +105,16 @@
                         android:layout_marginEnd="@dimen/general_margin"
                         android:textIsSelectable="false"/>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        app:cardCornerRadius="50dp"
-                        android:backgroundTint="@color/colorWhite">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:cardCornerRadius="50dp"
-                            android:layout_margin="2dp"
-                            android:layout_centerInParent="true">
-
-                            <ImageView
-                                android:id="@+id/trophyReservationImage"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_centerHorizontal="true"
-                                android:background="@color/colorWhite"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/profil"
-                                android:contentDescription="@string/picture" />
-
-                        </androidx.cardview.widget.CardView>
-
-                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/textDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reservationLocation"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/general_margin"
+                        android:textIsSelectable="false"/>
 
                 </LinearLayout>
 

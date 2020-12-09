@@ -1,5 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.digitalnaribarnica.RegisterActivity;
+import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,7 +25,9 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Rezervation;
 import com.example.database.User;
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
@@ -34,6 +38,7 @@ import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class OfferDetailFragment extends Fragment {
 
@@ -64,9 +69,11 @@ public class OfferDetailFragment extends Fragment {
     private TextView fish;
 
     private String offerID;
+    private String userID = "";
 
-    public OfferDetailFragment(String offerID){
+    public OfferDetailFragment(String offerID, String userId){
         this.offerID = offerID;
+        this.userID = userId;
         Log.d("TagPolje", offerID);
     }
 
@@ -365,6 +372,22 @@ public class OfferDetailFragment extends Fragment {
             smallQuantity.clearFocus();
             mediumQuantity.clearFocus();
             largeQuantity.clearFocus();
+            if(smallQuantity.getText().toString().equals("0.0") || smallQuantity.getText().toString().equals("")){
+                smallQuantity.setText("0");
+            }
+            if(mediumQuantity.getText().toString().equals("0.0") || mediumQuantity.getText().toString().equals("")){
+                mediumQuantity.setText("0");
+            }
+            if(largeQuantity.getText().toString().equals("0.0") || largeQuantity.getText().toString().equals("")){
+                largeQuantity.setText("0");
+            }
+            repository.DodajRezervacijuAutoID(fish.getText().toString(), Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
+                    mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Aktivan" );
+            Fragment newFragment;
+            ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+            newFragment = new ReservationFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+            StyleableToast.makeText(getActivity(), "Rezervacija uspješna", 3, R.style.ToastGreen).show();
         });
 
         return view;

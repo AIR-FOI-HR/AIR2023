@@ -137,7 +137,7 @@ public class FilterOffersFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                ((RegisterActivity)getActivity()).changeOnSeachNavigationBar();
+                ((RegisterActivity)getActivity()).changeOnSearchNavigationBar();
                 selectedFragment = new SearchFragment(editFishSpecies.getText().toString(), editLocations.getText().toString(),rangeMinimum.getText().toString(), rangeMaximum.getText().toString(), smallRadio.isChecked(),
                         mediumRadio.isChecked(), largeRadio.isChecked(), leastExpensiveClicked, mostExpensiveClicked);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,

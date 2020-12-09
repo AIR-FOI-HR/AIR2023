@@ -137,6 +137,12 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document().set(offer);
     }
 
+    public void writeReservationWithAutoID(Rezervation rezervation, String collection) {
+        String id=FirebaseFirestore.getInstance().collection(collection).document().getId();
+        rezervation.setReservationID(id);
+        FirebaseFirestore.getInstance().collection(collection).document(id).set(rezervation);
+    }
+
     public void updateUser(User trenutniKorisnik,String collection) {
         //User user = trenutniKorisnik;
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();

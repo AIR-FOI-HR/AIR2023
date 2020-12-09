@@ -401,7 +401,7 @@ public class AddOfferFragment extends Fragment {
                             repository.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fishes.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
                                     mediumQuantity.getText().toString(), largeQuantity.getText().toString());
                             Fragment newFragment;
-                            ((RegisterActivity) getActivity()).changeOnOffersNavigationBar();
+                            ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                             newFragment = new SearchFragment();
                             getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
                             StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
@@ -418,7 +418,7 @@ public class AddOfferFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                ((RegisterActivity) getActivity()).changeOnSeachNavigationBar();
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment = new SearchFragment();
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();

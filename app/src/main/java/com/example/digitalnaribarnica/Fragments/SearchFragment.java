@@ -110,7 +110,7 @@ public class SearchFragment extends Fragment {
         repository.DohvatiSvePonude(new FirestoreOffer() {
             @Override
             public void onCallback(ArrayList<OffersData> offersData) {
-                OfferAdapter adapter=new OfferAdapter(getActivity());
+                OfferAdapter adapter=new OfferAdapter(getActivity(), id);
                 adapter.setOffers(offersData);
 
                 recyclerView.setAdapter(adapter);
@@ -129,7 +129,7 @@ public class SearchFragment extends Fragment {
                     offersList.add(offersData.get(i));
                 }
             }
-            OfferAdapter adapter = new OfferAdapter(getActivity());
+            OfferAdapter adapter = new OfferAdapter(getActivity(), id);
             adapter.setOffers(offersList);
 
             recyclerView.setAdapter(adapter);
@@ -210,7 +210,7 @@ public class SearchFragment extends Fragment {
                     Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
                 }
 
-                OfferAdapter adapter = new OfferAdapter(getActivity());
+                OfferAdapter adapter = new OfferAdapter(getActivity(), id);
                 adapter.setOffers(offersList);
 
                 recyclerView.setAdapter(adapter);

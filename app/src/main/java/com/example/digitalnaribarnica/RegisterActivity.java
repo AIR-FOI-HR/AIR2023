@@ -191,11 +191,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
     boolean doubleBackToExitPressedOnce = false;
 
-    public void changeOnSeachNavigationBar(){
+    public void changeOnSearchNavigationBar(){
         bottomNavigationView.setSelectedItemId(R.id.nav_search);
     }
 
-    public void changeOnOffersNavigationBar(){
+    public void changeOnReservationsNavigationBar(){
         bottomNavigationView.setSelectedItemId(R.id.nav_ponude);
     }
 

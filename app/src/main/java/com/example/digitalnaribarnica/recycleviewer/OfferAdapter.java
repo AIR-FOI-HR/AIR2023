@@ -32,9 +32,11 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     private ArrayList<OffersData> offers=new ArrayList<>();
     private Context context;
     private CardView cardView;
+    private String userID;
 
 
-    public OfferAdapter(Context context) {
+    public OfferAdapter(Context context, String userID) {
+        this.userID = userID;
         this.context = context;
     }
 
@@ -82,7 +84,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
             @Override
             public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID());
+                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID);
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
