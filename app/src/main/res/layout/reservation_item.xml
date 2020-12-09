@@ -13,6 +13,7 @@
     <ImageView
         android:layout_height="35dp"
         android:layout_width="35dp"
+        android:layout_margin="10dp"
         android:src="@drawable/ic_baseline_highlight_off_24"
         android:layout_gravity="right"
         />
@@ -105,12 +106,19 @@
                         android:layout_marginEnd="@dimen/general_margin"
                         android:textIsSelectable="false"/>
 
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/textDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/reservationLocation"
+                        android:text="@string/date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="@dimen/general_margin"
@@ -127,17 +135,20 @@
                     <TextView
                         android:layout_weight="1"
                         android:id="@+id/textReservationGrade"
-                        android:text="@string/gradeReservation"
+                        android:text="@string/fishClass"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/textReservationPrice"
-                        android:text="@string/pricePerKg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textReservationPrice"
+                    android:text="@string/pricePerKg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"/>
 
             </LinearLayout>
 

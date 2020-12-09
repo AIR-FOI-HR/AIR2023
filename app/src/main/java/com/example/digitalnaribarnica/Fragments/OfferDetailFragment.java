@@ -381,13 +381,20 @@ public class OfferDetailFragment extends Fragment {
             if(largeQuantity.getText().toString().equals("0.0") || largeQuantity.getText().toString().equals("")){
                 largeQuantity.setText("0");
             }
-            repository.DodajRezervacijuAutoID(fish.getText().toString(), Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
-                    mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Aktivan" );
-            Fragment newFragment;
-            ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
-            newFragment = new ReservationFragment();
-            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-            StyleableToast.makeText(getActivity(), "Rezervacija uspješna", 3, R.style.ToastGreen).show();
+
+            if(smallQuantity.getText().toString().equals("0") && mediumQuantity.getText().toString().equals("0") && largeQuantity.getText().toString().equals("0")){
+                StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
+            }
+            else {
+
+                repository.DodajRezervacijuAutoID(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
+                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Aktivan");
+                Fragment newFragment;
+                ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+                newFragment = new ReservationFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+                StyleableToast.makeText(getActivity(), "Rezervacija uspješna", 3, R.style.ToastGreen).show();
+            }
         });
 
         return view;

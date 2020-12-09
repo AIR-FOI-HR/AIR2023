@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,18 +33,24 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
 public class ReservationFragment extends Fragment {
+
+    private String userID;
 
     FragmentReservationBinding binding;
 
     RecyclerView recyclerView;
-
 
     Button buttonReservation;
     Button buttonRequest;
     Button buttonAccepted;
 
     MaterialButtonToggleGroup toggleButtonGroup;
+
+    public ReservationFragment(String userId){
+        this.userID = userId;
+    }
 
     @Override
     public void onStart() {
@@ -74,7 +81,8 @@ public class ReservationFragment extends Fragment {
 
         recyclerView = binding.recyclerReservations;
 
-        ArrayList<ReservationsData> reservations=new ArrayList<>();
+        ArrayList<ReservationsData> reservations = new ArrayList<>();
+
          /*
 
 
@@ -87,6 +95,24 @@ public class ReservationFragment extends Fragment {
 
 
         ReservationsAdapter adapter = new ReservationsAdapter(getActivity());
+
+        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+        Repository repository=new Repository();
+        repository.DohvatiRezervacije1(new RezervationCallback() {
+            @Override
+            public void onCallback(ArrayList<ReservationsData> rezervations) {
+                for (int i = 0; i < rezervations.size(); i++) {
+                    if(rezervations.get(i).getCustomerID().equals(userID))
+                        reservationList.add(rezervations.get(i));
+                }
+
+                adapter.setReservations(reservationList);
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         /*
         adapter.setReservations(reservations);
 
@@ -130,6 +156,27 @@ public class ReservationFragment extends Fragment {
             }
         });
 
+        buttonReservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                Repository repository=new Repository();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> rezervations) {
+                        for (int i = 0; i < rezervations.size(); i++) {
+                            if(rezervations.get(i).getCustomerID().equals(userID))
+                                reservationList.add(rezervations.get(i));
+                        }
+
+                       adapter.setReservations(reservationList);
+                    }
+                });
+
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+        });
 /*
         buttonReservation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +200,8 @@ public class ReservationFragment extends Fragment {
                     }
                 });
 
+*/
 
- */
                 /*
                 reservations.clear();
                 reservations.add(new ReservationsData("Rezervacija 1","Jelas", "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));

@@ -167,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
                             break;
                         case R.id.nav_ponude:
-                            selectedFragment = new ReservationFragment();
+                            selectedFragment = new ReservationFragment(personId);
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
