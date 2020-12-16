@@ -90,16 +90,11 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                         .into(holder.fishImage);
             }
         });
-       /* SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss tt");
-        sfd.format(new Date(String.valueOf(reservations.get(position).getDate().toDate())));*/
+
         Calendar calendar = DateParse.dateToCalendar(reservations.get(position).getDate().toDate());
-        String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + calendar.getTime().toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
+        String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + dateFormat.format(calendar.getTime());
         holder.date.setText(Html.fromHtml(textDate));
-
-
-
-
-
     }
 
     @Override
