@@ -22,10 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.database.Rezervation;
 import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.RezervationCallback;
 import com.example.digitalnaribarnica.databinding.FragmentReservationBinding;
+import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
+import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsAdapter;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -82,17 +85,6 @@ public class ReservationFragment extends Fragment {
         recyclerView = binding.recyclerReservations;
 
         ArrayList<ReservationsData> reservations = new ArrayList<>();
-
-         /*
-
-
-        reservations.add(new ReservationsData("Rezervacija 1","Jelas", "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        reservations.add(new ReservationsData("Rezervacija 2","Jaruge", "https://i.pinimg.com/originals/21/f1/d2/21f1d20bb776dd8e774d6e36c57dc123.jpg", "30,00 kn", "3","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        reservations.add(new ReservationsData("Rezervacija 3","Garchin", "https://i.pinimg.com/originals/36/3e/27/363e2738af6e7ff65c7ed7d87eaace88.jpg", "30,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        reservations.add(new ReservationsData("Rezervacija 4","Oprisavci", "https://i.pinimg.com/236x/aa/c8/97/aac897078e2f67e83c64f52d688d771a--saltwater-tank-saltwater-aquarium.jpg", "25,00 kn", "1","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        reservations.add(new ReservationsData("Rezervacija 5","Sredanci", "https://www.tportal.hr/media/thumbnail/w1000/119470.jpeg", "30,00 kn", "2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-        */
-
 
         ReservationsAdapter adapter = new ReservationsAdapter(getActivity());
 
@@ -202,20 +194,6 @@ public class ReservationFragment extends Fragment {
 
 */
 
-                /*
-                reservations.clear();
-                reservations.add(new ReservationsData("Rezervacija 1","Jelas", "https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 2","Jaruge", "https://i.pinimg.com/originals/21/f1/d2/21f1d20bb776dd8e774d6e36c57dc123.jpg", "30,00 kn", "3","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 3","Garchin", "https://i.pinimg.com/originals/36/3e/27/363e2738af6e7ff65c7ed7d87eaace88.jpg", "30,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 4","Oprisavci", "https://i.pinimg.com/236x/aa/c8/97/aac897078e2f67e83c64f52d688d771a--saltwater-tank-saltwater-aquarium.jpg", "25,00 kn", "1","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 5","Sredanci", "https://www.tportal.hr/media/thumbnail/w1000/119470.jpeg", "30,00 kn", "2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                adapter.setReservations(reservations);
-
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                 */
-
-
 
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,17 +212,51 @@ public class ReservationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 reservations.clear();
-
                 adapter.setReservations(reservations);
-
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
 
-
         return view;
     }
+
+    public void searchReservation(String search) {
+        ArrayList<ReservationsData> reservationListSearched = new ArrayList<>();
+        ReservationsAdapter adapter = new ReservationsAdapter(getActivity());
+        Repository repository = new Repository();
+        repository.DohvatiRezervacije1(offersData -> {
+            ArrayList<ReservationsData> reservationList = new ArrayList<>();
+            repository.DohvatiRezervacije1(new RezervationCallback() {
+                @Override
+                public void onCallback(ArrayList<ReservationsData> rezervations) {
+                    for (int i = 0; i < rezervations.size(); i++) {
+                        if(rezervations.get(i).getCustomerID().equals(userID)) {
+                            reservationList.add(rezervations.get(i));
+                        }
+                    }
+                    ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+
+                    if(reservationList != null) {
+                        for(ReservationsData d : reservationList){
+                            repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                @Override
+                                public void onCallback(ArrayList<OffersData> offersData) {
+                                    if(offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())){
+                                        reservationListSearched.add(d);
+                                        adapter.setReservations(reservationListSearched);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                }
+            });
+        });
+    }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -253,13 +265,17 @@ public class ReservationFragment extends Fragment {
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public boolean onQueryTextSubmit(String query)
+            {
+                searchReservation(query);
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(String newText)
+            {
+                searchReservation(newText);
+                return true;
             }
         });
 
@@ -277,7 +293,4 @@ public class ReservationFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
-
 }
