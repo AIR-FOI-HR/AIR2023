@@ -159,6 +159,13 @@ public class FirestoreService {
                 "userID",trenutniKorisnik.userID);
     }
 
+    public void updateOfferQuantity(String offerID, String smallFish, String mediumFish, String largeFish, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).update(
+                "smallFish", smallFish,
+                "mediumFish", mediumFish,
+                "largeFish", largeFish);
+    }
+
     public static void addPhoto(Uri data){
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://digitalna-ribarnica-fb.appspot.com");
         String path="firememes/" + UUID.randomUUID() + ".png";

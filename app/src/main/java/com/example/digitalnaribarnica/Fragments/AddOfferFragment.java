@@ -433,7 +433,7 @@ public class AddOfferFragment extends Fragment {
         builder.replace(dstart, dend, source
                 .subSequence(start, end).toString());
         if (!builder.toString().matches(
-                "(([0-9])([0-9]{0," + (3 - 1) + "})?)?(\\.[0-9]{0," + 3 + "})?"
+                "(([0-9])([0-9]{0," + (3 - 1) + "})?)?(\\.[0-9]{0," + 2 + "})?"
         )) {
             if (source.length() == 0)
                 return dest.subSequence(dstart, dend);
