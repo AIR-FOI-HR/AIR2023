@@ -67,17 +67,17 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 holder.location.setText(offersData.get(0).getLocation());
                 Double quantity = 0.0;
                 String text ="";
-                if (!offersData.get(0).getSmallFish().equals("0")){
-                    text = text + "<b>" + context.getString(R.string.smallFish) + "</b>" +  " "  + offersData.get(0).getSmallFish() + " kg" + "<br>";
-                    quantity = quantity + Double.parseDouble(offersData.get(0).getSmallFish());
+                if (!reservations.get(position).getSmallFish().equals("0")){
+                    text = text + "<b>" + context.getString(R.string.smallFish) + "</b>" +  " "  + reservations.get(position).getSmallFish() + " kg" + "<br>";
+                    quantity = quantity + Double.parseDouble(reservations.get(position).getSmallFish());
                 }
-                if (!offersData.get(0).getMediumFish().equals("0")){
-                    text = text + "<b>" + context.getString(R.string.mediumFish) + "</b>" +  " " + offersData.get(0).getMediumFish() + " kg" + "<br>";
-                    quantity = quantity + Double.parseDouble(offersData.get(0).getMediumFish());
+                if (!reservations.get(position).getMediumfish().equals("0")){
+                    text = text + "<b>" + context.getString(R.string.mediumFish) + "</b>" +  " " + reservations.get(position).getMediumfish() + " kg" + "<br>";
+                    quantity = quantity + Double.parseDouble(reservations.get(position).getMediumfish());
                 }
-                if (!offersData.get(0).getLargeFish().equals("0")){
-                    text = text +  "<b>" + context.getString(R.string.largeFish) + "</b>" +  " " + offersData.get(0).getLargeFish() + " kg";
-                    quantity = quantity + Double.parseDouble(offersData.get(0).getLargeFish());
+                if (!reservations.get(position).getLargeFish().equals("0")){
+                    text = text +  "<b>" + context.getString(R.string.largeFish) + "</b>" +  " " + reservations.get(position).getLargeFish() + " kg";
+                    quantity = quantity + Double.parseDouble(reservations.get(position).getLargeFish());
                 }
                 holder.fishClassText.setText(Html.fromHtml(text));
                 Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
