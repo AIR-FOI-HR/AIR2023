@@ -3,16 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="@string/all_offers"
+        android:id="@+id/all_offers_menu"
+        />
+
+    <item
+        android:title="@string/my_offers"
+        android:id="@+id/my_offers_menu"
+        />
+
+    <item
+        android:title="@string/filter_menu"
+        android:id="@+id/filter_menu"
+        />
+
+    <item
     android:id="@+id/action_search"
-    android:title="Search"
+    android:title="@string/search"
     android:icon="@drawable/ic_baseline_search_24"
     app:showAsAction="always|collapseActionView"
     app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-
-    <item
-        android:id="@+id/dialog_filter_offers"
-        android:title=""
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_format_list_bulleted_24"/>
 
 </menu>

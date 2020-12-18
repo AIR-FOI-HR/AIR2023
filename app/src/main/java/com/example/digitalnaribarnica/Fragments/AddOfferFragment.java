@@ -402,7 +402,7 @@ public class AddOfferFragment extends Fragment {
                                     mediumQuantity.getText().toString(), largeQuantity.getText().toString());
                             Fragment newFragment;
                             ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                            newFragment = new SearchFragment();
+                            newFragment = new SearchFragment(userId);
                             getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
                             StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
                             return;
@@ -419,7 +419,7 @@ public class AddOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment = new SearchFragment();
+                selectedFragment = new SearchFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }

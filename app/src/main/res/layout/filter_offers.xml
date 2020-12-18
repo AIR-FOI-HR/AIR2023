@@ -8,27 +8,8 @@
     tools:context="com.example.digitalnaribarnica.Fragments.FilterOffersFragment">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorBlue">
-
-        <TextView
-            android:id="@+id/tvDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="17dp"
-            android:elevation="5dp"
-            android:text="@string/filter"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/relativeLayoutPodaci"
         android:gravity="center_vertical"
-        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

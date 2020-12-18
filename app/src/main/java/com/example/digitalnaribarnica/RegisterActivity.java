@@ -52,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
     String personPhoto="";
     String phone="";
     String adress="";
+
+    String userId="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(view);
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
+        userId = mUser.getUid();
         /*
         imageView = binding.Slika;
         name = binding.Name;
@@ -135,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                new SearchFragment()).commit();
+                new SearchFragment(userId)).commit();
 
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
     }
@@ -170,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment = new ReservationFragment(personId);
                             break;
                         case R.id.nav_search:
-                            selectedFragment = new SearchFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
+                            selectedFragment = new SearchFragment(personId);
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,

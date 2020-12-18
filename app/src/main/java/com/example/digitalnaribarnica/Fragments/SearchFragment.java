@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,7 @@ public class SearchFragment extends Fragment {
     FragmentSearchBinding binding;
     RecyclerView recyclerView;
     private String ime="";
-    private String id="";
+   // private String id="";
     private String photo="";
     private String email="";
     private String adress="";
@@ -57,13 +58,17 @@ public class SearchFragment extends Fragment {
 
     private Boolean filtered = false;
 
+
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
-    public SearchFragment() {
-    }
+    private String userId = "";
 
+    public SearchFragment(String userId) {
+        this.userId = userId;
+    }
+/*
     public SearchFragment(String ime, String id, String photo, String email, String adress, String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
         this.ime = ime;
         this.id = id;
@@ -76,8 +81,9 @@ public class SearchFragment extends Fragment {
         this.phone=phone;
         this.mGoogleSignInClient = mGoogleSignInClient;
     }
-
-    public SearchFragment(String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish, Boolean leastExpensive, Boolean mostExpensive){
+*/
+    public SearchFragment(String userID, String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish, Boolean leastExpensive, Boolean mostExpensive){
+        this.userId = userID;
         this.fishSpecies = fishSpecies;
         this.location = location;
         this.minPrice = minPrice;
@@ -110,7 +116,7 @@ public class SearchFragment extends Fragment {
         repository.DohvatiSvePonude(new FirestoreOffer() {
             @Override
             public void onCallback(ArrayList<OffersData> offersData) {
-                OfferAdapter adapter=new OfferAdapter(getActivity(), id);
+                OfferAdapter adapter=new OfferAdapter(getActivity(), userId);
                 adapter.setOffers(offersData);
 
                 recyclerView.setAdapter(adapter);
@@ -129,7 +135,7 @@ public class SearchFragment extends Fragment {
                     offersList.add(offersData.get(i));
                 }
             }
-            OfferAdapter adapter = new OfferAdapter(getActivity(), id);
+            OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
             adapter.setOffers(offersList);
 
             recyclerView.setAdapter(adapter);
@@ -156,7 +162,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        MenuItem filter = menu.findItem((R.id.dialog_filter_offers));
+      /*  MenuItem filter = menu.findItem((R.id.dialog_filter_offers));
         filter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             Fragment selectedFragment =null;
             @Override
@@ -166,7 +172,7 @@ public class SearchFragment extends Fragment {
                         selectedFragment).commit();
                 return false;
             }
-        });
+        });*/
 
         if(this.filtered){
             Repository repository = new Repository();
@@ -210,7 +216,7 @@ public class SearchFragment extends Fragment {
                     Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
                 }
 
-                OfferAdapter adapter = new OfferAdapter(getActivity(), id);
+                OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
                 adapter.setOffers(offersList);
 
                 recyclerView.setAdapter(adapter);
@@ -218,7 +224,44 @@ public class SearchFragment extends Fragment {
 
             });
         }
-
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Repository repository=new Repository();
+        OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+        switch (id){
+            case R.id.all_offers_menu:
+                repository.DohvatiSvePonude(offersData -> {
+                    adapter.setOffers(offersData);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+                });
+                break;
+            case R.id.my_offers_menu:
+                repository.DohvatiSvePonude(offersData -> {
+                    ArrayList<OffersData> offersList = offersData;
+                    for (int i = 0; i < offersList.size(); i++) {
+                        if (!offersList.get(i).getIdKorisnika().equals(userId)) {
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                        }
+                    }
+                    adapter.setOffers(offersList);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
+                });
+                break;
+            case R.id.filter_menu:
+                FilterOffersFragment selectedFragment = new FilterOffersFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+                break;
+        }
+        return true;
     }
 }
