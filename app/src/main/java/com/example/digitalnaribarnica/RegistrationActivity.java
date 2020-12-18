@@ -352,7 +352,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                Toast.makeText(RegistrationActivity.this, "Uspješna registracija. Za dovršetak registracije potvrdite email.", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(RegistrationActivity.this, "Uspješna registracija. Za dovršetak registracije potvrdite email.", Toast.LENGTH_LONG).show();
                                 imePrezime = ime.getText().toString() + " " +  prezime.getText().toString();
                                 userID = fAuth.getUid();
                                 repository = new Repository();
@@ -361,8 +361,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
                                         lozinka.getText().toString(), "slika korisnika", adresa.getText().toString());
 
-                                //kada se korisnik uspješno registrira, preusmjeri ga na stranicu Login (MainActivity)
-                                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                                //kada se korisnik uspješno registrira, preusmjeri ga na stranicu na kojoj obavjesatavamo korisnika da treba verificirati email (EmailVerificationActivity)
+                                startActivity(new Intent(RegistrationActivity.this, EmailVerificationActivity.class));
                             }
                             else {
                                 Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

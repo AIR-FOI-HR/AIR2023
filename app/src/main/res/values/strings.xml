@@ -78,4 +78,10 @@
     <string name="resetPassTxt">Unesite email kako bi zaprimili poveznicu za promjenu lozinke.</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="sendEmail">Pošalji</string>
+    <string name="mailConfirmation">Potvrdite e-mail</string>
+    <string name="mailConfirmationDetails">Potvrdite vaš račun u mail-u koji smo vam poslali.</string>
+    <string name="mailConfirmationButton">Otvori e-mail</string>
+    <string name="openMailApp">Otvorite vaš e-mail i pogledajte pristiglu poštu</string>
+
+
 </resources>
