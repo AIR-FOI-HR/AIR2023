@@ -36,15 +36,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SearchFragment extends Fragment {
+
+    Menu actionMenu;
+
     FragmentSearchBinding binding;
     RecyclerView recyclerView;
-    private String ime="";
-   // private String id="";
-    private String photo="";
-    private String email="";
-    private String adress="";
-    private String phone="";
-    private Button edit;
 
     private String fishSpecies;
     private String location;
@@ -57,7 +53,7 @@ public class SearchFragment extends Fragment {
     private Boolean mostExpensive = false;
 
     private Boolean filtered = false;
-
+    private Boolean myOffers = false;
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
@@ -67,21 +63,16 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment(String userId) {
         this.userId = userId;
+        this.filtered = false;
+        this.filtered = false;
     }
-/*
-    public SearchFragment(String ime, String id, String photo, String email, String adress, String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
-        this.ime = ime;
-        this.id = id;
-        this.photo = photo;
-        this.email = email;
-        this.acct = acct;
-        this.mUser = mUser;
-        this.mAuth = mAuth;
-        this.adress=adress;
-        this.phone=phone;
-        this.mGoogleSignInClient = mGoogleSignInClient;
+
+    public SearchFragment(String userId, Boolean myOffers) {
+        this.userId = userId;
+        this.myOffers = myOffers;
+        this.filtered = false;
     }
-*/
+
     public SearchFragment(String userID, String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish, Boolean leastExpensive, Boolean mostExpensive){
         this.userId = userID;
         this.fishSpecies = fishSpecies;
@@ -94,6 +85,7 @@ public class SearchFragment extends Fragment {
         this.leastExpensive = leastExpensive;
         this.mostExpensive = mostExpensive;
         this.filtered = true;
+        this.myOffers = false;
     };
 
     @SuppressLint("RestrictedApi")
@@ -102,6 +94,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
@@ -110,19 +103,6 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
 
-        ArrayList<OffersData> offers=new ArrayList<>();
-
-        Repository repository=new Repository();
-        repository.DohvatiSvePonude(new FirestoreOffer() {
-            @Override
-            public void onCallback(ArrayList<OffersData> offersData) {
-                OfferAdapter adapter=new OfferAdapter(getActivity(), userId);
-                adapter.setOffers(offersData);
-
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            }
-        });
         return view;
     }
 
@@ -140,12 +120,24 @@ public class SearchFragment extends Fragment {
 
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            if(search.equals("")){
+                actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
+                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+            }
+
+            else {
+                actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+            }
         });
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
+        actionMenu = menu;
+        menu.findItem((R.id.all_offers_menu)).setVisible(false);
         MenuItem item = menu.findItem((R.id.action_search));
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -174,7 +166,30 @@ public class SearchFragment extends Fragment {
             }
         });*/
 
+        ArrayList<OffersData> offers=new ArrayList<>();
+
+        if(!this.myOffers && !this.filtered) {
+            Log.d("TagPolje", "poziva se za početak");
+            Repository repository = new Repository();
+            repository.DohvatiSvePonude(new FirestoreOffer() {
+                @Override
+                public void onCallback(ArrayList<OffersData> offersData) {
+                    OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+                    adapter.setOffers(offersData);
+
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                }
+            });
+        }
+        if(this.myOffers && !this.filtered){
+            getMyOffers();
+        }
+
+        Log.d("TagPolje", "dal se poziva");
+
         if(this.filtered){
+            Log.d("TagPolje", "dal se poziva za filter");
             Repository repository = new Repository();
             repository.DohvatiSvePonude(offersData -> {
                 ArrayList<OffersData> offersList = offersData;
@@ -216,11 +231,15 @@ public class SearchFragment extends Fragment {
                     Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
                 }
 
-                OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
-                adapter.setOffers(offersList);
+                RecyclerView recyclerView2 = binding.recycleViewOffer;
+                OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
+                Log.d("TagPolje", String.valueOf(offersList.size()));
+                adapter2.notifyDataSetChanged();
+                recyclerView2.setAdapter(adapter2);
+                recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
 
             });
         }
@@ -239,23 +258,15 @@ public class SearchFragment extends Fragment {
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+                        actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
                 });
                 break;
+
             case R.id.my_offers_menu:
-                repository.DohvatiSvePonude(offersData -> {
-                    ArrayList<OffersData> offersList = offersData;
-                    for (int i = 0; i < offersList.size(); i++) {
-                        if (!offersList.get(i).getIdKorisnika().equals(userId)) {
-                            offersList.remove(offersData.get(i));
-                            i = i - 1;
-                        }
-                    }
-                    adapter.setOffers(offersList);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
-                });
+                getMyOffers();
                 break;
+
             case R.id.filter_menu:
                 FilterOffersFragment selectedFragment = new FilterOffersFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -263,5 +274,30 @@ public class SearchFragment extends Fragment {
                 break;
         }
         return true;
+    }
+
+    public void getMyOffers(){
+        Log.d("TagPolje", "poziva se za metodu");
+        Repository repository=new Repository();
+        OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+        repository.DohvatiSvePonude(offersData -> {
+            ArrayList<OffersData> offersList = offersData;
+            for (int i = 0; i < offersList.size(); i++) {
+
+                if (!offersList.get(i).getIdKorisnika().equals(userId)) {
+                    Log.d("TagPolje", "makni");
+                    offersList.remove(offersData.get(i));
+                    i = i - 1;
+                }
+            }
+
+            adapter.setOffers(offersList);
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
+            actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+            actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+        });
     }
 }

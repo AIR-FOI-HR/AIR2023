@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <group>
     <item
         android:title="@string/all_offers"
         android:id="@+id/all_offers_menu"
@@ -16,6 +17,7 @@
         android:title="@string/filter_menu"
         android:id="@+id/filter_menu"
         />
+</group>
 
     <item
     android:id="@+id/action_search"

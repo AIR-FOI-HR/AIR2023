@@ -6,6 +6,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -59,6 +63,8 @@ public class FilterOffersFragment extends Fragment {
 
     private String userId ="";
 
+    private ImageView imageBack;
+
     public FilterOffersFragment(String userID){
         this.userId = userID;
     }
@@ -74,6 +80,8 @@ public class FilterOffersFragment extends Fragment {
         binding = FilterOffersBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        setHasOptionsMenu(true);
+
         editFishSpecies = binding.autoCompleteFish;
         editLocations = binding.autoCompleteLocation;
         rangePrice = binding.rangeSeekBar;
@@ -87,6 +95,20 @@ public class FilterOffersFragment extends Fragment {
         btnFilter = binding.btnFilter;
         btnLeastExpensive = binding.btnLeastExpensive;
         btnMostExpensive = binding.btnMostExpensive;
+
+        imageBack = binding.imageBack;
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setHasOptionsMenu(false);
+                Fragment selectedFragment1 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment1 = new SearchFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment1).commit();
+            }
+        });
 
         Repository repository =new Repository();
 
@@ -155,6 +177,36 @@ public class FilterOffersFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        menu.findItem((R.id.action_search)).setVisible(false);
+        menu.findItem((R.id.filter_menu)).setVisible(false);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.all_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment1 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment1 = new SearchFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment1).commit();
+
+                break;
+            case R.id.my_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment2 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment2 = new SearchFragment(userId, true);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment2).commit();
+                break;
+        }
+        return true;
+    }
 
 }

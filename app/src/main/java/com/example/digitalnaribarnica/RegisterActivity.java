@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(view);
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        userId = mUser.getUid();
+        //userId = mUser.getUid();
         /*
         imageView = binding.Slika;
         name = binding.Name;

@@ -98,5 +98,6 @@
     <string name="my_offers">Moje ponude</string>
     <string name="filter_menu">Filtriranje</string>
     <string name="all_offers">Sve ponude</string>
+    <string name="nazad">Nazad</string>
 
 </resources>

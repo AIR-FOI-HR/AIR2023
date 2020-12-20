@@ -7,16 +7,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.digitalnaribarnica.Fragments.FilterOffersFragment">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayoutPodaci"
-        android:gravity="center_vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_podaci"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp">
+
+        <ImageView
+            android:contentDescription="@string/nazad"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/image_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart = "5dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/image_back"
             android:layout_margin="20dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="4dp">
@@ -214,5 +232,6 @@
 
     </RelativeLayout>
 
+    </ScrollView>
 
 </RelativeLayout>

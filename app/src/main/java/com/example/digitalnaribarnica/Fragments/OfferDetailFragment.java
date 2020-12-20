@@ -11,6 +11,9 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -72,6 +75,8 @@ public class OfferDetailFragment extends Fragment {
     private String offerID;
     private String userID = "";
 
+    ImageView imageBack;
+
     public OfferDetailFragment(String offerID, String userId){
         this.offerID = offerID;
         this.userID = userId;
@@ -109,6 +114,8 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
 
+        imageBack = binding.imageBack;
+
         smallQuantity.setText("0");
         mediumQuantity.setText("0");
         largeQuantity.setText("0");
@@ -123,6 +130,18 @@ public class OfferDetailFragment extends Fragment {
 
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
+
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setHasOptionsMenu(false);
+                Fragment selectedFragment1 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment1 = new SearchFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment1).commit();
+            }
+        });
 
         repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
                     @Override
@@ -433,7 +452,41 @@ public class OfferDetailFragment extends Fragment {
         return view;
     }
 
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        menu.findItem((R.id.action_search)).setVisible(false);
+    }
 
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.all_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment1 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment1 = new SearchFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment1).commit();
+
+                break;
+            case R.id.my_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment2 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment2 = new SearchFragment(userID, true);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment2).commit();
+                break;
+
+            case R.id.filter_menu:
+                FilterOffersFragment selectedFragment = new FilterOffersFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+                break;
+        }
+
+        return true;
+    }
 
     InputFilter filterDecimals = (source, start, end, dest, dstart, dend) -> {
         StringBuilder builder = new StringBuilder(dest);
