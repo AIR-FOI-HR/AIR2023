@@ -1,7 +1,9 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
+import android.app.Activity;
 import android.content.Context;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 
 import java.text.SimpleDateFormat;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,22 +31,24 @@ import com.example.database.FirestoreService;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
+import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 
 import androidx.fragment.app.Fragment;
 
-
-
-
 public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapter.ViewHolder>{
 
+    private ReservationFragment  reservationFragment;
     private ArrayList<ReservationsData> reservations=new ArrayList<>();
     private Context context;
     private CardView cardView;
+    private ImageView deleteReservation;
 
-    public ReservationsAdapter(Context context) {
+    public ReservationsAdapter(Context context, ReservationFragment reservationFragment) {
         this.context = context;
+        this.reservationFragment = reservationFragment;
     }
 
     @NonNull
@@ -51,6 +56,18 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.reservation_item, parent, false);
         ViewHolder holder= new ViewHolder(view);
+
+
+
+        holder.deleteReservation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialog(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
+
+            }
+        });
+
         return holder;
     }
 
@@ -116,6 +133,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         private ImageView fishImage;
         private TextView fishClassText;
         private TextView date;
+        private ImageView deleteReservation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,7 +143,25 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             price = itemView.findViewById(R.id.textReservationPrice);
             fishClassText = itemView.findViewById(R.id.textReservationGrade);
             date = itemView.findViewById(R.id.textDate);
-            cardView=itemView.findViewById(R.id.parentReservation);
+            cardView = itemView.findViewById(R.id.parentReservation);
+            deleteReservation = itemView.findViewById(R.id.delete_reservation);
         }
     }
+
+    public void showDialog(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("TagPolje", "Tu ide kao poz");
+            }
+        });
+        builder.setNegativeButton("Ne", null);
+        builder.show();
+    }
+
 }

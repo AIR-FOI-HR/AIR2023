@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class ReservationFragment extends Fragment {
 
         ArrayList<ReservationsData> reservations = new ArrayList<>();
 
-        ReservationsAdapter adapter = new ReservationsAdapter(getActivity());
+        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(),this);
 
         ArrayList<ReservationsData> reservationList = new ArrayList<>();
         Repository repository=new Repository();
@@ -226,7 +227,7 @@ public class ReservationFragment extends Fragment {
 
     public void searchReservation(String search) {
         ArrayList<ReservationsData> reservationListSearched = new ArrayList<>();
-        ReservationsAdapter adapter = new ReservationsAdapter(getActivity());
+        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this);
         Repository repository = new Repository();
         repository.DohvatiRezervacije1(offersData -> {
             ArrayList<ReservationsData> reservationList = new ArrayList<>();
@@ -305,6 +306,5 @@ public class ReservationFragment extends Fragment {
         });
         builder.setNegativeButton("Ne", null);
         builder.show();
-
     }
 }

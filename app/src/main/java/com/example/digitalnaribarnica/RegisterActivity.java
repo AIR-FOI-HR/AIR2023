@@ -53,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
     String phone="";
     String adress="";
 
-    String userId="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(view);
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        //userId = mUser.getUid();
         /*
         imageView = binding.Slika;
         name = binding.Name;
@@ -137,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                new SearchFragment(userId)).commit();
+                new SearchFragment(personId)).commit();
 
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
     }

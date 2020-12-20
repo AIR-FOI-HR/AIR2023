@@ -67,7 +67,7 @@ public class SearchFragment extends Fragment {
     public SearchFragment(String userId) {
         this.userId = userId;
         this.filtered = false;
-        this.filtered = false;
+        this.myOffers = false;
     }
 
     public SearchFragment(String userId, Boolean myOffers) {
@@ -107,7 +107,6 @@ public class SearchFragment extends Fragment {
         recyclerView = binding.recycleViewOffer;
 
         if(filtered){
-                Log.d("TagPolje", "dal se poziva za filter");
                 Repository repository = new Repository();
                 repository.DohvatiSvePonude(offersData -> {
                     ArrayList<OffersData> offersList = offersData;
@@ -149,9 +148,8 @@ public class SearchFragment extends Fragment {
                         Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
                     }
 
-                    RecyclerView recyclerView2 = binding.recycleViewOffer;
                     OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
-                    Log.d("TagPolje", String.valueOf(offersList.size()));
+                    adapter2.setOffers(offersList);
                     adapter2.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter2);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -213,46 +211,30 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //searchOffers(newText);
+                if(!filtered) {
+
+                    searchOffers(newText);
+                }
+                filtered = false;
                 return true;
             }
         });
 
-      /*  MenuItem filter = menu.findItem((R.id.dialog_filter_offers));
-        filter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            Fragment selectedFragment =null;
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                selectedFragment = new FilterOffersFragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
-                return false;
-            }
-        });*/
-
-        ArrayList<OffersData> offers=new ArrayList<>();
 
         if(!this.myOffers && !this.filtered) {
-            Log.d("TagPolje", "poziva se za početak");
             Repository repository = new Repository();
-            repository.DohvatiSvePonude(new FirestoreOffer() {
-                @Override
-                public void onCallback(ArrayList<OffersData> offersData) {
-                    OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
-                    adapter.setOffers(offersData);
+            repository.DohvatiSvePonude(offersData -> {
+                OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+                adapter.setOffers(offersData);
 
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                }
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             });
         }
 
         if(this.myOffers && !this.filtered){
             getMyOffers();
         }
-
-        Log.d("TagPolje", "dal se poziva");
-
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -289,7 +271,6 @@ public class SearchFragment extends Fragment {
     }
 
     public void getMyOffers(){
-        Log.d("TagPolje", "poziva se za metodu");
         Repository repository=new Repository();
         OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
         repository.DohvatiSvePonude(offersData -> {
@@ -297,7 +278,6 @@ public class SearchFragment extends Fragment {
             for (int i = 0; i < offersList.size(); i++) {
 
                 if (!offersList.get(i).getIdKorisnika().equals(userId)) {
-                    Log.d("TagPolje", "makni");
                     offersList.remove(offersData.get(i));
                     i = i - 1;
                 }
