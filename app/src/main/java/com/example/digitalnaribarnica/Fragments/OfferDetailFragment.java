@@ -94,6 +94,8 @@ public class OfferDetailFragment extends Fragment {
         binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
+        setHasOptionsMenu(true);
+
         price = binding.cijenaPonude;
         location = binding.lokacijaPonude;
         fish = binding.nazivPonude;

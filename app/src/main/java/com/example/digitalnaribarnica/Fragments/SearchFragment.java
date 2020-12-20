@@ -1,7 +1,9 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -103,6 +106,67 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
 
+        if(filtered){
+                Log.d("TagPolje", "dal se poziva za filter");
+                Repository repository = new Repository();
+                repository.DohvatiSvePonude(offersData -> {
+                    ArrayList<OffersData> offersList = offersData;
+                    for (int i = 0; i < offersList.size(); i++) {
+                        if (this.fishSpecies != null && !this.fishSpecies.equals("")) {
+                            if (!offersList.get(i).getName().contains(this.fishSpecies)) {
+                                offersList.remove(offersData.get(i));
+                                i = i - 1;
+                                continue;
+                            }
+                        }
+
+                        if (this.location != null && !this.location.equals("")) {
+                            if (!offersList.get(i).getLocation().contains(this.location)) {
+                                offersList.remove(offersData.get(i));
+                                i = i - 1;
+                                continue;
+                            }
+                        }
+
+                        if (Double.parseDouble(this.minPrice) > Double.parseDouble(offersList.get(i).getPrice()) || Double.parseDouble(this.maxPrice) < Double.parseDouble(offersList.get(i).getPrice())) {
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                            continue;
+                        }
+                        if (!(!smallFish && !mediumFish && !largeFish)) {
+                            if (!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))) {
+                                offersList.remove(offersData.get(i));
+                                i = i - 1;
+                            }
+                        }
+                    }
+
+                    if (leastExpensive){
+                        Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp1.getPrice()), Double.parseDouble(exp2.getPrice())));
+                    }
+
+                    if(mostExpensive){
+                        Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
+                    }
+
+                    RecyclerView recyclerView2 = binding.recycleViewOffer;
+                    OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
+                    Log.d("TagPolje", String.valueOf(offersList.size()));
+                    adapter2.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter2);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+                    actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+
+                    if(offersList.size() == 0){
+                        showDialog(getActivity(), "Filtriranje ponuda", "Nije pronađena niti jedna ponuda na temelju zadanih karakteristika");
+                    }
+
+                });
+            }
+
+
         return view;
     }
 
@@ -149,7 +213,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchOffers(newText);
+                //searchOffers(newText);
                 return true;
             }
         });
@@ -182,67 +246,14 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
+
         if(this.myOffers && !this.filtered){
             getMyOffers();
         }
 
         Log.d("TagPolje", "dal se poziva");
 
-        if(this.filtered){
-            Log.d("TagPolje", "dal se poziva za filter");
-            Repository repository = new Repository();
-            repository.DohvatiSvePonude(offersData -> {
-                ArrayList<OffersData> offersList = offersData;
-                for (int i = 0; i < offersList.size(); i++) {
-                    if (this.fishSpecies != null && !this.fishSpecies.equals("")) {
-                        if (!offersList.get(i).getName().contains(this.fishSpecies)) {
-                            offersList.remove(offersData.get(i));
-                            i = i - 1;
-                            continue;
-                        }
-                    }
 
-                    if (this.location != null && !this.location.equals("")) {
-                        if (!offersList.get(i).getLocation().contains(this.location)) {
-                            offersList.remove(offersData.get(i));
-                            i = i - 1;
-                            continue;
-                        }
-                    }
-
-                    if (Double.parseDouble(this.minPrice) > Double.parseDouble(offersList.get(i).getPrice()) || Double.parseDouble(this.maxPrice) < Double.parseDouble(offersList.get(i).getPrice())) {
-                        offersList.remove(offersData.get(i));
-                        i = i - 1;
-                        continue;
-                    }
-                    if (!(!smallFish && !mediumFish && !largeFish)) {
-                        if (!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))) {
-                            offersList.remove(offersData.get(i));
-                            i = i - 1;
-                        }
-                    }
-                }
-
-                if (leastExpensive){
-                    Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp1.getPrice()), Double.parseDouble(exp2.getPrice())));
-                }
-
-                if(mostExpensive){
-                    Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
-                }
-
-                RecyclerView recyclerView2 = binding.recycleViewOffer;
-                OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
-                Log.d("TagPolje", String.valueOf(offersList.size()));
-                adapter2.notifyDataSetChanged();
-                recyclerView2.setAdapter(adapter2);
-                recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
-                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
-
-            });
-        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -253,6 +264,7 @@ public class SearchFragment extends Fragment {
         OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
         switch (id){
             case R.id.all_offers_menu:
+                myOffers = false;
                 repository.DohvatiSvePonude(offersData -> {
                     adapter.setOffers(offersData);
                         recyclerView.setAdapter(adapter);
@@ -279,7 +291,7 @@ public class SearchFragment extends Fragment {
     public void getMyOffers(){
         Log.d("TagPolje", "poziva se za metodu");
         Repository repository=new Repository();
-        OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+        OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
         repository.DohvatiSvePonude(offersData -> {
             ArrayList<OffersData> offersList = offersData;
             for (int i = 0; i < offersList.size(); i++) {
@@ -291,13 +303,27 @@ public class SearchFragment extends Fragment {
                 }
             }
 
-            adapter.setOffers(offersList);
-            adapter.notifyDataSetChanged();
-            recyclerView.setAdapter(adapter);
+            adapter2.setOffers(offersList);
+            adapter2.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter2);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
             actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
             actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+
+            if(offersList.size() == 0){
+                showDialog(getActivity(), "Moje ponude", "Trenutno nemate niti jednu kreiranu svoju ponudu");
+            }
         });
+    }
+
+    public void showDialog(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+        builder.setPositiveButton("U redu", null);
+        builder.show();
     }
 }

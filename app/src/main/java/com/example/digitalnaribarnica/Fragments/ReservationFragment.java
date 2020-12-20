@@ -1,6 +1,8 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -280,10 +283,28 @@ public class ReservationFragment extends Fragment {
             public boolean onQueryTextChange(String newText)
             {
                 searchReservation(newText);
+                //showDialog(getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
                 return true;
             }
         });
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void showDialog(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("TagPolje", "Tu ide kao poz");
+            }
+        });
+        builder.setNegativeButton("Ne", null);
+        builder.show();
+
     }
 }
