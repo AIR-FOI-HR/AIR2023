@@ -58,7 +58,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         ViewHolder holder= new ViewHolder(view);
 
 
-
         holder.deleteReservation.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -160,7 +159,12 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 Log.d("TagPolje", "Tu ide kao poz");
             }
         });
-        builder.setNegativeButton("Ne", null);
+        builder.setNegativeButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("TagPolje", "Tu ide kao poz");
+            }
+        });
         builder.show();
     }
 

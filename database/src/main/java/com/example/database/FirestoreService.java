@@ -166,6 +166,22 @@ public class FirestoreService {
                 "largeFish", largeFish);
     }
 
+
+    public void updateReservationStatus(String reservationID, String status, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).update(
+                "status", status);
+    }
+
+    public void deleteReservation(String reservationID, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("TagPolje", "Deleted");
+            }
+            });
+    }
+
     public static void addPhoto(Uri data){
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://digitalna-ribarnica-fb.appspot.com");
         String path="firememes/" + UUID.randomUUID() + ".png";

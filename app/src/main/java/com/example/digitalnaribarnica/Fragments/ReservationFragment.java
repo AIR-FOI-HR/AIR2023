@@ -37,7 +37,6 @@ import com.example.digitalnaribarnica.recycleviewer.ReservationsAdapter;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.example.digitalnaribarnica.recycleviewer.RequestsAdapter;
-import com.example.digitalnaribarnica.recycleviewer.RequestsData;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;

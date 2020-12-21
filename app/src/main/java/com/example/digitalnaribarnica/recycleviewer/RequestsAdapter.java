@@ -1,14 +1,19 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +37,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private ArrayList<ReservationsData> reservations=new ArrayList<>();
     private Context context;
     private CardView cardView;
+    String ReservationID ="";
 
     public RequestsAdapter(Context context, ReservationFragment reservationFragment) {
         this.context = context;
@@ -41,8 +47,26 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.request_item, parent, false);
-        ViewHolder holder= new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.request_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+
+        holder.accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi rezervaciju?");
+                ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
+
+            }
+        });
+
+        holder.decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogDecline(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
+                ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
+            }
+        });
+
         return holder;
     }
 
@@ -109,7 +133,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView fish;
@@ -119,6 +142,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         private TextView fishClassText;
         private TextView date;
         private TextView buyer;
+        private ImageButton accept;
+        private ImageButton decline;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,28 +154,56 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             fishClassText = itemView.findViewById(R.id.textReservationGrade);
             date = itemView.findViewById(R.id.textDate);
             buyer = itemView.findViewById(R.id.textBuyer);
+            accept = itemView.findViewById(R.id.request_accept);
+            decline = itemView.findViewById(R.id.request_decline);
             cardView = itemView.findViewById(R.id.parentReservation);
         }
     }
 
+    public void showDialogAccept(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        if (title != null) builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Repository repository = new Repository();
+                FirestoreService firestoreService = new FirestoreService();
+                if(!ReservationID.equals("")) {
+                    firestoreService.updateReservationStatus(ReservationID, "Potvrđeno", "Rezervation");
 
-
-    /*
-    @NonNull
-    @Override
-    public RequestsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+                }
+            }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RequestsAdapter.ViewHolder holder, int position) {
+    public void showDialogDecline(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        if (title != null) builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               Repository repository = new Repository();
+                FirestoreService firestoreService = new FirestoreService();
+                if(!ReservationID.equals("")) {
+                    firestoreService.deleteReservation(ReservationID, "Rezervation");
 
+                }
+            }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
-    */
 
 }
