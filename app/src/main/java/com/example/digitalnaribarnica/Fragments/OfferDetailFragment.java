@@ -410,7 +410,7 @@ public class OfferDetailFragment extends Fragment {
             else {
 
                 repository.DodajRezervacijuAutoID(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
-                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Aktivan");
+                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Nepotvrđeno");
 
 
                 repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {

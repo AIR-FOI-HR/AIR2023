@@ -36,6 +36,9 @@ import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsAdapter;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.example.digitalnaribarnica.recycleviewer.RequestsAdapter;
+import com.example.digitalnaribarnica.recycleviewer.RequestsData;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -197,17 +200,36 @@ public class ReservationFragment extends Fragment {
                 });
 
 */
-
-
+        RequestsAdapter adapterRequest = new RequestsAdapter(getActivity(), this);
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reservations.clear();
-             //   reservations.add(new ReservationsData("Rezervacija 5","Brod","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-              //  reservations.add(new ReservationsData("Rezervacija 6","Pozega","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "30,00 kn", "4","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                adapter.setReservations(reservations);
 
-                recyclerView.setAdapter(adapter);
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                Repository repository=new Repository();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> rezervations) {
+
+                        for (int i = 0; i < rezervations.size(); i++) {
+                            if(rezervations.get(i).getStatus().equals("Nepotvrđeno")) {
+                                int finalI = i;
+                                repository.DohvatiPonuduPrekoIdPonude(rezervations.get(i).getOfferID(), new FirestoreOffer() {
+                                    @Override
+                                    public void onCallback(ArrayList<OffersData> offersData) {
+                                        if(offersData.get(0).getIdKorisnika().equals(userID)){
+                                            reservationList.add(rezervations.get(finalI));
+                                            adapterRequest.setRequests(reservationList);
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+                });
+
+                recyclerView.setAdapter(adapterRequest);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
