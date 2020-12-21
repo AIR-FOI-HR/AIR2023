@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +27,10 @@ import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.RezervationCallback;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +43,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private Context context;
     private CardView cardView;
     String userID ="";
+    String OfferID ="";
+    String smallQuantity ="";
+    String mediumQuantity ="";
+    String largeQuantity="";
     String ReservationID ="";
 
     public RequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
@@ -59,6 +66,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             public void onClick(View view) {
                 showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi rezervaciju?");
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
+                OfferID = reservations.get(holder.getAdapterPosition()).getOfferID();
+                smallQuantity = reservations.get(holder.getAdapterPosition()).getSmallFish();
+                mediumQuantity = reservations.get(holder.getAdapterPosition()).getMediumfish();
+                largeQuantity = reservations.get(holder.getAdapterPosition()).getLargeFish();
             }
         });
 
@@ -174,7 +185,29 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Potvrđeno", "Rezervation");
+                    repository.DohvatiPonuduPrekoIdPonude(OfferID, new FirestoreOffer() {
+                        @Override
+                        public void onCallback(ArrayList<OffersData> offersData) {
 
+                            String currentSmall = offersData.get(0).getSmallFish();
+                            Double updatedSmall = Math.round((Double.parseDouble(currentSmall) - Double.parseDouble(smallQuantity))*100.0)/100.0;
+
+                            String currentMedium = offersData.get(0).getMediumFish();
+                            Double updatedMedium = Math.round((Double.parseDouble(currentMedium) - Double.parseDouble(mediumQuantity))*100.0)/100.0;
+
+                            String currentLarge = offersData.get(0).getLargeFish();
+                            Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity))*100.0)/100.0;
+
+                            if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
+                                StyleableToast.makeText(reservationFragment.getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
+
+                            }
+                            else {
+                                firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+
+                            }
+                        }
+                    });
                 }
             }
         });

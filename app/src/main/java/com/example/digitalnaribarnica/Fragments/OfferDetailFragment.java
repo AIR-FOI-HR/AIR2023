@@ -439,7 +439,7 @@ public class OfferDetailFragment extends Fragment {
 
                                 }
                                 else {
-                                    firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                                  //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
                                     StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
                                     Fragment newFragment;
                                     ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
