@@ -84,4 +84,10 @@
     <string name="openMailApp">Otvorite vaš e-mail i pogledajte pristiglu poštu</string>
 
 
+    <string name="requestRecyclerView">Naziv zahtjeva</string>
+    <string name="requestLocation">Lokacija</string>
+    <string name="gradeRequest">Ocjena</string>
+
+
+
 </resources>

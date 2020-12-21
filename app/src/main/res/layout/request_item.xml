@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/general_margin"
-    android:id="@+id/parentReservation"
+    android:id="@+id/parentRequest"
     android:background="?android:selectableItemBackground">
 
 
@@ -38,7 +38,7 @@
                     android:layout_height="90dp"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/reservationImage"
+                    android:id="@+id/requestImage"
                     android:src="@drawable/profil"
                     android:background="@color/colorWhite"
                     android:contentDescription="@string/picture" />
@@ -65,13 +65,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/reservationTitle"
+                        android:id="@+id/requestTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
                         android:layout_marginEnd="@dimen/general_margin"
                         android:gravity="left"
-                        android:text="@string/reservationRecyclerView"
+                        android:text="@string/requestRecyclerView"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textIsSelectable="false" />
 
@@ -90,10 +90,10 @@
 
                     <TextView
                         android:layout_weight="1"
-                        android:id="@+id/textReservationLocation"
+                        android:id="@+id/textRequestLocation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/reservationLocation"
+                        android:text="@string/requestLocation"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="@dimen/general_margin"
@@ -113,7 +113,7 @@
                             android:layout_centerInParent="true">
 
                             <ImageView
-                                android:id="@+id/trophyReservationImage"
+                                android:id="@+id/trophyRequestImage"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_centerHorizontal="true"
@@ -136,13 +136,13 @@
 
                     <TextView
                         android:layout_weight="1"
-                        android:id="@+id/textReservationGrade"
-                        android:text="@string/gradeReservation"
+                        android:id="@+id/textRequestGrade"
+                        android:text="@string/gradeRequest"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:id="@+id/textReservationPrice"
+                        android:id="@+id/textRequestPrice"
                         android:text="@string/pricePerKg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -166,7 +166,8 @@
         android:layout_marginTop="110dp">
 
         <ImageButton
-            android:layout_width="185dp"
+            android:id="@+id/request_accept"
+            android:layout_width="180dp"
             android:layout_height="30dp"
             android:layout_marginLeft="15dp"
             android:src="@drawable/accept_request"
@@ -175,7 +176,8 @@
 
 
         <ImageButton
-            android:layout_width="185dp"
+            android:id="@+id/request_decline"
+            android:layout_width="180dp"
             android:layout_height="30dp"
             android:background="@drawable/request_button_design"
             android:src="@drawable/decline_request"

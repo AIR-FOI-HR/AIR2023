@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.databinding.FragmentReservationBinding;
+import com.example.digitalnaribarnica.recycleviewer.RequestsAdapter;
+import com.example.digitalnaribarnica.recycleviewer.RequestsData;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsAdapter;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -141,15 +143,25 @@ public class ReservationFragment extends Fragment {
         });
 
 
+        ArrayList<RequestsData> requests=new ArrayList<>();
+
+        RequestsAdapter adapterRequst=new RequestsAdapter(getActivity());
+        adapterRequst.setRequests(requests);
+
+        /*
+        recyclerView.setAdapter(adapterRequst);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        */
+
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reservations.clear();
-                reservations.add(new ReservationsData("Rezervacija 5","Brod","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                reservations.add(new ReservationsData("Rezervacija 6","Pozega","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "30,00 kn", "4","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
-                adapter.setReservations(reservations);
+                requests.clear();
+                requests.add(new RequestsData("Zahtjev 1","Brod","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "25,00 kn", "5","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+                requests.add(new RequestsData("Zahtjev 2","Pozega","https://i.pinimg.com/originals/dd/54/b0/dd54b0fb0c8f4af950bfb3c15baeea8b.jpg", "30,00 kn", "4","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png"));
+                adapterRequst.setRequests(requests);
 
-                recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(adapterRequst);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
