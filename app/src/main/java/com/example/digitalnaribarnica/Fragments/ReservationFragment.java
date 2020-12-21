@@ -49,7 +49,7 @@ public class ReservationFragment extends Fragment {
 
     FragmentReservationBinding binding;
 
-    RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     Button buttonReservation;
     Button buttonRequest;
@@ -92,7 +92,7 @@ public class ReservationFragment extends Fragment {
 
         ArrayList<ReservationsData> reservations = new ArrayList<>();
 
-        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(),this);
+        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(),this, userID);
 
         ArrayList<ReservationsData> reservationList = new ArrayList<>();
         Repository repository=new Repository();
@@ -199,7 +199,7 @@ public class ReservationFragment extends Fragment {
                 });
 
 */
-        RequestsAdapter adapterRequest = new RequestsAdapter(getActivity(), this);
+        RequestsAdapter adapterRequest = new RequestsAdapter(getActivity(), this, userID);
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,7 +248,7 @@ public class ReservationFragment extends Fragment {
 
     public void searchReservation(String search) {
         ArrayList<ReservationsData> reservationListSearched = new ArrayList<>();
-        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this);
+        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
         Repository repository = new Repository();
         repository.DohvatiRezervacije1(offersData -> {
             ArrayList<ReservationsData> reservationList = new ArrayList<>();

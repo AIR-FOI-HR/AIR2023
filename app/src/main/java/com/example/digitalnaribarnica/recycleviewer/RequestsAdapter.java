@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,7 @@ import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
+import com.example.digitalnaribarnica.RezervationCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,11 +39,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private ArrayList<ReservationsData> reservations=new ArrayList<>();
     private Context context;
     private CardView cardView;
+    String userID ="";
     String ReservationID ="";
 
-    public RequestsAdapter(Context context, ReservationFragment reservationFragment) {
+    public RequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
         this.context = context;
         this.reservationFragment = reservationFragment;
+        this.userID = userId;
     }
 
     @NonNull
@@ -55,7 +59,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             public void onClick(View view) {
                 showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi rezervaciju?");
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
-
             }
         });
 

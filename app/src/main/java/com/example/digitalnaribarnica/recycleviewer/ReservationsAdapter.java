@@ -35,6 +35,7 @@ import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
+import com.example.digitalnaribarnica.RezervationCallback;
 
 import androidx.fragment.app.Fragment;
 
@@ -45,10 +46,14 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     private Context context;
     private CardView cardView;
     private ImageView deleteReservation;
+    String userID ="";
+    String ReservationID ="";
 
-    public ReservationsAdapter(Context context, ReservationFragment reservationFragment) {
+
+    public ReservationsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
         this.context = context;
         this.reservationFragment = reservationFragment;
+        this.userID = userId;
     }
 
     @NonNull
@@ -63,6 +68,21 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             @Override
             public void onClick(View v) {
                 showDialog(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
+                ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
+                /*
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                Repository repository=new Repository();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> rezervations) {
+                        for (int i = 0; i < rezervations.size(); i++) {
+                            if(rezervations.get(i).getCustomerID().equals(userID))
+                                reservationList.add(rezervations.get(i));
+                        }
+
+                        setReservations(reservationList);
+                    }
+                });*/
 
             }
         });
@@ -156,10 +176,15 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("TagPolje", "Tu ide kao poz");
+                Repository repository = new Repository();
+                FirestoreService firestoreService = new FirestoreService();
+                if(!ReservationID.equals("")) {
+                    firestoreService.deleteReservation(ReservationID, "Rezervation");
+
+                }
             }
         });
-        builder.setNegativeButton("Da", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("TagPolje", "Tu ide kao poz");
