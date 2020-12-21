@@ -132,8 +132,25 @@ public class SearchFragment extends Fragment {
                             i = i - 1;
                             continue;
                         }
-                        if (!(!smallFish && !mediumFish && !largeFish)) {
-                            if (!((smallFish && !offersList.get(i).getSmallFish().equals("0")) || (mediumFish && !offersList.get(i).getMediumFish().equals("0")) || (largeFish && !offersList.get(i).getLargeFish().equals("0")))) {
+                        if (smallFish &&  mediumFish &&  largeFish) {
+                            Boolean smallCheck = false;
+                            Boolean mediumCheck = false;
+                            Boolean largeCheck = false;
+
+                            if(smallFish && !(offersList.get(i).getSmallFish().equals("0")  || offersList.get(i).getSmallFish().equals("0.0")))
+                            {
+                                smallCheck = true;
+                            }
+                            if(mediumFish && !(offersList.get(i).getMediumFish().equals("0") || offersList.get(i).getMediumFish().equals("0.0")))
+                            {
+                                mediumCheck = true;
+                            }
+                            if(largeFish && !(offersList.get(i).getLargeFish().equals("0") || offersList.get(i).getLargeFish().equals("0.0")))
+                            {
+                                largeCheck = true;
+                            }
+
+                            if (!(smallCheck || mediumCheck || largeCheck)){
                                 offersList.remove(offersData.get(i));
                                 i = i - 1;
                             }
