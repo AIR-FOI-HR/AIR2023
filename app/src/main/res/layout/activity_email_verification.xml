@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".EmailVerificationActivity"
     android:background="@drawable/blue_background">
 
     <LinearLayout
-        android:id="@+id/forgotPassLayout"
+        android:id="@+id/confirmMailLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="16dp"
@@ -14,23 +16,23 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/forgotPasslogo"
-            android:layout_width="87dp"
-            android:layout_height="90dp"
+            android:id="@+id/confirmMailImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:background="@drawable/katanac"
+            android:background="@drawable/mail_confirmation_icon"
             android:layout_marginTop="130dp"
             />
 
         <TextView
-            android:id="@+id/forgotPassText"
+            android:id="@+id/confirm_mail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/forgotPasslogo"
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif"
-            android:text="@string/forgotPass"
+            android:text="@string/mailConfirmation"
             android:textColor="@color/colorWhite"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -39,7 +41,7 @@
             />
 
         <TextView
-            android:id="@+id/resetPassText"
+            android:id="@+id/confirm_mail_txt"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/forgotPassText"
@@ -47,37 +49,44 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif"
-            android:text="@string/resetPassTxt"
+            android:text="@string/mailConfirmationDetails"
             android:textColor="@color/colorWhite"
             android:textSize="15dp"
             android:textAlignment="center"/>
 
-        <EditText
-            android:id="@+id/emailinput"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"
-            android:hint="Unesite email"
-            android:background="@drawable/round_edit_text"
-            android:textSize="13dp"
-            android:textColor="#787878"
-            android:textColorHint="#8e8e8e"
-            android:paddingLeft="22dp"
-            />
 
         <Button
-            android:id="@+id/btnPrijava"
+            android:id="@+id/btnOtvoriMailApp"
             style="@style/Widget.MaterialComponents.Button"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/colorBlue"
-            android:text="@string/sendEmail"
+            android:text="@string/mailConfirmationButton"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"/>
+
+
+        <TextView
+            android:id="@+id/prijava_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="15dp"
+            android:textAlignment="center"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:focusable="true"
+            android:text="@string/signinhere"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
+            />
 
     </LinearLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
