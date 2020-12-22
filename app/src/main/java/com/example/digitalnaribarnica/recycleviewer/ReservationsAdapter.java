@@ -48,6 +48,8 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     private ImageView deleteReservation;
     String userID ="";
     String ReservationID ="";
+    String reservationDate = "";
+    Boolean deleteIt = false;
 
 
     public ReservationsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
@@ -180,6 +182,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.deleteReservation(ReservationID, "Rezervation");
+                    reservationFragment.refreshReservationList();
 
                 }
             }

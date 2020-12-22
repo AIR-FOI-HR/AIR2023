@@ -204,6 +204,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             }
                             else {
                                 firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                                reservationFragment.refreshRequestsList();
 
                             }
                         }
@@ -230,7 +231,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.deleteReservation(ReservationID, "Rezervation");
-
+                    reservationFragment.refreshRequestsList();
                 }
             }
         });
