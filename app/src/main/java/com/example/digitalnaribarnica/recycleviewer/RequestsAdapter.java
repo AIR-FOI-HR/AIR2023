@@ -26,6 +26,7 @@ import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
+import com.example.digitalnaribarnica.Mail.JavaMailAPI;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
@@ -48,6 +49,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     String mediumQuantity ="";
     String largeQuantity="";
     String ReservationID ="";
+    String reservationDate ="";
+    String buyerID = "";
 
     public RequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
         this.context = context;
@@ -70,6 +73,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 smallQuantity = reservations.get(holder.getAdapterPosition()).getSmallFish();
                 mediumQuantity = reservations.get(holder.getAdapterPosition()).getMediumfish();
                 largeQuantity = reservations.get(holder.getAdapterPosition()).getLargeFish();
+                buyerID = reservations.get(holder.getAdapterPosition()).getCustomerID();
+                Calendar calendar = DateParse.dateToCalendar(reservations.get(holder.getAdapterPosition()).getDate().toDate());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
+                reservationDate = dateFormat.format(calendar.getTime());
             }
         });
 
@@ -204,8 +211,43 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             }
                             else {
                                 firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                                reservationFragment.refreshRequestsList();
+                                final String[] message = {""};
+                                final String[] userEmail = {""};
+                                repository.DohvatiKorisnikaPoID(buyerID, new FirestoreCallback() {
+                                    @Override
+                                    public void onCallback(User user) {
+                                        userEmail[0] = user.getEmail();
+                                        String messageBuyer = user.getFullName() + " Vaša narudžba je potvrđena od strane ponuditelja. Kako biste dovršili kupnju ribe, odnosno dogovorili mjesto preuzimanja ribe" +
+                                                " i plaćanje, kontaktirajte ponuditelja.\n\n\n";
+                                        message[0] = message[0] + messageBuyer;
+                                    }
+                                });
+                                repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+                                    @Override
+                                    public void onCallback(User user) {
+                                        String messageSeller = "Podaci o ponuditelju: \n" + user.getFullName() + "\nE-mail: " + user.getEmail() + "\nBroj mobitela: " + user.getPhone()
+                                                + "\nAdresa: " + user.getAdress() + "\n" + "\n";
+                                        message[0] = message[0] + messageSeller;
 
+                                    }
+                                });
+
+                                repository.DohvatiPonuduPrekoIdPonude(OfferID, new FirestoreOffer() {
+                                    @Override
+                                    public void onCallback(ArrayList<OffersData> offersData) {
+                                        Double quantity= Double.parseDouble(smallQuantity) + Double.parseDouble(mediumQuantity) + Double.parseDouble(largeQuantity);
+                                        Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
+                                        String messageOffer = "Podaci o rezervaciji: \nVrsta ribe: " + offersData.get(0).getName() + "\nKoličina rezervirane ribe po razredima: male ribe: " + smallQuantity + "kg , srednje ribe: " + mediumQuantity +
+                                                "kg , velike ribe: " + largeQuantity + "kg\nCijena po kilogramu: " + offersData.get(0).getPrice() + "kn\nUkupna cijena: " + priceQuantity.toString()
+                                                + "kn\nDatum i vrijeme rezervacije: " + reservationDate + "\n\n\nZahvaljujemo,\nDigitalna ribarnica";
+                                        message[0] = message[0] + messageOffer;
+                                        sendMail(userEmail[0], message[0]);
+                                        Log.d("TagPolje", message[0]);
+                                        Log.d("TagPolje", userEmail[0]);
+                                    }
+                                });
+
+                                reservationFragment.refreshRequestsList();
                             }
                         }
                     });
@@ -219,6 +261,17 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         });
         builder.show();
     }
+
+    private void sendMail(String email, String text) {
+        Log.d("TagPolje", text);
+        Log.d("TagPolje", email);
+        String subject = "Potvrđena rezervacija ribe";
+
+
+        JavaMailAPI javaMailAPI = new JavaMailAPI(reservationFragment.getActivity(), email, subject, text);
+        javaMailAPI.execute();
+    }
+
 
     public void showDialogDecline(Activity activity, String title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

@@ -104,5 +104,6 @@
     <string name="mailConfirmationDetails">Potvrdite vaš račun u mail-u koji smo Vam poslali.</string>
     <string name="mailConfirmationButton">Otvori e-mail</string>
     <string name="mailConfirmation">Potvrdite e-mail</string>
+    <string name="buyer">Kupac</string>
 
 </resources>
