@@ -210,7 +210,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                             }
                             else {
-                                firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+
                                 final String[] message = {""};
                                 final String[] userEmail = {""};
                                 repository.DohvatiKorisnikaPoID(buyerID, new FirestoreCallback() {
@@ -218,7 +218,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                     public void onCallback(User user) {
                                         userEmail[0] = user.getEmail();
                                         String messageBuyer = user.getFullName() + " Vaša narudžba je potvrđena od strane ponuditelja. Kako biste dovršili kupnju ribe, odnosno dogovorili mjesto preuzimanja ribe" +
-                                                " i plaćanje, kontaktirajte ponuditelja.\n\n\n";
+                                                " i plaćanje, kontaktirajte ponuditelja putem kontakta navedenog u nastavku maila ili putem chata naše aplikacije.\n\n\n";
                                         message[0] = message[0] + messageBuyer;
                                     }
                                 });
@@ -246,7 +246,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                         Log.d("TagPolje", userEmail[0]);
                                     }
                                 });
-
+                                if(updatedSmall == 0 && updatedMedium == 0 && updatedLarge == 0){
+                                    for (int i = 0; i < reservations.size(); i++) {
+                                        if(reservations.get(i).getOfferID().equals(OfferID)){
+                                            firestoreService.deleteReservation(reservations.get(i).getReservationID(),"Rezervation");
+                                            Log.d("TagPolje", "obrisana rezervacija");
+                                        }
+                                    }
+                                    //firestoreService.deleteOffer(OfferID, "Offers");
+                                    Log.d("TagPolje", "obrisana ponuda");
+                                }else{
+                                    firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                                }
                                 reservationFragment.refreshRequestsList();
                             }
                         }

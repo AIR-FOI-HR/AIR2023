@@ -177,9 +177,19 @@ public class FirestoreService {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("TagPolje", "Deleted");
+                Log.d("TagPolje", "Deleted Reservation");
             }
             });
+    }
+
+    public void deleteOffer(String offerID, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TagPolje", "Deleted Offer");
+                    }
+      });
     }
 
     public static void addPhoto(Uri data){

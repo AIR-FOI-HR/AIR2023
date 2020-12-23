@@ -132,7 +132,7 @@ public class SearchFragment extends Fragment {
                             i = i - 1;
                             continue;
                         }
-                        if (smallFish &&  mediumFish &&  largeFish) {
+                        if (smallFish ||  mediumFish ||  largeFish) {
                             Boolean smallCheck = false;
                             Boolean mediumCheck = false;
                             Boolean largeCheck = false;
