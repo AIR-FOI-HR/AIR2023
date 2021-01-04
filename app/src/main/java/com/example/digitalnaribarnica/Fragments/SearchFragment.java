@@ -109,7 +109,14 @@ public class SearchFragment extends Fragment {
         if(filtered){
                 Repository repository = new Repository();
                 repository.DohvatiSvePonude(offersData -> {
-                    ArrayList<OffersData> offersList = offersData;
+
+                    ArrayList<OffersData> offersList = new ArrayList<>();
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if (offersData.get(i).getStatus().equals("Aktivna")) {
+                            offersList.add(offersData.get(i));
+                        }
+                    }
+
                     for (int i = 0; i < offersList.size(); i++) {
                         if (this.fishSpecies != null && !this.fishSpecies.equals("")) {
                             if (!offersList.get(i).getName().contains(this.fishSpecies)) {
@@ -190,7 +197,7 @@ public class SearchFragment extends Fragment {
         repository.DohvatiSvePonude(offersData -> {
             ArrayList<OffersData> offersList = new ArrayList<>();
             for (int i = 0; i < offersData.size(); i++) {
-                if (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                if (offersData.get(i).getStatus().equals("Aktivna") && (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase()))) {
                     offersList.add(offersData.get(i));
                 }
             }
@@ -241,8 +248,16 @@ public class SearchFragment extends Fragment {
         if(!this.myOffers && !this.filtered) {
             Repository repository = new Repository();
             repository.DohvatiSvePonude(offersData -> {
+
+                ArrayList<OffersData> offersList = new ArrayList<>();
+                for (int i = 0; i < offersData.size(); i++) {
+                    if (offersData.get(i).getStatus().equals("Aktivna")) {
+                        offersList.add(offersData.get(i));
+                    }
+                }
+
                 OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
-                adapter.setOffers(offersData);
+                adapter.setOffers(offersList);
 
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -265,7 +280,13 @@ public class SearchFragment extends Fragment {
             case R.id.all_offers_menu:
                 myOffers = false;
                 repository.DohvatiSvePonude(offersData -> {
-                    adapter.setOffers(offersData);
+                    ArrayList<OffersData> offersList = new ArrayList<>();
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if (offersData.get(i).getStatus().equals("Aktivna")) {
+                            offersList.add(offersData.get(i));
+                        }
+                    }
+                    adapter.setOffers(offersList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");

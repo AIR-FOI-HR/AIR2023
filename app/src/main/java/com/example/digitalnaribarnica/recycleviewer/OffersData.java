@@ -12,6 +12,7 @@ public class OffersData {
     private String smallFish;
     private String mediumFish;
     private String largeFish;
+    private String status;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -30,6 +31,7 @@ public class OffersData {
         this.smallFish = smallFish;
         this.mediumFish = mediumFish;
         this.largeFish = largeFish;
+        this.status = "Aktivna";
     }
 
     public String getLocation() {
@@ -105,6 +107,14 @@ public class OffersData {
         this.name = name;
         this.location = location;
         this.imageurl = imageurl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @NonNull

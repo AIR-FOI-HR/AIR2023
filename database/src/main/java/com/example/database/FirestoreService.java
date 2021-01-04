@@ -192,6 +192,11 @@ public class FirestoreService {
       });
     }
 
+    public void updateOfferStatus(String offerID, String status, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).update(
+                "status", status);
+    }
+
     public static void addPhoto(Uri data){
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://digitalna-ribarnica-fb.appspot.com");
         String path="firememes/" + UUID.randomUUID() + ".png";

@@ -185,6 +185,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         if (title != null) builder.setTitle(title);
         builder.setMessage(message);
+
         builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -207,10 +208,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                             if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
                                 StyleableToast.makeText(reservationFragment.getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
-
-                            }
-                            else {
-
+                                firestoreService.deleteReservation(ReservationID, "Rezervation");
+                            } else {
                                 final String[] message = {""};
                                 final String[] userEmail = {""};
                                 repository.DohvatiKorisnikaPoID(buyerID, new FirestoreCallback() {
@@ -228,7 +227,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                         String messageSeller = "Podaci o ponuditelju: \n" + user.getFullName() + "\nE-mail: " + user.getEmail() + "\nBroj mobitela: " + user.getPhone()
                                                 + "\nAdresa: " + user.getAdress() + "\n" + "\n";
                                         message[0] = message[0] + messageSeller;
-
                                     }
                                 });
 
@@ -241,25 +239,34 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                                 "kg , velike ribe: " + largeQuantity + "kg\nCijena po kilogramu: " + offersData.get(0).getPrice() + "kn\nUkupna cijena: " + priceQuantity.toString()
                                                 + "kn\nDatum i vrijeme rezervacije: " + reservationDate + "\n\n\nZahvaljujemo,\nDigitalna ribarnica";
                                         message[0] = message[0] + messageOffer;
+
+                                        //brisanje svih rezervacija koje su povezane s ponudom čija je dostupna količina jednaka nuli
+                                        if(updatedSmall == 0 && updatedMedium == 0 && updatedLarge == 0) {
+                                            for (int i = 0; i < reservations.size(); i++) {
+                                                if (reservations.get(i).getOfferID().equals(OfferID)) {
+                                                    firestoreService.deleteReservation(reservations.get(i).getReservationID(), "Rezervation");
+                                                    reservationFragment.refreshRequestsList();
+                                                    Log.d("TagPolje", "obrisana rezervacija");
+                                                }
+                                            }
+
+                                            //Izmjena statusa prilikom smanjenja dostupne količine ponude na nulu
+                                            firestoreService.updateOfferStatus(OfferID, "Neaktivna", "Offers");
+                                           // firestoreService.deleteOffer(OfferID, "Offers");
+                                            reservationFragment.refreshRequestsList();
+                                            Log.d("TagPolje", "obrisana ponuda");
+
+                                        } else {
+                                            firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                                            reservationFragment.refreshRequestsList();
+                                        }
                                         sendMail(userEmail[0], message[0]);
                                         Log.d("TagPolje", message[0]);
                                         Log.d("TagPolje", userEmail[0]);
                                     }
                                 });
-                                if(updatedSmall == 0 && updatedMedium == 0 && updatedLarge == 0){
-                                    for (int i = 0; i < reservations.size(); i++) {
-                                        if(reservations.get(i).getOfferID().equals(OfferID)){
-                                            firestoreService.deleteReservation(reservations.get(i).getReservationID(),"Rezervation");
-                                            Log.d("TagPolje", "obrisana rezervacija");
-                                        }
-                                    }
-                                    //firestoreService.deleteOffer(OfferID, "Offers");
-                                    Log.d("TagPolje", "obrisana ponuda");
-                                }else{
-                                    firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                                }
-                                reservationFragment.refreshRequestsList();
                             }
+                            reservationFragment.refreshRequestsList();
                         }
                     });
                 }
