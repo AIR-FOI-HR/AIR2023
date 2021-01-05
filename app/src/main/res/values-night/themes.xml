@@ -15,7 +15,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="actionOverflowButtonStyle">@style/optionsList</item>
     </style>
 
     <style name="Toast">

@@ -105,5 +105,7 @@
     <string name="mailConfirmationButton">Otvori e-mail</string>
     <string name="mailConfirmation">Potvrdite e-mail</string>
     <string name="buyer">Kupac</string>
+    <string name="sorting">Sortiranje</string>
+    <string name="_999">999</string>
 
 </resources>

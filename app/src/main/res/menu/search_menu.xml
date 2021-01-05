@@ -18,6 +18,9 @@
         android:title="@string/filter_menu"
         android:id="@+id/filter_menu"
         />
+        <item
+            android:title="@string/sorting"
+            android:id="@+id/sort_offers_menu"/>
 </group>
 
     <item

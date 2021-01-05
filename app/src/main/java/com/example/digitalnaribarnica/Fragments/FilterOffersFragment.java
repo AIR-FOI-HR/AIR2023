@@ -63,8 +63,6 @@ public class FilterOffersFragment extends Fragment {
 
     private String userId ="";
 
-    private ImageView imageBack;
-
     public FilterOffersFragment(String userID){
         this.userId = userID;
     }

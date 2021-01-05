@@ -349,28 +349,28 @@
                 android:layout_below="@id/cv"
                 android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:text="@string/add"
-                android:textColor="@color/colorWhite"
-                android:backgroundTint="@color/colorBlue"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_marginEnd="10dp"/>
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorWhite"
+                    android:backgroundTint="@color/colorGrayBlue"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_marginEnd="10dp"/>
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:text="@string/cancel"
-                android:textColor="@color/colorWhite"
-                android:backgroundTint="@color/colorGrayBlue"
-                android:layout_toEndOf="@id/btnAdd"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_marginStart="10dp"/>
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:text="@string/add"
+                    android:textColor="@color/colorWhite"
+                    android:backgroundTint="@color/colorBlue"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_toEndOf="@id/btnCancel"
+                    android:layout_marginStart="10dp"/>
 
             </RelativeLayout>
 

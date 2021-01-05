@@ -76,8 +76,6 @@ public class OfferDetailFragment extends Fragment {
     private String userID = "";
     private Boolean cameFromMyOffers = false;
 
-    ImageView imageBack;
-
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
         this.userID = userId;
@@ -119,7 +117,6 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
 
-        imageBack = binding.imageBack;
 
         smallQuantity.setText("0");
         mediumQuantity.setText("0");
@@ -135,18 +132,6 @@ public class OfferDetailFragment extends Fragment {
 
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
-
-        imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setHasOptionsMenu(false);
-                Fragment selectedFragment1 = null;
-                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment1 = new SearchFragment(userID);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment1).commit();
-            }
-        });
 
         repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
                     @Override
