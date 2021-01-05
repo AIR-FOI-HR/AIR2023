@@ -20,6 +20,8 @@ import com.example.database.Offer;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
+import com.example.digitalnaribarnica.Fragments.ReservationFragment;
+import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 
@@ -33,11 +35,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     private Context context;
     private CardView cardView;
     private String userID;
+    private SearchFragment searchFragment;
 
-
-    public OfferAdapter(Context context, String userID) {
+    public OfferAdapter(Context context, String userID, SearchFragment fragment) {
         this.userID = userID;
         this.context = context;
+        this.searchFragment = fragment;
     }
 
     @NonNull
@@ -84,7 +87,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
             @Override
             public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID);
+                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID, searchFragment.getLastVisited());
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();

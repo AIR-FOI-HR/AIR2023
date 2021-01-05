@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
@@ -103,6 +104,9 @@ public class SearchFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);// set drawable icon
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
 
@@ -172,7 +176,7 @@ public class SearchFragment extends Fragment {
                         Collections.sort(offersList, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
                     }
 
-                    OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
+                    OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId, this);
                     adapter2.setOffers(offersList);
                     adapter2.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter2);
@@ -184,7 +188,6 @@ public class SearchFragment extends Fragment {
                     if(offersList.size() == 0){
                         showDialog(getActivity(), "Filtriranje ponuda", "Nije pronađena niti jedna ponuda na temelju zadanih karakteristika");
                     }
-
                 });
             }
 
@@ -201,7 +204,7 @@ public class SearchFragment extends Fragment {
                     offersList.add(offersData.get(i));
                 }
             }
-            OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+            OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
             adapter.setOffers(offersList);
 
             recyclerView.setAdapter(adapter);
@@ -256,7 +259,7 @@ public class SearchFragment extends Fragment {
                     }
                 }
 
-                OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+                OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
                 adapter.setOffers(offersList);
 
                 recyclerView.setAdapter(adapter);
@@ -275,8 +278,27 @@ public class SearchFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         Repository repository=new Repository();
-        OfferAdapter adapter = new OfferAdapter(getActivity(), userId);
+        OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
         switch (id){
+            case android.R.id.home:
+                myOffers = false;
+                repository.DohvatiSvePonude(offersData -> {
+                    ArrayList<OffersData> offersList = new ArrayList<>();
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if (offersData.get(i).getStatus().equals("Aktivna")) {
+                            offersList.add(offersData.get(i));
+                        }
+                    }
+                    adapter.setOffers(offersList);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+                    actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
+                    actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                });
+                break;
+
             case R.id.all_offers_menu:
                 myOffers = false;
                 repository.DohvatiSvePonude(offersData -> {
@@ -310,7 +332,7 @@ public class SearchFragment extends Fragment {
 
     public void getMyOffers(){
         Repository repository=new Repository();
-        OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId);
+        OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId, this);
         repository.DohvatiSvePonude(offersData -> {
             ArrayList<OffersData> offersList = offersData;
             for (int i = 0; i < offersList.size(); i++) {
@@ -320,7 +342,7 @@ public class SearchFragment extends Fragment {
                     i = i - 1;
                 }
             }
-
+            myOffers = true;
             adapter2.setOffers(offersList);
             adapter2.notifyDataSetChanged();
             recyclerView.setAdapter(adapter2);
@@ -328,6 +350,7 @@ public class SearchFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
             actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
             actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             if(offersList.size() == 0){
                 showDialog(getActivity(), "Moje ponude", "Trenutno nemate niti jednu kreiranu svoju ponudu");
@@ -343,5 +366,9 @@ public class SearchFragment extends Fragment {
         builder.setMessage(message);
         builder.setPositiveButton("U redu", null);
         builder.show();
+    }
+
+    public boolean getLastVisited(){
+        return myOffers;
     }
 }

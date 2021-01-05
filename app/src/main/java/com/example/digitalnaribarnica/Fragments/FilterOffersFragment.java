@@ -78,6 +78,7 @@ public class FilterOffersFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding = FilterOffersBinding.inflate(inflater,container,false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         View view = binding.getRoot();
 
         setHasOptionsMenu(true);
@@ -95,20 +96,6 @@ public class FilterOffersFragment extends Fragment {
         btnFilter = binding.btnFilter;
         btnLeastExpensive = binding.btnLeastExpensive;
         btnMostExpensive = binding.btnMostExpensive;
-
-        imageBack = binding.imageBack;
-
-        imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setHasOptionsMenu(false);
-                Fragment selectedFragment1 = null;
-                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment1 = new SearchFragment(userId);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment1).commit();
-            }
-        });
 
         Repository repository =new Repository();
 
@@ -188,6 +175,15 @@ public class FilterOffersFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment = new SearchFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                selectedFragment).commit();
+                break;
+
             case R.id.all_offers_menu:
                 setHasOptionsMenu(false);
                 Fragment selectedFragment1 = null;

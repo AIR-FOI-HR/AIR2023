@@ -74,12 +74,14 @@ public class OfferDetailFragment extends Fragment {
 
     private String offerID;
     private String userID = "";
+    private Boolean cameFromMyOffers = false;
 
     ImageView imageBack;
 
-    public OfferDetailFragment(String offerID, String userId){
+    public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
         this.userID = userId;
+        this.cameFromMyOffers = myOffers;
         Log.d("TagPolje", offerID);
     }
 
@@ -91,6 +93,7 @@ public class OfferDetailFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Detalji ponude");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
@@ -462,6 +465,23 @@ public class OfferDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                if (!cameFromMyOffers){
+                    selectedFragment = new SearchFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }else{
+                    selectedFragment = new SearchFragment(userID, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
+
+                break;
             case R.id.all_offers_menu:
                 setHasOptionsMenu(false);
                 Fragment selectedFragment1 = null;
@@ -481,9 +501,9 @@ public class OfferDetailFragment extends Fragment {
                 break;
 
             case R.id.filter_menu:
-                FilterOffersFragment selectedFragment = new FilterOffersFragment(userID);
+                FilterOffersFragment selectedFragment3 = new FilterOffersFragment(userID);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                        selectedFragment3).commit();
                 break;
         }
 

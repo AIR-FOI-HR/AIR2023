@@ -82,7 +82,7 @@ public class ReservationFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Rezervacije");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
 
 
