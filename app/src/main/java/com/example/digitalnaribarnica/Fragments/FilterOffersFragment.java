@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +36,7 @@ import com.example.digitalnaribarnica.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
 import com.example.digitalnaribarnica.R;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
@@ -54,12 +58,10 @@ public class FilterOffersFragment extends Fragment {
     private CheckBox mediumRadio;
     private CheckBox largeRadio;
 
-    private Button btnFilter;
-    private Button btnLeastExpensive;
-    private Button btnMostExpensive;
+    private EditText lowerPrice;
+    private EditText topPrice;
 
-    private Boolean leastExpensiveClicked = false;
-    private Boolean mostExpensiveClicked = false;
+    private Button btnFilter;
 
     private String userId ="";
 
@@ -91,9 +93,10 @@ public class FilterOffersFragment extends Fragment {
         mediumRadio = binding.radioMedium;
         largeRadio = binding.radioLarge;
 
+        lowerPrice = binding.lowPrice;
+        topPrice = binding.topPrice;
+
         btnFilter = binding.btnFilter;
-        btnLeastExpensive = binding.btnLeastExpensive;
-        btnMostExpensive = binding.btnMostExpensive;
 
         Repository repository =new Repository();
 
@@ -126,37 +129,133 @@ public class FilterOffersFragment extends Fragment {
             }
         });
 
-        btnLeastExpensive.setOnClickListener(v -> {
-            if(leastExpensiveClicked){
-                leastExpensiveClicked = false;
-            }
-            else {
-                leastExpensiveClicked = true;
-                mostExpensiveClicked = false;
-            }
-        });
-
-        btnMostExpensive.setOnClickListener(v -> {
-            if(mostExpensiveClicked){
-                mostExpensiveClicked = false;
-            }
-            else {
-                mostExpensiveClicked = true;
-                leastExpensiveClicked = false;
-            }
-        });
-
         rangePrice.setNotifyWhileDragging(true);
 
         btnFilter.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                ((RegisterActivity)getActivity()).changeOnSearchNavigationBar();
-                selectedFragment = new SearchFragment(userId, editFishSpecies.getText().toString(), editLocations.getText().toString(),rangeMinimum.getText().toString(), rangeMaximum.getText().toString(), smallRadio.isChecked(),
-                        mediumRadio.isChecked(), largeRadio.isChecked(), leastExpensiveClicked, mostExpensiveClicked);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();    }
+                if (Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())) {
+                    StyleableToast.makeText(getActivity(), "Najviša cijena mora biti veća od najniže!", 3, R.style.Toast).show();
+                }
+                else {
+                    ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                    selectedFragment = new SearchFragment(userId, editFishSpecies.getText().toString(), editLocations.getText().toString(), rangeMinimum.getText().toString(), rangeMaximum.getText().toString(), smallRadio.isChecked(),
+                            mediumRadio.isChecked(), largeRadio.isChecked());
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+            }
+        });
+
+        rangePrice.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                lowerPrice.setText(String.valueOf(minValue));
+                topPrice.setText(String.valueOf(maxValue));
+                //rangeMinimum.setText(String.valueOf(minValue));
+                //rangeMaximum.setText(String.valueOf(maxValue));
+                //lowerPrice.setText("0");
+            }
+        });
+
+        lowerPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lowerPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if(hasFocus){
+                            //rangeMinimum.setText(String.valueOf(lowerPrice));
+                            lowerPrice.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    if(s.toString().equals("") || Integer.parseInt(lowerPrice.getText().toString()) < 0){
+                                        lowerPrice.setText("0");
+                                        rangePrice.setSelectedMinValue(0);
+                                    }
+                                   /* else {
+                                        if(Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())){
+                                            rangePrice.setSelectedMinValue(Integer.parseInt(topPrice.getText().toString()));
+                                            lowerPrice.setText(topPrice.getText().toString());
+                                        }*/
+                                    else {
+                                        rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                                    }
+                                    //}
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+
+                                }
+                            });
+                            //rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //rangePrice.setRangeValues(Double.parseDouble(lowerPrice.getText().toString()), Double.parseDouble(topPrice.getText().toString()));
+            }
+        });
+
+        topPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                topPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if(hasFocus){
+                            //rangeMinimum.setText(String.valueOf(lowerPrice));
+                            topPrice.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                    if (s.toString().equals("") || Integer.parseInt(topPrice.getText().toString()) > 999) {
+                                        topPrice.setText("999");
+                                        rangePrice.setSelectedMaxValue(999);
+                                    } else {
+                                        rangePrice.setSelectedMaxValue(Integer.parseInt(topPrice.getText().toString()));
+
+                                    }
+                                }
+                                @Override
+                                public void afterTextChanged(Editable s) {
+
+                                }
+                            });
+                            //rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //rangePrice.setRangeValues(Double.parseDouble(lowerPrice.getText().toString()), Double.parseDouble(topPrice.getText().toString()));
+            }
         });
 
         return view;

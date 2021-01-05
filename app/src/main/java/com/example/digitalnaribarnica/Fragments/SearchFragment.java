@@ -55,8 +55,6 @@ public class SearchFragment extends Fragment {
     private Boolean smallFish = false;
     private Boolean mediumFish = false;
     private Boolean largeFish = false;
-    private Boolean leastExpensive = false;
-    private Boolean mostExpensive = false;
 
     private Boolean filtered = false;
     private Boolean myOffers = false;
@@ -79,7 +77,7 @@ public class SearchFragment extends Fragment {
         this.filtered = false;
     }
 
-    public SearchFragment(String userID, String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish, Boolean leastExpensive, Boolean mostExpensive){
+    public SearchFragment(String userID, String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish){
         this.userId = userID;
         this.fishSpecies = fishSpecies;
         this.location = location;
@@ -88,8 +86,6 @@ public class SearchFragment extends Fragment {
         this.smallFish = smallFish;
         this.mediumFish = mediumFish;
         this.largeFish = largeFish;
-        this.leastExpensive = leastExpensive;
-        this.mostExpensive = mostExpensive;
         this.filtered = true;
         this.myOffers = false;
     };
@@ -334,11 +330,11 @@ public class SearchFragment extends Fragment {
                         selectedFragment).commit();
                 break;
             case R.id.sort_offers_menu:
-                String[] colors = {"najskuplje", "najjeftinije"};
+                String[] items = {"Najskuplje", "Najjeftinije"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Prikaži prvo: ");
-                builder.setItems(colors, new DialogInterface.OnClickListener() {
+                builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){

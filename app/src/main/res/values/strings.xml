@@ -107,5 +107,8 @@
     <string name="buyer">Kupac</string>
     <string name="sorting">Sortiranje</string>
     <string name="_999">999</string>
+    <string name="insertPrice">Ili unesite ručno:</string>
+    <string name="lowPrice">Najniža cijena:</string>
+    <string name="upperPrice">Najviša cijena:</string>
 
 </resources>
