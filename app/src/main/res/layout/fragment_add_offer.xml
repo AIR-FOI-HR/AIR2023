@@ -149,7 +149,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/minus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>
@@ -181,7 +181,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/plus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>
@@ -221,7 +221,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/minus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>
@@ -253,7 +253,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/plus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>
@@ -293,7 +293,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/minus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>
@@ -325,7 +325,7 @@
                                 android:layout_gravity="center"
                                 android:text="@string/plus"
                                 android:textColor="@color/colorWhite"
-                                android:backgroundTint="@color/colorBlue"
+                                android:backgroundTint="@color/colorGrayBlue"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 style="@style/Widget.MaterialComponents.Button"/>

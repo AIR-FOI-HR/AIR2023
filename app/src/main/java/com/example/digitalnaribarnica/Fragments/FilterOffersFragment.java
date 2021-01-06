@@ -93,6 +93,7 @@ public class FilterOffersFragment extends Fragment {
         mediumRadio = binding.radioMedium;
         largeRadio = binding.radioLarge;
 
+
         lowerPrice = binding.lowPrice;
         topPrice = binding.topPrice;
 
@@ -135,12 +136,27 @@ public class FilterOffersFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                if (Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())) {
+                String min;
+                String max;
+
+                if(lowerPrice.getText().toString().equals("")){
+                    min = "0";
+                }else{
+                    min = lowerPrice.getText().toString();
+                }
+
+                if(topPrice.getText().toString().equals("")){
+                    max="999";
+                }else{
+                    max = topPrice.getText().toString();
+                }
+
+                if (Integer.parseInt(min) > Integer.parseInt(max)) {
                     StyleableToast.makeText(getActivity(), "Najviša cijena mora biti veća od najniže!", 3, R.style.Toast).show();
                 }
                 else {
                     ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                    selectedFragment = new SearchFragment(userId, editFishSpecies.getText().toString(), editLocations.getText().toString(), rangeMinimum.getText().toString(), rangeMaximum.getText().toString(), smallRadio.isChecked(),
+                    selectedFragment = new SearchFragment(userId, editFishSpecies.getText().toString(), editLocations.getText().toString(), min, max, smallRadio.isChecked(),
                             mediumRadio.isChecked(), largeRadio.isChecked());
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
@@ -266,6 +282,7 @@ public class FilterOffersFragment extends Fragment {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.filter_menu)).setVisible(false);
+        menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
     }
 
     @Override

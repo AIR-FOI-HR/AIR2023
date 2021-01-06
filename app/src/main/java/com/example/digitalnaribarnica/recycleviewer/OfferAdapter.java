@@ -36,6 +36,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     private CardView cardView;
     private String userID;
     private SearchFragment searchFragment;
+    private TextView fishClassText;
 
     public OfferAdapter(Context context, String userID, SearchFragment fragment) {
         this.userID = userID;
@@ -48,6 +49,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.offer_item, parent, false);
         ViewHolder holder= new ViewHolder(view);
+        fishClassText = view.findViewById(R.id.fish_class_text);
         return holder;
     }
 
@@ -82,6 +84,11 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
                 holder.fishClassText.append(context.getString(R.string.large));
             }
         }
+
+        if(holder.fishClassText.getText().toString().equals("")){
+            fishClassText.setText("");
+        }
+
         cardView.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
 

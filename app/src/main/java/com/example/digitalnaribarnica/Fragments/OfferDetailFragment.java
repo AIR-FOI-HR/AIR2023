@@ -445,6 +445,7 @@ public class OfferDetailFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
+        menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -460,7 +461,7 @@ public class OfferDetailFragment extends Fragment {
                             selectedFragment).commit();
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 }else{
-                    selectedFragment = new SearchFragment(userID, true);
+                    selectedFragment = new SearchFragment(userID, true, true);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);

@@ -58,6 +58,7 @@ public class SearchFragment extends Fragment {
 
     private Boolean filtered = false;
     private Boolean myOffers = false;
+    private Boolean fromOfferDetails = false;
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
@@ -75,6 +76,13 @@ public class SearchFragment extends Fragment {
         this.userId = userId;
         this.myOffers = myOffers;
         this.filtered = false;
+    }
+
+    public SearchFragment(String userId, Boolean myOffers, Boolean fromOfferDetails) {
+        this.userId = userId;
+        this.myOffers = myOffers;
+        this.filtered = false;
+        this.fromOfferDetails = fromOfferDetails;
     }
 
     public SearchFragment(String userID, String fishSpecies, String location, String minPrice, String maxPrice, Boolean smallFish, Boolean mediumFish, Boolean largeFish){
@@ -109,7 +117,6 @@ public class SearchFragment extends Fragment {
         recyclerView = binding.recycleViewOffer;
 
         if(filtered){
-            Log.d("TagPolje", "");
                 Repository repository = new Repository();
                 repository.DohvatiSvePonude(offersData -> {
                     ArrayList<OffersData> offersList = new ArrayList<>();
@@ -126,7 +133,6 @@ public class SearchFragment extends Fragment {
                             if (!offersList.get(i).getName().contains(this.fishSpecies)) {
                                 offersList.remove(offersData.get(i));
                                 i = i - 1;
-                                Log.d("TagPolje", "Prvi");
                                 continue;
                             }
                         }
@@ -135,7 +141,6 @@ public class SearchFragment extends Fragment {
                             if (!offersList.get(i).getLocation().contains(this.location)) {
                                 offersList.remove(offersData.get(i));
                                 i = i - 1;
-                                Log.d("TagPolje", "Drugi");
                                 continue;
                             }
                         }
@@ -143,10 +148,8 @@ public class SearchFragment extends Fragment {
                         if (Double.parseDouble(this.minPrice) > Double.parseDouble(offersList.get(i).getPrice()) || Double.parseDouble(this.maxPrice) < Double.parseDouble(offersList.get(i).getPrice())) {
                             offersList.remove(offersData.get(i));
                             i = i - 1;
-                            Log.d("TagPolje", "Treci");
                             continue;
                         }
-
 
                         if (smallFish ||  mediumFish || largeFish) {
                             Boolean smallCheck = false;
@@ -175,21 +178,24 @@ public class SearchFragment extends Fragment {
 
                     offersListGeneral = offersList;
                     OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId, this);
-                    adapter2.setOffers(offersList);
-                    adapter2.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter2);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                    actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
-                    actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
-
                     if(offersList.size() == 0){
                         showDialog(getActivity(), "Filtriranje ponuda", "Nije pronađena niti jedna ponuda na temelju zadanih karakteristika");
+                        Fragment newSearchFragment = new SearchFragment(userId);
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                newSearchFragment).commit();
+                    }
+                    else {
+                        adapter2.setOffers(offersList);
+                        adapter2.notifyDataSetChanged();
+                        recyclerView.setAdapter(adapter2);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                        actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+
                     }
                 });
-
             }
-
 
         return view;
     }
@@ -198,11 +204,27 @@ public class SearchFragment extends Fragment {
         Repository repository = new Repository();
         repository.DohvatiSvePonude(offersData -> {
             ArrayList<OffersData> offersList = new ArrayList<>();
-            for (int i = 0; i < offersData.size(); i++) {
-                if (offersData.get(i).getStatus().equals("Aktivna") && (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase()))) {
-                    offersList.add(offersData.get(i));
+                if(myOffers){
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                            offersList.add(offersData.get(i));
+                        }
+                    }
+                    for (int i = 0; i < offersList.size(); i++) {
+                        if (!offersList.get(i).getIdKorisnika().equals(userId)){
+                            offersList.remove(offersData.get(i));
+                            i = i - 1;
+                        }
+                    }
                 }
-            }
+                else {
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if (offersData.get(i).getStatus().equals("Aktivna") && (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase()))) {
+                            offersList.add(offersData.get(i));
+                        }
+                    }
+                }
+
             offersListGeneral = offersList;
             OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
             adapter.setOffers(offersList);
@@ -237,11 +259,11 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!filtered) {
-
+                if(!filtered && !fromOfferDetails) {
                     searchOffers(newText);
                 }
                 filtered = false;
+                fromOfferDetails = false;
                 return true;
             }
         });
@@ -378,6 +400,7 @@ public class SearchFragment extends Fragment {
                     i = i - 1;
                 }
             }
+
             myOffers = true;
             offersListGeneral = offersList;
             adapter2.setOffers(offersList);

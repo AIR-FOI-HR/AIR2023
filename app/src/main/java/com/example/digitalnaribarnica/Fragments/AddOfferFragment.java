@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-
+import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -304,11 +304,15 @@ public class AddOfferFragment extends Fragment {
                  smallQuantity.setEnabled(false);
                  btnMinusSmall.setEnabled(false);
                  btnPlusSmall.setEnabled(false);
+                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
              }
              else {
                  smallQuantity.setEnabled(true);
                  btnMinusSmall.setEnabled(true);
                  btnPlusSmall.setEnabled(true);
+                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
              }
          }
         });
@@ -321,11 +325,15 @@ public class AddOfferFragment extends Fragment {
                     mediumQuantity.setEnabled(false);
                     btnMinusMedium.setEnabled(false);
                     btnPlusMedium.setEnabled(false);
+                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     mediumQuantity.setEnabled(true);
                     btnMinusMedium.setEnabled(true);
                     btnPlusMedium.setEnabled(true);
+                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });
@@ -338,11 +346,15 @@ public class AddOfferFragment extends Fragment {
                     largeQuantity.setEnabled(false);
                     btnMinusLarge.setEnabled(false);
                     btnPlusLarge.setEnabled(false);
+                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     largeQuantity.setEnabled(true);
                     btnMinusLarge.setEnabled(true);
                     btnPlusLarge.setEnabled(true);
+                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });

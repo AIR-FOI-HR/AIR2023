@@ -276,9 +276,6 @@ public class ReservationFragment extends Fragment {
 
     public void searchReservation(String search) {
         isSearching = true;
-        Log.d("TagPolje", onMyReservations.toString());
-        Log.d("TagPolje", onRequests.toString());
-        Log.d("TagPolje", onAcceptedRequests.toString());
 
         if(onMyReservations) {
         ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
@@ -332,7 +329,6 @@ public class ReservationFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
@@ -341,7 +337,7 @@ public class ReservationFragment extends Fragment {
         menu.findItem((R.id.filter_menu)).setVisible(false);
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
-
+        menu.findItem((R.id.sort_offers_menu)).setVisible(false);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

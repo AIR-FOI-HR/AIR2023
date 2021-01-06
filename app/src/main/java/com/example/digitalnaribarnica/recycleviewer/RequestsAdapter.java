@@ -244,6 +244,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                         if(updatedSmall == 0 && updatedMedium == 0 && updatedLarge == 0) {
                                             for (int i = 0; i < reservations.size(); i++) {
                                                 if (reservations.get(i).getOfferID().equals(OfferID)) {
+                                                    firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
                                                     firestoreService.deleteReservation(reservations.get(i).getReservationID(), "Rezervation");
                                                     reservationFragment.refreshRequestsList();
                                                     Log.d("TagPolje", "obrisana rezervacija");

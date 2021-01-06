@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--
     <style name="optionsList" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-    <item name="android:src">@drawable/ic_baseline_format_list_bulleted_24</item>
-    <item name="android:paddingStart">10dp</item>
-    <item name="android:paddingEnd">15dp</item>
+    <item name="android:src">@drawable/ic_baseline_more_vert_24</item>
+    <item name="android:paddingStart">5dp</item>
+    <item name="android:paddingEnd">10dp</item>
     <item name="android:minWidth">5dp</item>
-        <item name="android:actionOverflowButtonStyle">@style/optionsList</item>
-    </style>-->
+    </style>
 </resources>
