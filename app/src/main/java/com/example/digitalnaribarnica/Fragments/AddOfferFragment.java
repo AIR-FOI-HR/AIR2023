@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-
+import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -304,11 +304,15 @@ public class AddOfferFragment extends Fragment {
                  smallQuantity.setEnabled(false);
                  btnMinusSmall.setEnabled(false);
                  btnPlusSmall.setEnabled(false);
+                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
              }
              else {
                  smallQuantity.setEnabled(true);
                  btnMinusSmall.setEnabled(true);
                  btnPlusSmall.setEnabled(true);
+                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
              }
          }
         });
@@ -321,11 +325,15 @@ public class AddOfferFragment extends Fragment {
                     mediumQuantity.setEnabled(false);
                     btnMinusMedium.setEnabled(false);
                     btnPlusMedium.setEnabled(false);
+                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     mediumQuantity.setEnabled(true);
                     btnMinusMedium.setEnabled(true);
                     btnPlusMedium.setEnabled(true);
+                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });
@@ -338,11 +346,15 @@ public class AddOfferFragment extends Fragment {
                     largeQuantity.setEnabled(false);
                     btnMinusLarge.setEnabled(false);
                     btnPlusLarge.setEnabled(false);
+                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     largeQuantity.setEnabled(true);
                     btnMinusLarge.setEnabled(true);
                     btnPlusLarge.setEnabled(true);
+                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });
@@ -401,8 +413,8 @@ public class AddOfferFragment extends Fragment {
                             repository.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fishes.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
                                     mediumQuantity.getText().toString(), largeQuantity.getText().toString());
                             Fragment newFragment;
-                            ((RegisterActivity) getActivity()).changeOnOffersNavigationBar();
-                            newFragment = new SearchFragment();
+                            ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                            newFragment = new SearchFragment(userId);
                             getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
                             StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
                             return;
@@ -418,8 +430,8 @@ public class AddOfferFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                ((RegisterActivity) getActivity()).changeOnSeachNavigationBar();
-                selectedFragment = new SearchFragment();
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment = new SearchFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -433,7 +445,7 @@ public class AddOfferFragment extends Fragment {
         builder.replace(dstart, dend, source
                 .subSequence(start, end).toString());
         if (!builder.toString().matches(
-                "(([0-9])([0-9]{0," + (3 - 1) + "})?)?(\\.[0-9]{0," + 3 + "})?"
+                "(([0-9])([0-9]{0," + (3 - 1) + "})?)?(\\.[0-9]{0," + 2 + "})?"
         )) {
             if (source.length() == 0)
                 return dest.subSequence(dstart, dend);

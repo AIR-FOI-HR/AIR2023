@@ -3,28 +3,42 @@ package com.example.database;
 import com.google.firebase.Timestamp;
 
 public class Rezervation {
-    private String IDponude;
+    private String reservationID;
+    private String offerID;
     private Timestamp date;
-    private int kolicina;
-    private String kupacID;
-    private String rezervationID;
-    private String statusID;
+    private String price;
+    private String smallFish;
+    private String mediumFish;
+    private String largeFish;
+    private String customerID;
+    private String status;
 
-    public Rezervation(String IDponude, Timestamp date, int kolicina, String kupacID, String rezervationID, String statusID) {
-        this.IDponude = IDponude;
-        this.date = date;
-        this.kolicina = kolicina;
-        this.kupacID = kupacID;
-        this.rezervationID = rezervationID;
-        this.statusID = statusID;
+    public Rezervation(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status) {
+        this.offerID=offerID;
+        this.date=date;
+        this.price=price;
+        this.smallFish=smallFish;
+        this.mediumFish=mediumFish;
+        this.largeFish=largeFish;
+        this.customerID = customerID;
+        this.status=status;
+
     }
 
-    public String getIDponude() {
-        return IDponude;
+    public String getReservationID() {
+        return reservationID;
     }
 
-    public void setIDponude(String IDponude) {
-        this.IDponude = IDponude;
+    public void setReservationID(String reservationID) {
+        this.reservationID = reservationID;
+    }
+
+    public String getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(String offerID) {
+        this.offerID = offerID;
     }
 
     public Timestamp getDate() {
@@ -35,37 +49,51 @@ public class Rezervation {
         this.date = date;
     }
 
-    public int getKolicina() {
-        return kolicina;
+    public String getPrice() {
+        return price;
     }
 
-    public void setKolicina(int kolicina) {
-        this.kolicina = kolicina;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public String getKupacID() {
-        return kupacID;
+    public String getSmallFish() {
+        return smallFish;
     }
 
-    public void setKupacID(String kupacID) {
-        this.kupacID = kupacID;
+    public void setSmallFish(String smallFish) {
+        this.smallFish = smallFish;
     }
 
-    public String getRezervationID() {
-        return rezervationID;
+    public String getMediumFish() {
+        return mediumFish;
     }
 
-    public void setRezervationID(String rezervationID) {
-        this.rezervationID = rezervationID;
+    public void setMediumFish(String mediumFish) {
+        this.mediumFish = mediumFish;
     }
 
-    public String getStatusID() {
-        return statusID;
+    public String getLargeFish() {
+        return largeFish;
     }
 
-    public void setStatusID(String statusID) {
-        this.statusID = statusID;
+    public void setLargeFish(String largeFish) {
+        this.largeFish = largeFish;
     }
 
+    public String getCustomerID() {
+        return customerID;
+    }
 
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

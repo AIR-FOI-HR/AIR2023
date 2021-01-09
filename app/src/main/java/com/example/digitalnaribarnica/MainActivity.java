@@ -136,25 +136,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //ne dopusti login bez potvrde mail-a
-                mAuth.signInWithEmailAndPassword(binding.emailEDIT.getText().toString(),
-                        binding.passwordEDIT.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            if(mAuth.getCurrentUser().isEmailVerified()) {
-                                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-                            }
-                            else {
-                                Toast.makeText(MainActivity.this, "Molimo potvrdite email!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                if (binding.emailEDIT.length()!=0 && binding.passwordEDIT.length()!=0) {
 
+                    //ne dopusti login bez potvrde mail-a
+                    mAuth.signInWithEmailAndPassword(binding.emailEDIT.getText().toString(),
+                            binding.passwordEDIT.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                if (mAuth.getCurrentUser().isEmailVerified()) {
+                                    startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Molimo potvrdite email!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }else{
+                    Toast.makeText(MainActivity.this, "Provjerite podatke za prijavu!", Toast.LENGTH_SHORT).show();
+                }
 
                 /*
                 Intent intent =new Intent(MainActivity.this,RegisterActivity.class);

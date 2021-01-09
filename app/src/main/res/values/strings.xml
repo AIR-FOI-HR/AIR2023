@@ -42,6 +42,9 @@
     <string name="small">Male</string>
     <string name="medium">Srednje</string>
     <string name="large">Velike</string>
+    <string name="smallFish">Male ribe: </string>
+    <string name="mediumFish">Srednje ribe: </string>
+    <string name="largeFish">Velike ribe: </string>
     <string name="search">Pretraži</string>
     <string name="Odjava">ODJAVA</string>
     <string name="ucitaj_sliku">Učitaj sliku</string>
@@ -90,5 +93,22 @@
     <string name="resetPassTxt">Unesite email kako bi zaprimili poveznicu za promjenu lozinke.</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="sendEmail">Pošalji</string>
+    <string name="date">Datum</string>
+    <string name="dateReservation">Datum i vrijeme rezervacije:</string>
+    <string name="my_offers">Moje ponude</string>
+    <string name="filter_menu">Filtriranje</string>
+    <string name="all_offers">Sve ponude</string>
+    <string name="requestRecyclerView">Naziv zahtjeva</string>
+    <string name="nazad">Nazad</string>
+    <string name="gradeRequest">Ocjena</string>
+    <string name="mailConfirmationDetails">Potvrdite vaš račun u mail-u koji smo Vam poslali.</string>
+    <string name="mailConfirmationButton">Otvori e-mail</string>
+    <string name="mailConfirmation">Potvrdite e-mail</string>
+    <string name="buyer">Kupac</string>
+    <string name="sorting">Sortiranje</string>
+    <string name="_999">999</string>
+    <string name="insertPrice">Ili unesite ručno:</string>
+    <string name="lowPrice">Najniža cijena:</string>
+    <string name="upperPrice">Najviša cijena:</string>
 
 </resources>

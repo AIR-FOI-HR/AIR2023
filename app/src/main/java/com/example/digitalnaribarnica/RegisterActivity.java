@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     String personPhoto="";
     String phone="";
     String adress="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(view);
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
         /*
         imageView = binding.Slika;
         name = binding.Name;
@@ -135,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                new SearchFragment()).commit();
+                new SearchFragment(personId)).commit();
 
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
     }
@@ -167,10 +167,10 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
                             break;
                         case R.id.nav_ponude:
-                            selectedFragment = new ReservationFragment();
+                            selectedFragment = new ReservationFragment(personId);
                             break;
                         case R.id.nav_search:
-                            selectedFragment = new SearchFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
+                            selectedFragment = new SearchFragment(personId);
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -191,11 +191,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
     boolean doubleBackToExitPressedOnce = false;
 
-    public void changeOnSeachNavigationBar(){
+    public void changeOnSearchNavigationBar(){
         bottomNavigationView.setSelectedItemId(R.id.nav_search);
     }
 
-    public void changeOnOffersNavigationBar(){
+    public void changeOnReservationsNavigationBar(){
         bottomNavigationView.setSelectedItemId(R.id.nav_ponude);
     }
 

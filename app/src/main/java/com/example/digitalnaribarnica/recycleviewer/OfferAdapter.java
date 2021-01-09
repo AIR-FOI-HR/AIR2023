@@ -20,6 +20,8 @@ import com.example.database.Offer;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
+import com.example.digitalnaribarnica.Fragments.ReservationFragment;
+import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 
@@ -32,10 +34,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     private ArrayList<OffersData> offers=new ArrayList<>();
     private Context context;
     private CardView cardView;
+    private String userID;
+    private SearchFragment searchFragment;
+    private TextView fishClassText;
 
-
-    public OfferAdapter(Context context) {
+    public OfferAdapter(Context context, String userID, SearchFragment fragment) {
+        this.userID = userID;
         this.context = context;
+        this.searchFragment = fragment;
     }
 
     @NonNull
@@ -43,6 +49,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.offer_item, parent, false);
         ViewHolder holder= new ViewHolder(view);
+        fishClassText = view.findViewById(R.id.fish_class_text);
         return holder;
     }
 
@@ -77,12 +84,17 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
                 holder.fishClassText.append(context.getString(R.string.large));
             }
         }
+
+        if(holder.fishClassText.getText().toString().equals("")){
+            fishClassText.setText("");
+        }
+
         cardView.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
 
             @Override
             public void onClick(View v) {
-                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID());
+                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID, searchFragment.getLastVisited());
 
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();

@@ -216,16 +216,16 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:clickable="true"
-                    android:focusable="true"
                     android:id="@+id/button_prijava"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="2dp"
-                    android:textColor="@color/colorBlue"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
                     android:elevation="5dp"
+                    android:focusable="true"
                     android:text="@string/signinhere"
+                    android:textColor="@color/colorBlue"
                     android:textSize="15sp" />
 
             </LinearLayout>

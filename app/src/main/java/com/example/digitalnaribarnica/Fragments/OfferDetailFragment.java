@@ -1,5 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.digitalnaribarnica.RegisterActivity;
+import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,12 +11,16 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +29,9 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Rezervation;
 import com.example.database.User;
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
@@ -34,6 +42,7 @@ import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class OfferDetailFragment extends Fragment {
 
@@ -64,9 +73,13 @@ public class OfferDetailFragment extends Fragment {
     private TextView fish;
 
     private String offerID;
+    private String userID = "";
+    private Boolean cameFromMyOffers = false;
 
-    public OfferDetailFragment(String offerID){
+    public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
+        this.userID = userId;
+        this.cameFromMyOffers = myOffers;
         Log.d("TagPolje", offerID);
     }
 
@@ -78,8 +91,11 @@ public class OfferDetailFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Detalji ponude");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
+
+        setHasOptionsMenu(true);
 
         price = binding.cijenaPonude;
         location = binding.lokacijaPonude;
@@ -100,6 +116,7 @@ public class OfferDetailFragment extends Fragment {
         smallQuantity = binding.smallFishQuantity;
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
+
 
         smallQuantity.setText("0");
         mediumQuantity.setText("0");
@@ -365,19 +382,126 @@ public class OfferDetailFragment extends Fragment {
             smallQuantity.clearFocus();
             mediumQuantity.clearFocus();
             largeQuantity.clearFocus();
+            if(smallQuantity.getText().toString().equals("0.0") || smallQuantity.getText().toString().equals("")){
+                smallQuantity.setText("0");
+            }
+            if(mediumQuantity.getText().toString().equals("0.0") || mediumQuantity.getText().toString().equals("")){
+                mediumQuantity.setText("0");
+            }
+            if(largeQuantity.getText().toString().equals("0.0") || largeQuantity.getText().toString().equals("")){
+                largeQuantity.setText("0");
+            }
+
+            if(smallQuantity.getText().toString().equals("0") && mediumQuantity.getText().toString().equals("0") && largeQuantity.getText().toString().equals("0")){
+                StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
+            }
+            else {
+
+                repository.DodajRezervacijuAutoID(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
+                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Nepotvrđeno");
+
+
+                repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
+                            @Override
+                            public void onCallback(ArrayList<OffersData> offersData) {
+
+                                String currentSmall = offersData.get(0).getSmallFish();
+                                Double updatedSmall = Math.round((Double.parseDouble(currentSmall) - Double.parseDouble(smallQuantity.getText().toString()))*100.0)/100.0;
+
+                                String currentMedium = offersData.get(0).getMediumFish();
+                                Double updatedMedium = Math.round((Double.parseDouble(currentMedium) - Double.parseDouble(mediumQuantity.getText().toString()))*100.0)/100.0;
+
+                                String currentLarge = offersData.get(0).getLargeFish();
+                                Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity.getText().toString()))*100.0)/100.0;
+
+                                if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
+                                    StyleableToast.makeText(getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
+
+                                    availableSmall.setText(offersData.get(0).getSmallFish());
+                                    availableMedium.setText(offersData.get(0).getMediumFish());
+                                    availableLarge.setText(offersData.get(0).getLargeFish());
+
+                                    smallQuantity.setText("0");
+                                    mediumQuantity.setText("0");
+                                    largeQuantity.setText("0");
+
+                                }
+                                else {
+                                  //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                                    StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
+                                    Fragment newFragment;
+                                    ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+                                    newFragment = new ReservationFragment(userID);
+                                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+                                }
+                            }
+                        });
+            }
         });
 
         return view;
     }
 
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        menu.findItem((R.id.action_search)).setVisible(false);
+        menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
+    }
 
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                if (!cameFromMyOffers){
+                    selectedFragment = new SearchFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }else{
+                    selectedFragment = new SearchFragment(userID, true, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
+
+                break;
+            case R.id.all_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment1 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment1 = new SearchFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment1).commit();
+
+                break;
+            case R.id.my_offers_menu:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment2 = null;
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                selectedFragment2 = new SearchFragment(userID, true);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment2).commit();
+                break;
+
+            case R.id.filter_menu:
+                FilterOffersFragment selectedFragment3 = new FilterOffersFragment(userID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment3).commit();
+                break;
+        }
+
+        return true;
+    }
 
     InputFilter filterDecimals = (source, start, end, dest, dstart, dend) -> {
         StringBuilder builder = new StringBuilder(dest);
         builder.replace(dstart, dend, source
                 .subSequence(start, end).toString());
         if (!builder.toString().matches(
-                "(([0-9])([0-9]{0,"+(3 - 1)+"})?)?(\\.[0-9]{0,"+ 3 +"})?"
+                "(([0-9])([0-9]{0,"+(3 - 1)+"})?)?(\\.[0-9]{0,"+ 2 +"})?"
         )) {
             if(source.length()==0)
                 return dest.subSequence(dstart, dend);

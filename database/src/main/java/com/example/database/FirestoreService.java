@@ -137,6 +137,12 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document().set(offer);
     }
 
+    public void writeReservationWithAutoID(Rezervation rezervation, String collection) {
+        String id=FirebaseFirestore.getInstance().collection(collection).document().getId();
+        rezervation.setReservationID(id);
+        FirebaseFirestore.getInstance().collection(collection).document(id).set(rezervation);
+    }
+
     public void updateUser(User trenutniKorisnik,String collection) {
         //User user = trenutniKorisnik;
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
@@ -151,6 +157,44 @@ public class FirestoreService {
                 "phone",trenutniKorisnik.phone,
                 "photo",trenutniKorisnik.photo,
                 "userID",trenutniKorisnik.userID);
+    }
+
+    public void updateOfferQuantity(String offerID, String smallFish, String mediumFish, String largeFish, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).update(
+                "smallFish", smallFish,
+                "mediumFish", mediumFish,
+                "largeFish", largeFish);
+    }
+
+
+    public void updateReservationStatus(String reservationID, String status, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).update(
+                "status", status);
+    }
+
+    public void deleteReservation(String reservationID, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("TagPolje", "Deleted Reservation");
+            }
+            });
+    }
+
+    public void deleteOffer(String offerID, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TagPolje", "Deleted Offer");
+                    }
+      });
+    }
+
+    public void updateOfferStatus(String offerID, String status, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(offerID).update(
+                "status", status);
     }
 
     public static void addPhoto(Uri data){
