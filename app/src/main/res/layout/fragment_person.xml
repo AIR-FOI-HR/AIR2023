@@ -64,6 +64,7 @@
         android:layout_marginTop="130dp">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
             android:layout_width="120dp"
             android:layout_height="120dp"
             app:cardCornerRadius="60dp"
@@ -78,26 +79,35 @@
                 android:layout_centerInParent="true">
 
                 <ImageView
+                    android:id="@+id/slikaProfila"
                     android:layout_width="116dp"
                     android:layout_height="116dp"
-                    android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/slikaProfila"
-                    android:src="@drawable/profil"
                     android:background="@color/colorWhite"
-                    android:contentDescription="@string/picture" />
+                    android:contentDescription="@string/picture"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profil" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@id/slikaProfila"
-                    android:id="@+id/slikaZnacke"
-                    android:contentDescription="@string/badge" />
 
             </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/cardViewImage"
+            android:layout_marginLeft="-20dp"
+            android:id="@+id/badge_seller"
+            android:contentDescription="@string/badge" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/cardViewImage"
+            android:layout_marginTop="20dp"
+            android:id="@+id/badge_buyer"
+            android:contentDescription="@string/badge" />
 
     </RelativeLayout>
 

@@ -164,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
                             args.putString("photo",personPhoto);
                             selectedFragment.setArguments(args);
                             */
-                            selectedFragment = new PersonFragment(personName,personId,personPhoto,personEmail,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
+                            selectedFragment = new PersonFragment(personId);
                             break;
                         case R.id.nav_ponude:
                             selectedFragment = new ReservationFragment(personId);

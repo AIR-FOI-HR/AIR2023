@@ -162,11 +162,11 @@ public class OfferDetailFragment extends Fragment {
                                         .load(userPhoto)
                                         .into(userImage);
                             }
-                            String trophyPhoto = user.getTrophyImageUrl();
-                            if(trophyPhoto!=""){
+                          String badge = user.getBadgeSellerURL();
+                            if(!badge.equals("")){
                                 Glide.with(getContext())
                                         .asBitmap()
-                                        .load(trophyPhoto)
+                                        .load(badge)
                                         .into(trophyImage);
                             }
 

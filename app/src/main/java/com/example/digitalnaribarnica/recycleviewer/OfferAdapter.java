@@ -111,11 +111,11 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
         FirestoreService firestoreService=new FirestoreService();
 
         repository.DohvatiKorisnikaPoID(userID, user -> {
-            String trophy = user.getTrophyImageUrl();
-            if(trophy!=""){
+           String badge = user.getBadgeSellerURL();
+           if(!badge.equals("")){
                 Glide.with(context)
                         .asBitmap()
-                        .load(trophy)
+                        .load(badge)
                         .into(holder.trophyImage);
             }
         });

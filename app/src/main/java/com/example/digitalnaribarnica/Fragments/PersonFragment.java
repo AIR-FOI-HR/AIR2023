@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.MainActivity;
@@ -48,13 +49,19 @@ public class PersonFragment extends Fragment {
     private String phone="";
     private ImageView edit;
     private ImageView badges;
+    private ImageView buyerBadge;
+    private ImageView sellerBadge;
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    private String userID="";
     public PersonFragment() {
     }
 
+    public PersonFragment(String userId) {
+        this.userID = userId;
+    }
 
     public PersonFragment(String ime, String id, String photo, String email) {
         this.ime = ime;
@@ -87,12 +94,49 @@ public class PersonFragment extends Fragment {
 
         edit = binding.btnUrediProfil;
         badges = binding.btnBadges;
+        buyerBadge = binding.badgeBuyer;
+        sellerBadge = binding.badgeSeller;
 
-        binding.emailP.setText(email);
+        /*binding.emailP.setText(email);
         //binding.adresaP.setText(id);
         binding.imePrezime.setText(ime);
         //binding.brojMobitelaP.setText(ime);
-        Glide.with(this).load(photo).into(binding.slikaProfila);
+        Glide.with(this).load(photo).into(binding.slikaProfila);*/
+
+        Repository repository = new Repository();
+        FirestoreService firestoreService = new FirestoreService();
+        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(User user) {
+                binding.emailP.setText(user.getEmail());
+                if(user.getFullName()!=""){
+                    binding.imePrezime.setText(user.getFullName());
+                }
+                if(user.getAdress()!=""){
+                    binding.adresaP.setText(user.getAdress());
+                }
+                if(user.getPhone()!=""){
+                    binding.brojMobitelaP.setText(user.getPhone());
+                }
+                Glide.with(getActivity())
+                        .asBitmap()
+                        .load(user.getPhoto())
+                        .into(binding.slikaProfila);
+              if(!user.getBadgeBuyerURL().equals("")){
+            Glide.with(getActivity())
+                    .asBitmap()
+                    .load(user.getBadgeBuyerURL())
+                    .into(binding.badgeBuyer);
+              }
+
+                if(!user.getBadgeSellerURL().equals("")){
+                    Glide.with(getActivity())
+                            .asBitmap()
+                            .load(user.getBadgeSellerURL())
+                            .into(binding.badgeSeller);
+                }
+            }
+        });
 
 
         binding.btnBadges.setOnClickListener(new View.OnClickListener() {

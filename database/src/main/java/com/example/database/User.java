@@ -12,7 +12,10 @@ public class User implements Serializable {
     String email ="";
     String phone ="";
     String adress="";
-    String trophyImageUrl="";
+    String badgeBuyerURL="";
+    String badgeSellerURL="";
+    Integer numberOfSales = 0;
+    Integer numberOfPurchases = 0;
     Boolean blokiran=false;
 
     public Boolean getBlokiran() {
@@ -50,12 +53,36 @@ public class User implements Serializable {
 
     String password="";
 
-    public String getTrophyImageUrl() {
-        return trophyImageUrl;
+    public String getBadgeBuyerURL() {
+        return badgeBuyerURL;
     }
 
-    public void setTrophyImageUrl(String trophyImageUrl) {
-        this.trophyImageUrl = trophyImageUrl;
+    public void setBadgeBuyerURL(String badgeBuyerURL) {
+        this.badgeBuyerURL = badgeBuyerURL;
+    }
+
+    public String getBadgeSellerURL() {
+        return badgeSellerURL;
+    }
+
+    public void setBadgeSellerURL(String badgeSellerURL) {
+        this.badgeSellerURL = badgeSellerURL;
+    }
+
+    public Integer getNumberOfSales() {
+        return numberOfSales;
+    }
+
+    public void setNumberOfSales(Integer numberOfSales) {
+        this.numberOfSales = numberOfSales;
+    }
+
+    public Integer getNumberOfPurchases() {
+        return numberOfPurchases;
+    }
+
+    public void setNumberOfPurchases(Integer numberOfPurchases) {
+        this.numberOfPurchases = numberOfPurchases;
     }
 
     public User() {
