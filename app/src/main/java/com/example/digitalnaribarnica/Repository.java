@@ -11,6 +11,7 @@ import com.example.database.Offer;
 import com.example.database.Rezervation;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
+import com.example.digitalnaribarnica.recycleviewer.BadgesData;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -172,6 +173,30 @@ public class Repository {
             }
         });
     }
+
+    public void DohvatiSveZnačke(BadgeCallback firestoreCallback){
+        firestoreService.getCollection("Badges").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<BadgesData> badgesDataArrayList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    BadgesData badgesData=new Gson().fromJson(json,BadgesData.class);
+                    badgesDataArrayList.add(badgesData);
+                }
+                firestoreCallback.onCallback(badgesDataArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public void DohvatiRibe(FishCallback firestoreCallback){
         firestoreService.getCollection("Fish").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

@@ -47,6 +47,7 @@ public class PersonFragment extends Fragment {
     private String adress="";
     private String phone="";
     private ImageView edit;
+    private ImageView badges;
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
@@ -85,12 +86,24 @@ public class PersonFragment extends Fragment {
         View view =binding.getRoot();
 
         edit = binding.btnUrediProfil;
+        badges = binding.btnBadges;
 
         binding.emailP.setText(email);
         //binding.adresaP.setText(id);
         binding.imePrezime.setText(ime);
         //binding.brojMobitelaP.setText(ime);
         Glide.with(this).load(photo).into(binding.slikaProfila);
+
+
+        binding.btnBadges.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new BadgesFragment(id);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
 
         binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override

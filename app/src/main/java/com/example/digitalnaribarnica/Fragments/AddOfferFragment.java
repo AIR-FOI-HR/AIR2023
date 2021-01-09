@@ -78,7 +78,7 @@ public class AddOfferFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Nova ponuda");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         binding = FragmentAddOfferBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         String compareValue = "some value";

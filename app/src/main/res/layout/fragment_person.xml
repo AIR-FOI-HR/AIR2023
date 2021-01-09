@@ -19,6 +19,18 @@
     android:layout_alignParentRight="true"
      android:layout_margin="20dp">
 
+
+     <ImageView
+         android:id="@+id/btnBadges"
+         android:layout_width="35dp"
+         android:clickable="true"
+         android:focusable="true"
+         android:layout_height="35dp"
+         android:src="@drawable/ic_baseline_badges"
+         android:layout_alignParentEnd="true"
+         android:layout_marginRight="18dp"
+         android:contentDescription="@string/badge"/>
+
     <ImageView
             android:id="@+id/btnUrediProfil"
             android:layout_width="35dp"

@@ -110,5 +110,8 @@
     <string name="insertPrice">Ili unesite ručno:</string>
     <string name="lowPrice">Najniža cijena:</string>
     <string name="upperPrice">Najviša cijena:</string>
+    <string name="badge_title">Naziv značke</string>
+    <string name="badge_decription">Opis značke</string>
+
 
 </resources>
