@@ -97,15 +97,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_toEndOf="@id/cardViewImage"
-            android:layout_marginLeft="-20dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/badge_seller"
             android:contentDescription="@string/badge" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toEndOf="@id/cardViewImage"
-            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@id/badge_seller"
+            android:layout_marginLeft="5dp"
             android:id="@+id/badge_buyer"
             android:contentDescription="@string/badge" />
 
