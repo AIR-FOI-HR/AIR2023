@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.database.CallbackUser;
@@ -27,7 +26,6 @@ import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentEditProfileBinding;
-import com.example.digitalnaribarnica.databinding.FragmentOfferDetailBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,9 +53,13 @@ public class EditProfileFragment extends Fragment {
     public EditProfileFragment() {
     }
 
-    public EditProfileFragment(String Photo) {
-        this.photo=Photo;
+    public EditProfileFragment(String userId) {
+        this.id = userId;
     }
+
+    /*public EditProfileFragment(String Photo) {
+        this.photo=Photo;
+    }*/
     public EditProfileFragment(String ime, String id, String photo, String email,String adress,String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
         this.ime = ime;
         this.id = id;
@@ -79,16 +81,41 @@ public class EditProfileFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Glide.with(this).load(photo).into(binding.slikaProfila);
+
+        Repository repository = new Repository();
+        repository.DohvatiKorisnikaPoID(id, new FirestoreCallback() {
+            @Override
+            public void onCallback(User user) {
+                binding.emailEditPe.setText(user.getEmail());
+                if(user.getFullName()!=""){
+                    binding.imeEditEp.setText(user.getFullName().split(" ")[0]);
+                }
+                if(user.getFullName()!=""){
+                    binding.prezimeEditEp.setText(user.getFullName().split(" ")[1]);
+                }
+                if(user.getAdress()!=""){
+                    binding.adresaEditPe.setText(user.getAdress());
+                }
+                if(user.getPhone()!=""){
+                    binding.brojMobitelaEditPe.setText(user.getPhone());
+                }
+                Glide.with(getActivity())
+                        .asBitmap()
+                        .load(user.getPhoto())
+                        .into(binding.slikaProfila);
+            }
+        });
+
+        /*Glide.with(this).load(photo).into(binding.slikaProfila);
         binding.emailEditPe.setText(email);
         binding.imeEditEp.setText(ime.split(" ")[0]);
         binding.prezimeEditEp.setText(ime.split(" ")[1]);
         binding.adresaEditPe.setText(adress);
-        binding.brojMobitelaEditPe.setText(phone);
+        binding.brojMobitelaEditPe.setText(phone);*/
         binding.btnOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient)).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
                 //getActivity().finish();
             }
         });

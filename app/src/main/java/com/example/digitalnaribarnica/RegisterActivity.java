@@ -18,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.database.User;
-import com.example.digitalnaribarnica.Fragments.ChatFragment;
 import com.example.digitalnaribarnica.Fragments.AddOfferFragment;
+import com.example.digitalnaribarnica.Fragments.ChatFragment;
 import com.example.digitalnaribarnica.Fragments.PersonFragment;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     String personPhoto="";
     String phone="";
     String adress="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,11 @@ public class RegisterActivity extends AppCompatActivity {
             personName = acct.getDisplayName();
             personEmail = acct.getEmail();
             personId = acct.getId();
+
+            if(acct.getPhotoUrl() != null) {
+                personPhoto = acct.getPhotoUrl().toString();
+            }
+
             //personPhoto = acct.getPhotoUrl().toString();
             /*
             name.setText(personName);
@@ -114,6 +120,11 @@ public class RegisterActivity extends AppCompatActivity {
             personName=mUser.getDisplayName();
             personEmail=mUser.getEmail();
             personId=mUser.getUid();
+
+            if(mUser.getPhotoUrl() != null) {
+                personPhoto=mUser.getPhotoUrl().toString();
+            }
+
             //personPhoto=mUser.getPhotoUrl().toString();
             /*
             name.setText(personName);
@@ -130,6 +141,11 @@ public class RegisterActivity extends AppCompatActivity {
             personPhoto=user.getPhoto();
             adress=user.getAdress();
             phone=user.getPhone();
+
+            if(mUser.getPhotoUrl() != null) {
+                personPhoto=mUser.getPhotoUrl().toString();
+            }
+
             //personPhoto=mUser.getPhotoUrl().toString();
         }
 

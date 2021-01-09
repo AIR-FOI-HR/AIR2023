@@ -1,17 +1,12 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,12 +18,9 @@ import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
-import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentPersonBinding;
-import com.example.digitalnaribarnica.databinding.ActivityRegisterBinding;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,8 +28,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.net.URI;
 
 public class PersonFragment extends Fragment {
     FragmentPersonBinding binding;
@@ -143,7 +133,7 @@ public class PersonFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new BadgesFragment(id);
+                selectedFragment = new BadgesFragment(userID);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -173,7 +163,7 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("NOVITAG", "Trebalo bi pokrenuti");
-                selectedFragment = new EditProfileFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
+                selectedFragment = new EditProfileFragment(userID);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
                 /*

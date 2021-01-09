@@ -359,7 +359,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                 //dodaj za sliku neku default (photo atribut)
                                 repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
-                                        lozinka.getText().toString(), "slika korisnika", adresa.getText().toString());
+                                        lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029", adresa.getText().toString());
 
                                 //kada se korisnik uspješno registrira, preusmjeri ga na stranicu na kojoj obavjesatavamo korisnika da treba verificirati email (EmailVerificationActivity)
                                 startActivity(new Intent(RegistrationActivity.this, EmailVerificationActivity.class));

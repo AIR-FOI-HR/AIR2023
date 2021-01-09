@@ -13,20 +13,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.BadgeCallback;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.BadgesAdapter;
 import com.example.digitalnaribarnica.recycleviewer.BadgesData;
-import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
-import com.example.digitalnaribarnica.recycleviewer.OffersData;
 
 import java.util.ArrayList;
 
@@ -94,7 +90,7 @@ public class BadgesFragment extends Fragment {
                 setHasOptionsMenu(false);
                 Fragment selectedFragment = null;
                 // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment = new PersonFragment();
+                selectedFragment = new PersonFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
