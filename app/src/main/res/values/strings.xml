@@ -110,5 +110,8 @@
     <string name="insertPrice">Ili unesite ručno:</string>
     <string name="lowPrice">Najniža cijena:</string>
     <string name="upperPrice">Najviša cijena:</string>
+    <string name="rateUser">Ocijeni</string>
+    <string name="comment">Ostavite komentar:</string>
+    <string name="showRating">Prikaži ocjenjivanje</string>
 
 </resources>
