@@ -60,6 +60,8 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
+        //props.put("smtp-relay.sendinblue.com", "587");
+
         //Creating a new session
         mSession = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {

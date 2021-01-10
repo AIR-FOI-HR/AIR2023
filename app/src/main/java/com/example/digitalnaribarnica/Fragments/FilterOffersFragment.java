@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +34,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.database.Fish;
 import com.example.database.Location;
+import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
@@ -41,6 +45,8 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FilterOffersFragment extends Fragment {
 
@@ -308,15 +314,35 @@ public class FilterOffersFragment extends Fragment {
 
                 break;
             case R.id.my_offers_menu:
-                setHasOptionsMenu(false);
+                /*setHasOptionsMenu(false);
                 Fragment selectedFragment2 = null;
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment2 = new SearchFragment(userId, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment2).commit();
+                        selectedFragment2).commit();*/
+
+                MyCustomAlertDialog();
                 break;
         }
         return true;
+    }
+
+    public void MyCustomAlertDialog(){
+        final Dialog MyDialog = new Dialog(this.getContext());
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.customdialog);
+
+        Button downloadBadge = (Button)MyDialog.findViewById(R.id.downloadBadge);
+
+        downloadBadge.setEnabled(true);
+
+        downloadBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+        MyDialog.show();
     }
 
 }

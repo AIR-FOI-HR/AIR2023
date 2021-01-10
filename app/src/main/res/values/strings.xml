@@ -112,6 +112,9 @@
     <string name="upperPrice">Najviša cijena:</string>
     <string name="badge_title">Naziv značke</string>
     <string name="badge_decription">Opis značke</string>
+    <string name="newBadge">Nova značka</string>
+    <string name="newBadgeText">Čestitamo! Dobili ste novu značku!</string>
+    <string name="download">Preuzmi</string>
 
 
 </resources>
