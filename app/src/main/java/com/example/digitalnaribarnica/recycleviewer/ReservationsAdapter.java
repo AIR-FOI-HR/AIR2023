@@ -3,15 +3,21 @@ package com.example.digitalnaribarnica.recycleviewer;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Rezervation;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
@@ -36,6 +43,7 @@ import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.RezervationCallback;
+import com.google.android.gms.tasks.Task;
 
 import androidx.fragment.app.Fragment;
 
@@ -48,8 +56,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     private ImageView deleteReservation;
     String userID ="";
     String ReservationID ="";
-    String reservationDate = "";
-    Boolean deleteIt = false;
 
 
     public ReservationsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
@@ -71,21 +77,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             public void onClick(View v) {
                 showDialog(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
-                /*
-                ArrayList<ReservationsData> reservationList = new ArrayList<>();
-                Repository repository=new Repository();
-                repository.DohvatiRezervacije1(new RezervationCallback() {
-                    @Override
-                    public void onCallback(ArrayList<ReservationsData> rezervations) {
-                        for (int i = 0; i < rezervations.size(); i++) {
-                            if(rezervations.get(i).getCustomerID().equals(userID))
-                                reservationList.add(rezervations.get(i));
-                        }
-
-                        setReservations(reservationList);
-                    }
-                });*/
-
             }
         });
 
@@ -118,6 +109,32 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                     quantity = quantity + Double.parseDouble(reservations.get(position).getLargeFish());
                 }
                 holder.fishClassText.setText(Html.fromHtml(text));
+
+                switch(reservations.get(position).getStatus()){
+                    case "Nepotvrđeno":
+                        holder.status.setTextColor(context.getResources().getColor(R.color.colorGray));
+                        break;
+
+                    case "Potvrđeno":
+                        holder.status.setTextColor(context.getResources().getColor(R.color.colorBlue));
+                        break;
+
+                    case "Neuspješno":
+                        holder.status.setTextColor(context.getResources().getColor(R.color.colorRed));
+                        break;
+
+                    case "Uspješno":
+                        holder.status.setTextColor(context.getResources().getColor(R.color.colorGreen));
+                        break;
+                }
+
+                String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
+                holder.status.setText(Html.fromHtml(statusText));
+
+
+
+
+
                 Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
                 String textPrice = priceQuantity.toString() + " kn";
                 holder.price.setText(textPrice);
@@ -141,14 +158,22 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     }
 
     public void setReservations(ArrayList<ReservationsData> reservations) {
+        Collections.sort(reservations, new Comparator<ReservationsData>() {
+            public int compare(ReservationsData m1, ReservationsData m2) {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        });
+        Collections.reverse(reservations);
         this.reservations = reservations;
         notifyDataSetChanged();
     }
 
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView fish;
+        private TextView status;
         private TextView location;
         private TextView price;
         private ImageView fishImage;
@@ -164,6 +189,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             price = itemView.findViewById(R.id.textReservationPrice);
             fishClassText = itemView.findViewById(R.id.textReservationGrade);
             date = itemView.findViewById(R.id.textDate);
+            status = itemView.findViewById(R.id.status);
             cardView = itemView.findViewById(R.id.parentReservation);
             deleteReservation = itemView.findViewById(R.id.delete_reservation);
         }

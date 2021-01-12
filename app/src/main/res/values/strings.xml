@@ -110,5 +110,6 @@
     <string name="insertPrice">Ili unesite ručno:</string>
     <string name="lowPrice">Najniža cijena:</string>
     <string name="upperPrice">Najviša cijena:</string>
+    <string name="status">Status</string>
 
 </resources>
