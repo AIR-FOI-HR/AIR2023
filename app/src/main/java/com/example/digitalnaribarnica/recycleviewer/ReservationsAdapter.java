@@ -1,5 +1,6 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 
@@ -130,13 +131,8 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
 
                 String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
                 holder.status.setText(Html.fromHtml(statusText));
-
-
-
-
-
                 Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                String textPrice = priceQuantity.toString() + " kn";
+                @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
                 holder.price.setText(textPrice);
 
                 Glide.with(context)
