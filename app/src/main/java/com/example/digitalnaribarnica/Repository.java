@@ -8,6 +8,7 @@ import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.database.Offer;
+import com.example.database.Review;
 import com.example.database.Rezervation;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
@@ -274,6 +275,13 @@ public class Repository {
             }
         });
     }*/
+
+    public void DodajOcjenu(String userID, String rating, String comment){
+        Review review = new Review(userID, rating, comment);
+        firestoreService.writeReview(review,"Review");
+    }
+
+
     public void DodajPonudu(String name,String description,String location, String imageurl, String price, String fishClass,String imageurlTrophey,String idKorisnika,String smallFish, String mediumFish, String largeFish){
         //Offer offer=new Offer("Štuka","Požega","https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/ribe%2Fstuka.png?alt=media&token=f29a9276-9b02-4a00-94e0-d6166c15bcfd","40,00kn","Razred 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png");
         Offer offer=new Offer(name, location, imageurl, price, idKorisnika, smallFish, mediumFish, largeFish, 1);

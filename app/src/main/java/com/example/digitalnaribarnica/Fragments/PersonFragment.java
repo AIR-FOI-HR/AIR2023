@@ -132,18 +132,6 @@ public class PersonFragment extends Fragment {
             }
         });
 
-        showRatingFragment.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment =null;
-            @Override
-            public void onClick(View v) {
-                selectedFragment = new FragmentUserRating();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
-            }
-        });
-
-
-
        /* binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

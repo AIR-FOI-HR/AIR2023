@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +25,8 @@ import com.example.database.User;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
+import com.example.digitalnaribarnica.Fragments.EditProfileFragment;
+import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
@@ -169,13 +173,17 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         builder.setMessage(message);
 
         builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            Fragment selectedFragment =null;
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Repository repository = new Repository();
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Uspješno", "Rezervation");
-                    reservationFragment.refreshConfirmedRequestsList();
+                    selectedFragment = new FragmentUserRating(userID);
+                    ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    //reservationFragment.refreshConfirmedRequestsList();
                     }
                 }
         });
