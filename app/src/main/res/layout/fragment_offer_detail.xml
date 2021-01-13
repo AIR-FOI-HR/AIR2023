@@ -545,9 +545,26 @@
                                 android:textStyle="bold" />
 
                             <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="10dp">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    style="?android:attr/ratingBarStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:numStars="5"
+                                    android:rating="0"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:orientation="horizontal">
 
                                 <ImageView
@@ -566,6 +583,7 @@
                                     android:text="@string/contact"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
+
                             </LinearLayout>
 
                         </LinearLayout>

@@ -305,6 +305,33 @@ public class Repository {
         return sha256.equals(unesenaLozinka);
     }
 
+    public void DohvatiOcjenePoID(String id, ReviewCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Review","userID",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<Review> reviewList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    Review offersData=new Gson().fromJson(json,Review.class);
+                    reviewList.add(offersData);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                    //Log.d("TEST",offersData.getFullName());
+                }
+                firestoreCallback.onCallback(reviewList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public String random(int length) {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();

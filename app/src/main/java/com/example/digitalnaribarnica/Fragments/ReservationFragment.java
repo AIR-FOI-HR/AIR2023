@@ -467,8 +467,10 @@ public class ReservationFragment extends Fragment {
 
         if (calendar.getTimeInMillis() < now.getTimeInMillis()) {
             FirestoreService firestoreService = new FirestoreService();
-            firestoreService.deleteReservation(reservation.getReservationID(), "Rezervation");
-            ++numberOfDeletedItems;
+            if(reservation.getStatus().equals("Nepotvrđeno")) {
+                firestoreService.deleteReservation(reservation.getReservationID(), "Rezervation");
+                ++numberOfDeletedItems;
+            }
         }
         return numberOfDeletedItems;
     }

@@ -38,6 +38,7 @@ import com.example.database.FirestoreService;
 import com.example.database.Rezervation;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreOffer;
+import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
@@ -146,6 +147,19 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
         String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + dateFormat.format(calendar.getTime());
         holder.date.setText(Html.fromHtml(textDate));
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+
+            @Override
+            public void onClick(View v) {
+                if(reservations.get(position).getStatus().equals("Neuspješno") || reservations.get(position).getStatus().equals("Uspješno")) {
+                    selectedFragment = new FragmentUserRating(userID, reservations.get(position));
+                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+            }
+        });
     }
 
     @Override

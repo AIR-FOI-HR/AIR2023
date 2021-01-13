@@ -1,6 +1,8 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.database.Review;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ReviewCallback;
 import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +81,8 @@ public class OfferDetailFragment extends Fragment {
     private String userID = "";
     private Boolean cameFromMyOffers = false;
 
+    private RatingBar rating;
+
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
         this.userID = userId;
@@ -133,6 +138,8 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
+        rating = binding.ratingBar;
+
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
 
@@ -175,7 +182,25 @@ public class OfferDetailFragment extends Fragment {
                             }
 
                         });
-                }
+                        repository.DohvatiOcjenePoID(userID, new ReviewCallback() {
+                            @Override
+                            public void onCallback(ArrayList<Review> reviews) {
+                                if(reviews.size()!=0){
+
+                                    float sum = 0;
+                                    for (int i = 0; i < reviews.size(); i++) {
+                                        sum = sum + Float.parseFloat(reviews.get(i).getRating());
+                                    }
+                                    Log.d("TagPolje", String.valueOf(sum) );
+
+                                    float ratingTotal = sum / reviews.size();
+                                    Log.d("TagPolje", String.valueOf(rating) );
+                                    rating.setRating(ratingTotal);
+                                }
+                            }
+                        });
+
+                    }
          });
 
 

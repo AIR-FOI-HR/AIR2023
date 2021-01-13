@@ -74,7 +74,6 @@ public class PersonFragment extends Fragment {
         View view =binding.getRoot();
 
         edit = binding.btnUrediProfil;
-        showRatingFragment = binding.btnPrikaziOcjenjivanje;
 
         binding.emailP.setText(email);
         //binding.adresaP.setText(id);

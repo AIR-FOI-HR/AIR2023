@@ -24,7 +24,11 @@ import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentUserRatingBinding;
+import com.example.digitalnaribarnica.recycleviewer.OffersData;
+import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+
+import java.util.ArrayList;
 
 public class FragmentUserRating extends Fragment {
 
@@ -34,10 +38,17 @@ public class FragmentUserRating extends Fragment {
     private EditText comment;
     private TextView name;
 
+    private ReservationsData reservation;
+
     String userID ="";
 
     public FragmentUserRating( String userId) {
         this.userID = userId;
+    }
+
+    public FragmentUserRating( String userId, ReservationsData reservation) {
+        this.userID = userId;
+        this.reservation = reservation;
     }
 
     @SuppressLint("RestrictedApi")
@@ -59,12 +70,30 @@ public class FragmentUserRating extends Fragment {
         name = binding.imePrezime;
 
         Repository repository = new Repository();
-        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
-            @Override
-            public void onCallback(User user) {
-                name.setText(user.getFullName());
-            }
-        });
+
+        if(reservation == null) {
+            repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+                @Override
+                public void onCallback(User user) {
+                        name.setText(user.getFullName());
+                }
+            });
+        }
+        else{
+            repository.DohvatiSvePonude(offersData -> {
+                for (int i = 0; i < offersData.size(); i++) {
+                    if(offersData.get(i).getOfferID().equals(reservation.getOfferID())) {
+                        repository.DohvatiKorisnikaPoID(offersData.get(i).getIdKorisnika(), new FirestoreCallback() {
+                            @Override
+                            public void onCallback(User user) {
+                                name.setText(user.getFullName());
+                            }
+                        });
+                        break;
+                    }
+                }
+            });
+        }
 
         rateUser.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment =null;
