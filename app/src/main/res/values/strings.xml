@@ -113,5 +113,8 @@
     <string name="rateUser">Ocijeni</string>
     <string name="comment">Ostavite komentar:</string>
     <string name="showRating">Prikaži ocjenjivanje</string>
+    <string name="status">Status</string>
+    <string name="ukupnaCijena">Ukupna cijena: </string>
+    <string name="_0_00kn">0,00 kn</string>
 
 </resources>
