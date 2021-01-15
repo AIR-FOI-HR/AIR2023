@@ -253,4 +253,20 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
     }
 
+    //dohvati ID Google korisnika iz User kolekcije
+    /*public boolean korisnikPostojiUKolekciji(String userID) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("Users").whereEqualTo("userID", userID)
+                .limit(1).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean korisnikPostoji = task.getResult().isEmpty();
+                        }
+                    }
+                });
+        return korisnikPostoji;
+    }*/
+
 }

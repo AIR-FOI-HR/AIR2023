@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.databinding.ActivityMainBinding;
@@ -39,6 +40,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.security.NoSuchAlgorithmException;
@@ -292,12 +295,29 @@ public class MainActivity extends AppCompatActivity {
                     GoogleUserPhoto = "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029";
                 }
                 Repository repository = new Repository();
-                //repository.DohvatiKorisnikaPoID();
-                try {
+                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                firestore.collection("Users").whereEqualTo("userID", GoogleUserID)
+                        .limit(1).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    boolean isEmpty = task.getResult().isEmpty();
+                                    if(isEmpty) {
+                                        try {
+                                            repository.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                /*try {
                     repository.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

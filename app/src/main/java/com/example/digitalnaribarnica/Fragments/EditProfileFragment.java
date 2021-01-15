@@ -22,8 +22,10 @@ import com.example.database.CallbackUser;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
+import com.example.digitalnaribarnica.EmailVerificationActivity;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegistrationActivity;
 import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentEditProfileBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -99,6 +101,10 @@ public class EditProfileFragment extends Fragment {
                 if(user.getPhone()!=""){
                     binding.brojMobitelaEditPe.setText(user.getPhone());
                 }
+                if(user.getEmail() != "") {
+                    binding.emailEditPe.setText(user.getEmail());
+                    email = user.getEmail();
+                }
                 Glide.with(getActivity())
                         .asBitmap()
                         .load(user.getPhoto())
@@ -134,7 +140,6 @@ public class EditProfileFragment extends Fragment {
                 repository.DohvatiKorisnikaPoEmailu(email, new FirestoreCallback() {
                     @Override
                     public void onCallback(User user) {
-
                         //FirestoreService.addPhotoWithID(Uri.parse(photo),id);
                         FirestoreService.getProfilePhotoWithID(id, new CallbackUser() {
                             @Override
@@ -155,15 +160,18 @@ public class EditProfileFragment extends Fragment {
                                 }
 
                                 firestoreService.updateUser(updateKorisnik,"Users");
-                                Toast.makeText(getActivity(), "Uspješno ažuriran korisnik!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getActivity(), "Podaci korisničkog računa su uspješno ažurirani!", Toast.LENGTH_LONG).show();
                                 ime=binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString();
                                 email=binding.emailEditPe.getText().toString();
                                 phone=binding.brojMobitelaEditPe.getText().toString();
                                 adress=binding.adresaEditPe.getText().toString();
 
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient)).commit();
-
-
+                                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient)).commit();
+                                try {
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
 
