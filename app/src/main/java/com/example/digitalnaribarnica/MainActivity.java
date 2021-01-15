@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -263,12 +264,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    String GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto;
+    Uri GoogleUserPhotoURI;
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
             Intent intent =new Intent(MainActivity.this,RegisterActivity.class);
             startActivity(intent);
+            //zabilježi Google račun korisnika u kolekciju Users
+            if (account != null) {
+                if (account.getId() != null) {
+                    GoogleUserID = account.getId();
+                }
+                if (account.getDisplayName() != null) {
+                    GoogleUserName = account.getDisplayName();
+                }
+                if (account.getEmail() != null) {
+                    GoogleUserEmail = account.getEmail();
+                }
+                if (account.getPhotoUrl() != null) {
+                    GoogleUserPhotoURI = account.getPhotoUrl();
+                    GoogleUserPhoto = GoogleUserPhotoURI.toString();
+                }
+                else if (account.getPhotoUrl() == null){
+                    GoogleUserPhoto = "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029";
+                }
+                Repository repository = new Repository();
+                //repository.DohvatiKorisnikaPoID();
+                try {
+                    repository.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

@@ -88,6 +88,14 @@ public class User implements Serializable {
     public User() {
     }
 
+    //za Google i Facebook korisnike - kod prve prijave (tada još nisu unijeli broj mobitela i adresu)
+    public User(String userID, String fullName, String email, String photo, Boolean blokiran) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.email = email;
+        this.photo = photo;
+        this.blokiran=blokiran;
+    }
 
     public User(String userID, String fullName, String email, String phone, String adress, String photo, String password, Boolean blokiran) {
         this.userID = userID;

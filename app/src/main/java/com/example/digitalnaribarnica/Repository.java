@@ -332,4 +332,13 @@ public class Repository {
         }
         return randomStringBuilder.toString();
     }
+
+    //dodavanje novog korisnika bez lozinke (Google i Facebook)
+    public void DodajKorisnikaUBazuBezLozinke(String id, String name, String email,String photo){
+        try {
+            firestoreService.writeNewUserWithoutPassword(id,name,email,photo,"Users");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

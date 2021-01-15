@@ -245,4 +245,12 @@ public class FirestoreService {
         });
     }
 
+    //zapiši novog korisnika bez lozinke (Google i Facebook)
+    public void writeNewUserWithoutPassword(String userId, String name, String email,String photo,String collection) {
+        User user = new User(userId,name,email,photo,false);
+        //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
+        //FirebaseFirestore.getInstance().collection(collection).add(user);
+        FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
+    }
+
 }
