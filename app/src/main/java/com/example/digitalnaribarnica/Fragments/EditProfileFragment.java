@@ -59,6 +59,14 @@ public class EditProfileFragment extends Fragment {
         this.id = userId;
     }
 
+    //Google
+    public EditProfileFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+        this.id = userId;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+    }
+
     /*public EditProfileFragment(String Photo) {
         this.photo=Photo;
     }*/
@@ -121,7 +129,8 @@ public class EditProfileFragment extends Fragment {
         binding.btnOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
                 //getActivity().finish();
             }
         });
@@ -168,7 +177,8 @@ public class EditProfileFragment extends Fragment {
 
                                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient)).commit();
                                 try {
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
+                                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

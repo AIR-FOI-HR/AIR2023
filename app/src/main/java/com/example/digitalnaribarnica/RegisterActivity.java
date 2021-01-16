@@ -180,7 +180,8 @@ public class RegisterActivity extends AppCompatActivity {
                             args.putString("photo",personPhoto);
                             selectedFragment.setArguments(args);
                             */
-                            selectedFragment = new PersonFragment(personId);
+                            //selectedFragment = new PersonFragment(personId);
+                            selectedFragment = new PersonFragment(personId, mGoogleSignInClient, mUser, mAuth);
                             break;
                         case R.id.nav_ponude:
                             selectedFragment = new ReservationFragment(personId);

@@ -23,15 +23,31 @@ import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.BadgesAdapter;
 import com.example.digitalnaribarnica.recycleviewer.BadgesData;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 public class BadgesFragment extends Fragment {
 
     private String userId = "";
+    GoogleSignInAccount acct;
+    FirebaseUser mUser;
+    FirebaseAuth mAuth;
+    GoogleSignInClient mGoogleSignInClient;
 
     public BadgesFragment(String userId) {
         this.userId = userId;
+    }
+
+    //Google
+    public BadgesFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+        this.userId = userId;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
     }
 
 
@@ -90,7 +106,8 @@ public class BadgesFragment extends Fragment {
                 setHasOptionsMenu(false);
                 Fragment selectedFragment = null;
                 // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment = new PersonFragment(userId);
+                //selectedFragment = new PersonFragment(userId);
+                selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);

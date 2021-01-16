@@ -53,6 +53,14 @@ public class PersonFragment extends Fragment {
         this.userID = userId;
     }
 
+    //Google
+    public PersonFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+        this.userID = userId;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+    }
+
     public PersonFragment(String ime, String id, String photo, String email) {
         this.ime = ime;
         this.id = id;
@@ -133,7 +141,8 @@ public class PersonFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new BadgesFragment(userID);
+                //selectedFragment = new BadgesFragment(userID);
+                selectedFragment = new BadgesFragment(userID, mGoogleSignInClient, mUser, mAuth);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -163,7 +172,8 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("NOVITAG", "Trebalo bi pokrenuti");
-                selectedFragment = new EditProfileFragment(userID);
+                //selectedFragment = new EditProfileFragment(userID);
+                selectedFragment = new EditProfileFragment(userID, mGoogleSignInClient, mUser, mAuth);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
                 /*
@@ -246,13 +256,18 @@ public class PersonFragment extends Fragment {
 
 
     private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getActivity(),"Odjavljen!",Toast.LENGTH_LONG).show();
-                        getActivity().finish();
-                    }
-                });
+        try {
+            mGoogleSignInClient.signOut()
+                    .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getActivity(),"Odjavljen!",Toast.LENGTH_LONG).show();
+                            getActivity().finish();
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(),"Dogodila se pogreška!",Toast.LENGTH_LONG).show();
+        }
     }
 }
