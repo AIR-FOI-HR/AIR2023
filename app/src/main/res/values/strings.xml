@@ -110,11 +110,11 @@
     <string name="insertPrice">Ili unesite ručno:</string>
     <string name="lowPrice">Najniža cijena:</string>
     <string name="upperPrice">Najviša cijena:</string>
-    <string name="badge_title">Naziv značke</string>
-    <string name="badge_decription">Opis značke</string>
-    <string name="newBadge">Nova značka</string>
-    <string name="newBadgeText">Čestitamo! Dobili ste novu značku!</string>
-    <string name="download">Preuzmi</string>
-
+    <string name="rateUser">Ocijeni</string>
+    <string name="comment">Ostavite komentar:</string>
+    <string name="showRating">Prikaži ocjenjivanje</string>
+    <string name="status">Status</string>
+    <string name="ukupnaCijena">Ukupna cijena: </string>
+    <string name="_0_00kn">0,00 kn</string>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +31,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.database.Fish;
 import com.example.database.Location;
-import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
@@ -45,8 +41,6 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import java.util.ArrayList;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FilterOffersFragment extends Fragment {
 
@@ -139,7 +133,7 @@ public class FilterOffersFragment extends Fragment {
         rangePrice.setNotifyWhileDragging(true);
 
         btnFilter.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment =null;
+            Fragment selectedFragment = null;
             @Override
             public void onClick(View v) {
                 String min;
@@ -147,12 +141,16 @@ public class FilterOffersFragment extends Fragment {
 
                 if(lowerPrice.getText().toString().equals("")){
                     min = "0";
+                    lowerPrice.setText("0");
+                    rangePrice.setSelectedMinValue(0);
                 }else{
                     min = lowerPrice.getText().toString();
                 }
 
                 if(topPrice.getText().toString().equals("")){
                     max="999";
+                    topPrice.setText("999");
+                    rangePrice.setSelectedMaxValue(999);
                 }else{
                     max = topPrice.getText().toString();
                 }
@@ -160,6 +158,7 @@ public class FilterOffersFragment extends Fragment {
                 if (Integer.parseInt(min) > Integer.parseInt(max)) {
                     StyleableToast.makeText(getActivity(), "Najviša cijena mora biti veća od najniže!", 3, R.style.Toast).show();
                 }
+
                 else {
                     ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                     selectedFragment = new SearchFragment(userId, editFishSpecies.getText().toString(), editLocations.getText().toString(), min, max, smallRadio.isChecked(),
@@ -175,108 +174,81 @@ public class FilterOffersFragment extends Fragment {
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
                 lowerPrice.setText(String.valueOf(minValue));
                 topPrice.setText(String.valueOf(maxValue));
-                //rangeMinimum.setText(String.valueOf(minValue));
-                //rangeMaximum.setText(String.valueOf(maxValue));
-                //lowerPrice.setText("0");
             }
         });
 
         lowerPrice.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                lowerPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if(hasFocus){
-                            //rangeMinimum.setText(String.valueOf(lowerPrice));
-                            lowerPrice.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-                                }
-
-                                @Override
-                                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    if(s.toString().equals("") || Integer.parseInt(lowerPrice.getText().toString()) < 0){
-                                        lowerPrice.setText("0");
-                                        rangePrice.setSelectedMinValue(0);
-                                    }
-                                   /* else {
-                                        if(Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())){
-                                            rangePrice.setSelectedMinValue(Integer.parseInt(topPrice.getText().toString()));
-                                            lowerPrice.setText(topPrice.getText().toString());
-                                        }*/
-                                    else {
-                                        rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
-                                    }
-                                    //}
-                                }
-
-                                @Override
-                                public void afterTextChanged(Editable s) {
-
-                                }
-                            });
-                            //rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                    if (Integer.parseInt(lowerPrice.getText().toString()) < 0) {
+                        lowerPrice.setText("0");
+                        rangePrice.setSelectedMinValue(0);
+                    }
+                    else {
+                        if (Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())) {
+                            rangePrice.setSelectedMinValue(Integer.parseInt(topPrice.getText().toString()));
+                            lowerPrice.setText(topPrice.getText().toString());
+                        }
+                        else {
+                            rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
                         }
                     }
-                });
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //rangePrice.setRangeValues(Double.parseDouble(lowerPrice.getText().toString()), Double.parseDouble(topPrice.getText().toString()));
+                } catch (Exception ex){
+                    if(lowerPrice.getText().toString().equals("")){
+                    rangePrice.setSelectedMinValue(0);
+                    }
+                    else{
+                        rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                    }
+                }
             }
         });
 
         topPrice.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                topPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if(hasFocus){
-                            //rangeMinimum.setText(String.valueOf(lowerPrice));
-                            topPrice.addTextChangedListener(new TextWatcher() {
-                                @Override
-                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-                                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    rangePrice.setSelectedMaxValue(Integer.parseInt(topPrice.getText().toString()));
+                    if (Integer.parseInt(topPrice.getText().toString()) > 999) {
+                        topPrice.setText("999");
+                        rangePrice.setSelectedMaxValue(999);
+                    }
 
-                                @Override
-                                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    if (s.toString().equals("") || Integer.parseInt(topPrice.getText().toString()) > 999) {
-                                        topPrice.setText("999");
-                                        rangePrice.setSelectedMaxValue(999);
-                                    } else {
-                                        rangePrice.setSelectedMaxValue(Integer.parseInt(topPrice.getText().toString()));
-
-                                    }
-                                }
-                                @Override
-                                public void afterTextChanged(Editable s) {
-
-                                }
-                            });
-                            //rangePrice.setSelectedMinValue(Integer.parseInt(lowerPrice.getText().toString()));
+                    else {
+                        if (Integer.parseInt(lowerPrice.getText().toString()) > Integer.parseInt(topPrice.getText().toString())) {
+                            rangePrice.setSelectedMaxValue(Integer.parseInt(lowerPrice.getText().toString()));
+                        }
+                        else {
+                            rangePrice.setSelectedMaxValue(Integer.parseInt(topPrice.getText().toString()));
                         }
                     }
-                });
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //rangePrice.setRangeValues(Double.parseDouble(lowerPrice.getText().toString()), Double.parseDouble(topPrice.getText().toString()));
+                } catch (Exception ex){
+                    if(topPrice.getText().toString().equals("")){
+                        rangePrice.setSelectedMaxValue(999);
+                    }
+                    else{
+                        rangePrice.setSelectedMaxValue(Integer.parseInt(topPrice.getText().toString()));
+                    }
+                }
             }
         });
 
@@ -297,7 +269,7 @@ public class FilterOffersFragment extends Fragment {
         switch (id) {
             case android.R.id.home:
                 setHasOptionsMenu(false);
-                Fragment selectedFragment = null;
+                Fragment selectedFragment;
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment = new SearchFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -306,7 +278,7 @@ public class FilterOffersFragment extends Fragment {
 
             case R.id.all_offers_menu:
                 setHasOptionsMenu(false);
-                Fragment selectedFragment1 = null;
+                Fragment selectedFragment1;
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment1 = new SearchFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -314,35 +286,15 @@ public class FilterOffersFragment extends Fragment {
 
                 break;
             case R.id.my_offers_menu:
-                /*setHasOptionsMenu(false);
-                Fragment selectedFragment2 = null;
+                setHasOptionsMenu(false);
+                Fragment selectedFragment2;
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment2 = new SearchFragment(userId, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment2).commit();*/
-
-                MyCustomAlertDialog();
+                        selectedFragment2).commit();
                 break;
         }
         return true;
-    }
-
-    public void MyCustomAlertDialog(){
-        final Dialog MyDialog = new Dialog(this.getContext());
-        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        MyDialog.setContentView(R.layout.customdialog);
-
-        Button downloadBadge = (Button)MyDialog.findViewById(R.id.downloadBadge);
-
-        downloadBadge.setEnabled(true);
-
-        downloadBadge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDialog.cancel();
-            }
-        });
-        MyDialog.show();
     }
 
 }

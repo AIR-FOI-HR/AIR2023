@@ -123,6 +123,12 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document(id).set(user);
     }
 
+    public void writeReview(Review review, String collection) {
+        String id=FirebaseFirestore.getInstance().collection(collection).document().getId();
+        review.setReviewID(id);
+        FirebaseFirestore.getInstance().collection(collection).document(id).set(review);
+    }
+
     public void writeOfferWithAutoID(Offer offer,String collection) {
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
         //FirebaseFirestore.getInstance().collection(collection).add(user);

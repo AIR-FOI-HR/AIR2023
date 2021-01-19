@@ -1,6 +1,8 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.database.Review;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ReviewCallback;
 import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,12 +72,16 @@ public class OfferDetailFragment extends Fragment {
     private TextView userName;
 
     private TextView price;
+    private TextView totalPrice;
     private TextView location;
     private TextView fish;
 
+    private String priceWithoutKn;
     private String offerID;
     private String userID = "";
     private Boolean cameFromMyOffers = false;
+
+    private RatingBar rating;
 
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
@@ -98,6 +105,7 @@ public class OfferDetailFragment extends Fragment {
         setHasOptionsMenu(true);
 
         price = binding.cijenaPonude;
+        totalPrice = binding.totalPrice;
         location = binding.lokacijaPonude;
         fish = binding.nazivPonude;
         fishImage = binding.slikaRibe;
@@ -130,6 +138,8 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
+        rating = binding.ratingBar;
+
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
 
@@ -140,6 +150,7 @@ public class OfferDetailFragment extends Fragment {
                        location.setText(offersData.get(0).getLocation());
                        String priceText = offersData.get(0).getPrice() + " " + getString(R.string.knperkg);
                        price.setText(priceText);
+                        priceWithoutKn = offersData.get(0).getPrice();
                         availableSmall.setText(offersData.get(0).getSmallFish());
                         availableMedium.setText(offersData.get(0).getMediumFish());
                         availableLarge.setText(offersData.get(0).getLargeFish());
@@ -171,7 +182,25 @@ public class OfferDetailFragment extends Fragment {
                             }
 
                         });
-                }
+                        repository.DohvatiOcjenePoID(userID, new ReviewCallback() {
+                            @Override
+                            public void onCallback(ArrayList<Review> reviews) {
+                                if(reviews.size()!=0){
+
+                                    float sum = 0;
+                                    for (int i = 0; i < reviews.size(); i++) {
+                                        sum = sum + Float.parseFloat(reviews.get(i).getRating());
+                                    }
+                                    Log.d("TagPolje", String.valueOf(sum) );
+
+                                    float ratingTotal = sum / reviews.size();
+                                    Log.d("TagPolje", String.valueOf(rating) );
+                                    rating.setRating(ratingTotal);
+                                }
+                            }
+                        });
+
+                    }
          });
 
 
@@ -185,6 +214,7 @@ public class OfferDetailFragment extends Fragment {
                     if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)) {
                         smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.1) * 100.0) / 100.0));
                     }
+                    updateTotal();
                 });
 
         smallQuantity.addTextChangedListener(new TextWatcher() {
@@ -207,7 +237,7 @@ public class OfferDetailFragment extends Fragment {
                       smallQuantity.setText(smallAvailable);
                   }
                }
-
+                updateTotal();
             }
 
             @Override
@@ -229,6 +259,7 @@ public class OfferDetailFragment extends Fragment {
                     }
                 }
             }
+            updateTotal();
         });
 
         btnMinusSmall.setOnClickListener(view12 -> {
@@ -242,6 +273,7 @@ public class OfferDetailFragment extends Fragment {
             } else if(Double.parseDouble(currentValue) < 0.1 && Double.parseDouble(currentValue) > 0){
                 smallQuantity.setText("0");
             }
+            updateTotal();
         });
 
         btnPlusMedium.setOnClickListener(view13 -> {
@@ -253,6 +285,7 @@ public class OfferDetailFragment extends Fragment {
             if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)){
                 mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.2)*100.0)/100.0));
             }
+            updateTotal();
         });
 
         mediumQuantity.addTextChangedListener(new TextWatcher() {
@@ -275,6 +308,7 @@ public class OfferDetailFragment extends Fragment {
                         mediumQuantity.setText(mediumAvailable);
                     }
                 }
+                updateTotal();
             }
 
             @Override
@@ -297,6 +331,7 @@ public class OfferDetailFragment extends Fragment {
                     }
                 }
             }
+            updateTotal();
         });
 
         btnMinusMedium.setOnClickListener(view14 -> {
@@ -309,6 +344,7 @@ public class OfferDetailFragment extends Fragment {
             }  else if(Double.parseDouble(currentValue) < 0.2 && Double.parseDouble(currentValue) > 0){
                 mediumQuantity.setText("0");
             }
+            updateTotal();
         });
 
         btnMinusLarge.setOnClickListener(v -> {
@@ -321,6 +357,7 @@ public class OfferDetailFragment extends Fragment {
             }  else if(Double.parseDouble(currentValue) < 0.5 && Double.parseDouble(currentValue) > 0){
                 largeQuantity.setText("0");
             }
+            updateTotal();
         });
 
         btnPlusLarge.setOnClickListener(v -> {
@@ -332,6 +369,7 @@ public class OfferDetailFragment extends Fragment {
             if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)){
                 largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.5)*100.0)/100.0));
             }
+            updateTotal();
         });
 
         largeQuantity.addTextChangedListener(new TextWatcher() {
@@ -354,6 +392,7 @@ public class OfferDetailFragment extends Fragment {
                         largeQuantity.setText(largeAvailable);
                     }
                 }
+                updateTotal();
             }
 
             @Override
@@ -376,6 +415,7 @@ public class OfferDetailFragment extends Fragment {
                 }
             }
         }
+            updateTotal();
     });
 
         btnReserve.setOnClickListener(v -> {
@@ -509,5 +549,34 @@ public class OfferDetailFragment extends Fragment {
         }
         return null;
     };
+
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
+    void updateTotal(){
+        Double smallQuantitySum;
+        Double mediumQuantitySum;
+        Double largeQuantitySum;
+
+        if(smallQuantity.getText().toString().equals("0.0") || smallQuantity.getText().toString().equals("")){
+            smallQuantitySum = 0.0;
+        }
+        else{
+            smallQuantitySum = Double.parseDouble(smallQuantity.getText().toString());
+        }
+        if(mediumQuantity.getText().toString().equals("0.0") || mediumQuantity.getText().toString().equals("")){
+            mediumQuantitySum = 0.0;
+        }
+        else{
+            mediumQuantitySum = Double.parseDouble(mediumQuantity.getText().toString());
+        }
+        if(largeQuantity.getText().toString().equals("0.0") || largeQuantity.getText().toString().equals("")){
+            largeQuantitySum = 0.0;
+        }
+        else{
+            largeQuantitySum = Double.parseDouble(largeQuantity.getText().toString());
+        }
+
+        Double ukupnaCijena = (smallQuantitySum + mediumQuantitySum + largeQuantitySum) * Double.parseDouble(priceWithoutKn);
+        totalPrice.setText(String.format("%.2f", ukupnaCijena) + " kn");
+    }
 
 }

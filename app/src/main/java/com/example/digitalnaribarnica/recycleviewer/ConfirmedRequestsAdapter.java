@@ -1,0 +1,221 @@
+package com.example.digitalnaribarnica.recycleviewer;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.database.FirestoreService;
+import com.example.database.User;
+import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.FirestoreCallback;
+import com.example.digitalnaribarnica.FirestoreOffer;
+import com.example.digitalnaribarnica.Fragments.EditProfileFragment;
+import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
+import com.example.digitalnaribarnica.Fragments.ReservationFragment;
+import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.Repository;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequestsAdapter.ViewHolder>{
+
+    private ReservationFragment  reservationFragment;
+    private CardView cardView;
+    private ArrayList<ReservationsData> confirmedRequests=new ArrayList<>();
+    private Context context;
+    String userID ="";
+    String ReservationID ="";
+
+
+    public ConfirmedRequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
+        this.context = context;
+        this.reservationFragment = reservationFragment;
+        this.userID = userId;
+    }
+
+    @NonNull
+    @Override
+    public ConfirmedRequestsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.confirmed_request_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+
+        holder.accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da je preuzimanje i kupnja ribe uspješno provedena?");
+                ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
+
+            }
+        });
+
+        holder.decline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogDecline(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da kupnja ribe nije uspješno provedena?");
+                ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
+            }
+        });
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ConfirmedRequestsAdapter.ViewHolder holder, int position) {
+        Repository repository = new Repository();
+        FirestoreService firestoreService=new FirestoreService();
+
+        repository.DohvatiPonuduPrekoIdPonude(confirmedRequests.get(position).getOfferID(), new FirestoreOffer() {
+            @Override
+            public void onCallback(ArrayList<OffersData> offersData) {
+                holder.location.setText(offersData.get(0).getLocation());
+                holder.fish.setText(offersData.get(0).getName());
+
+                Double quantity = 0.0;
+                String text ="";
+                if (!confirmedRequests.get(position).getSmallFish().equals("0")){
+                    text = text + "<b>" + context.getString(R.string.smallFish) + "</b>" +  " "  + confirmedRequests.get(position).getSmallFish() + " kg" + "<br>";
+                    quantity = quantity + Double.parseDouble(confirmedRequests.get(position).getSmallFish());
+                }
+                if (!confirmedRequests.get(position).getMediumfish().equals("0")){
+                    text = text + "<b>" + context.getString(R.string.mediumFish) + "</b>" +  " " + confirmedRequests.get(position).getMediumfish() + " kg" + "<br>";
+                    quantity = quantity + Double.parseDouble(confirmedRequests.get(position).getMediumfish());
+                }
+                if (!confirmedRequests.get(position).getLargeFish().equals("0")){
+                    text = text +  "<b>" + context.getString(R.string.largeFish) + "</b>" +  " " + confirmedRequests.get(position).getLargeFish() + " kg";
+                    quantity = quantity + Double.parseDouble(confirmedRequests.get(position).getLargeFish());
+                }
+                holder.fishClassText.setText(Html.fromHtml(text));
+                Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
+                String textPrice = priceQuantity.toString() + " kn";
+                holder.price.setText(textPrice);
+
+                Glide.with(context)
+                        .asBitmap()
+                        .load(offersData.get(0).getImageurl())
+                        .into(holder.fishImage);
+            }
+        });
+
+        Calendar calendar = DateParse.dateToCalendar(confirmedRequests.get(position).getDate().toDate());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
+        String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + dateFormat.format(calendar.getTime());
+        holder.date.setText(Html.fromHtml(textDate));
+
+        repository.DohvatiKorisnikaPoID(confirmedRequests.get(position).getCustomerID(), new FirestoreCallback() {
+            @Override
+            public void onCallback(User user) {
+                String textBuyer = "<b>Kupac: </b>" + user.getFullName();
+                holder.buyer.setText(Html.fromHtml(textBuyer));
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.confirmedRequests.size();
+    }
+
+    public void setConfirmedRequests(ArrayList<ReservationsData> confirmedRequests) {
+        this.confirmedRequests = confirmedRequests;
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView fish;
+        private TextView location;
+        private TextView price;
+        private ImageView fishImage;
+        private TextView fishClassText;
+        private TextView date;
+        private TextView buyer;
+        private ImageButton accept;
+        private ImageButton decline;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            fish = itemView.findViewById(R.id.requestTitle);
+            location= itemView.findViewById(R.id.textReservationLocation);
+            fishImage = itemView.findViewById(R.id.requestImage);
+            price = itemView.findViewById(R.id.textReservationPrice);
+            fishClassText = itemView.findViewById(R.id.textReservationGrade);
+            date = itemView.findViewById(R.id.textDate);
+            buyer = itemView.findViewById(R.id.textBuyer);
+            accept = itemView.findViewById(R.id.request_accept);
+            decline = itemView.findViewById(R.id.request_decline);
+            cardView = itemView.findViewById(R.id.parentReservation);
+        }
+    }
+
+    public void showDialogAccept(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        if (title != null) builder.setTitle(title);
+        builder.setMessage(message);
+
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Repository repository = new Repository();
+                FirestoreService firestoreService = new FirestoreService();
+                if(!ReservationID.equals("")) {
+                    firestoreService.updateReservationStatus(ReservationID, "Uspješno", "Rezervation");
+                    selectedFragment = new FragmentUserRating(userID);
+                    ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                    //reservationFragment.refreshConfirmedRequestsList();
+                    }
+                }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+    }
+
+
+    public void showDialogDecline(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        if (title != null) builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Repository repository = new Repository();
+                FirestoreService firestoreService = new FirestoreService();
+                if(!ReservationID.equals("")) {
+                    firestoreService.updateReservationStatus(ReservationID, "Neuspješno", "Rezervation");
+                    reservationFragment.refreshConfirmedRequestsList();
+                }
+            }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+    }
+}

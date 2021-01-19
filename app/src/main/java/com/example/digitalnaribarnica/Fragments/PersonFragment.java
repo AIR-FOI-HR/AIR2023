@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,11 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.database.FirestoreService;
-import com.example.database.User;
-import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentPersonBinding;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -31,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class PersonFragment extends Fragment {
     FragmentPersonBinding binding;
+    private Button showRatingFragment;
     private String ime="";
     private String id="";
     private String photo="";
@@ -38,28 +36,13 @@ public class PersonFragment extends Fragment {
     private String adress="";
     private String phone="";
     private ImageView edit;
-    private ImageView badges;
-    private ImageView buyerBadge;
-    private ImageView sellerBadge;
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
-    private String userID="";
     public PersonFragment() {
     }
 
-    public PersonFragment(String userId) {
-        this.userID = userId;
-    }
-
-    //Google
-    public PersonFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
-        this.userID = userId;
-        this.mGoogleSignInClient = mGoogleSignInClient;
-        this.mUser = mUser;
-        this.mAuth = mAuth;
-    }
 
     public PersonFragment(String ime, String id, String photo, String email) {
         this.ime = ime;
@@ -91,62 +74,12 @@ public class PersonFragment extends Fragment {
         View view =binding.getRoot();
 
         edit = binding.btnUrediProfil;
-        badges = binding.btnBadges;
-        buyerBadge = binding.badgeBuyer;
-        sellerBadge = binding.badgeSeller;
 
-        /*binding.emailP.setText(email);
+        binding.emailP.setText(email);
         //binding.adresaP.setText(id);
         binding.imePrezime.setText(ime);
         //binding.brojMobitelaP.setText(ime);
-        Glide.with(this).load(photo).into(binding.slikaProfila);*/
-
-        Repository repository = new Repository();
-        FirestoreService firestoreService = new FirestoreService();
-        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
-            @Override
-            public void onCallback(User user) {
-                binding.emailP.setText(user.getEmail());
-                if(user.getFullName()!=""){
-                    binding.imePrezime.setText(user.getFullName());
-                }
-                if(user.getAdress()!=""){
-                    binding.adresaP.setText(user.getAdress());
-                }
-                if(user.getPhone()!=""){
-                    binding.brojMobitelaP.setText(user.getPhone());
-                }
-                Glide.with(getActivity())
-                        .asBitmap()
-                        .load(user.getPhoto())
-                        .into(binding.slikaProfila);
-              if(!user.getBadgeBuyerURL().equals("")){
-            Glide.with(getActivity())
-                    .asBitmap()
-                    .load(user.getBadgeBuyerURL())
-                    .into(binding.badgeBuyer);
-              }
-
-                if(!user.getBadgeSellerURL().equals("")){
-                    Glide.with(getActivity())
-                            .asBitmap()
-                            .load(user.getBadgeSellerURL())
-                            .into(binding.badgeSeller);
-                }
-            }
-        });
-
-
-        binding.btnBadges.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment =null;
-            @Override
-            public void onClick(View view) {
-                //selectedFragment = new BadgesFragment(userID);
-                selectedFragment = new BadgesFragment(userID, mGoogleSignInClient, mUser, mAuth);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
-            }
-        });
+        Glide.with(this).load(photo).into(binding.slikaProfila);
 
         binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,13 +100,13 @@ public class PersonFragment extends Fragment {
             binding.brojMobitelaP.setText(phone);
         if(adress!="")
             binding.adresaP.setText(adress);
+
         edit.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
                 Log.d("NOVITAG", "Trebalo bi pokrenuti");
-                //selectedFragment = new EditProfileFragment(userID);
-                selectedFragment = new EditProfileFragment(userID, mGoogleSignInClient, mUser, mAuth);
+                selectedFragment = new EditProfileFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
                 /*
@@ -197,9 +130,6 @@ public class PersonFragment extends Fragment {
 
             }
         });
-
-
-
 
        /* binding.odjava.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,18 +186,13 @@ public class PersonFragment extends Fragment {
 
 
     private void signOut() {
-        try {
-            mGoogleSignInClient.signOut()
-                    .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(getActivity(),"Odjavljen!",Toast.LENGTH_LONG).show();
-                            getActivity().finish();
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(),"Dogodila se pogreška!",Toast.LENGTH_LONG).show();
-        }
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getActivity(),"Odjavljen!",Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    }
+                });
     }
 }

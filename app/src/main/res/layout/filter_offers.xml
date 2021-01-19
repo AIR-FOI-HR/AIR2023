@@ -156,7 +156,7 @@
                         android:inputType="number"
                         android:autofillHints="10.00"
                         android:textSize="18sp"
-                        android:hint="@string/_0_00"
+                        android:hint="@string/_0"
                         tools:ignore="LabelFor"/>
 
                     <TextView
@@ -189,7 +189,7 @@
                         android:inputType="number"
                         android:autofillHints="10.00"
                         android:textSize="18sp"
-                        android:hint="@string/_0_00"
+                        android:hint="@string/_0"
                         tools:ignore="LabelFor"/>
 
                     <TextView
