@@ -224,6 +224,7 @@ public class Repository {
             }
         });
     }
+
     public void DohvatiLokacije(LocationCallback firestoreCallback){
         firestoreService.getCollection("Location").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -376,4 +377,5 @@ public class Repository {
             e.printStackTrace();
         }
     }
+
 }

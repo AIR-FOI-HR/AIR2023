@@ -77,7 +77,7 @@
                         android:id="@+id/text_badge_description"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/badge_decription"
+                        android:text="@string/badge_description"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="@dimen/general_margin"

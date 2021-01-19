@@ -55,32 +55,12 @@ public class EditProfileFragment extends Fragment {
     public EditProfileFragment() {
     }
 
-    public EditProfileFragment(String userId) {
-        this.id = userId;
-    }
-
     //Google
     public EditProfileFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
         this.id = userId;
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
         this.mAuth = mAuth;
-    }
-
-    /*public EditProfileFragment(String Photo) {
-        this.photo=Photo;
-    }*/
-    public EditProfileFragment(String ime, String id, String photo, String email,String adress,String phone, GoogleSignInAccount acct, FirebaseUser mUser, FirebaseAuth mAuth, GoogleSignInClient mGoogleSignInClient) {
-        this.ime = ime;
-        this.id = id;
-        this.photo = photo;
-        this.email = email;
-        this.adress=adress;
-        this.phone=phone;
-        this.acct = acct;
-        this.mUser = mUser;
-        this.mAuth = mAuth;
-        this.mGoogleSignInClient = mGoogleSignInClient;
     }
 
     @SuppressLint("RestrictedApi")
@@ -120,18 +100,10 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        /*Glide.with(this).load(photo).into(binding.slikaProfila);
-        binding.emailEditPe.setText(email);
-        binding.imeEditEp.setText(ime.split(" ")[0]);
-        binding.prezimeEditEp.setText(ime.split(" ")[1]);
-        binding.adresaEditPe.setText(adress);
-        binding.brojMobitelaEditPe.setText(phone);*/
         binding.btnOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
-                //getActivity().finish();
             }
         });
         binding.btnUcitajSLiku.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +113,7 @@ public class EditProfileFragment extends Fragment {
                 startActivityForResult(gallery, PICK_IMAGE);
             }
         });
+
         binding.btnSpremiPromjene.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,35 +122,25 @@ public class EditProfileFragment extends Fragment {
                 repository.DohvatiKorisnikaPoEmailu(email, new FirestoreCallback() {
                     @Override
                     public void onCallback(User user) {
-                        //FirestoreService.addPhotoWithID(Uri.parse(photo),id);
                         FirestoreService.getProfilePhotoWithID(id, new CallbackUser() {
                             @Override
                             public void onCallback(Uri slika) {
                                 photo=slika.toString();
-                                Log.d("DOSAO",photo);
                                 User updateKorisnik;
-                                if(binding.lozinkaEditPe.getText().toString()=="")
-                                    updateKorisnik=new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
+                                if(binding.lozinkaEditPe.getText().toString() ==" ")
+                                    updateKorisnik = new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
                                 else {
                                     try {
-                                            updateKorisnik=new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, SHA256.toHexString(SHA256.getSHA(binding.lozinkaEditPe.getText().toString())),false);
+                                        updateKorisnik = new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, SHA256.toHexString(SHA256.getSHA(binding.lozinkaEditPe.getText().toString())),false);
                                     } catch (NoSuchAlgorithmException e) {
                                         e.printStackTrace();
-                                        updateKorisnik=new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
+                                        updateKorisnik = new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
 
                                     }
                                 }
 
                                 firestoreService.updateUser(updateKorisnik,"Users");
-                                //Toast.makeText(getActivity(), "Podaci korisničkog računa su uspješno ažurirani!", Toast.LENGTH_LONG).show();
-                                ime=binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString();
-                                email=binding.emailEditPe.getText().toString();
-                                phone=binding.brojMobitelaEditPe.getText().toString();
-                                adress=binding.adresaEditPe.getText().toString();
-
-                                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(ime,id,photo,email,adress,phone,acct,mUser,mAuth,mGoogleSignInClient)).commit();
                                 try {
-                                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id)).commit();
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -201,7 +164,6 @@ public class EditProfileFragment extends Fragment {
             imageUri = data.getData();
             Glide.with(this).load(imageUri).into(binding.slikaProfila);
             photo=imageUri.toString();
-            //imageView.setImageURI(imageUri);
             FirestoreService.addPhotoWithID(imageUri,id);
         }
 
