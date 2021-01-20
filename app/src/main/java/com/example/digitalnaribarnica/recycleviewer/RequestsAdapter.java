@@ -1,5 +1,6 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -121,7 +122,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 }
                 holder.fishClassText.setText(Html.fromHtml(text));
                 Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                String textPrice = priceQuantity.toString() + " kn";
+                @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
                 holder.price.setText(textPrice);
 
                 Glide.with(context)

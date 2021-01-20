@@ -1,5 +1,6 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -109,7 +110,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 }
                 holder.fishClassText.setText(Html.fromHtml(text));
                 Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                String textPrice = priceQuantity.toString() + " kn";
+                @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
                 holder.price.setText(textPrice);
 
                 Glide.with(context)
@@ -183,6 +184,27 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Uspješno", "Rezervation");
+
+                    repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+                        @Override
+                        public void onCallback(User user) {
+                            FirestoreService firestoreService = new FirestoreService();
+                            Integer addSales = user.getNumberOfSales();
+                            addSales++;
+                            firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
+                        }
+                    });
+
+                    repository.DohvatiKorisnikaPoID(buyerID, new FirestoreCallback() {
+                        @Override
+                        public void onCallback(User user) {
+                            FirestoreService firestoreService = new FirestoreService();
+                            Integer addPurchases = user.getNumberOfPurchases();
+                            addPurchases++;
+                            firestoreService.updateNumberOfPurchases(buyerID, addPurchases.toString(), "Users");
+                        }
+                    });
+
                     Log.d("TagPolje", buyerID);
                     selectedFragment = new FragmentUserRating(userID, buyerID);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,

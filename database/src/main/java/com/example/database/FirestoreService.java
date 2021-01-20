@@ -264,6 +264,16 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
     }
 
+    public void updateNumberOfSales(String userID, String numberSales, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
+                "numberOfSales", numberSales);
+    }
+
+    public void updateNumberOfPurchases(String userID, String numberPurchases, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
+                "numberOfPurchases", numberPurchases);
+    }
+
     //dohvati ID Google korisnika iz User kolekcije
     /*public boolean korisnikPostojiUKolekciji(String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
