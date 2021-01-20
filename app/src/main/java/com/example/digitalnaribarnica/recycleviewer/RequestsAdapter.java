@@ -27,7 +27,7 @@ import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
-import com.example.digitalnaribarnica.Mail.JavaMailAPI;
+import com.example.mailservise.JavaMailAPI;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.Repository;

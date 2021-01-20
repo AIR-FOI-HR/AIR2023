@@ -1,4 +1,4 @@
-package com.example.digitalnaribarnica.Mail;
+package com.example.mailservise;
 
 public class Utilis {
     public static final String EMAIL = "digitalnaRibarnica@gmail.com";
