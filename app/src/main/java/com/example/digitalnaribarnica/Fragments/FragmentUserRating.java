@@ -35,18 +35,20 @@ public class FragmentUserRating extends Fragment {
 
     private ReservationsData reservation;
 
-    String userID ="";
-    String ratedUser ="";
+    String userID = "";
+    String ratedUser = "";
+    String typePerson = "";
 
     public FragmentUserRating( String userId, String ratedUser) {
         this.userID = userId;
         this.ratedUser = ratedUser;
     }
-/*
-    public FragmentUserRating( String userId, ReservationsData reservation) {
+
+    public FragmentUserRating( String userId, String ratedUser, String typePerson) {
         this.userID = userId;
-        this.reservation = reservation;
-    }*/
+        this.ratedUser = ratedUser;
+        this.typePerson = typePerson;
+    }
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -97,9 +99,17 @@ public class FragmentUserRating extends Fragment {
             public void onClick(View v) {
                 repository.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), "Uspješno ocjenjen korisnik", 3, R.style.ToastGreen).show();
-                selectedFragment = new ReservationFragment(userID, true);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+
+                if(typePerson.equals("Prodavatelj")){
+                    selectedFragment = new ReservationFragment(userID, true, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                else {
+                    selectedFragment = new ReservationFragment(userID, true, false);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
             }
         });
         return  view;

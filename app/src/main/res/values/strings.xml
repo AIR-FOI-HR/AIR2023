@@ -127,5 +127,7 @@
     <string name="reviewer">Ocjenjivač:</string>
     <string name="seller">Prodavatelj: </string>
     <string name="back">Vrati se</string>
+    <string name="buy">Kupac</string>
+    <string name="sell">Prodavatelj</string>
 
 </resources>

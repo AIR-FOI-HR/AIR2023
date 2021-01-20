@@ -225,7 +225,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                     });
 
                     Log.d("TagPolje", buyerID);
-                    selectedFragment = new FragmentUserRating(userID, buyerID);
+                    selectedFragment = new FragmentUserRating(userID, buyerID, "Prodavatelj");
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                     }
