@@ -302,8 +302,8 @@ public class Repository {
         });
     }*/
 
-    public void DodajOcjenu(String userID, String rating, String comment){
-        Review review = new Review(userID, rating, comment);
+    public void DodajOcjenu(String ratedUser, String rating, String comment, String reviewer, Timestamp date){
+        Review review = new Review(ratedUser, rating, comment, reviewer, date);
         firestoreService.writeReview(review,"Review");
     }
 
@@ -332,7 +332,7 @@ public class Repository {
     }
 
     public void DohvatiOcjenePoID(String id, ReviewCallback firestoreCallback){
-        firestoreService.getCollectionWithField("Review","userID",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        firestoreService.getCollectionWithField("Review","ratedUser",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();

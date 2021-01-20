@@ -76,6 +76,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             public void onClick(View view) {
                 showDialogDecline(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da kupnja ribe nije uspješno provedena?");
                 ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
+                buyerID = confirmedRequests.get(holder.getAdapterPosition()).getCustomerID();
             }
         });
         return holder;
@@ -182,7 +183,8 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Uspješno", "Rezervation");
-                    selectedFragment = new FragmentUserRating(buyerID);
+                    Log.d("TagPolje", buyerID);
+                    selectedFragment = new FragmentUserRating(userID, buyerID);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                     }
@@ -210,7 +212,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Neuspješno", "Rezervation");
-                    selectedFragment = new FragmentUserRating(buyerID);
+                    selectedFragment = new FragmentUserRating(userID, buyerID);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }

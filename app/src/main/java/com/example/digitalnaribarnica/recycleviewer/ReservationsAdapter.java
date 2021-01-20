@@ -159,9 +159,18 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 if(reservations.get(position).getStatus().equals("Neuspješno") || reservations.get(position).getStatus().equals("Uspješno")) {
                     FirestoreService firestoreService=new FirestoreService();
                     firestoreService.updateReservationRatedStatus(reservations.get(position).getReservationID(), "Ocijenjeno", "Rezervation");
-                    selectedFragment = new FragmentUserRating(userID, reservations.get(position));
-                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                            selectedFragment).commit();
+
+                    repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
+                                @Override
+                                public void onCallback(ArrayList<OffersData> offersData) {
+                                    Log.d("TagPolje", "reservations.get(position).getCustomerID()");
+                                    Log.d("TagPolje", offersData.get(0).getIdKorisnika());
+                                    selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika());
+                                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                            selectedFragment).commit();
+                                }
+
+                            });
                 }
             }
         });

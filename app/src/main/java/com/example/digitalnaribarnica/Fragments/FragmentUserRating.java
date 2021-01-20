@@ -26,6 +26,7 @@ import com.example.digitalnaribarnica.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentUserRatingBinding;
 import com.example.digitalnaribarnica.recycleviewer.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
+import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
@@ -41,15 +42,17 @@ public class FragmentUserRating extends Fragment {
     private ReservationsData reservation;
 
     String userID ="";
+    String ratedUser ="";
 
-    public FragmentUserRating( String userId) {
+    public FragmentUserRating( String userId, String ratedUser) {
         this.userID = userId;
+        this.ratedUser = ratedUser;
     }
-
+/*
     public FragmentUserRating( String userId, ReservationsData reservation) {
         this.userID = userId;
         this.reservation = reservation;
-    }
+    }*/
 
     @SuppressLint("RestrictedApi")
     @Nullable
@@ -61,7 +64,6 @@ public class FragmentUserRating extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
-
         binding = FragmentUserRatingBinding.inflate(inflater,container,false);
         View view =binding.getRoot();
         rateUser = binding.btnOcijeni;
@@ -72,7 +74,7 @@ public class FragmentUserRating extends Fragment {
         Repository repository = new Repository();
 
         if(reservation == null) {
-            repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+            repository.DohvatiKorisnikaPoID(ratedUser, new FirestoreCallback() {
                 @Override
                 public void onCallback(User user) {
                         name.setText(user.getFullName());
@@ -99,7 +101,7 @@ public class FragmentUserRating extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                repository.DodajOcjenu(userID, String.valueOf(rating.getRating()), comment.getText().toString());
+                repository.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), "Uspješno ocjenjen korisnik", 3, R.style.ToastGreen).show();
                 selectedFragment = new ReservationFragment(userID, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,

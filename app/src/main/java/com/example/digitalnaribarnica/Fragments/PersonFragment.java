@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,7 @@ public class PersonFragment extends Fragment {
     private ImageView buyerBadge;
     private ImageView sellerBadge;
     private RatingBar ratingBar;
+    private TextView showRatings;
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
@@ -79,6 +81,7 @@ public class PersonFragment extends Fragment {
         buyerBadge = binding.badgeBuyer;
         sellerBadge = binding.badgeSeller;
         ratingBar = binding.ratingBar;
+        showRatings = binding.showRatings;
 
         Repository repository = new Repository();
         FirestoreService firestoreService = new FirestoreService();
@@ -127,6 +130,16 @@ public class PersonFragment extends Fragment {
                     float ratingTotal = sum / reviews.size();
                     ratingBar.setRating(ratingTotal);
                 }
+            }
+        });
+
+        showRatings.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new RatingsFragment(userID, mGoogleSignInClient, mUser, mAuth);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
             }
         });
 

@@ -1,15 +1,22 @@
 package com.example.database;
 
+
+import com.google.firebase.Timestamp;
+
 public class Review {
     private String reviewID;
-    private String userID;
+    private String ratedUser;
     private String rating;
     private String comment;
+    private String reviewer;
+    private Timestamp date;
 
-    public Review(String userID, String rating, String comment){
-        this.userID = userID;
+    public Review(String ratedUser, String rating, String comment, String reviewer, Timestamp date){
+        this.ratedUser = ratedUser;
         this.rating = rating;
         this.comment = comment;
+        this.reviewer = reviewer;
+        this.date = date;
     }
 
     public String getReviewID() {
@@ -20,12 +27,12 @@ public class Review {
         this.reviewID = reviewID;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getRatedUser() {
+        return ratedUser;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setRatedUser(String ratedUser) {
+        this.ratedUser = ratedUser;
     }
 
     public String getRating() {
@@ -42,5 +49,21 @@ public class Review {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 }

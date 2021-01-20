@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.database.Badge;
 import com.example.digitalnaribarnica.Fragments.BadgesFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;

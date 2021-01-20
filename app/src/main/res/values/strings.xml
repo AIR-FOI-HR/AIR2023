@@ -124,5 +124,6 @@
     <string name="ocjenaKorisnika">Ocjena korisnika:</string>
     <string name="showRatings"><u>Prikaži sve ocjene</u></string>
     <string name="rateSeller"><u>Ocijeni prodavatelja</u></string>
+    <string name="reviewer">Ocjenjivač:</string>
 
 </resources>
