@@ -12,6 +12,7 @@ public class Rezervation {
     private String largeFish;
     private String customerID;
     private String status;
+    private String ratedStatus = "Neocijenjeno";
 
     public Rezervation(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status) {
         this.offerID=offerID;
@@ -95,5 +96,13 @@ public class Rezervation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRatedStatus() {
+        return ratedStatus;
+    }
+
+    public void setRatedStatus(String ratedStatus) {
+        this.ratedStatus = ratedStatus;
     }
 }

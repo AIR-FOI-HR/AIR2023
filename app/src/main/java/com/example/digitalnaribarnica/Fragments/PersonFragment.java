@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Review;
 import com.example.database.User;
 import com.example.digitalnaribarnica.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.Repository;
+import com.example.digitalnaribarnica.ReviewCallback;
 import com.example.digitalnaribarnica.databinding.FragmentPersonBinding;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,6 +32,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 public class PersonFragment extends Fragment {
     FragmentPersonBinding binding;
@@ -44,6 +49,7 @@ public class PersonFragment extends Fragment {
     private ImageView badges;
     private ImageView buyerBadge;
     private ImageView sellerBadge;
+    private RatingBar ratingBar;
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
@@ -72,6 +78,7 @@ public class PersonFragment extends Fragment {
         badges = binding.btnBadges;
         buyerBadge = binding.badgeBuyer;
         sellerBadge = binding.badgeSeller;
+        ratingBar = binding.ratingBar;
 
         Repository repository = new Repository();
         FirestoreService firestoreService = new FirestoreService();
@@ -104,6 +111,21 @@ public class PersonFragment extends Fragment {
                             .asBitmap()
                             .load(user.getBadgeSellerURL())
                             .into(binding.badgeSeller);
+                }
+            }
+        });
+
+        repository.DohvatiOcjenePoID(userID, new ReviewCallback() {
+            @Override
+            public void onCallback(ArrayList<Review> reviews) {
+                if(reviews.size()!=0){
+
+                    float sum = 0;
+                    for (int i = 0; i < reviews.size(); i++) {
+                        sum = sum + Float.parseFloat(reviews.get(i).getRating());
+                    }
+                    float ratingTotal = sum / reviews.size();
+                    ratingBar.setRating(ratingTotal);
                 }
             }
         });

@@ -44,8 +44,9 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
     private CardView cardView;
     private ArrayList<ReservationsData> confirmedRequests=new ArrayList<>();
     private Context context;
-    String userID ="";
-    String ReservationID ="";
+    String userID = "";
+    String ReservationID = "";
+    String buyerID = "";
 
 
     public ConfirmedRequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
@@ -65,6 +66,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             public void onClick(View view) {
                 showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da je preuzimanje i kupnja ribe uspješno provedena?");
                 ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
+                buyerID = confirmedRequests.get(holder.getAdapterPosition()).getCustomerID();
 
             }
         });
@@ -180,16 +182,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Uspješno", "Rezervation");
-                    selectedFragment = new FragmentUserRating(userID);
+                    selectedFragment = new FragmentUserRating(buyerID);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
-                    //reservationFragment.refreshConfirmedRequestsList();
                     }
                 }
         });
         builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
             }
         });
         builder.show();
@@ -201,13 +203,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         if (title != null) builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            Fragment selectedFragment =null;
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Repository repository = new Repository();
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Neuspješno", "Rezervation");
-                    reservationFragment.refreshConfirmedRequestsList();
+                    selectedFragment = new FragmentUserRating(buyerID);
+                    ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
                 }
             }
         });

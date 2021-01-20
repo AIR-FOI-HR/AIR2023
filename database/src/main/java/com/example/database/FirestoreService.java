@@ -178,6 +178,11 @@ public class FirestoreService {
                 "status", status);
     }
 
+    public void updateReservationRatedStatus(String reservationID, String status, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).update(
+                "ratedStatus", status);
+    }
+
     public void deleteReservation(String reservationID, String collection) {
         FirebaseFirestore.getInstance().collection(collection).document(reservationID).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

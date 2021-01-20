@@ -14,6 +14,7 @@ public class ReservationsData {
     private String largeFish;
     private String customerID;
     private String status;
+    private String ratedStatus;
 
     public ReservationsData(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status) {
         this.offerID=offerID;
@@ -99,7 +100,13 @@ public class ReservationsData {
         this.status = status;
     }
 
+    public String getRatedStatus() {
+        return ratedStatus;
+    }
 
+    public void setRatedStatus(String ratedStatus) {
+        this.ratedStatus = ratedStatus;
+    }
 /*
     public ReservationsData(String reservationTitle, String location) {
         this.reservationTitle = reservationTitle;
@@ -112,6 +119,7 @@ public class ReservationsData {
         this.reservationImage = reservationImage;
     }
 */
+
     @NonNull
     @Override
     public String toString() {

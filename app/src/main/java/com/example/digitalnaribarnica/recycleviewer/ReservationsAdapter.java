@@ -89,8 +89,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Repository repository = new Repository();
-        FirestoreService firestoreService=new FirestoreService();
-
        repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
             @Override
             public void onCallback(ArrayList<OffersData> offersData) {
@@ -140,6 +138,11 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                         .asBitmap()
                         .load(offersData.get(0).getImageurl())
                         .into(holder.fishImage);
+
+
+                if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && reservations.get(position).getRatedStatus().equals("Neocijenjeno")){
+                    holder.rateSeller.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -148,12 +151,14 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + dateFormat.format(calendar.getTime());
         holder.date.setText(Html.fromHtml(textDate));
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment = null;
 
+        holder.rateSeller.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if(reservations.get(position).getStatus().equals("Neuspješno") || reservations.get(position).getStatus().equals("Uspješno")) {
+                    FirestoreService firestoreService=new FirestoreService();
+                    firestoreService.updateReservationRatedStatus(reservations.get(position).getReservationID(), "Ocijenjeno", "Rezervation");
                     selectedFragment = new FragmentUserRating(userID, reservations.get(position));
                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
@@ -190,6 +195,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         private TextView fishClassText;
         private TextView date;
         private ImageView deleteReservation;
+        private TextView rateSeller;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -202,6 +208,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             status = itemView.findViewById(R.id.status);
             cardView = itemView.findViewById(R.id.parentReservation);
             deleteReservation = itemView.findViewById(R.id.delete_reservation);
+            rateSeller = itemView.findViewById(R.id.rate_seller);
         }
     }
 

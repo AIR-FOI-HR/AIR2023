@@ -112,6 +112,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/userNameRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relativeIcon">
@@ -128,12 +129,48 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/ratingRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/userNameRelative">
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:numStars="5"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_centerHorizontal="true"
+        android:rating="0"/>
+
+        <TextView
+            android:id="@+id/show_ratings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/ratingBar"
+            android:text="@string/showRatings"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/colorBlueT"
+            android:textSize="12sp"/>
+
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_below="@+id/relativeBlueBackground">
+        android:layout_below="@+id/ratingRelative">
 
         <RelativeLayout
             android:id="@+id/relativeLayoutPodaci"
@@ -159,65 +196,63 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginRight="10dp"
                         android:text="@string/username"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/email_p"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginTop="2dp"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/username"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/adresa_text_p"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginTop="13dp"
-                        android:textStyle="bold"
-                        android:text="@string/adresa"/>
+                        android:layout_marginRight="10dp"
+                        android:text="@string/adresa"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/adresa_p"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginTop="2dp"
-                        android:inputType="textMultiLine"
-                        android:lines="3"
+                        android:layout_marginEnd="10dp"
                         android:text="@string/adresa"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/broj_mobitela_text_p"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginTop="13dp"
+                        android:layout_marginRight="10dp"
                         android:text="@string/telefon"
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/broj_mobitela_p"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_marginTop="2dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="20dp"
                         android:text="@string/telefon"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
