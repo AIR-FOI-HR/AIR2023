@@ -1,10 +1,8 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,16 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.database.User;
-import com.example.digitalnaribarnica.FirestoreCallback;
+import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
+import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentUserRatingBinding;
-import com.example.digitalnaribarnica.recycleviewer.OffersData;
-import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
+import com.example.repository.Data.ReservationsData;
 import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
-
-import java.util.ArrayList;
 
 public class FragmentUserRating extends Fragment {
 

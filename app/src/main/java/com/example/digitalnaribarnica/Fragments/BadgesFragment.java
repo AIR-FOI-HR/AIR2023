@@ -17,12 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.digitalnaribarnica.BadgeCallback;
+import com.example.repository.Listener.BadgeCallback;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
+import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.BadgesAdapter;
-import com.example.digitalnaribarnica.recycleviewer.BadgesData;
+import com.example.repository.Data.BadgesData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;

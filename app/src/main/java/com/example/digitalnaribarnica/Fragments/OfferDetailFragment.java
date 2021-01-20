@@ -2,10 +2,9 @@ package com.example.digitalnaribarnica.Fragments;
 
 import com.example.database.Review;
 import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.ReviewCallback;
+import com.example.repository.Listener.ReviewCallback;
 import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,20 +30,14 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
-import com.example.database.Rezervation;
-import com.example.database.User;
-import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.FirestoreCallback;
-import com.example.digitalnaribarnica.FirestoreOffer;
+import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
-import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
+import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentOfferDetailBinding;
-import com.example.digitalnaribarnica.recycleviewer.OffersData;
+import com.example.repository.Data.OffersData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class OfferDetailFragment extends Fragment {
 

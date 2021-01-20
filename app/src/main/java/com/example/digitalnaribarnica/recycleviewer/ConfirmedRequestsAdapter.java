@@ -24,20 +24,18 @@ import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.FirestoreCallback;
-import com.example.digitalnaribarnica.FirestoreOffer;
-import com.example.digitalnaribarnica.Fragments.EditProfileFragment;
+import com.example.repository.Listener.FirestoreCallback;
+import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
-import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.example.repository.Repository;
+import com.example.repository.Data.OffersData;
+import com.example.repository.Data.ReservationsData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequestsAdapter.ViewHolder>{
 

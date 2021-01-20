@@ -1,48 +1,35 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.graphics.drawable.ColorDrawable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.database.CallbackUser;
-import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
-import com.example.database.Offer;
-import com.example.database.User;
-import com.example.digitalnaribarnica.FirestoreCallback;
-import com.example.digitalnaribarnica.FishCallback;
-import com.example.digitalnaribarnica.LocationCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.Repository;
+import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class AddOfferFragment extends Fragment {

@@ -19,10 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.database.Review;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
-import com.example.digitalnaribarnica.ReviewCallback;
+import com.example.repository.Repository;
+import com.example.repository.Listener.ReviewCallback;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
-import com.example.digitalnaribarnica.databinding.RatingItemBinding;
 import com.example.digitalnaribarnica.recycleviewer.RatingsAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

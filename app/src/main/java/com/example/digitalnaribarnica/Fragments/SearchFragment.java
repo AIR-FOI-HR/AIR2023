@@ -2,18 +2,15 @@ package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.digitalnaribarnica.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.Repository;
+import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
-import com.example.digitalnaribarnica.recycleviewer.OffersData;
+import com.example.repository.Data.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

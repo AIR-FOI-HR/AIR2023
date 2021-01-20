@@ -1,4 +1,4 @@
-package com.example.digitalnaribarnica;
+package com.example.repository;
 
 import android.util.Log;
 
@@ -12,9 +12,19 @@ import com.example.database.Review;
 import com.example.database.Rezervation;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
-import com.example.digitalnaribarnica.recycleviewer.BadgesData;
-import com.example.digitalnaribarnica.recycleviewer.OffersData;
-import com.example.digitalnaribarnica.recycleviewer.ReservationsData;
+import com.example.repository.Data.BadgesData;
+import com.example.repository.Data.OffersData;
+import com.example.repository.Data.ReservationsData;
+import com.example.repository.Listener.BadgeCallback;
+import com.example.repository.Listener.FirestoreCallback;
+import com.example.repository.Listener.FirestoreOffer;
+import com.example.repository.Listener.FishCallback;
+import com.example.repository.Listener.LocationCallback;
+import com.example.repository.Listener.ReviewCallback;
+import com.example.repository.Listener.RezervationCallback;
+import com.example.repository.Data.BadgesData;
+import com.example.repository.Data.OffersData;
+import com.example.repository.Data.ReservationsData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;

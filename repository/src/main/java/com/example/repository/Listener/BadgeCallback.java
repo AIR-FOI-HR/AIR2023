@@ -1,5 +1,5 @@
-package com.example.digitalnaribarnica;
-import com.example.digitalnaribarnica.recycleviewer.BadgesData;
+package com.example.repository.Listener;
+import com.example.repository.Data.BadgesData;
 
 import java.util.ArrayList;
 

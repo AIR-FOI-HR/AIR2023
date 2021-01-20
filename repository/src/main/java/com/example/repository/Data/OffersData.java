@@ -1,4 +1,4 @@
-package com.example.digitalnaribarnica.recycleviewer;
+package com.example.repository.Data;
 
 import androidx.annotation.NonNull;
 

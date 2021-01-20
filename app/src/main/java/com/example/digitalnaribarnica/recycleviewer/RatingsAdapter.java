@@ -15,12 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.database.Review;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.FirestoreCallback;
+import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.Fragments.RatingsFragment;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.Repository;
-
-import org.w3c.dom.Text;
+import com.example.repository.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

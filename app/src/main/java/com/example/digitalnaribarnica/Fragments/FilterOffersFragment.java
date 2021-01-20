@@ -1,12 +1,10 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,11 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.Repository;
+import com.example.repository.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
 import com.example.digitalnaribarnica.R;

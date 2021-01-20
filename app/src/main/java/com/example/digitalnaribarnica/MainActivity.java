@@ -16,10 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
 import com.example.digitalnaribarnica.databinding.ActivityMainBinding;
+import com.example.repository.Listener.FirestoreCallback;
+import com.example.repository.Repository;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

@@ -16,29 +16,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.FirestoreCallback;
-import com.example.digitalnaribarnica.FirestoreOffer;
+import com.example.repository.Listener.FirestoreCallback;
+import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.mailservise.JavaMailAPI;
 import com.example.digitalnaribarnica.R;
-import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.Repository;
-import com.example.digitalnaribarnica.RezervationCallback;
+import com.example.repository.Repository;
+import com.example.repository.Data.OffersData;
+import com.example.repository.Data.ReservationsData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
