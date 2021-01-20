@@ -1,4 +1,4 @@
-package com.example.digitalnaribarnica.recycleviewer;
+package com.example.badges;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +9,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.digitalnaribarnica.Fragments.BadgesFragment;
-import com.example.digitalnaribarnica.R;
-import com.example.repository.Data.BadgesData;
+import com.example.badges.BadgesData;
 
 import java.util.ArrayList;
 
@@ -25,9 +24,9 @@ public class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder
     private CardView cardView;
     private Context context;
     private String userID;
-    private BadgesFragment badgesFragment;
+    private Fragment badgesFragment;
 
-    public BadgesAdapter(Context context, String userID, BadgesFragment fragment) {
+    public BadgesAdapter(Context context, String userID, androidx.fragment.app.Fragment fragment) {
         this.userID = userID;
         this.context = context;
         this.badgesFragment = fragment;

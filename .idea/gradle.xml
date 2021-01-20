@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/badges" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/mailServise" />
             <option value="$PROJECT_DIR$/repository" />

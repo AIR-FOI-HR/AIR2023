@@ -1,3 +1,4 @@
+include ':badges'
 include ':repository'
 include ':mailServise'
 include ':database'

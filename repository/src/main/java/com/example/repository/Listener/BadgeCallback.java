@@ -1,5 +1,5 @@
 package com.example.repository.Listener;
-import com.example.repository.Data.BadgesData;
+import com.example.badges.BadgesData;
 
 import java.util.ArrayList;
 

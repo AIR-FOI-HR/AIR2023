@@ -1,4 +1,4 @@
-package com.example.repository.Data;
+package com.example.badges;
 
 import androidx.annotation.NonNull;
 
