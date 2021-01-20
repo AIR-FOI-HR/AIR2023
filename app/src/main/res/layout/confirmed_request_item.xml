@@ -107,19 +107,48 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp">
 
-                        <TextView
-                            android:id="@+id/textBuyer"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="@dimen/general_margin"
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/buyer"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textIsSelectable="false" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/Buyer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/buyer"
+                                android:textStyle="bold"/>
+
+
+                            <TextView
+                                android:id="@+id/textBuyer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/general_margin"
+                                android:layout_weight="1"
+                                android:text="@string/buyer"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:textColor="@color/colorBlue"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                android:textIsSelectable="false" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/badgeImage"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/picture" />
 
                     </LinearLayout>
 

@@ -38,22 +38,37 @@ public class BadgesFragment extends Fragment {
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    private String cameFrom = "";
+    private String currentUser = "";
+    private String offerID = "";
 
     public BadgesFragment(String userId) {
         this.userId = userId;
     }
 
     //Google
-    public BadgesFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+    public BadgesFragment(String userId,  String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom) {
         this.userId = userId;
+        this.currentUser = currentUser;
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
         this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+    }
+
+    public BadgesFragment(String userId,  String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom, String offerID) {
+        this.userId = userId;
+        this.currentUser = currentUser;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+        this.offerID = offerID;
+
     }
 
 
     Menu actionMenu;
-
     FragmentSearchBinding binding;
     RecyclerView recyclerView;
 
@@ -108,9 +123,19 @@ public class BadgesFragment extends Fragment {
                 Fragment selectedFragment = null;
                 // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 //selectedFragment = new PersonFragment(userId);
-                selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                if(cameFrom.equals("Person")){
+                    selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                } else if(cameFrom.equals("Details")){
+                    selectedFragment = new PersonFragment(userId, currentUser, cameFrom, offerID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new PersonFragment(userId, currentUser, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 break;
         }

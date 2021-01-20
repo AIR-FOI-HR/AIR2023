@@ -1,7 +1,9 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,14 +51,35 @@ public class PersonFragment extends Fragment {
     private ImageView badges;
     private ImageView buyerBadge;
     private ImageView sellerBadge;
+    private ImageView btnGoBack;
     private RatingBar ratingBar;
     private TextView showRatings;
+    private Boolean otherProfile= false;
+    private String currentUser = "";
+    private String cameFrom = "Person";
+    private String offerID = "";
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+
     public PersonFragment() {
+    }
+
+    public PersonFragment(String selectedUser, String userID, String cameFrom) {
+        this.userID = selectedUser;
+        this.currentUser = userID;
+        this.cameFrom = cameFrom;
+        otherProfile = true;
+    }
+
+    public PersonFragment(String selectedUser, String userID, String cameFrom, String offerID) {
+        this.userID = selectedUser;
+        this.currentUser=userID;
+        this.cameFrom = cameFrom;
+        this.offerID = offerID;
+        otherProfile = true;
     }
 
     public PersonFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
@@ -64,6 +87,7 @@ public class PersonFragment extends Fragment {
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
         this.mAuth = mAuth;
+        otherProfile = false;
     }
 
     @SuppressLint("RestrictedApi")
@@ -81,6 +105,16 @@ public class PersonFragment extends Fragment {
         sellerBadge = binding.badgeSeller;
         ratingBar = binding.ratingBar;
         showRatings = binding.showRatings;
+        btnGoBack = binding.btnBack;
+
+        if(otherProfile==true){
+                btnGoBack.setVisibility(view.VISIBLE);
+            if(!currentUser.equals(userID)){
+                edit.setVisibility(view.INVISIBLE);
+                badges.setVisibility(view.INVISIBLE);
+                binding.odjava.setVisibility(view.INVISIBLE);
+            }
+         }
 
         Repository repository = new Repository();
         FirestoreService firestoreService = new FirestoreService();
@@ -136,9 +170,42 @@ public class PersonFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new RatingsFragment(userID, mGoogleSignInClient, mUser, mAuth);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                if(cameFrom.equals("Details")){
+                    selectedFragment = new RatingsFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom, offerID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new RatingsFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+            }
+        });
+
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                if(!userID.equals(currentUser)){
+                    userID = currentUser;
+                }
+                if(cameFrom.equals("Requests")){
+                    selectedFragment = new ReservationFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else if(cameFrom.equals("Offers")){
+                    selectedFragment = new SearchFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else if(cameFrom.equals("Confirmed")){
+                    selectedFragment = new ReservationFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else if(cameFrom.equals("Details")){
+                   selectedFragment = new OfferDetailFragment(offerID, userID, false);
+                   getFragmentManager().beginTransaction().replace(R.id.fragment_containter, selectedFragment).commit();
+                }
+
             }
         });
 
@@ -146,9 +213,15 @@ public class PersonFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new BadgesFragment(userID, mGoogleSignInClient, mUser, mAuth);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                if(cameFrom.equals("Details")){
+                    selectedFragment = new BadgesFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom, offerID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new BadgesFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
             }
         });
 

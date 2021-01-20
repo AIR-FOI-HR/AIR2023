@@ -104,7 +104,7 @@
     <string name="mailConfirmationDetails">Potvrdite vaš račun u mail-u koji smo Vam poslali.</string>
     <string name="mailConfirmationButton">Otvori e-mail</string>
     <string name="mailConfirmation">Potvrdite e-mail</string>
-    <string name="buyer">Kupac</string>
+    <string name="buyer">Kupac:</string>
     <string name="sorting">Sortiranje</string>
     <string name="_999">999</string>
     <string name="insertPrice">Ili unesite ručno:</string>
@@ -125,5 +125,7 @@
     <string name="showRatings"><u>Prikaži sve ocjene</u></string>
     <string name="rateSeller"><u>Ocijeni prodavatelja</u></string>
     <string name="reviewer">Ocjenjivač:</string>
+    <string name="seller">Prodavatelj: </string>
+    <string name="back">Vrati se</string>
 
 </resources>

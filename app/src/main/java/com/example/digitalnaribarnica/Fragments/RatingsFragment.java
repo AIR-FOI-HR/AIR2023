@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,16 +38,31 @@ public class RatingsFragment extends Fragment {
     FirebaseUser mUser;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    private String cameFrom = "";
+    private String currentUser = "";
+    private String offerID = "";
 
     public RatingsFragment(String userId) {
         this.userId = userId;
     }
 
-    public RatingsFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+    public RatingsFragment(String userId, String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom) {
         this.userId = userId;
+        this.currentUser = currentUser;
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
         this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+    }
+
+    public RatingsFragment(String userId, String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom, String offerID) {
+        this.userId = userId;
+        this.currentUser = currentUser;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+        this.offerID = offerID;
     }
 
     FragmentSearchBinding binding;
@@ -67,7 +83,6 @@ public class RatingsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setHasOptionsMenu(true);
-
         Repository repository = new Repository();
         RatingsAdapter adapter = new RatingsAdapter(getActivity(), userId, this);
         repository.DohvatiOcjenePoID(userId, new ReviewCallback() {
@@ -102,13 +117,21 @@ public class RatingsFragment extends Fragment {
             case android.R.id.home:
                 setHasOptionsMenu(false);
                 Fragment selectedFragment = null;
-                // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                //selectedFragment = new PersonFragment(userId);
+            if(cameFrom.equals("Person")){
                 selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                break;
+            } else if(cameFrom.equals("Details")){
+                selectedFragment = new PersonFragment(userId, currentUser, cameFrom, offerID);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }else{
+                selectedFragment = new PersonFragment(userId, currentUser, cameFrom);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            break;
         }
 
         return true;

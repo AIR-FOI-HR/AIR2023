@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.Fragments.PersonFragment;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
@@ -126,10 +127,28 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         repository.DohvatiKorisnikaPoID(confirmedRequests.get(position).getCustomerID(), new FirestoreCallback() {
             @Override
             public void onCallback(User user) {
-                String textBuyer = "<b>Kupac: </b>" + user.getFullName();
-                holder.buyer.setText(Html.fromHtml(textBuyer));
+                holder.buyer.setText(user.getFullName());
+                String badge = user.getBadgeBuyerURL();
+                if(!badge.equals("")){
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(badge)
+                            .into(holder.badgeImage);
+                }
             }
         });
+
+
+        holder.buyer.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new PersonFragment(confirmedRequests.get(holder.getAdapterPosition()).getCustomerID(), userID, "Confirmed");
+                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
     }
 
     @Override
@@ -149,6 +168,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         private TextView price;
         private ImageView fishImage;
         private TextView fishClassText;
+        private ImageView badgeImage;
         private TextView date;
         private TextView buyer;
         private ImageButton accept;
@@ -164,6 +184,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             date = itemView.findViewById(R.id.textDate);
             buyer = itemView.findViewById(R.id.textBuyer);
             accept = itemView.findViewById(R.id.request_accept);
+            badgeImage = itemView.findViewById(R.id.badgeImage);
             decline = itemView.findViewById(R.id.request_decline);
             cardView = itemView.findViewById(R.id.parentReservation);
         }

@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
+import com.example.digitalnaribarnica.Fragments.PersonFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -32,6 +34,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     private String userID;
     private SearchFragment searchFragment;
     private TextView fishClassText;
+
 
     public OfferAdapter(Context context, String userID, SearchFragment fragment) {
         this.userID = userID;
@@ -56,7 +59,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
         String priceText = offers.get(position).getPrice() + " " + context.getString(R.string.knperkg);
         holder.price.setText(priceText);
         holder.fishClassText.setText("");
-
 
         if(offers.get(position).getSmallFish()!= null && !offers.get(position).getSmallFish().equals("0") && !offers.get(position).getSmallFish().equals("0.0")){
             holder.fishClassText.append(context.getString(R.string.small));
@@ -84,13 +86,22 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
             fishClassText.setText("");
         }
 
+        holder.seller.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new PersonFragment(offers.get(holder.getAdapterPosition()).getIdKorisnika(), userID, "Offers");
+                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
         cardView.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
 
             @Override
             public void onClick(View v) {
                 selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID, searchFragment.getLastVisited());
-
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -107,6 +118,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
 
         repository.DohvatiKorisnikaPoID(userID, user -> {
            String badge = user.getBadgeSellerURL();
+            String textSeller =  user.getFullName();
+            holder.seller.setText(Html.fromHtml(textSeller));
            if(!badge.equals("")){
                 Glide.with(context)
                         .asBitmap()
@@ -133,6 +146,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
         private TextView price;
         private TextView fishClassText;
         private ImageView trophyImage;
+        private TextView seller;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             fish = itemView.findViewById(R.id.textOfferName);
@@ -141,6 +155,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
             price = itemView.findViewById(R.id.textOfferPrice);
             fishClassText = itemView.findViewById(R.id.textOfferFishClass);
             trophyImage = itemView.findViewById(R.id.trophyOfferImage);
+            seller = itemView.findViewById(R.id.textSeller);
             cardView=itemView.findViewById(R.id.parent);
         }
     }

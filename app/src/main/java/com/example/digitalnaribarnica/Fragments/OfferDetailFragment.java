@@ -71,9 +71,11 @@ public class OfferDetailFragment extends Fragment {
     private String priceWithoutKn;
     private String offerID;
     private String userID = "";
+    private String sellerID = "";
     private Boolean cameFromMyOffers = false;
 
     private RatingBar rating;
+
 
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
@@ -154,7 +156,7 @@ public class OfferDetailFragment extends Fragment {
                                     .into(fishImage);
                         }
 
-
+                        sellerID = offersData.get(0).getIdKorisnika();
                         String userID = offersData.get(0).getIdKorisnika();
                         repository.DohvatiKorisnikaPoID(userID, user -> {
                             userName.setText(user.getFullName());
@@ -237,6 +239,19 @@ public class OfferDetailFragment extends Fragment {
             }
         });
 
+        userName.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new PersonFragment(sellerID, userID, "Details", offerID);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
+
+
+
         smallQuantity.setOnFocusChangeListener((view15, fokusiran) -> {
             if (!fokusiran) {
                 if (smallQuantity.getText().length() > 1) {
@@ -267,6 +282,7 @@ public class OfferDetailFragment extends Fragment {
             }
             updateTotal();
         });
+
 
         btnPlusMedium.setOnClickListener(view13 -> {
             String currentValue = mediumQuantity.getText().toString();

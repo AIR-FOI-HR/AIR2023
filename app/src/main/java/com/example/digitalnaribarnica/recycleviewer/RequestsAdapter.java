@@ -15,13 +15,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.Fragments.PersonFragment;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
@@ -136,11 +139,27 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         repository.DohvatiKorisnikaPoID(reservations.get(position).getCustomerID(), new FirestoreCallback() {
             @Override
             public void onCallback(User user) {
-                String textBuyer = "<b>Kupac: </b>" + user.getFullName();
-                holder.buyer.setText(Html.fromHtml(textBuyer));
+                holder.buyer.setText(user.getFullName());
+                String badge = user.getBadgeBuyerURL();
+                if(!badge.equals("")){
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(badge)
+                            .into(holder.badgeImage);
+                }
             }
         });
 
+
+        holder.buyer.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new PersonFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, "Requests");
+                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
     }
 
     @Override
@@ -159,6 +178,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         private TextView location;
         private TextView price;
         private ImageView fishImage;
+        private ImageView badgeImage;
         private TextView fishClassText;
         private TextView date;
         private TextView buyer;
@@ -175,6 +195,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             date = itemView.findViewById(R.id.textDate);
             buyer = itemView.findViewById(R.id.textBuyer);
             accept = itemView.findViewById(R.id.request_accept);
+            badgeImage = itemView.findViewById(R.id.badgeImage);
             decline = itemView.findViewById(R.id.request_decline);
             cardView = itemView.findViewById(R.id.parentReservation);
         }
