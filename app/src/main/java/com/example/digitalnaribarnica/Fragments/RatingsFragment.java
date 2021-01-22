@@ -3,7 +3,6 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,11 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.database.Review;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Repository;
 import com.example.repository.Listener.ReviewCallback;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
@@ -41,6 +43,8 @@ public class RatingsFragment extends Fragment {
     private String cameFrom = "";
     private String currentUser = "";
     private String offerID = "";
+
+    private SharedViewModel sharedViewModel;
 
     public RatingsFragment(String userId) {
         this.userId = userId;
@@ -83,11 +87,12 @@ public class RatingsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setHasOptionsMenu(true);
-        Repository repository = new Repository();
         RatingsAdapter adapter = new RatingsAdapter(getActivity(), userId, this);
-        repository.DohvatiOcjenePoID(userId, new ReviewCallback() {
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiOcjenePoID(userId);
+        sharedViewModel.reviewDataArrayList.observe(this, new Observer<ArrayList<Review>>() {
             @Override
-            public void onCallback(ArrayList<Review> reviews) {
+            public void onChanged(ArrayList<Review> reviews) {
                 recyclerView = binding.recycleViewOffer;
                 adapter.setRatings(reviews);
                 adapter.notifyDataSetChanged();
@@ -95,7 +100,6 @@ public class RatingsFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
-
         return view;
 
     }
@@ -118,15 +122,15 @@ public class RatingsFragment extends Fragment {
                 setHasOptionsMenu(false);
                 Fragment selectedFragment = null;
             if(cameFrom.equals("Person")){
-                selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
+                selectedFragment = new ProfileFragment(userId, mGoogleSignInClient, mUser, mAuth);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             } else if(cameFrom.equals("Details")){
-                selectedFragment = new PersonFragment(userId, currentUser, cameFrom, offerID);
+                selectedFragment = new ProfileFragment(userId, currentUser, cameFrom, offerID);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }else{
-                selectedFragment = new PersonFragment(userId, currentUser, cameFrom);
+                selectedFragment = new ProfileFragment(userId, currentUser, cameFrom);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }

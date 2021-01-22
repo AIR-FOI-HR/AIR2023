@@ -17,11 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.badges.BadgesData;
 import com.example.database.FirestoreService;
 import com.example.database.Review;
 import com.example.database.User;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -37,7 +41,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
-public class PersonFragment extends Fragment {
+public class ProfileFragment extends Fragment {
     FragmentPersonBinding binding;
     private Button showRatingFragment;
     private String ime="";
@@ -64,17 +68,19 @@ public class PersonFragment extends Fragment {
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
 
-    public PersonFragment() {
+    private SharedViewModel sharedViewModel;
+
+    public ProfileFragment() {
     }
 
-    public PersonFragment(String selectedUser, String userID, String cameFrom) {
+    public ProfileFragment(String selectedUser, String userID, String cameFrom) {
         this.userID = selectedUser;
         this.currentUser = userID;
         this.cameFrom = cameFrom;
         otherProfile = true;
     }
 
-    public PersonFragment(String selectedUser, String userID, String cameFrom, String offerID) {
+    public ProfileFragment(String selectedUser, String userID, String cameFrom, String offerID) {
         this.userID = selectedUser;
         this.currentUser=userID;
         this.cameFrom = cameFrom;
@@ -82,7 +88,7 @@ public class PersonFragment extends Fragment {
         otherProfile = true;
     }
 
-    public PersonFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+    public ProfileFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
         this.userID = userId;
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
@@ -116,11 +122,11 @@ public class PersonFragment extends Fragment {
             }
          }
 
-        Repository repository = new Repository();
-        FirestoreService firestoreService = new FirestoreService();
-        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiKorisnikaPoID(userID);
+        sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
             @Override
-            public void onCallback(User user) {
+            public void onChanged(User user) {
                 binding.emailP.setText(user.getEmail());
                 if(user.getFullName()!=""){
                     binding.imePrezime.setText(user.getFullName());
@@ -151,9 +157,12 @@ public class PersonFragment extends Fragment {
             }
         });
 
-        repository.DohvatiOcjenePoID(userID, new ReviewCallback() {
+
+
+        sharedViewModel.DohvatiOcjenePoID(userID);
+        sharedViewModel.reviewDataArrayList.observe(this, new Observer<ArrayList<Review>>() {
             @Override
-            public void onCallback(ArrayList<Review> reviews) {
+            public void onChanged(ArrayList<Review> reviews) {
                 if(reviews.size()!=0){
 
                     float sum = 0;
@@ -165,7 +174,6 @@ public class PersonFragment extends Fragment {
                 }
             }
         });
-
         showRatings.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment =null;
             @Override

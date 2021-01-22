@@ -15,8 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.database.User;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
+import com.example.repository.Data.OffersData;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -25,6 +29,8 @@ import com.example.repository.Data.ReservationsData;
 import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import java.util.ArrayList;
+
 public class FragmentUserRating extends Fragment {
 
     FragmentUserRatingBinding binding;
@@ -32,7 +38,7 @@ public class FragmentUserRating extends Fragment {
     private RatingBar rating;
     private EditText comment;
     private TextView name;
-
+    private SharedViewModel sharedViewModel;
     private ReservationsData reservation;
 
     String userID = "";
@@ -68,26 +74,32 @@ public class FragmentUserRating extends Fragment {
         name = binding.imePrezime;
 
         Repository repository = new Repository();
-
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         if(reservation == null) {
-            repository.DohvatiKorisnikaPoID(ratedUser, new FirestoreCallback() {
+            sharedViewModel.DohvatiKorisnikaPoID(ratedUser);
+            sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
                 @Override
-                public void onCallback(User user) {
-                        name.setText(user.getFullName());
+                public void onChanged(User user) {
+                    name.setText(user.getFullName());
                 }
             });
         }
         else{
-            repository.DohvatiSvePonude(offersData -> {
-                for (int i = 0; i < offersData.size(); i++) {
-                    if(offersData.get(i).getOfferID().equals(reservation.getOfferID())) {
-                        repository.DohvatiKorisnikaPoID(offersData.get(i).getIdKorisnika(), new FirestoreCallback() {
-                            @Override
-                            public void onCallback(User user) {
-                                name.setText(user.getFullName());
-                            }
-                        });
-                        break;
+            sharedViewModel.DohvatiSvePonude();
+            sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
+                @Override
+                public void onChanged(ArrayList<OffersData> offersData) {
+                    for (int i = 0; i < offersData.size(); i++) {
+                        if(offersData.get(i).getOfferID().equals(reservation.getOfferID())) {
+                            sharedViewModel.DohvatiKorisnikaPoID(offersData.get(i).getIdKorisnika());
+                            sharedViewModel.userMutableLiveData.observe(getActivity(), new Observer<User>() {
+                                @Override
+                                public void onChanged(User user) {
+                                    name.setText(user.getFullName());
+                                }
+                            });
+                            break;
+                        }
                     }
                 }
             });
@@ -97,7 +109,7 @@ public class FragmentUserRating extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                repository.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
+                sharedViewModel.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), "Uspješno ocjenjen korisnik", 3, R.style.ToastGreen).show();
 
                 if(typePerson.equals("Prodavatelj")){

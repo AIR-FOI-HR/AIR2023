@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.example.database.User;
 import com.example.digitalnaribarnica.Fragments.AddOfferFragment;
 import com.example.digitalnaribarnica.Fragments.ChatFragment;
-import com.example.digitalnaribarnica.Fragments.PersonFragment;
+import com.example.digitalnaribarnica.Fragments.ProfileFragment;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.databinding.ActivityRegisterBinding;
@@ -181,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment.setArguments(args);
                             */
                             //selectedFragment = new PersonFragment(personId);
-                            selectedFragment = new PersonFragment(personId, mGoogleSignInClient, mUser, mAuth);
+                            selectedFragment = new ProfileFragment(personId, mGoogleSignInClient, mUser, mAuth);
                             break;
                         case R.id.nav_ponude:
                             selectedFragment = new ReservationFragment(personId);

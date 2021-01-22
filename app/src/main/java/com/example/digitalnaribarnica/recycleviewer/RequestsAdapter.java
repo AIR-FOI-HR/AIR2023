@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.Fragments.PersonFragment;
+import com.example.digitalnaribarnica.Fragments.ProfileFragment;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
@@ -155,7 +155,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new PersonFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, "Requests");
+                selectedFragment = new ProfileFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, "Requests");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }

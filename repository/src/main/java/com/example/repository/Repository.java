@@ -1,9 +1,11 @@
 package com.example.repository;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.database.CallbackUser;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
@@ -375,6 +377,21 @@ public class Repository {
         }
         return randomStringBuilder.toString();
     }
+
+    public void UpdateKorisnika(User korisnik){
+        firestoreService.updateUser(korisnik,"Users");
+    }
+
+    public void DodajSlikuKorisnika(Uri image, String userId){
+        FirestoreService.addPhotoWithID(image,userId);
+    }
+
+    public void DeleteReservation(String reservationID){
+        FirestoreService firestoreService = new FirestoreService();
+        firestoreService.deleteReservation(reservationID,"Rezervation");
+    }
+
+
 
     //dodavanje novog korisnika bez lozinke (Google i Facebook)
     public void DodajKorisnikaUBazuBezLozinke(String id, String name, String email,String photo){

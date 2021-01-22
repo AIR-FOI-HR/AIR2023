@@ -14,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.database.CallbackUser;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -47,6 +50,9 @@ public class EditProfileFragment extends Fragment {
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     Uri imageUri;
+
+    private SharedViewModel sharedViewModel;
+
     private static final int PICK_IMAGE = 100;
     public EditProfileFragment() {
     }
@@ -68,10 +74,11 @@ public class EditProfileFragment extends Fragment {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        Repository repository = new Repository();
-        repository.DohvatiKorisnikaPoID(id, new FirestoreCallback() {
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiKorisnikaPoID(id);
+        sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
             @Override
-            public void onCallback(User user) {
+            public void onChanged(User user) {
                 binding.emailEditPe.setText(user.getEmail());
                 if(user.getFullName()!=""){
                     binding.imeEditEp.setText(user.getFullName().split(" ")[0]);
@@ -96,10 +103,12 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
+
+
         binding.btnOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ProfileFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
             }
         });
         binding.btnUcitajSLiku.setOnClickListener(new View.OnClickListener() {
@@ -113,15 +122,18 @@ public class EditProfileFragment extends Fragment {
         binding.btnSpremiPromjene.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirestoreService firestoreService=new FirestoreService();
+
                 Repository repository=new Repository();
-                repository.DohvatiKorisnikaPoEmailu(email, new FirestoreCallback() {
+
+                sharedViewModel.DohvatiKorisnikaPoEmailu(email);
+                sharedViewModel.userMutableLiveData.observe(getActivity(), new Observer<User>() {
                     @Override
-                    public void onCallback(User user) {
-                        FirestoreService.getProfilePhotoWithID(id, new CallbackUser() {
+                    public void onChanged(User user) {
+                        sharedViewModel.DohvatiSlikuKorisnikaPoId(id);
+                        sharedViewModel.photoUrlData.observe(getActivity(), new Observer<Uri>() {
                             @Override
-                            public void onCallback(Uri slika) {
-                                photo=slika.toString();
+                            public void onChanged(Uri uri) {
+                                photo=uri.toString();
                                 User updateKorisnik;
                                 if(binding.lozinkaEditPe.getText().toString() ==" ")
                                     updateKorisnik = new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
@@ -134,20 +146,18 @@ public class EditProfileFragment extends Fragment {
 
                                     }
                                 }
-
-                                firestoreService.updateUser(updateKorisnik,"Users");
+                                sharedViewModel.AzurirajKorisnika(updateKorisnik);
+                                //firestoreService.updateUser(updateKorisnik,"Users");
                                 try {
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new PersonFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ProfileFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
 
-
                     }
                 });
-
             }
         });
         return  view;
@@ -160,7 +170,7 @@ public class EditProfileFragment extends Fragment {
             imageUri = data.getData();
             Glide.with(this).load(imageUri).into(binding.slikaProfila);
             photo=imageUri.toString();
-            FirestoreService.addPhotoWithID(imageUri,id);
+            sharedViewModel.DodajSlikuKorisnika(imageUri,id);
         }
 
 

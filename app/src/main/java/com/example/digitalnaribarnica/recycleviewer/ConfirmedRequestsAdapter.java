@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.Fragments.PersonFragment;
+import com.example.digitalnaribarnica.Fragments.ProfileFragment;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
@@ -143,7 +143,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new PersonFragment(confirmedRequests.get(holder.getAdapterPosition()).getCustomerID(), userID, "Confirmed");
+                selectedFragment = new ProfileFragment(confirmedRequests.get(holder.getAdapterPosition()).getCustomerID(), userID, "Confirmed");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }

@@ -14,15 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.badges.BadgesAdapter;
-import com.example.repository.Listener.BadgeCallback;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
-import com.example.badges.BadgesAdapter;
 import com.example.badges.BadgesData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -41,7 +42,7 @@ public class BadgesFragment extends Fragment {
     private String cameFrom = "";
     private String currentUser = "";
     private String offerID = "";
-
+    private SharedViewModel sharedViewModel;
     public BadgesFragment(String userId) {
         this.userId = userId;
     }
@@ -90,17 +91,19 @@ public class BadgesFragment extends Fragment {
 
         Repository repository = new Repository();
         BadgesAdapter adapter = new BadgesAdapter(getActivity(), userId, this);
-        repository.DohvatiSveZnačke(new BadgeCallback() {
+
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        recyclerView = binding.recycleViewOffer;
+        sharedViewModel.VratiSveZnacke();
+        sharedViewModel.badgesDataArrayList.observe(this, new Observer<ArrayList<BadgesData>>() {
             @Override
-            public void onCallback(ArrayList<BadgesData> badges) {
-                recyclerView = binding.recycleViewOffer;
-                adapter.setBadges(badges);
+            public void onChanged(ArrayList<BadgesData> badgesData) {
+                adapter.setBadges(badgesData);
                 adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
         });
-
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
 
@@ -124,15 +127,15 @@ public class BadgesFragment extends Fragment {
                 // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 //selectedFragment = new PersonFragment(userId);
                 if(cameFrom.equals("Person")){
-                    selectedFragment = new PersonFragment(userId, mGoogleSignInClient, mUser, mAuth);
+                    selectedFragment = new ProfileFragment(userId, mGoogleSignInClient, mUser, mAuth);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 } else if(cameFrom.equals("Details")){
-                    selectedFragment = new PersonFragment(userId, currentUser, cameFrom, offerID);
+                    selectedFragment = new ProfileFragment(userId, currentUser, cameFrom, offerID);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }else{
-                    selectedFragment = new PersonFragment(userId, currentUser, cameFrom);
+                    selectedFragment = new ProfileFragment(userId, currentUser, cameFrom);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }

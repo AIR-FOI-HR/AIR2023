@@ -22,10 +22,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
@@ -58,7 +61,7 @@ public class FilterOffersFragment extends Fragment {
     private Button btnFilter;
 
     private String userId ="";
-
+    private SharedViewModel sharedViewModel;
     public FilterOffersFragment(String userID){
         this.userId = userID;
     }
@@ -93,26 +96,32 @@ public class FilterOffersFragment extends Fragment {
 
         btnFilter = binding.btnFilter;
 
-        Repository repository =new Repository();
-
-        repository.DohvatiRibe(fishes -> {
-            ArrayList<String> fishArrayList=new ArrayList<>();
-            for(Fish riba: fishes){
-                fishArrayList.add(riba.getName());
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiRibe();
+        sharedViewModel.fishDataArrayList.observe(this, new Observer<ArrayList<Fish>>() {
+            @Override
+            public void onChanged(ArrayList<Fish> fish) {
+                ArrayList<String> fishArrayList=new ArrayList<>();
+                for(Fish riba: fish){
+                    fishArrayList.add(riba.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
+                adapter.notifyDataSetChanged();
+                editFishSpecies.setAdapter(adapter);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
-            adapter.notifyDataSetChanged();
-            editFishSpecies.setAdapter(adapter);
         });
-
-        repository.DohvatiLokacije(locations -> {
-            ArrayList<String> locationArrayList=new ArrayList<>();
-            for(Location location: locations){
-                locationArrayList.add(location.getName());
+        sharedViewModel.DohvatiLokacije();
+        sharedViewModel.locationDataArrayList.observe(this, new Observer<ArrayList<Location>>() {
+            @Override
+            public void onChanged(ArrayList<Location> locations) {
+                ArrayList<String> locationArrayList=new ArrayList<>();
+                for(Location location: locations){
+                    locationArrayList.add(location.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
+                adapter.notifyDataSetChanged();
+                editLocations.setAdapter(adapter);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
-            adapter.notifyDataSetChanged();
-            editLocations.setAdapter(adapter);
         });
 
         rangePrice.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {

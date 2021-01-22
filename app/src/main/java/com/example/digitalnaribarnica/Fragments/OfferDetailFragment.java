@@ -1,7 +1,9 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import com.example.database.Review;
+import com.example.database.User;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Listener.ReviewCallback;
 import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
@@ -27,6 +29,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
@@ -76,6 +80,7 @@ public class OfferDetailFragment extends Fragment {
 
     private RatingBar rating;
 
+    private SharedViewModel sharedViewModel;
 
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
@@ -134,68 +139,71 @@ public class OfferDetailFragment extends Fragment {
 
         rating = binding.ratingBar;
 
-        Repository repository = new Repository();
-        FirestoreService firestoreService=new FirestoreService();
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiPonuduPrekoID(offerID);
+        sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
+            @Override
+            public void onChanged(ArrayList<OffersData> offersData) {
+                fish.setText(offersData.get(0).getName());
+                location.setText(offersData.get(0).getLocation());
+                String priceText = offersData.get(0).getPrice() + " " + getString(R.string.knperkg);
+                price.setText(priceText);
+                priceWithoutKn = offersData.get(0).getPrice();
+                availableSmall.setText(offersData.get(0).getSmallFish());
+                availableMedium.setText(offersData.get(0).getMediumFish());
+                availableLarge.setText(offersData.get(0).getLargeFish());
+                String fishPhoto = offersData.get(0).getImageurl();
+                if(fishPhoto!=""){
+                    Glide.with(getContext())
+                            .asBitmap()
+                            .load(fishPhoto)
+                            .into(fishImage);
+                }
 
-        repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
+                sellerID = offersData.get(0).getIdKorisnika();
+                String userID = offersData.get(0).getIdKorisnika();
+
+                sharedViewModel.DohvatiKorisnikaPoID(userID);
+                sharedViewModel.userMutableLiveData.observe(getActivity(), new Observer<User>() {
                     @Override
-                    public void onCallback(ArrayList<OffersData> offersData) {
-                       fish.setText(offersData.get(0).getName());
-                       location.setText(offersData.get(0).getLocation());
-                       String priceText = offersData.get(0).getPrice() + " " + getString(R.string.knperkg);
-                       price.setText(priceText);
-                        priceWithoutKn = offersData.get(0).getPrice();
-                        availableSmall.setText(offersData.get(0).getSmallFish());
-                        availableMedium.setText(offersData.get(0).getMediumFish());
-                        availableLarge.setText(offersData.get(0).getLargeFish());
-                        String fishPhoto = offersData.get(0).getImageurl();
-                        if(fishPhoto!=""){
+                    public void onChanged(User user) {
+                        userName.setText(user.getFullName());
+                        String userPhoto = user.getPhoto();
+                        if(userPhoto!=""){
                             Glide.with(getContext())
                                     .asBitmap()
-                                    .load(fishPhoto)
-                                    .into(fishImage);
+                                    .load(userPhoto)
+                                    .into(userImage);
                         }
-
-                        sellerID = offersData.get(0).getIdKorisnika();
-                        String userID = offersData.get(0).getIdKorisnika();
-                        repository.DohvatiKorisnikaPoID(userID, user -> {
-                            userName.setText(user.getFullName());
-                            String userPhoto = user.getPhoto();
-                            if(userPhoto!=""){
-                                Glide.with(getContext())
-                                        .asBitmap()
-                                        .load(userPhoto)
-                                        .into(userImage);
-                            }
-                          String badge = user.getBadgeSellerURL();
-                            if(!badge.equals("")){
-                                Glide.with(getContext())
-                                        .asBitmap()
-                                        .load(badge)
-                                        .into(trophyImage);
-                            }
-
-                        });
-                        repository.DohvatiOcjenePoID(userID, new ReviewCallback() {
-                            @Override
-                            public void onCallback(ArrayList<Review> reviews) {
-                                if(reviews.size()!=0){
-
-                                    float sum = 0;
-                                    for (int i = 0; i < reviews.size(); i++) {
-                                        sum = sum + Float.parseFloat(reviews.get(i).getRating());
-                                    }
-                                    Log.d("TagPolje", String.valueOf(sum) );
-
-                                    float ratingTotal = sum / reviews.size();
-                                    Log.d("TagPolje", String.valueOf(rating) );
-                                    rating.setRating(ratingTotal);
-                                }
-                            }
-                        });
-
+                        String badge = user.getBadgeSellerURL();
+                        if(!badge.equals("")){
+                            Glide.with(getContext())
+                                    .asBitmap()
+                                    .load(badge)
+                                    .into(trophyImage);
+                        }
                     }
-         });
+                });
+                sharedViewModel.DohvatiOcjenePoID(userID);
+                sharedViewModel.reviewDataArrayList.observe(getActivity(), new Observer<ArrayList<Review>>() {
+                    @Override
+                    public void onChanged(ArrayList<Review> reviews) {
+                        if(reviews.size()!=0){
+
+                            float sum = 0;
+                            for (int i = 0; i < reviews.size(); i++) {
+                                sum = sum + Float.parseFloat(reviews.get(i).getRating());
+                            }
+                            Log.d("TagPolje", String.valueOf(sum) );
+
+                            float ratingTotal = sum / reviews.size();
+                            Log.d("TagPolje", String.valueOf(rating) );
+                            rating.setRating(ratingTotal);
+                        }
+                    }
+                });
+            }
+        });
 
 
                 btnPlusSmall.setOnClickListener(view1 -> {
@@ -243,7 +251,7 @@ public class OfferDetailFragment extends Fragment {
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new PersonFragment(sellerID, userID, "Details", offerID);
+                selectedFragment = new ProfileFragment(sellerID, userID, "Details", offerID);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -444,46 +452,45 @@ public class OfferDetailFragment extends Fragment {
                 StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
             }
             else {
-
-                repository.DodajRezervacijuAutoID(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
+                sharedViewModel.DodajRezervaciju(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
                         mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Nepotvrđeno");
 
 
-                repository.DohvatiPonuduPrekoIdPonude(offerID, new FirestoreOffer() {
-                            @Override
-                            public void onCallback(ArrayList<OffersData> offersData) {
+                sharedViewModel.DohvatiPonuduPrekoID(offerID);
+                sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
+                    @Override
+                    public void onChanged(ArrayList<OffersData> offersData) {
+                        String currentSmall = offersData.get(0).getSmallFish();
+                        Double updatedSmall = Math.round((Double.parseDouble(currentSmall) - Double.parseDouble(smallQuantity.getText().toString()))*100.0)/100.0;
 
-                                String currentSmall = offersData.get(0).getSmallFish();
-                                Double updatedSmall = Math.round((Double.parseDouble(currentSmall) - Double.parseDouble(smallQuantity.getText().toString()))*100.0)/100.0;
+                        String currentMedium = offersData.get(0).getMediumFish();
+                        Double updatedMedium = Math.round((Double.parseDouble(currentMedium) - Double.parseDouble(mediumQuantity.getText().toString()))*100.0)/100.0;
 
-                                String currentMedium = offersData.get(0).getMediumFish();
-                                Double updatedMedium = Math.round((Double.parseDouble(currentMedium) - Double.parseDouble(mediumQuantity.getText().toString()))*100.0)/100.0;
+                        String currentLarge = offersData.get(0).getLargeFish();
+                        Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity.getText().toString()))*100.0)/100.0;
 
-                                String currentLarge = offersData.get(0).getLargeFish();
-                                Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity.getText().toString()))*100.0)/100.0;
+                        if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
+                            StyleableToast.makeText(getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
 
-                                if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
-                                    StyleableToast.makeText(getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
+                            availableSmall.setText(offersData.get(0).getSmallFish());
+                            availableMedium.setText(offersData.get(0).getMediumFish());
+                            availableLarge.setText(offersData.get(0).getLargeFish());
 
-                                    availableSmall.setText(offersData.get(0).getSmallFish());
-                                    availableMedium.setText(offersData.get(0).getMediumFish());
-                                    availableLarge.setText(offersData.get(0).getLargeFish());
+                            smallQuantity.setText("0");
+                            mediumQuantity.setText("0");
+                            largeQuantity.setText("0");
 
-                                    smallQuantity.setText("0");
-                                    mediumQuantity.setText("0");
-                                    largeQuantity.setText("0");
-
-                                }
-                                else {
-                                  //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                                    StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
-                                    Fragment newFragment;
-                                    ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
-                                    newFragment = new ReservationFragment(userID);
-                                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-                                }
-                            }
-                        });
+                        }
+                        else {
+                            //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
+                            StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
+                            Fragment newFragment;
+                            ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+                            newFragment = new ReservationFragment(userID);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+                        }
+                    }
+                });
             }
         });
 

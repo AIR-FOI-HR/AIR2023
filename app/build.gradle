@@ -64,6 +64,10 @@ dependencies {
 
     compileOnly 'com.google.android.wearable:wearable:2.8.1'
 
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
+
+
     implementation project(path: ':database')
     implementation project(path: ':repository')
     implementation project(path: ':mailServise')

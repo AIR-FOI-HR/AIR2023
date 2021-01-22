@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
 import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
-import com.example.digitalnaribarnica.Fragments.PersonFragment;
+import com.example.digitalnaribarnica.Fragments.ProfileFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -90,7 +90,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new PersonFragment(offers.get(holder.getAdapterPosition()).getIdKorisnika(), userID, "Offers");
+                selectedFragment = new ProfileFragment(offers.get(holder.getAdapterPosition()).getIdKorisnika(), userID, "Offers");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
