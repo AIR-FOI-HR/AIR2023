@@ -140,6 +140,10 @@ public class SharedViewModel extends ViewModel {
         });
     }
 
+    public void DodajPonuduSAutoID(String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish){
+        repository.DodajPonuduSAutoID(name,location,imageurl,price,idKorisnika,smallFish,mediumFish,largeFish);
+    }
+
     public void DohvatiRezervacije(){
         repository.DohvatiRezervacije1(new RezervationCallback() {
             @Override

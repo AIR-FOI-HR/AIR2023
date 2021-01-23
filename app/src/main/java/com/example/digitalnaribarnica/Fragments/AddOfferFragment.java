@@ -20,11 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -53,7 +56,7 @@ public class AddOfferFragment extends Fragment {
     private CheckBox checkMedium;
     private CheckBox checkLarge;
     private String userId = "";
-
+    private SharedViewModel sharedViewModel;
     public AddOfferFragment(String userId) {
         this.userId = userId;
     }
@@ -70,7 +73,7 @@ public class AddOfferFragment extends Fragment {
         View view = binding.getRoot();
         String compareValue = "some value";
 
-        Repository repository = new Repository();
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         btnSaveNewOffer = binding.btnAdd;
         btnCancel = binding.btnCancel;
@@ -349,24 +352,32 @@ public class AddOfferFragment extends Fragment {
         fishSpecies = binding.autoFishSpecies;
         location = binding.autoLocation;
 
-        repository.DohvatiRibe(fishes -> {
-            ArrayList<String> fishArrayList = new ArrayList<>();
-            for (Fish fish : fishes) {
-                fishArrayList.add(fish.getName());
+        sharedViewModel.DohvatiRibe();
+        sharedViewModel.fishDataArrayList.observe(this, new Observer<ArrayList<Fish>>() {
+            @Override
+            public void onChanged(ArrayList<Fish> fishs) {
+                ArrayList<String> fishArrayList = new ArrayList<>();
+                for (Fish fish : fishs) {
+                    fishArrayList.add(fish.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
+                adapter.notifyDataSetChanged();
+                fishSpecies.setAdapter(adapter);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
-            adapter.notifyDataSetChanged();
-            fishSpecies.setAdapter(adapter);
         });
 
-        repository.DohvatiLokacije(locations -> {
-            ArrayList<String> locationArrayList = new ArrayList<>();
-            for (Location location : locations) {
-                locationArrayList.add(location.getName());
+        sharedViewModel.DohvatiLokacije();
+        sharedViewModel.locationDataArrayList.observe(this, new Observer<ArrayList<Location>>() {
+            @Override
+            public void onChanged(ArrayList<Location> locations) {
+                ArrayList<String> locationArrayList = new ArrayList<>();
+                for (Location location : locations) {
+                    locationArrayList.add(location.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
+                adapter.notifyDataSetChanged();
+                location.setAdapter(adapter);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, locationArrayList);
-            adapter.notifyDataSetChanged();
-            location.setAdapter(adapter);
         });
 
         price.setOnFocusChangeListener((v, hasFocus) -> {
@@ -394,20 +405,24 @@ public class AddOfferFragment extends Fragment {
 
             boolean ispravanUnos = ProvjeraUnosa();
             if (ispravanUnos) {
-                repository.DohvatiRibe(fishes -> {
-                    for (int i = 0; i < fishes.size(); i++) {
-                        if (fishes.get(i).getName().contains(fishSpecies.getText().toString())) {
-                            repository.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fishes.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
-                                    mediumQuantity.getText().toString(), largeQuantity.getText().toString());
-                            Fragment newFragment;
-                            ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                            newFragment = new SearchFragment(userId);
-                            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-                            StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
-                            return;
+                sharedViewModel.DohvatiRibe();
+                sharedViewModel.fishDataArrayList.observe(this, new Observer<ArrayList<Fish>>() {
+                    @Override
+                    public void onChanged(ArrayList<Fish> fish) {
+                        for (int i = 0; i < fish.size(); i++) {
+                            if (fish.get(i).getName().contains(fishSpecies.getText().toString())) {
+                                sharedViewModel.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fish.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
+                                        mediumQuantity.getText().toString(), largeQuantity.getText().toString());
+                                Fragment newFragment;
+                                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                                newFragment = new SearchFragment(userId);
+                                getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
+                                StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
+                                return;
+                            }
                         }
+                        StyleableToast.makeText(getActivity(), "Upisana riba ne postoji u bazi", 3, R.style.Toast).show();
                     }
-                    StyleableToast.makeText(getActivity(), "Upisana riba ne postoji u bazi", 3, R.style.Toast).show();
                 });
             }
         });
