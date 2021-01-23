@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     GoogleUserPhoto = GoogleUserPhotoURI.toString();
                 }
                 else if (account.getPhotoUrl() == null){
-                    GoogleUserPhoto = "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029";
+                    GoogleUserPhoto = "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Fuser_image.jpg?alt=media&token=e30a1426-9be2-40d8-8e5a-b5e4c43337e7";
                 }
                 Repository repository = new Repository();
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();

@@ -121,7 +121,13 @@ public class EditProfileFragment extends Fragment {
                         FirestoreService.getProfilePhotoWithID(id, new CallbackUser() {
                             @Override
                             public void onCallback(Uri slika) {
-                                photo=slika.toString();
+                                if(slika != null) {
+                                    photo=slika.toString();
+                                }
+                                else {
+                                    photo = "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Fuser_image.jpg?alt=media&token=e30a1426-9be2-40d8-8e5a-b5e4c43337e7";
+                                }
+
                                 User updateKorisnik;
                                 if(binding.lozinkaEditPe.getText().toString() ==" ")
                                     updateKorisnik = new User(id,binding.imeEditEp.getText().toString()+" "+binding.prezimeEditEp.getText().toString(),binding.emailEditPe.getText().toString(),binding.brojMobitelaEditPe.getText().toString(),binding.adresaEditPe.getText().toString(),photo, user.getPassword(),false);
