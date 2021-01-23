@@ -274,6 +274,16 @@ public class FirestoreService {
                 "numberOfPurchases", numberPurchases);
     }
 
+    public void updateBadgeSeller(String userID, Uri znacka, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
+                "badgeSellerURL", znacka.toString());
+    }
+
+    public void updateBadgeBuyer(String userID, Uri znacka, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
+                "badgeBuyerURL", znacka.toString());
+    }
+
     //dohvati ID Google korisnika iz User kolekcije
     /*public boolean korisnikPostojiUKolekciji(String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();

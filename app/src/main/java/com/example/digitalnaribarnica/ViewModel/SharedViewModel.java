@@ -1,23 +1,21 @@
 package com.example.digitalnaribarnica.ViewModel;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.badges.BadgesData;
+import com.example.badges.BadgesRepository;
 import com.example.database.CallbackUser;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
-import com.example.database.Offer;
 import com.example.database.Review;
 import com.example.database.User;
-import com.example.database.Utils.SHA256;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
-import com.example.repository.Listener.BadgeCallback;
+import com.example.badges.BadgeCallback;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.repository.Listener.FishCallback;
@@ -39,13 +37,14 @@ public class SharedViewModel extends ViewModel {
     public MutableLiveData<ArrayList<ReservationsData>> reservationDataArrayList= new MutableLiveData<>();
     public MutableLiveData<Uri> photoUrlData= new MutableLiveData<>();
     private Repository repository=new Repository();
+    private BadgesRepository badgesRepository= new BadgesRepository();
 
     public SharedViewModel() {
     }
 
     public void VratiSveZnacke(){
 
-        repository.DohvatiSveZnačke(new BadgeCallback() {
+        badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
             @Override
             public void onCallback(ArrayList<BadgesData> badges) {
                 badgesDataArrayList.setValue(badges);

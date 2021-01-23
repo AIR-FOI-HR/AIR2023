@@ -2,13 +2,17 @@ package com.example.digitalnaribarnica.recycleviewer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +25,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.badges.BadgeCallback;
+import com.example.badges.BadgesData;
+import com.example.badges.BadgesRepository;
+import com.example.badges.CustomDialogBadge;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
@@ -211,6 +219,50 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             Integer addSales = user.getNumberOfSales();
                             addSales++;
                             firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
+                            BadgesRepository badgesRepository=new BadgesRepository();
+                            Log.d("Badges",String.valueOf(addSales));
+                            if(addSales.equals(10))
+                            {
+                                Log.d("Badges","Usao");
+                                badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<BadgesData> badges) {
+                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
+                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
+                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
+                                        customDialogBadge.PokaziNagradu();
+                                    }
+                                });
+                            }
+                            else if(addSales.equals(20))
+                            {
+                                Log.d("Badges","Usao");
+                                badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka prodavatelja", new BadgeCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<BadgesData> badges) {
+                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
+                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
+                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
+                                        customDialogBadge.PokaziNagradu();
+                                    }
+                                });
+                            }
+                            else if(addSales.equals(30))
+                            {
+                                Log.d("Badges","Usao");
+                                badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka prodavatelja", new BadgeCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<BadgesData> badges) {
+                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
+                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
+                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
+                                        customDialogBadge.PokaziNagradu();
+                                    }
+                                });
+                            }
                         }
                     });
 
@@ -225,6 +277,9 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                     });
 
                     Log.d("TagPolje", buyerID);
+
+
+
                     selectedFragment = new FragmentUserRating(userID, buyerID, "Prodavatelj");
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();

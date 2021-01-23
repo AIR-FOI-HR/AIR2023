@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:layout_margin="12dp"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/logo"
+        android:id="@+id/BadgeImage"
         android:contentDescription="@string/newBadge"
         android:layout_height="100dp" />
 

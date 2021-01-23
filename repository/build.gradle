@@ -61,5 +61,5 @@ dependencies {
 
 
     implementation project(path: ':database')
-    implementation project(path: ':badges')
+    //implementation project(path: ':badges')
 }

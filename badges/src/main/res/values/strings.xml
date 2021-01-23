@@ -1,0 +1,133 @@
+<resources>
+    <string name="app_name">Digitalna ribarnica</string>
+    <string name="welcome">Dobro došli u digitalnu ribarnicu</string>
+    <string name="login">Prijava</string>
+    <string name="registration">Registriraj se</string>
+    <string name="registrationHeader">Registracija</string>
+    <string name="urediProfil">Uredi profil</string>
+    <string name="username">Email</string>
+    <string name="password">Lozinka</string>
+    <string name="secondpassword">Ponovljena lozinka</string>
+    <string name="name">Ime</string>
+    <string name="surname">Prezime</string>
+    <string name="adresa">Adresa</string>
+    <string name="telefon">Broj mobitela</string>
+    <string name="forgotPassword">Zaboravljena lozinka?</string>
+    <string name="facebook_app_id">345456403402437</string>
+    <string name="fb_login_protocol_scheme">fb345456403402437</string>
+
+    <string name="title_activity_register_form">RegisterActivityForm</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+
+    <string name="fishSpecies">Vrsta ribe</string>
+    <string name="location">Lokacija</string>
+    <string name="pricePerKg">Cijena po kilogramu:</string>
+    <string name="fishClass">Razred ribe:</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Odustani</string>
+    <string name="newOffer">Nova ponuda</string>
+    <string name="editImage">Promijeni sliku</string>
+    <string name="saveChanges">Spremi</string>
+    <string name="reserve">Rezerviraj</string>
+    <string name="offerDetails">Detalji ponude</string>
+    <string name="offers">Ponude</string>
+    <string name="picture">Slika</string>
+    <string name="offer_title">Naslov ponude</string>
+    <string name="filter">Filtriranje</string>
+    <string name="sort">Sortiraj:</string>
+    <string name="small">Male</string>
+    <string name="medium">Srednje</string>
+    <string name="large">Velike</string>
+    <string name="smallFish">Male ribe: </string>
+    <string name="mediumFish">Srednje ribe: </string>
+    <string name="largeFish">Velike ribe: </string>
+    <string name="search">Pretraži</string>
+    <string name="Odjava">ODJAVA</string>
+    <string name="ucitaj_sliku">Učitaj sliku</string>
+    <string name="smallDescription">1 mala riba = 0,1 do 0,19 kg </string>
+    <string name="mediumDescription">1 srednja riba = 0,2 do 0,49 kg</string>
+    <string name="largeDescription">1 velika riba = 0,5 kg i više</string>
+    <string name="Odustani">Odustani</string>
+    <string name="reservation_title">Rezervacije</string>
+    <string name="myReservations">Moje rezervacije</string>
+    <string name="requests">Zahtjevi</string>
+    <string name="acceptedRequests">Potvrđeno</string>
+    <string name="reservationRecyclerView">Naziv rezervacije</string>
+    <string name="reservationLocation">Lokacija</string>
+    <string name="gradeReservation">Ocjena</string>
+    <string name="nameSurname">Ime prezime</string>
+    <string name="badge">Značka</string>
+    <string name="registerHere">Registriraj se!</string>
+    <string name="noAccount">Nemaš račun?</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="least_expensive">Najjeftinije</string>
+    <string name="most_expensive">Najskuplje</string>
+    <string name="kg">kg</string>
+    <string name="kn">kn</string>
+    <string name="knperkg">kn/kg</string>
+    <string name="_0_00">0.00</string>
+    <string name="_0">0</string>
+
+    <string name="pricePlaceholder">25,00 kn/kg</string>
+    <string name="available">Dostupno:</string>
+    <string name="quantityNull">0 kg</string>
+    <string name="chooseQuantity">Odaberite količinu:</string>
+    <string name="contact">Kontaktiraj</string>
+    <string name="chooseFish">Odaberi vrstu</string>
+    <string name="chooseLocation">Odaberi lokaciju</string>
+    <string name="_99">99</string>
+
+
+    <!--
+    <string name="_0">0</string>
+    <string name="_0">0</string>
+    -->
+    <string name="accountExists">Imaš račun?</string>
+    <string name="signinhere">Prijavi se!</string>
+    <string name="forgotPass">Zaboravljena lozinka?</string>
+    <string name="resetPassTxt">Unesite email kako bi zaprimili poveznicu za promjenu lozinke.</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="sendEmail">Pošalji</string>
+    <string name="date">Datum</string>
+    <string name="dateReservation">Datum i vrijeme rezervacije:</string>
+    <string name="my_offers">Moje ponude</string>
+    <string name="filter_menu">Filtriranje</string>
+    <string name="all_offers">Sve ponude</string>
+    <string name="requestRecyclerView">Naziv zahtjeva</string>
+    <string name="nazad">Nazad</string>
+    <string name="gradeRequest">Ocjena</string>
+    <string name="mailConfirmationDetails">Potvrdite vaš račun u mail-u koji smo Vam poslali.</string>
+    <string name="mailConfirmationButton">Otvori e-mail</string>
+    <string name="mailConfirmation">Potvrdite e-mail</string>
+    <string name="buyer">Kupac:</string>
+    <string name="sorting">Sortiranje</string>
+    <string name="_999">999</string>
+    <string name="insertPrice">Ili unesite ručno:</string>
+    <string name="lowPrice">Najniža cijena:</string>
+    <string name="upperPrice">Najviša cijena:</string>
+    <string name="rateUser">Ocijeni</string>
+    <string name="comment">Ostavite komentar:</string>
+    <string name="showRating">Prikaži ocjenjivanje</string>
+    <string name="status">Status</string>
+    <string name="ukupnaCijena">Ukupna cijena: </string>
+    <string name="badge_title">Naziv značke</string>
+    <string name="badge_description">Opis značke</string>
+    <string name="newBadge">Nova značka</string>
+    <string name="newBadgeText">Čestitamo! Dobili ste novu značku!</string>
+    <string name="download">Preuzmi</string>
+    <string name="_0_00kn">0,00 kn</string>
+    <string name="ocjenaKorisnika">Ocjena korisnika:</string>
+    <string name="showRatings"><u>Prikaži sve ocjene</u></string>
+    <string name="rateSeller"><u>Ocijeni prodavatelja</u></string>
+    <string name="reviewer">Ocjenjivač:</string>
+    <string name="seller">Prodavatelj: </string>
+    <string name="back">Vrati se</string>
+    <string name="buy">Kupac</string>
+    <string name="sell">Prodavatelj</string>
+
+</resources>

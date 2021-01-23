@@ -54,4 +54,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
     implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
+
+    implementation project(path: ':database')
+
 }
