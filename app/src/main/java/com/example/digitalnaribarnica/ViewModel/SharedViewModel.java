@@ -14,6 +14,7 @@ import com.example.database.Location;
 import com.example.database.Offer;
 import com.example.database.Review;
 import com.example.database.User;
+import com.example.database.Utils.SHA256;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
 import com.example.repository.Listener.BadgeCallback;
@@ -166,6 +167,18 @@ public class SharedViewModel extends ViewModel {
         repository.DeleteReservation(reservationID);
     }
 
+
+    public Boolean ProvjeriPassword(String password, String SHA256){
+        return repository.ProvjeriPassword(password, SHA256);
+    }
+
+    public void DodajKorisnikaUBazuBezLozinke(String GoogleUserID, String GoogleUserName, String GoogleUserEmail,  String GoogleUserPhoto){
+        repository.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
+    }
+
+    public void DodajKorisnikaUBazuSaID(String userID, String imePrezime, String email, String brojMobitela, String lozinka, String photo, String adresa){
+        repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email, brojMobitela, lozinka, photo, adresa);
+    }
 
     @Override
     protected void onCleared() {

@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.databinding.ActivityRegistrationBinding;
 import com.example.repository.Repository;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,7 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Boolean boolLozinka = false;
 
     private Boolean vrijemeTece = false;
-
+    private SharedViewModel sharedViewModel;
     ActivityRegistrationBinding binding;
 
     @Override
@@ -60,7 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
         binding = ActivityRegistrationBinding.inflate((getLayoutInflater()));
         View view = binding.getRoot();
         setContentView(view);
-
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         fAuth = FirebaseAuth.getInstance();
 
         imeTextView = binding.imeTextView;
@@ -359,8 +361,10 @@ public class RegistrationActivity extends AppCompatActivity {
                                 repository = new Repository();
 
                                 //dodaj za sliku neku default (photo atribut)
-                                repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
+                                sharedViewModel.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
                                         lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029", adresa.getText().toString());
+                               // repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
+                                //        lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029", adresa.getText().toString());
 
                                 //kada se korisnik uspješno registrira, preusmjeri ga na stranicu na kojoj obavjesatavamo korisnika da treba verificirati email (EmailVerificationActivity)
                                 startActivity(new Intent(RegistrationActivity.this, EmailVerificationActivity.class));
