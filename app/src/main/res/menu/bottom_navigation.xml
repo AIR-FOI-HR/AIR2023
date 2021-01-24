@@ -9,10 +9,7 @@
         android:id="@+id/nav_search"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Ponude"/>
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_baseline_add_box_24"
-        android:title="Dodaj"/>
+  
     <item
         android:id="@+id/nav_chat"
         android:icon="@drawable/ic_baseline_chat_24"

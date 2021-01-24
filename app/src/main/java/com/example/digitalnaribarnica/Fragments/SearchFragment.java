@@ -28,6 +28,7 @@ import com.example.repository.Data.OffersData;
 import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -51,6 +52,7 @@ public class SearchFragment extends Fragment {
     private Boolean mediumFish = false;
     private Boolean largeFish = false;
 
+    private FloatingActionButton btnAddOffer;
     private Boolean filtered = false;
     private Boolean myOffers = false;
     private Boolean fromOfferDetails = false;
@@ -110,6 +112,7 @@ public class SearchFragment extends Fragment {
 
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
+        btnAddOffer = binding.floatingbtnAddOffer;
 
         if(filtered){
                 Repository repository = new Repository();
@@ -191,6 +194,16 @@ public class SearchFragment extends Fragment {
                     }
                 });
             }
+
+        btnAddOffer.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment =null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new AddOfferFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
 
         return view;
     }
