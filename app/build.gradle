@@ -44,8 +44,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.1'
 
 
-    implementation 'com.google.firebase:firebase-storage:19.2.0'
-    implementation 'com.google.firebase:firebase-firestore:22.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    implementation 'com.google.firebase:firebase-firestore:22.0.1'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -72,6 +73,9 @@ dependencies {
     implementation project(path: ':repository')
     implementation project(path: ':mailServise')
     implementation project(path: ':badges')
+
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
+    implementation 'com.google.firebase:firebase-analytics'
     /*
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
