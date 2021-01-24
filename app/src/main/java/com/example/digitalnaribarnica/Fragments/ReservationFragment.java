@@ -25,8 +25,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.badges.BadgeCallback;
+import com.example.badges.BadgesData;
+import com.example.badges.BadgesRepository;
+import com.example.badges.CustomDialogBadge;
 import com.example.database.FirestoreService;
+import com.example.database.User;
 import com.example.database.Utils.DateParse;
+import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -43,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-
 
 public class ReservationFragment extends Fragment {
 
@@ -107,6 +112,53 @@ public class ReservationFragment extends Fragment {
         buttonAccepted=binding.acceptedRequestsButton;
         recyclerView = binding.recyclerReservations;
 
+        Repository repository = new Repository();
+
+        repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+            @Override
+            public void onCallback(User user) {
+                Integer purchases = user.getNumberOfPurchases();
+                int compareTen = purchases.compareTo(10);
+                int compareTwenty = purchases.compareTo(20);
+                int compareThirty = purchases.compareTo(30);
+
+                BadgesRepository badgesRepository=new BadgesRepository();
+                if(((compareTen > 0 || compareTen == 0) && compareTwenty < 0) && !user.getBadgeBuyerURL().contains("broncana"))
+                {
+                    badgesRepository.DohvatiZnackuPoNazivu("Brončana značka kupca", new BadgeCallback() {
+                        @Override
+                        public void onCallback(ArrayList<BadgesData> badges) {
+                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
+                            CustomDialogBadge customDialogBadge= new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
+                            customDialogBadge.PokaziNagradu();
+                        }
+                    });
+                }
+                else if(((compareTwenty > 0 || compareTwenty == 0) && compareThirty < 0) && !user.getBadgeBuyerURL().contains("srebrna"))
+                {
+                    badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka kupca", new BadgeCallback() {
+                        @Override
+                        public void onCallback(ArrayList<BadgesData> badges) {
+                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
+                            CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
+                            customDialogBadge.PokaziNagradu();
+                        }
+                    });
+                }
+                else if((compareThirty > 0 || compareThirty == 0) && !user.getBadgeBuyerURL().contains("zlatna"))
+                {
+                    badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka kupca", new BadgeCallback() {
+                        @Override
+                        public void onCallback(ArrayList<BadgesData> badges) {
+                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
+                            CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
+                            customDialogBadge.PokaziNagradu();
+                        }
+                    });
+                }
+            }
+        });
+
         if(!fromReview) {
             ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
 
@@ -117,10 +169,10 @@ public class ReservationFragment extends Fragment {
             buttonAccepted.setVisibility(View.GONE);
 
             ArrayList<ReservationsData> reservationList = new ArrayList<>();
-            Repository repository = new Repository();
+            //Repository repository = new Repository();
             repository.DohvatiRezervacije1(new RezervationCallback() {
                 @Override
-                public void onCallback(ArrayList<ReservationsData> reservations) {
+                public void onCallback(ArrayList<ReservationsData>  reservations) {
                     int deletedReservations = 0;
                     for (int i = 0; i < reservations.size(); i++) {
                         if (reservations.get(i).getCustomerID().equals(userID))

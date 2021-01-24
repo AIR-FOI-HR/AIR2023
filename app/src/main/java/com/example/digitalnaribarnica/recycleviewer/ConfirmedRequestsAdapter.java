@@ -146,7 +146,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             }
         });
 
-
         holder.buyer.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
             @Override
@@ -156,7 +155,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                         selectedFragment).commit();
             }
         });
-
     }
 
     @Override
@@ -220,15 +218,11 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             addSales++;
                             firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
                             BadgesRepository badgesRepository=new BadgesRepository();
-                            Log.d("Badges",String.valueOf(addSales));
                             if(addSales.equals(10))
                             {
-                                Log.d("Badges","Usao");
                                 badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
-                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
@@ -237,12 +231,9 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             }
                             else if(addSales.equals(20))
                             {
-                                Log.d("Badges","Usao");
                                 badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
-                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
@@ -251,12 +242,9 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             }
                             else if(addSales.equals(30))
                             {
-                                Log.d("Badges","Usao");
                                 badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        Log.d("Badges",String.valueOf(badges.get(0).getBadgeUrl()));
-                                        //user.setBadgeSellerURL(badges.get(0).getBadgeUrl());
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
@@ -275,10 +263,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             firestoreService.updateNumberOfPurchases(buyerID, addPurchases.toString(), "Users");
                         }
                     });
-
-                    Log.d("TagPolje", buyerID);
-
-
 
                     selectedFragment = new FragmentUserRating(userID, buyerID, "Prodavatelj");
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
