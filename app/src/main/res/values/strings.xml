@@ -53,7 +53,7 @@
     <string name="largeDescription">1 velika riba = 0,5 kg i više</string>
     <string name="Odustani">Odustani</string>
     <string name="reservation_title">Rezervacije</string>
-    <string name="myReservations">Moje rezervacije</string>
+    <string name="myReservations">Aktualne rezervacije</string>
     <string name="requests">Zahtjevi</string>
     <string name="acceptedRequests">Potvrđeno</string>
     <string name="reservationRecyclerView">Naziv rezervacije</string>
@@ -129,5 +129,9 @@
     <string name="back">Vrati se</string>
     <string name="buy">Kupac</string>
     <string name="sell">Prodavatelj</string>
+    <string name="home">Home</string>
+    <string name="chat">Poruke</string>
+    <string name="profile">Profil</string>
+    <string name="reservationHistory">Povijest rezervacija</string>
 
 </resources>

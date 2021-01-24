@@ -264,7 +264,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                         }
                     });
 
-                    selectedFragment = new FragmentUserRating(userID, buyerID, "Prodavatelj");
+                    selectedFragment = new FragmentUserRating(userID, buyerID);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                     }
@@ -278,7 +278,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         });
         builder.show();
     }
-
 
     public void showDialogDecline(Activity activity, String title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

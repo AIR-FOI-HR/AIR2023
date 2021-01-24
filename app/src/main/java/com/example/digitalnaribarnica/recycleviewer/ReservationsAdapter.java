@@ -80,62 +80,62 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Repository repository = new Repository();
-       repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
-            @Override
-            public void onCallback(ArrayList<OffersData> offersData) {
-                holder.fish.setText(offersData.get(0).getName());
-                holder.location.setText(offersData.get(0).getLocation());
-                Double quantity = 0.0;
-                String text ="";
-                if (!reservations.get(position).getSmallFish().equals("0")){
-                    text = text + "<b>" + context.getString(R.string.smallFish) + "</b>" +  " "  + reservations.get(position).getSmallFish() + " kg" + "<br>";
-                    quantity = quantity + Double.parseDouble(reservations.get(position).getSmallFish());
+           repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
+                @Override
+                public void onCallback(ArrayList<OffersData> offersData) {
+                    holder.fish.setText(offersData.get(0).getName());
+                    holder.location.setText(offersData.get(0).getLocation());
+                    Double quantity = 0.0;
+                    String text ="";
+                    if (!reservations.get(position).getSmallFish().equals("0")){
+                        text = text + "<b>" + context.getString(R.string.smallFish) + "</b>" +  " "  + reservations.get(position).getSmallFish() + " kg" + "<br>";
+                        quantity = quantity + Double.parseDouble(reservations.get(position).getSmallFish());
+                    }
+                    if (!reservations.get(position).getMediumfish().equals("0")){
+                        text = text + "<b>" + context.getString(R.string.mediumFish) + "</b>" +  " " + reservations.get(position).getMediumfish() + " kg" + "<br>";
+                        quantity = quantity + Double.parseDouble(reservations.get(position).getMediumfish());
+                    }
+                    if (!reservations.get(position).getLargeFish().equals("0")){
+                        text = text +  "<b>" + context.getString(R.string.largeFish) + "</b>" +  " " + reservations.get(position).getLargeFish() + " kg";
+                        quantity = quantity + Double.parseDouble(reservations.get(position).getLargeFish());
+                    }
+                    holder.fishClassText.setText(Html.fromHtml(text));
+
+                    switch(reservations.get(position).getStatus()){
+                        case "Nepotvrđeno":
+                            holder.status.setTextColor(context.getResources().getColor(R.color.colorGray));
+                            break;
+
+                        case "Potvrđeno":
+                            holder.status.setTextColor(context.getResources().getColor(R.color.colorBlue));
+                            break;
+
+                        case "Neuspješno":
+                            holder.status.setTextColor(context.getResources().getColor(R.color.colorRed));
+                            break;
+
+                        case "Uspješno":
+                            holder.status.setTextColor(context.getResources().getColor(R.color.colorGreen));
+                            break;
+                    }
+
+                    String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
+                    holder.status.setText(Html.fromHtml(statusText));
+                    Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
+                    @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
+                    holder.price.setText(textPrice);
+
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(offersData.get(0).getImageurl())
+                            .into(holder.fishImage);
+
+
+                    if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && reservations.get(position).getRatedStatus().equals("Neocijenjeno")){
+                        holder.rateSeller.setVisibility(View.VISIBLE);
+                    }
                 }
-                if (!reservations.get(position).getMediumfish().equals("0")){
-                    text = text + "<b>" + context.getString(R.string.mediumFish) + "</b>" +  " " + reservations.get(position).getMediumfish() + " kg" + "<br>";
-                    quantity = quantity + Double.parseDouble(reservations.get(position).getMediumfish());
-                }
-                if (!reservations.get(position).getLargeFish().equals("0")){
-                    text = text +  "<b>" + context.getString(R.string.largeFish) + "</b>" +  " " + reservations.get(position).getLargeFish() + " kg";
-                    quantity = quantity + Double.parseDouble(reservations.get(position).getLargeFish());
-                }
-                holder.fishClassText.setText(Html.fromHtml(text));
-
-                switch(reservations.get(position).getStatus()){
-                    case "Nepotvrđeno":
-                        holder.status.setTextColor(context.getResources().getColor(R.color.colorGray));
-                        break;
-
-                    case "Potvrđeno":
-                        holder.status.setTextColor(context.getResources().getColor(R.color.colorBlue));
-                        break;
-
-                    case "Neuspješno":
-                        holder.status.setTextColor(context.getResources().getColor(R.color.colorRed));
-                        break;
-
-                    case "Uspješno":
-                        holder.status.setTextColor(context.getResources().getColor(R.color.colorGreen));
-                        break;
-                }
-
-                String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
-                holder.status.setText(Html.fromHtml(statusText));
-                Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
-                holder.price.setText(textPrice);
-
-                Glide.with(context)
-                        .asBitmap()
-                        .load(offersData.get(0).getImageurl())
-                        .into(holder.fishImage);
-
-
-                if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && reservations.get(position).getRatedStatus().equals("Neocijenjeno")){
-                    holder.rateSeller.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+            });
 
         Calendar calendar = DateParse.dateToCalendar(reservations.get(position).getDate().toDate());
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
@@ -154,8 +154,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                     repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
                                 @Override
                                 public void onCallback(ArrayList<OffersData> offersData) {
-                                    Log.d("TagPolje", "reservations.get(position).getCustomerID()");
-                                    Log.d("TagPolje", offersData.get(0).getIdKorisnika());
                                     selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika());
                                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                                             selectedFragment).commit();
@@ -221,19 +219,21 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Repository repository = new Repository();
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.deleteReservation(ReservationID, "Rezervation");
-                    reservationFragment.refreshReservationList();
-
+                    if(reservationFragment.onMyReservations) {
+                        reservationFragment.refreshReservationList();
+                    }
+                    else if (reservationFragment.onReservationsHistory){
+                        reservationFragment.showReservationHistoryDelete();
+                    }
                 }
             }
         });
         builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("TagPolje", "Tu ide kao poz");
             }
         });
         builder.show();

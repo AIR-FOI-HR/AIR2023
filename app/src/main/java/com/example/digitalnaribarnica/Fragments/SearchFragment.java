@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.repository.Data.OffersData;
@@ -113,6 +115,10 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
         btnAddOffer = binding.floatingbtnAddOffer;
+
+        if (((RegisterActivity) getActivity()).buyer){
+            btnAddOffer.setVisibility(View.INVISIBLE);
+        }
 
         if(filtered){
                 Repository repository = new Repository();

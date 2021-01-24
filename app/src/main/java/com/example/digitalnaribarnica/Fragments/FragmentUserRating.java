@@ -41,19 +41,12 @@ public class FragmentUserRating extends Fragment {
     private SharedViewModel sharedViewModel;
     private ReservationsData reservation;
 
-    String userID = "";
-    String ratedUser = "";
-    String typePerson = "";
+    String userID;
+    String ratedUser;
 
     public FragmentUserRating( String userId, String ratedUser) {
         this.userID = userId;
         this.ratedUser = ratedUser;
-    }
-
-    public FragmentUserRating( String userId, String ratedUser, String typePerson) {
-        this.userID = userId;
-        this.ratedUser = ratedUser;
-        this.typePerson = typePerson;
     }
 
     @SuppressLint("RestrictedApi")
@@ -73,7 +66,6 @@ public class FragmentUserRating extends Fragment {
         comment = binding.comment;
         name = binding.imePrezime;
 
-        Repository repository = new Repository();
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         if(reservation == null) {
             sharedViewModel.DohvatiKorisnikaPoID(ratedUser);
@@ -112,16 +104,9 @@ public class FragmentUserRating extends Fragment {
                 sharedViewModel.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), "Uspješno ocjenjen korisnik", 3, R.style.ToastGreen).show();
 
-                if(typePerson.equals("Prodavatelj")){
-                    selectedFragment = new ReservationFragment(userID, true, true);
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                            selectedFragment).commit();
-                }
-                else {
-                    selectedFragment = new ReservationFragment(userID, true, false);
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                            selectedFragment).commit();
-                }
+                selectedFragment = new ReservationFragment(userID, true);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
             }
         });
         return  view;

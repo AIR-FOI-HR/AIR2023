@@ -32,6 +32,7 @@ import com.example.badges.CustomDialogBadge;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
@@ -53,34 +54,35 @@ import java.util.Comparator;
 public class ReservationFragment extends Fragment {
 
     private String userID;
-    private String searchText;
+    public String searchText;
 
     FragmentReservationBinding binding;
 
     public RecyclerView recyclerView;
 
     Button buttonReservation;
+    Button buttonReservationHistory;
     Button buttonRequest;
     Button buttonAccepted;
 
-    Boolean isSearching = false;
-    Boolean onMyReservations = true;
-    Boolean onRequests = false;
-    Boolean onAcceptedRequests = false;
-    Boolean fromReview = false;
-    Boolean fromReviewSeller = false;
+    public Boolean onMyReservations = true;
+    public Boolean onRequests = false;
+    public Boolean onAcceptedRequests = false;
+    public Boolean onReservationsHistory = false;
 
-    MaterialButtonToggleGroup toggleButtonGroupBuySell;
+    Boolean startDontSearch = true;
+    Boolean isSearching = false;
+    Boolean fromReview = false;
+
     MaterialButtonToggleGroup toggleButtonGroup;
 
     public ReservationFragment(String userId){
         this.userID = userId;
     }
 
-    public ReservationFragment(String userId, Boolean fromReview, Boolean fromReviewSeller){
+    public ReservationFragment(String userId, Boolean fromReview){
         this.userID = userId;
         this.fromReview = fromReview;
-        this.fromReviewSeller = fromReviewSeller;
     }
 
     @Override
@@ -104,13 +106,63 @@ public class ReservationFragment extends Fragment {
         binding = FragmentReservationBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        toggleButtonGroupBuySell = binding.toggleButtonBuyerSeller;
-        toggleButtonGroup =binding.toggleButton;
+        toggleButtonGroup = binding.toggleButton;
 
         buttonReservation=binding.myReservationsButton;
         buttonRequest=binding.requestsButton;
         buttonAccepted=binding.acceptedRequestsButton;
+        buttonReservationHistory=binding.reservationHistory;
         recyclerView = binding.recyclerReservations;
+
+        if(fromReview && ((RegisterActivity) getActivity()).buyer){
+            fromReview = false;
+            buttonReservation.setVisibility(View.VISIBLE);
+            buttonReservationHistory.setVisibility(View.VISIBLE);
+            buttonRequest.setVisibility(View.GONE);
+            buttonAccepted.setVisibility(View.GONE);
+
+            toggleButtonGroup.check(R.id.reservation_history);
+            buttonReservationHistory.setClickable(false);
+
+            showReservationHistory();
+        }
+
+        else if(fromReview && !((RegisterActivity) getActivity()).buyer){
+            fromReview = false;
+            buttonReservation.setVisibility(View.GONE);
+            buttonReservationHistory.setVisibility(View.GONE);
+            buttonRequest.setVisibility(View.VISIBLE);
+            buttonAccepted.setVisibility(View.VISIBLE);
+
+            toggleButtonGroup.check(R.id.acceptedRequests_button);
+            buttonAccepted.setClickable(false);
+
+            confirmedRequests();;
+        }
+
+        else if (((RegisterActivity) getActivity()).buyer){
+            buttonReservation.setVisibility(View.VISIBLE);
+            buttonReservationHistory.setVisibility(View.VISIBLE);
+            buttonRequest.setVisibility(View.GONE);
+            buttonAccepted.setVisibility(View.GONE);
+
+            toggleButtonGroup.check(R.id.myReservations_button);
+            buttonReservation.setClickable(false);
+
+            showMyReservations();
+        }
+
+        else{
+            buttonReservation.setVisibility(View.GONE);
+            buttonReservationHistory.setVisibility(View.GONE);
+            buttonRequest.setVisibility(View.VISIBLE);
+            buttonAccepted.setVisibility(View.VISIBLE);
+
+            toggleButtonGroup.check(R.id.requests_button);
+            buttonRequest.setClickable(false);
+
+            showRequests();
+        }
 
         Repository repository = new Repository();
 
@@ -159,129 +211,65 @@ public class ReservationFragment extends Fragment {
             }
         });
 
-        if(!fromReview) {
-            ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
-
-            toggleButtonGroupBuySell.check(R.id.buyer);
-            toggleButtonGroupBuySell.uncheck(R.id.seller);
-            buttonReservation.setVisibility(View.VISIBLE);
-            buttonRequest.setVisibility(View.GONE);
-            buttonAccepted.setVisibility(View.GONE);
-
-            ArrayList<ReservationsData> reservationList = new ArrayList<>();
-            //Repository repository = new Repository();
-            repository.DohvatiRezervacije1(new RezervationCallback() {
-                @Override
-                public void onCallback(ArrayList<ReservationsData>  reservations) {
-                    int deletedReservations = 0;
-                    for (int i = 0; i < reservations.size(); i++) {
-                        if (reservations.get(i).getCustomerID().equals(userID))
-                            reservationList.add(reservations.get(i));
-                    }
-
-                    if (deletedReservations > 0) {
-                        showDialog(getActivity(), "Obrisane rezervacije",
-                                "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
-                                        + String.valueOf(deletedReservations), "deletedFirebase");
-                    }
-
-                    adapter.setReservations(reservationList);
-                }
-            });
-
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-      } else{
-            fromReview = false;
-
-           if(fromReviewSeller){
-               toggleButtonGroupBuySell.uncheck(R.id.buyer);
-               toggleButtonGroupBuySell.check(R.id.seller);
-
-               buttonReservation.setVisibility(View.GONE);
-               buttonRequest.setVisibility(View.VISIBLE);
-               buttonAccepted.setVisibility(View.VISIBLE);
-
-               toggleButtonGroup.uncheck(R.id.myReservations_button);
-               toggleButtonGroup.check(R.id.requests_button);
-               toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
-
-               showRequests();
-
-           }
-
-           else{
-               toggleButtonGroupBuySell.uncheck(R.id.seller);
-               toggleButtonGroupBuySell.check(R.id.buyer);
-
-               buttonReservation.setVisibility(View.VISIBLE);
-               buttonRequest.setVisibility(View.GONE);
-               buttonAccepted.setVisibility(View.GONE);
-
-               toggleButtonGroup.check(R.id.myReservations_button);
-               toggleButtonGroup.uncheck(R.id.requests_button);
-               toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
-
-               showMyReservations();
-           }
-        }
-
         toggleButtonGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
                 if (isChecked) {
                     switch (checkedId) {
                         case R.id.myReservations_button:
+                            buttonReservation.setClickable(false);
+                            buttonReservationHistory.setClickable(true);
+                            buttonRequest.setClickable(true);
+                            buttonAccepted.setClickable(true);
+
+                            toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.requests_button);
                             toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
                             break;
+
+                        case R.id.reservation_history:
+                            buttonReservation.setClickable(true);
+                            buttonReservationHistory.setClickable(false);
+                            buttonRequest.setClickable(true);
+                            buttonAccepted.setClickable(true);
+
+                            toggleButtonGroup.uncheck(R.id.myReservations_button);
+                            toggleButtonGroup.uncheck(R.id.requests_button);
+                            toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
+                            break;
+
                         case R.id.requests_button:
+                            buttonReservation.setClickable(true);
+                            buttonReservationHistory.setClickable(true);
+                            buttonRequest.setClickable(false);
+                            buttonAccepted.setClickable(true);
+
                             toggleButtonGroup.uncheck(R.id.myReservations_button);
+                            toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
                             break;
+
                         case R.id.acceptedRequests_button:
+                            buttonReservation.setClickable(true);
+                            buttonReservationHistory.setClickable(true);
+                            buttonRequest.setClickable(true);
+                            buttonAccepted.setClickable(false);
+
                             toggleButtonGroup.uncheck(R.id.myReservations_button);
+                            toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.requests_button);
                             break;
                     }
                 }
-            }
-        });
-
-        toggleButtonGroupBuySell.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener(){
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                if(isChecked){
-                    switch (checkedId){
-                        case R.id.buyer:
-                            toggleButtonGroupBuySell.uncheck(R.id.seller);
-                            buttonReservation.setVisibility(View.VISIBLE);
-                            buttonRequest.setVisibility(View.GONE);
-                            buttonAccepted.setVisibility(View.GONE);
-
+                /*else{
+                    switch (checkedId) {
+                        case R.id.myReservations_button:
                             toggleButtonGroup.check(R.id.myReservations_button);
-                            toggleButtonGroup.uncheck(R.id.requests_button);
-                            toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
 
-                            showMyReservations();
-                            break;
-
-                        case R.id.seller:
-                            toggleButtonGroupBuySell.uncheck(R.id.buyer);
-                            buttonReservation.setVisibility(View.GONE);
-                            buttonRequest.setVisibility(View.VISIBLE);
-                            buttonAccepted.setVisibility(View.VISIBLE);
-
-                            toggleButtonGroup.uncheck(R.id.myReservations_button);
-                            toggleButtonGroup.check(R.id.requests_button);
-                            toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
-
-                            showRequests();
                             break;
                     }
-                }
+                }*/
             }
         });
 
@@ -292,6 +280,12 @@ public class ReservationFragment extends Fragment {
             }
         });
 
+        buttonReservationHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showReservationHistory();
+            }
+        });
 
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -316,109 +310,102 @@ public class ReservationFragment extends Fragment {
         isSearching = true;
 
         if(onMyReservations) {
-        ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
-        Repository repository = new Repository();
-        repository.DohvatiRezervacije1(offersData -> {
-            ArrayList<ReservationsData> reservationList = new ArrayList<>();
-            repository.DohvatiRezervacije1(new RezervationCallback() {
-                @Override
-                public void onCallback(ArrayList<ReservationsData> reservations) {
-                    int deletedReservations = 0;
-                    for (int i = 0; i < reservations.size(); i++) {
-                        if (reservations.get(i).getCustomerID().equals(userID)) {
-                            if (deletedOldItems(reservations.get(i)) != 0) {
-                                deletedReservations += deletedOldItems(reservations.get(i));
-                            } else {
+            ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
+            Repository repository = new Repository();
+            repository.DohvatiRezervacije1(offersData -> {
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> reservations) {
+                        int deletedReservations = 0;
+                        for (int i = 0; i < reservations.size(); i++) {
+                            if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Nepotvrđeno")) {
+                                if(deletedOldItems(reservations.get(i)) != 0) {
+                                    deletedReservations += deletedOldItems(reservations.get(i));
+                                }
+                                else {
+                                    reservationList.add(reservations.get(i));
+                                }
+                            }
+                            else if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Potvrđeno")){
                                 reservationList.add(reservations.get(i));
                             }
                         }
-                    }
 
-                    ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+                        ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
 
-                    if (reservationList != null) {
                         for (ReservationsData d : reservationList) {
                             repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onCallback(ArrayList<OffersData> offersData) {
                                     if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
                                         reservationListSearched.add(d);
+                                        reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
                                         adapter.setReservations(reservationListSearched);
                                     }
                                 }
                             });
                         }
-                    }
 
-                    if (deletedReservations > 0) {
-                        showDialog(getActivity(), "Obrisane rezervacije",
-                                "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
-                                        + String.valueOf(deletedReservations), "deletedFirebase");
-                    }
+                        if (deletedReservations > 0) {
+                            showDialog(getActivity(), "Obrisane rezervacije",
+                                    "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
+                                            + String.valueOf(deletedReservations), "deletedFirebase");
+                        }
 
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                }
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    }
+                });
             });
-        });
-    }
+        }
+
+        else if(onReservationsHistory){
+            ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
+            Repository repository = new Repository();
+            repository.DohvatiRezervacije1(offersData -> {
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> reservations) {
+                        for (int i = 0; i < reservations.size(); i++) {
+                            if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
+                                    reservationList.add(reservations.get(i));
+                            }
+                        }
+
+                        ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+
+                        for (ReservationsData d : reservationList) {
+                            repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                @Override
+                                public void onCallback(ArrayList<OffersData> offersData) {
+                                    if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                                         reservationListSearched.add(d);
+                                         reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                                         adapter.setReservations(reservationListSearched);
+                                    }
+                                }
+                            });
+                        }
+
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    }
+                });
+            });
+        }
+
         else if(onRequests){
             refreshRequestsList();
         }
+
         else{
             confirmedRequests();
         }
     }
-
-    private void confirmedRequests() {
-            onMyReservations = false;
-            onRequests = false;
-            onAcceptedRequests = true;
-            ConfirmedRequestsAdapter adapterConfirmedRequests = new ConfirmedRequestsAdapter(getActivity(), ReservationFragment.this, userID);
-            ArrayList<ReservationsData> reservationList = new ArrayList<>();
-            Repository repository=new Repository();
-            repository.DohvatiRezervacije1(new RezervationCallback() {
-                @Override
-                public void onCallback(ArrayList<ReservationsData> reservations) {
-
-                    for (int i = 0; i < reservations.size(); i++) {
-                        if(reservations.get(i).getStatus().equals("Potvrđeno")) {
-                            int finalI = i;
-                            repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                @Override
-                                public void onCallback(ArrayList<OffersData> offersData) {
-                                    if(offersData.get(0).getIdKorisnika().equals(userID)){
-                                        if(isSearching){
-                                            if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
-                                                reservationList.add(reservations.get(finalI));
-                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                                Collections.reverse(reservationList);
-                                                adapterConfirmedRequests.setConfirmedRequests(reservationList);
-                                            }
-                                        }
-                                        else {
-                                            reservationList.add(reservations.get(finalI));
-                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                            Collections.reverse(reservationList);
-                                            adapterConfirmedRequests.setConfirmedRequests(reservationList);
-                                        }
-                                    }
-                                }
-                            });
-
-                        }
-                    }
-                }
-            });
-
-            recyclerView.setAdapter(adapterConfirmedRequests);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-            toggleButtonGroup.uncheck(R.id.myReservations_button);
-            toggleButtonGroup.uncheck(R.id.requests_button);
-    }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -436,7 +423,7 @@ public class ReservationFragment extends Fragment {
             {
                     searchText = query;
                     searchReservation(query);
-                    if(query.equals("")){
+                    if (query.equals("")) {
                         isSearching = false;
                     }
                 return true;
@@ -445,11 +432,14 @@ public class ReservationFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText)
             {
+                if(!startDontSearch) {
                     searchText = newText;
                     searchReservation(newText);
-                    if(newText.equals("")){
+                    if (newText.equals("")) {
                         isSearching = false;
                     }
+                }
+                startDontSearch = false;
                 return true;
             }
         });
@@ -470,9 +460,9 @@ public class ReservationFragment extends Fragment {
             builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d("TagPolje", "Tu ide kao poz");
                 }
             });
+
             builder.setNegativeButton("Ne", null);
         }
         builder.show();
@@ -509,14 +499,19 @@ public class ReservationFragment extends Fragment {
                 public void onCallback(ArrayList<ReservationsData> reservations) {
                     int deletedReservations = 0;
                     for (int i = 0; i < reservations.size(); i++) {
-                        if (reservations.get(i).getCustomerID().equals(userID)) {
-                            if (deletedOldItems(reservations.get(i)) != 0) {
+                        if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Nepotvrđeno")) {
+                            if(deletedOldItems(reservations.get(i)) != 0) {
                                 deletedReservations += deletedOldItems(reservations.get(i));
-                            } else {
+                            }
+                            else {
                                 reservationList.add(reservations.get(i));
                             }
                         }
+                        else if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Potvrđeno")){
+                            reservationList.add(reservations.get(i));
+                        }
                     }
+
                     if (deletedReservations > 0) {
                         showDialog(getActivity(), "Obrisane rezervacije",
                                 "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
@@ -527,7 +522,6 @@ public class ReservationFragment extends Fragment {
                     adapter.setReservations(reservationList);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    Log.d("TagPolje", "Trebalo bi uc za refreshanje");
                 }
             });
         }
@@ -535,7 +529,6 @@ public class ReservationFragment extends Fragment {
             searchReservation(searchText);
         }
     }
-
 
     public void refreshRequestsList(){
         RequestsAdapter adapterRequest = new RequestsAdapter(getActivity(), this, userID);
@@ -576,47 +569,13 @@ public class ReservationFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    public void refreshConfirmedRequestsList(){
-        RequestsAdapter adapterRequest = new RequestsAdapter(getActivity(), this, userID);
-        ArrayList<ReservationsData> reservationList = new ArrayList<>();
-        Repository repository=new Repository();
-        repository.DohvatiRezervacije1(new RezervationCallback() {
-            @Override
-            public void onCallback(ArrayList<ReservationsData> rezervations) {
-
-                for (int i = 0; i < rezervations.size(); i++) {
-                    if(rezervations.get(i).getStatus().equals("Potvrđeno")) {
-                        int finalI = i;
-                        repository.DohvatiPonuduPrekoIdPonude(rezervations.get(i).getOfferID(), new FirestoreOffer() {
-                            @Override
-                            public void onCallback(ArrayList<OffersData> offersData) {
-                                if(offersData.get(0).getIdKorisnika().equals(userID)){
-                                    if(isSearching){
-                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
-                                            reservationList.add(rezervations.get(finalI));
-                                            adapterRequest.setRequests(reservationList);
-                                        }}
-                                    else {
-                                        reservationList.add(rezervations.get(finalI));
-                                        adapterRequest.setRequests(reservationList);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-
-        recyclerView.setAdapter(adapterRequest);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
     public void showMyReservations(){
         onMyReservations = true;
+        onReservationsHistory = false;
         onRequests = false;
         onAcceptedRequests = false;
         isSearching = false;
+
         ReservationsAdapter adapterFromRequests = new ReservationsAdapter(getActivity(),ReservationFragment.this, userID);
         ArrayList<ReservationsData> reservationList = new ArrayList<>();
         Repository repository=new Repository();
@@ -624,9 +583,98 @@ public class ReservationFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCallback(ArrayList<ReservationsData> reservations) {
+                int deletedReservations = 0;
                 for (int i = 0; i < reservations.size(); i++) {
-                    if(reservations.get(i).getCustomerID().equals(userID))
+                    if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Nepotvrđeno")) {
+                        if(deletedOldItems(reservations.get(i)) != 0) {
+                            deletedReservations += deletedOldItems(reservations.get(i));
+                        }
+                        else {
+                            reservationList.add(reservations.get(i));
+                        }
+                        }
+                    else if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Potvrđeno")){
                         reservationList.add(reservations.get(i));
+                    }
+                }
+
+                if (deletedReservations > 0) {
+                    showDialog(getActivity(), "Obrisane rezervacije",
+                            "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
+                                    + String.valueOf(deletedReservations), "deletedFirebase");}
+
+                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                adapterFromRequests.setReservations(reservationList);
+            }
+        });
+
+        recyclerView.setAdapter(adapterFromRequests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    public void showReservationHistoryDelete(){
+        if(isSearching) {
+
+            ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
+            Repository repository = new Repository();
+            repository.DohvatiRezervacije1(offersData -> {
+                ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> reservations) {
+                        for (int i = 0; i < reservations.size(); i++) {
+                            if (reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
+                                reservationList.add(reservations.get(i));
+                            }
+                        }
+
+                        ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+
+                        for (ReservationsData d : reservationList) {
+                            repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                @Override
+                                public void onCallback(ArrayList<OffersData> offersData) {
+                                    if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                        reservationListSearched.add(d);
+                                        adapter.setReservations(reservationListSearched);
+                                    }
+                                }
+                            });
+                        }
+                        reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                        adapter.setReservations(reservationListSearched);
+
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    }
+                });
+            });
+        }
+        else{
+            showReservationHistory();
+        }
+    }
+
+    public void showReservationHistory(){
+        onMyReservations = false;
+        onReservationsHistory = true;
+        onRequests = false;
+        onAcceptedRequests = false;
+        isSearching = false;
+
+        ReservationsAdapter adapterFromRequests = new ReservationsAdapter(getActivity(),ReservationFragment.this, userID);
+        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+        Repository repository=new Repository();
+        repository.DohvatiRezervacije1(new RezervationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onCallback(ArrayList<ReservationsData> reservations) {
+                int deletedReservations = 0;
+                for (int i = 0; i < reservations.size(); i++) {
+                    if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno"))){
+                            reservationList.add(reservations.get(i));
+                    }
                 }
 
                 reservationList.sort(Comparator.comparing(ReservationsData::getDate));
@@ -641,6 +689,7 @@ public class ReservationFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showRequests(){
         onMyReservations = false;
+        onReservationsHistory = false;
         onRequests = true;
         onAcceptedRequests = false;
         isSearching = false;
@@ -674,5 +723,56 @@ public class ReservationFragment extends Fragment {
 
         recyclerView.setAdapter(adapterRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void confirmedRequests() {
+        onMyReservations = false;
+        onReservationsHistory = false;
+        onRequests = false;
+        onAcceptedRequests = true;
+
+        ConfirmedRequestsAdapter adapterConfirmedRequests = new ConfirmedRequestsAdapter(getActivity(), ReservationFragment.this, userID);
+        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+        Repository repository=new Repository();
+        repository.DohvatiRezervacije1(new RezervationCallback() {
+            @Override
+            public void onCallback(ArrayList<ReservationsData> reservations) {
+
+                for (int i = 0; i < reservations.size(); i++) {
+                    if(reservations.get(i).getStatus().equals("Potvrđeno")) {
+                        int finalI = i;
+                        repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onCallback(ArrayList<OffersData> offersData) {
+                                if(offersData.get(0).getIdKorisnika().equals(userID)){
+                                    if(isSearching){
+                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                            reservationList.add(reservations.get(finalI));
+                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                            Collections.reverse(reservationList);
+                                            adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                        }
+                                    }
+                                    else {
+                                        reservationList.add(reservations.get(finalI));
+                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                        Collections.reverse(reservationList);
+                                        adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+
+        recyclerView.setAdapter(adapterConfirmedRequests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        toggleButtonGroup.uncheck(R.id.myReservations_button);
+        toggleButtonGroup.uncheck(R.id.requests_button);
     }
 }

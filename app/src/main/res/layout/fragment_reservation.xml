@@ -6,48 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.digitalnaribarnica.Fragments.ReservationFragment">
 
-
     <RelativeLayout
         android:id="@+id/middleRezervation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggle_button_buyer_seller"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:selectionRequired="true"
-            app:checkedButton="@id/buyer"
-            android:layout_centerHorizontal="true">
-
-        <Button
-            android:id="@+id/buyer"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_weight="1"
-            android:textSize="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="@string/buy"/>
-
-        <Button
-            android:id="@+id/seller"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="@string/sell"
-            android:layout_weight="1"
-            android:textSize="10dp"
-            style="?attr/materialButtonOutlinedStyle"
-            />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggleButton"
-            android:layout_below="@+id/toggle_button_buyer_seller"
             android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:checkedButton="@id/myReservations_button"
-            app:selectionRequired="true"
             android:layout_centerHorizontal="true">
 
             <Button
@@ -57,7 +25,17 @@
                 android:textSize="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:text="@string/myReservations" />
+                android:clickable="false"
+                android:text="@string/myReservations"/>
+            <Button
+                android:id="@+id/reservation_history"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/reservationHistory"
+                android:layout_weight="1"
+                android:textSize="10dp"
+                style="?attr/materialButtonOutlinedStyle"
+                />
             <Button
                 android:id="@+id/requests_button"
                 android:layout_width="wrap_content"
