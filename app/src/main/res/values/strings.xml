@@ -133,5 +133,9 @@
     <string name="chat">Poruke</string>
     <string name="profile">Profil</string>
     <string name="reservationHistory">Povijest rezervacija</string>
+    <string name="continueAs">Nastavi kao</string>
+    <string name="image">Slika</string>
+    <string name="buyerText">Kupac</string>
+    <string name="sellerText">Prodavatelj</string>
 
 </resources>

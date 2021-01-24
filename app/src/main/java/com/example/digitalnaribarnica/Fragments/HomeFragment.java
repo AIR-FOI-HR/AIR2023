@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +23,13 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private String userId = "";
-    private ImageView roleBuyer;
-    private ImageView roleSeller;
+    private RelativeLayout roleBuyer;
+    private RelativeLayout roleSeller;
+    private ImageView statusBuyer;
+    private ImageView statusSeller;
+    private TextView textBuyer;
+    private TextView textSeller;
+
 
     public HomeFragment(String userId) {
         this.userId = userId;
@@ -42,10 +49,32 @@ public class HomeFragment extends Fragment {
         roleBuyer = binding.roleBuyer;
         roleSeller = binding.roleSeller;
 
+        statusBuyer = binding.statusBuyer;
+        statusSeller = binding.statusSeller;
+
+        textBuyer = binding.textbuyer;
+        textSeller = binding.textseller;
+
+        if(((RegisterActivity) getActivity()).buyer){
+            statusBuyer.setVisibility(view.VISIBLE);
+            statusSeller.setVisibility(view.INVISIBLE);
+            textBuyer.setVisibility(view.INVISIBLE);
+            textSeller.setVisibility(view.VISIBLE);
+        }else{
+            statusBuyer.setVisibility(view.INVISIBLE);
+            statusSeller.setVisibility(view.VISIBLE);
+            textBuyer.setVisibility(view.VISIBLE);
+            textSeller.setVisibility(view.INVISIBLE);
+        }
+
         roleBuyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((RegisterActivity) getActivity()).changeRole(true);
+                statusBuyer.setVisibility(view.VISIBLE);
+                statusSeller.setVisibility(view.INVISIBLE);
+                textBuyer.setVisibility(view.INVISIBLE);
+                textSeller.setVisibility(view.VISIBLE);
             }
         });
 
@@ -53,6 +82,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((RegisterActivity) getActivity()).changeRole(false);
+                statusBuyer.setVisibility(view.INVISIBLE);
+                statusSeller.setVisibility(view.VISIBLE);
+                textBuyer.setVisibility(view.VISIBLE);
+                textSeller.setVisibility(view.INVISIBLE);
             }
         });
 
