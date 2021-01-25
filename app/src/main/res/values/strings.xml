@@ -137,5 +137,6 @@
     <string name="image">Slika</string>
     <string name="buyerText">Kupac</string>
     <string name="sellerText">Prodavatelj</string>
+    <string name="button">Gumb</string>
 
 </resources>

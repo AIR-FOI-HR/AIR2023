@@ -39,31 +39,34 @@
          android:focusable="true"
          android:layout_height="35dp"
          android:src="@drawable/ic_baseline_badges"
+         android:background="?android:attr/selectableItemBackground"
          android:layout_alignParentEnd="true"
          android:layout_marginRight="18dp"
          android:contentDescription="@string/badge"/>
 
     <ImageView
-            android:id="@+id/btnUrediProfil"
-            android:layout_width="35dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_height="35dp"
-            android:src="@drawable/edit_icon"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="18dp"
-            android:contentDescription="@string/Odjava"/>
+        android:id="@+id/btnUrediProfil"
+        android:layout_width="35dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_height="35dp"
+        android:src="@drawable/edit_icon"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="18dp"
+        android:contentDescription="@string/Odjava"/>
 
         <ImageView
-            android:id="@+id/odjava"
-            android:layout_width="34dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_height="34dp"
-            android:src="@drawable/logout_icon"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/urediProfil"
-            android:layout_toRightOf="@id/btnUrediProfil"/>
+        android:id="@+id/odjava"
+        android:layout_width="34dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_height="34dp"
+        android:src="@drawable/logout_icon"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/urediProfil"
+        android:layout_toRightOf="@id/btnUrediProfil"/>
 
 </LinearLayout>
 
@@ -163,16 +166,18 @@
 
         <TextView
             android:id="@+id/show_ratings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
             android:layout_below="@id/ratingBar"
             android:text="@string/showRatings"
             android:clickable="true"
             android:focusable="true"
             android:textColor="@color/colorBlue"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
 
     </RelativeLayout>

@@ -213,7 +213,8 @@
             android:layout_weight="1"
             android:background="@drawable/request_button_design"
             android:src="@drawable/accept_request"
-            android:contentDescription="@string/picture" />
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/button"/>
 
         <ImageButton
             android:id="@+id/request_decline"
@@ -224,7 +225,8 @@
             android:layout_marginStart="3dp"
             android:background="@drawable/request_button_design"
             android:src="@drawable/decline_request"
-            android:contentDescription="@string/picture" />
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/button"/>
 
     </LinearLayout>
 

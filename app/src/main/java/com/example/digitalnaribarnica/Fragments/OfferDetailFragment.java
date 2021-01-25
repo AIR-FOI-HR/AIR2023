@@ -89,7 +89,6 @@ public class OfferDetailFragment extends Fragment {
         this.offerID = offerID;
         this.userID = userId;
         this.cameFromMyOffers = myOffers;
-        Log.d("TagPolje", offerID);
     }
 
     @SuppressLint("RestrictedApi")
@@ -208,10 +207,7 @@ public class OfferDetailFragment extends Fragment {
                             for (int i = 0; i < reviews.size(); i++) {
                                 sum = sum + Float.parseFloat(reviews.get(i).getRating());
                             }
-                            Log.d("TagPolje", String.valueOf(sum) );
-
                             float ratingTotal = sum / reviews.size();
-                            Log.d("TagPolje", String.valueOf(rating) );
                             rating.setRating(ratingTotal);
                         }
                     }
@@ -515,6 +511,10 @@ public class OfferDetailFragment extends Fragment {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
+
+        if (((RegisterActivity) getActivity()).buyer){
+            menu.findItem((R.id.my_offers_menu)).setVisible(false);
+        }
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

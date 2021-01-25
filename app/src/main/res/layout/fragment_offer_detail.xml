@@ -537,7 +537,8 @@
                                 android:text="@string/nameSurname"
                                 android:textSize="14sp"
                                 android:textColor="@color/colorBlue"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:foreground="?android:attr/selectableItemBackground"/>
 
                             <LinearLayout
                                 android:orientation="horizontal"

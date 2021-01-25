@@ -195,8 +195,12 @@ public class SearchFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                         actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
-                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
-
+                        if (((RegisterActivity) getActivity()).buyer){
+                            actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+                        }
+                        else {
+                            actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                        }
                     }
                 });
             }
@@ -239,21 +243,36 @@ public class SearchFragment extends Fragment {
                     }
                 }
 
+            try {
+                if(search.equals("")){
+                    actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
+
+                    if (((RegisterActivity) getActivity()).buyer){
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+                    }
+                    else {
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    }
+                }
+
+                else {
+                    actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
+                    if (((RegisterActivity) getActivity()).buyer){
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+                    }
+                    else {
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    }
+                }
+            }
+            catch (Exception ex){
+            }
+
             offersListGeneral = offersList;
             OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
             adapter.setOffers(offersList);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-            if(search.equals("")){
-                actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
-                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
-            }
-
-            else {
-                actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
-                actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
-            }
         });
     }
 
@@ -261,6 +280,10 @@ public class SearchFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
         actionMenu = menu;
+        if (((RegisterActivity) getActivity()).buyer){
+            actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+        }
+
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         MenuItem item = menu.findItem((R.id.action_search));
         SearchView searchView = (SearchView) item.getActionView();
@@ -332,7 +355,12 @@ public class SearchFragment extends Fragment {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
                     actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
-                    actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    if (((RegisterActivity) getActivity()).buyer){
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+                    }
+                    else {
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    }
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 });
                 break;
@@ -352,7 +380,12 @@ public class SearchFragment extends Fragment {
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
                         actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
+                    if (((RegisterActivity) getActivity()).buyer){
+                        actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
+                    }
+                    else {
                         actionMenu.findItem((R.id.my_offers_menu)).setVisible(true);
+                    }
                 });
                 break;
 

@@ -9,7 +9,7 @@
     android:focusable="true"
     app:cardCornerRadius="@dimen/general_margin"
     android:id="@+id/parent"
-    android:background="?android:selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -123,6 +123,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:textColor="@color/colorBlue"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:layout_marginEnd="@dimen/general_margin"
                         android:textIsSelectable="false"/>
 

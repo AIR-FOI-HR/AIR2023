@@ -19,6 +19,7 @@
         android:focusable="true"
         android:clickable="true"
         android:src="@drawable/ic_baseline_highlight_off_24"
+        android:background="?selectableItemBackgroundBorderless"
         android:layout_gravity="right"
         />
 

@@ -138,6 +138,7 @@
                                 android:focusable="true"
                                 android:textColor="@color/colorBlue"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                android:foreground="?android:attr/selectableItemBackground"
                                 android:textIsSelectable="false" />
 
                         </LinearLayout>
@@ -212,8 +213,9 @@
                 android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/request_button_design"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/accept_request"
-                android:contentDescription="@string/picture" />
+                android:contentDescription="@string/button"/>
 
             <ImageButton
                 android:id="@+id/request_decline"
@@ -223,8 +225,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="3dp"
                 android:background="@drawable/request_button_design"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:src="@drawable/decline_request"
-                android:contentDescription="@string/picture" />
+                android:contentDescription="@string/button"/>
 
         </LinearLayout>
 
