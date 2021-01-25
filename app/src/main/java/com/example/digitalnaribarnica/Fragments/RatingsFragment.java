@@ -28,6 +28,7 @@ import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.digitalnaribarnica.recycleviewer.RatingsAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,7 +44,7 @@ public class RatingsFragment extends Fragment {
     private String cameFrom = "";
     private String currentUser = "";
     private String offerID = "";
-
+    private FloatingActionButton floatingActionButton;
     private SharedViewModel sharedViewModel;
 
     public RatingsFragment(String userId) {
@@ -88,6 +89,10 @@ public class RatingsFragment extends Fragment {
 
         setHasOptionsMenu(true);
         RatingsAdapter adapter = new RatingsAdapter(getActivity(), userId, this);
+
+        floatingActionButton = binding.floatingbtnAddOffer;
+        floatingActionButton.setVisibility(view.INVISIBLE);
+
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.DohvatiOcjenePoID(userId);
         sharedViewModel.reviewDataArrayList.observe(this, new Observer<ArrayList<Review>>() {

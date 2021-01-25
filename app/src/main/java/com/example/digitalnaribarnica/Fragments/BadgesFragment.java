@@ -27,6 +27,7 @@ import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.badges.BadgesData;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,6 +44,8 @@ public class BadgesFragment extends Fragment {
     private String currentUser = "";
     private String offerID = "";
     private SharedViewModel sharedViewModel;
+    private FloatingActionButton floatingActionButton;
+
     public BadgesFragment(String userId) {
         this.userId = userId;
     }
@@ -94,6 +97,10 @@ public class BadgesFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         recyclerView = binding.recycleViewOffer;
+
+        floatingActionButton = binding.floatingbtnAddOffer;
+        floatingActionButton.setVisibility(view.INVISIBLE);
+
         sharedViewModel.VratiSveZnacke();
         sharedViewModel.badgesDataArrayList.observe(this, new Observer<ArrayList<BadgesData>>() {
             @Override

@@ -2,6 +2,8 @@ package com.example.database;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.Timestamp;
+
 public class Offer {
     private String name;
     private String imageurl;
@@ -13,6 +15,7 @@ public class Offer {
     private String mediumFish;
     private String largeFish;
     private String status;
+    private com.google.firebase.Timestamp date;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -22,7 +25,7 @@ public class Offer {
         this.idKorisnika = idKorisnika;
     }
 
-    public Offer (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, int i) {
+    public Offer (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, com.google.firebase.Timestamp date, int i) {
         this.name = name;
         this.location = location;
         this.imageurl = imageurl;
@@ -32,6 +35,7 @@ public class Offer {
         this.mediumFish = mediumFish;
         this.largeFish = largeFish;
         this.status = "Aktivna";
+        this.date = date;
     }
 
 
@@ -115,6 +119,14 @@ public class Offer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     @NonNull

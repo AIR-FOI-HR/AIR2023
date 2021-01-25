@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,6 +34,7 @@ import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentAddOfferBinding;
+import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
@@ -39,7 +44,6 @@ public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
 
     private Button btnSaveNewOffer;
-    private Button btnCancel;
     private Button btnMinusSmall;
     private Button btnPlusSmall;
     private Button btnMinusMedium;
@@ -68,15 +72,15 @@ public class AddOfferFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Nova ponuda");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding = FragmentAddOfferBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         String compareValue = "some value";
+        setHasOptionsMenu(true);
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         btnSaveNewOffer = binding.btnAdd;
-        btnCancel = binding.btnCancel;
         price = binding.priceOffer;
 
         btnMinusSmall = binding.btnMinusSmall;
@@ -412,7 +416,7 @@ public class AddOfferFragment extends Fragment {
                         for (int i = 0; i < fish.size(); i++) {
                             if (fish.get(i).getName().contains(fishSpecies.getText().toString())) {
                                 sharedViewModel.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fish.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
-                                        mediumQuantity.getText().toString(), largeQuantity.getText().toString());
+                                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), Timestamp.now());
                                 Fragment newFragment;
                                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                                 newFragment = new SearchFragment(userId);
@@ -424,18 +428,6 @@ public class AddOfferFragment extends Fragment {
                         StyleableToast.makeText(getActivity(), "Upisana riba ne postoji u bazi", 3, R.style.Toast).show();
                     }
                 });
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment = null;
-
-            @Override
-            public void onClick(View view) {
-                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
-                selectedFragment = new SearchFragment(userId);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
             }
         });
 
@@ -475,6 +467,19 @@ public class AddOfferFragment extends Fragment {
             provjera = false;
         }
         return provjera;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            int id = item.getItemId();
+            if(id==android.R.id.home) {
+                setHasOptionsMenu(false);
+                Fragment selectedFragment = null;
+                selectedFragment = new SearchFragment(userId);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter, selectedFragment).commit();
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+            return true;
     }
 }
 

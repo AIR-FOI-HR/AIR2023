@@ -2,6 +2,8 @@ package com.example.repository.Data;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.Timestamp;
+
 public class OffersData {
     private String name;
     private String location;
@@ -13,6 +15,7 @@ public class OffersData {
     private String mediumFish;
     private String largeFish;
     private String status;
+    private Timestamp date;
 
     public String getIdKorisnika() {
         return idKorisnika;
@@ -22,7 +25,7 @@ public class OffersData {
         this.idKorisnika = idKorisnika;
     }
 
-    public OffersData (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, int i) {
+    public OffersData (String name, String location, String imageurl, String price, String idKorisnika, String smallFish, String mediumFish, String largeFish, Timestamp date,  int i) {
         this.name = name;
         this.location = location;
         this.imageurl = imageurl;
@@ -32,6 +35,7 @@ public class OffersData {
         this.mediumFish = mediumFish;
         this.largeFish = largeFish;
         this.status = "Aktivna";
+        this.date = date;
     }
 
     public String getLocation() {
@@ -115,6 +119,14 @@ public class OffersData {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     @NonNull

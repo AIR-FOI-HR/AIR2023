@@ -19,12 +19,15 @@ import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
 import com.example.digitalnaribarnica.Fragments.ProfileFragment;
 import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
+import com.example.repository.Data.ReservationsData;
 import com.example.repository.Repository;
 import com.example.repository.Data.OffersData;
 
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
 
@@ -135,6 +138,13 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> 
     }
 
     public void setOffers(ArrayList<OffersData> offers) {
+        Collections.sort(offers, new Comparator<OffersData>() {
+            @Override
+            public int compare(OffersData offersData, OffersData t1) {
+                return offersData.getDate().compareTo(t1.getDate());
+            }
+        });
+        Collections.reverse(offers);
         this.offers = offers;
         notifyDataSetChanged();
     }

@@ -2,6 +2,7 @@ package com.example.digitalnaribarnica.Fragments;
 
 import com.example.database.Review;
 import com.example.database.User;
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Listener.ReviewCallback;
@@ -41,7 +42,9 @@ import com.example.digitalnaribarnica.databinding.FragmentOfferDetailBinding;
 import com.example.repository.Data.OffersData;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class OfferDetailFragment extends Fragment {
 
@@ -66,7 +69,7 @@ public class OfferDetailFragment extends Fragment {
     private ImageView fishImage;
     private ImageView trophyImage;
     private TextView userName;
-
+    private TextView date;
     private TextView price;
     private TextView totalPrice;
     private TextView location;
@@ -119,7 +122,7 @@ public class OfferDetailFragment extends Fragment {
         btnPlusLarge = binding.btnPlusLarge;
 
         btnReserve = binding.btnRezerviraj;
-
+        date = binding.textDate;
         smallQuantity = binding.smallFishQuantity;
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
@@ -141,6 +144,7 @@ public class OfferDetailFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.DohvatiPonuduPrekoID(offerID);
+
         sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
             @Override
             public void onChanged(ArrayList<OffersData> offersData) {
@@ -152,6 +156,10 @@ public class OfferDetailFragment extends Fragment {
                 availableSmall.setText(offersData.get(0).getSmallFish());
                 availableMedium.setText(offersData.get(0).getMediumFish());
                 availableLarge.setText(offersData.get(0).getLargeFish());
+                Calendar calendar = DateParse.dateToCalendar(offersData.get(0).getDate().toDate());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
+                date.setText(dateFormat.format(calendar.getTime()));
+
                 String fishPhoto = offersData.get(0).getImageurl();
                 if(fishPhoto!=""){
                     Glide.with(getContext())
@@ -161,6 +169,12 @@ public class OfferDetailFragment extends Fragment {
                 }
 
                 sellerID = offersData.get(0).getIdKorisnika();
+                if(!((RegisterActivity) getActivity()).buyer){
+                    btnReserve.setVisibility(view.INVISIBLE);
+                } else if (userID.equals(sellerID)){
+                    btnReserve.setVisibility(view.INVISIBLE);
+                }
+
                 String userID = offersData.get(0).getIdKorisnika();
 
                 sharedViewModel.DohvatiKorisnikaPoID(userID);
