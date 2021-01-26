@@ -11,16 +11,25 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.Badge;
+import com.example.database.User;
 
-public class CustomDialogBadge {
+public class CustomDialogBadge implements DataPresenter{
         Context context;
         String badgeUri;
+        BadgesRepository badgesRepository=new BadgesRepository();
+        User user;
+        BadgesData badge;
+    /*
     public CustomDialogBadge(Context context, String badgeUri) {
         this.context = context;
         this.badgeUri=badgeUri;
     }
+    */
 
-    public void PokaziNagradu(){
+    public CustomDialogBadge() {
+    }
+
+    private void PokaziNagradu(){
 
         final Dialog MyDialog = new Dialog(context);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,4 +57,30 @@ public class CustomDialogBadge {
         MyDialog.show();
     }
 
+    @Override
+    public void setData(User user, BadgesData badge) {
+        this.user=user;
+        this.badge=badge;
+        this.badgeUri=badge.getBadgeUrl();
+    }
+
+    @Override
+    public void setContexPrikazivanja(Context context) {
+        this.context=context;
+    }
+
+    @Override
+    public void izvrsiUpdateKupca() {
+        badgesRepository.DodijeliZnackuKupcu(user,badge);
+    }
+
+    @Override
+    public void izvrsiUpdatePonuditelja() {
+        badgesRepository.DodijeliZnackuProdavatelju(user,badge);
+    }
+
+    @Override
+    public void prikaziNagraduKorisniku() {
+        PokaziNagradu();
+    }
 }

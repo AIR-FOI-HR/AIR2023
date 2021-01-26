@@ -223,9 +223,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
+                                        /*
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
+                                         */
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                                        customDialogBadge.setContexPrikazivanja(context);
+                                        customDialogBadge.setData(user,badges.get(0));
+                                        customDialogBadge.izvrsiUpdatePonuditelja();
+                                        customDialogBadge.prikaziNagraduKorisniku();
                                     }
                                 });
                             }
@@ -234,9 +241,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
+                                        /*
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
+                                         */
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                                        customDialogBadge.setContexPrikazivanja(context);
+                                        customDialogBadge.setData(user,badges.get(0));
+                                        customDialogBadge.izvrsiUpdatePonuditelja();
+                                        customDialogBadge.prikaziNagraduKorisniku();
                                     }
                                 });
                             }
@@ -245,9 +259,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
+                                        /*
                                         badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
                                         customDialogBadge.PokaziNagradu();
+                                         */
+                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                                        customDialogBadge.setContexPrikazivanja(context);
+                                        customDialogBadge.setData(user,badges.get(0));
+                                        customDialogBadge.izvrsiUpdatePonuditelja();
+                                        customDialogBadge.prikaziNagraduKorisniku();
                                     }
                                 });
                             }

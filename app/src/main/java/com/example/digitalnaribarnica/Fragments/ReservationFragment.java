@@ -180,9 +180,16 @@ public class ReservationFragment extends Fragment {
                     badgesRepository.DohvatiZnackuPoNazivu("Brončana značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
+                            /*
                             badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
                             CustomDialogBadge customDialogBadge= new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
                             customDialogBadge.PokaziNagradu();
+                             */
+                            CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                            customDialogBadge.setContexPrikazivanja(getContext());
+                            customDialogBadge.setData(user,badges.get(0));
+                            customDialogBadge.izvrsiUpdateKupca();
+                            customDialogBadge.prikaziNagraduKorisniku();
                         }
                     });
                 }
@@ -191,9 +198,16 @@ public class ReservationFragment extends Fragment {
                     badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
+                            /*
                             badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
                             CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
                             customDialogBadge.PokaziNagradu();
+                             */
+                            CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                            customDialogBadge.setContexPrikazivanja(getContext());
+                            customDialogBadge.setData(user,badges.get(0));
+                            customDialogBadge.izvrsiUpdateKupca();
+                            customDialogBadge.prikaziNagraduKorisniku();
                         }
                     });
                 }
@@ -202,9 +216,16 @@ public class ReservationFragment extends Fragment {
                     badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
+                            /*
                             badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
                             CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
                             customDialogBadge.PokaziNagradu();
+                             */
+                            CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+                            customDialogBadge.setContexPrikazivanja(getContext());
+                            customDialogBadge.setData(user,badges.get(0));
+                            customDialogBadge.izvrsiUpdateKupca();
+                            customDialogBadge.prikaziNagraduKorisniku();
                         }
                     });
                 }
