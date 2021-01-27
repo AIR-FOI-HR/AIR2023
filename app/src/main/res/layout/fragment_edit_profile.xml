@@ -7,19 +7,27 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
-    <RelativeLayout
-        android:id="@+id/relativeBlueBackground"
+
+    <ScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorBlue"/>
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/relativeIcon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="110dp"
         android:layout_marginTop="10dp">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
             android:layout_width="104dp"
             android:layout_height="104dp"
             app:cardCornerRadius="60dp"
@@ -52,28 +60,23 @@
                     android:contentDescription="@string/badge" />
 
 
+
             </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnUcitajSLiku"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/relativeIcon"
-        android:text="@string/ucitaj_sliku"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorBlue"
-        style="@style/Widget.MaterialComponents.Button" />
-
-    <ScrollView
-        android:id="@+id/sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/btnUcitajSLiku">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        android:src="@drawable/edit_icon"
+        android:layout_marginTop="-40dp"
+        android:layout_marginStart="40dp"
+        android:layout_gravity="center"
+        app:elevation="0dp" />
 
         <RelativeLayout
             android:id="@+id/relativeLayoutPodaci"
@@ -87,7 +90,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="10dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="4dp">
 
@@ -223,31 +226,23 @@
                     android:gravity="center">
 
                     <Button
-                        android:id="@+id/btnOdustani"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:text="@string/Odustani"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:backgroundTint="@color/colorGrayBlue"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_marginEnd="10dp"/>
-
-                    <Button
                         android:id="@+id/btnSpremiPromjene"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:gravity="center"
                         android:text="@string/saveChanges"
+                        android:layout_marginBottom="10dp"
                         android:textColor="@color/colorWhite"
                         android:backgroundTint="@color/colorBlue"
-                        android:layout_toEndOf="@id/btnOdustani"
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_marginStart="10dp"/>
 
                 </RelativeLayout>
 
+
         </RelativeLayout>
+
+      </LinearLayout>
 
     </ScrollView>
 

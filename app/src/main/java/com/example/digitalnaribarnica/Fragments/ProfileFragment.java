@@ -259,9 +259,16 @@ public class ProfileFragment extends Fragment {
             Fragment selectedFragment =null;
             @Override
             public void onClick(View v) {
-                selectedFragment = new EditProfileFragment(userID, mGoogleSignInClient, mUser, mAuth);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+
+                if(cameFrom.equals("Details")){
+                    selectedFragment = new EditProfileFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom, offerID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new EditProfileFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
             }
         });
 

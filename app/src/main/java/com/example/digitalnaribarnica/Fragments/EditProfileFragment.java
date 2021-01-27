@@ -2,10 +2,12 @@ package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +44,9 @@ public class EditProfileFragment extends Fragment {
     private String email="";
     private String adress="";
     private String phone="";
+    private String cameFrom = "";
+    private String offerID = "";
+    private String currentUser = "";
     GoogleSignInAccount acct;
     FirebaseUser mUser;
     FirebaseAuth mAuth;
@@ -52,19 +57,36 @@ public class EditProfileFragment extends Fragment {
     }
 
     //Google
-    public EditProfileFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth) {
+    public EditProfileFragment(String userId, String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom) {
         this.id = userId;
+        this.currentUser = currentUser;
         this.mGoogleSignInClient = mGoogleSignInClient;
         this.mUser = mUser;
         this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+    }
+
+    public EditProfileFragment(String userId, String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom, String offerID) {
+        this.id = userId;
+        this.currentUser = currentUser;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+        this.offerID = offerID;
+        this.cameFrom = cameFrom;
     }
 
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Uredi profil");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);// set drawable icon
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
         binding = FragmentEditProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
@@ -96,12 +118,6 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        binding.btnOdustani.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ProfileFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
-            }
-        });
         binding.btnUcitajSLiku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +184,34 @@ public class EditProfileFragment extends Fragment {
             photo=imageUri.toString();
             FirestoreService.addPhotoWithID(imageUri,id);
         }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                setHasOptionsMenu(false);
+                Fragment selectedFragment = null;
+                // ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
+                //selectedFragment = new PersonFragment(userId);
+                if (cameFrom.equals("Person")) {
+                    selectedFragment = new ProfileFragment(this.id, mGoogleSignInClient, mUser, mAuth);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                } else if (cameFrom.equals("Details")) {
+                    selectedFragment = new ProfileFragment(this.id, currentUser, cameFrom, offerID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                } else {
+                    selectedFragment = new ProfileFragment(this.id, currentUser, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                break;
+        }
 
+        return true;
     }
 }
