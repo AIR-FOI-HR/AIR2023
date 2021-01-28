@@ -105,7 +105,7 @@ public class KorisnickePostavke extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(KorisnickePostavke.this,"Odjavljen!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(KorisnickePostavke.this, getString(R.string.userSignOut),Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });

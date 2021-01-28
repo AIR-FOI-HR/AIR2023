@@ -39,7 +39,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
                 if (launchIntent != null) {
                     startActivity(launchIntent);
                 } else {
-                    Toast.makeText(EmailVerificationActivity.this, "Nemate instaliran Gmail!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EmailVerificationActivity.this, EmailVerificationActivity.this.getString(R.string.noGmail), Toast.LENGTH_LONG).show();
                 }
                 }
         });

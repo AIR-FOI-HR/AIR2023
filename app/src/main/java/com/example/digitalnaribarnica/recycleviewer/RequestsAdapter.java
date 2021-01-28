@@ -69,7 +69,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi rezervaciju?");
+                showDialogAccept(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.warning), reservationFragment.getActivity().getString(R.string.wantToConfirmReservation));
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
                 OfferID = reservations.get(holder.getAdapterPosition()).getOfferID();
                 smallQuantity = reservations.get(holder.getAdapterPosition()).getSmallFish();
@@ -85,7 +85,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         holder.decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogDecline(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
+                showDialogDecline(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.warning), reservationFragment.getActivity().getString(R.string.wantToDeleteReservation));
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
             }
         });
@@ -206,7 +206,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         if (title != null) builder.setTitle(title);
         builder.setMessage(message);
 
-        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(reservationFragment.getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Repository repository = new Repository();
@@ -227,7 +227,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity))*100.0)/100.0;
 
                             if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
-                                StyleableToast.makeText(reservationFragment.getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
+                                StyleableToast.makeText(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.fishNotAvailable), 3, R.style.Toast).show();
                                 firestoreService.deleteReservation(ReservationID, "Rezervation");
                             } else {
                                 final String[] message = {""};
@@ -236,16 +236,17 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                     @Override
                                     public void onCallback(User user) {
                                         userEmail[0] = user.getEmail();
-                                        String messageBuyer = user.getFullName() + " Vaša narudžba je potvrđena od strane ponuditelja. Kako biste dovršili kupnju ribe, odnosno dogovorili mjesto preuzimanja ribe" +
-                                                " i plaćanje, kontaktirajte ponuditelja putem kontakta navedenog u nastavku maila ili putem chata naše aplikacije.\n\n\n";
+                                        String messageBuyer = user.getFullName() + reservationFragment.getActivity().getString(R.string.offerConfirmedBigText) +
+                                                reservationFragment.getActivity().getString(R.string.offerConfirmedBigText2);
                                         message[0] = message[0] + messageBuyer;
                                     }
                                 });
+
                                 repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
                                     @Override
                                     public void onCallback(User user) {
-                                        String messageSeller = "Podaci o ponuditelju: \n" + user.getFullName() + "\nE-mail: " + user.getEmail() + "\nBroj mobitela: " + user.getPhone()
-                                                + "\nAdresa: " + user.getAdress() + "\n" + "\n";
+                                        String messageSeller = reservationFragment.getActivity().getString(R.string.sellerData) + user.getFullName() + "\nE-mail: " + user.getEmail() + reservationFragment.getActivity().getString(R.string.phoneNumber) + user.getPhone()
+                                                + reservationFragment.getActivity().getString(R.string.address) + user.getAdress() + "\n" + "\n";
                                         message[0] = message[0] + messageSeller;
                                     }
                                 });
@@ -255,9 +256,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                     public void onCallback(ArrayList<OffersData> offersData) {
                                         Double quantity= Double.parseDouble(smallQuantity) + Double.parseDouble(mediumQuantity) + Double.parseDouble(largeQuantity);
                                         Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                                        String messageOffer = "Podaci o rezervaciji: \nVrsta ribe: " + offersData.get(0).getName() + "\nKoličina rezervirane ribe po razredima: male ribe: " + smallQuantity + "kg , srednje ribe: " + mediumQuantity +
-                                                "kg , velike ribe: " + largeQuantity + "kg\nCijena po kilogramu: " + offersData.get(0).getPrice() + "kn\nUkupna cijena: " + priceQuantity.toString()
-                                                + "kn\nDatum i vrijeme rezervacije: " + reservationDate + "\n\n\nZahvaljujemo,\nDigitalna ribarnica";
+                                        String messageOffer = reservationFragment.getActivity().getString(R.string.messageOffer1) + offersData.get(0).getName() + reservationFragment.getActivity().getString(R.string.messageOffer2) + smallQuantity + reservationFragment.getActivity().getString(R.string.messageOffer3) + mediumQuantity +
+                                                reservationFragment.getActivity().getString(R.string.messageOffer4) + largeQuantity + reservationFragment.getActivity().getString(R.string.messageOffer5) + offersData.get(0).getPrice() + reservationFragment.getActivity().getString(R.string.messageOffer6) + priceQuantity.toString()
+                                                + reservationFragment.getActivity().getString(R.string.messageOffer7) + reservationDate + reservationFragment.getActivity().getString(R.string.messageOffer8);
                                         message[0] = message[0] + messageOffer;
 
                                         //brisanje svih rezervacija koje su povezane s ponudom čija je dostupna količina jednaka nuli
@@ -267,23 +268,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                                     firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
                                                     firestoreService.deleteReservation(reservations.get(i).getReservationID(), "Rezervation");
                                                     reservationFragment.refreshRequestsList();
-                                                    Log.d("TagPolje", "obrisana rezervacija");
                                                 }
                                             }
 
                                             //Izmjena statusa prilikom smanjenja dostupne količine ponude na nulu
                                             firestoreService.updateOfferStatus(OfferID, "Neaktivna", "Offers");
-                                           // firestoreService.deleteOffer(OfferID, "Offers");
                                             reservationFragment.refreshRequestsList();
-                                            Log.d("TagPolje", "obrisana ponuda");
 
                                         } else {
                                             firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
                                             reservationFragment.refreshRequestsList();
                                         }
                                         sendMail(userEmail[0], message[0]);
-                                        Log.d("TagPolje", message[0]);
-                                        Log.d("TagPolje", userEmail[0]);
                                     }
                                 });
                             }
@@ -293,7 +289,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 }
             }
         });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(reservationFragment.getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -302,10 +298,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     private void sendMail(String email, String text) {
-        Log.d("TagPolje", text);
-        Log.d("TagPolje", email);
-        String subject = "Potvrđena rezervacija ribe";
-
+        String subject = reservationFragment.getActivity().getString(R.string.mailReservationConfirmed);
 
         JavaMailAPI javaMailAPI = new JavaMailAPI(reservationFragment.getActivity(), email, subject, text);
         javaMailAPI.execute();
@@ -316,7 +309,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         if (title != null) builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(reservationFragment.getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                Repository repository = new Repository();
@@ -327,7 +320,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 }
             }
         });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(reservationFragment.getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }

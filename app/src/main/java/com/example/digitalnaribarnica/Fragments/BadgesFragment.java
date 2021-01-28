@@ -123,6 +123,7 @@ public class BadgesFragment extends Fragment {
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
+        menu.findItem((R.id.current_language)).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

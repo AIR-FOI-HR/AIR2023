@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.filter_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
-        if(textBuyer.getText().equals(getActivity().getString(R.string.continueAs))){
+        if(textBuyer.getText().equals("Nastavi kao")){
             menu.findItem((R.id.current_language)).setTitle("HR");
         }
         else{

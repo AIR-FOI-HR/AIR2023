@@ -28,8 +28,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         uneseniEmail = (EditText) findViewById(R.id.emailinput);
         fAuthen = FirebaseAuth.getInstance();
 
-        //klikom na gumb "Pošalji" se provjerava ispravnos unesenog email-a, provjerava se postoji li email u bazi podataka te ukoliko su uvjeti zadovoljeni,
-        //korisniku se šalje na uneseni email poveznica za promjenu lozinke
         posalji = (Button) findViewById(R.id.btnPrijava);
         posalji.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -38,17 +36,16 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(ResetPasswordActivity.this, "Poveznica za promjenu lozinke je poslana na Vaš email.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ResetPasswordActivity.this, getString(R.string.linkSentEmail), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent (ResetPasswordActivity.this, MainActivity.class);
                                 startActivity(intent);
                             } else {
                                 if(!uneseniEmail.getText().toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                                    Toast.makeText(ResetPasswordActivity.this, "Unijeli ste neispravan format email-a!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetPasswordActivity.this, getString(R.string.incorrectEmailFormat), Toast.LENGTH_SHORT).show();
                                 }
                                 else {
-                                    Toast.makeText(ResetPasswordActivity.this, "Uneseni email ne postoji u našoj bazi podataka!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetPasswordActivity.this,  getString(R.string.emailNotInDatabase), Toast.LENGTH_SHORT).show();
                                 }
-                                //Toast.makeText(ResetPasswordActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

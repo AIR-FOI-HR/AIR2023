@@ -64,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
 
-        //Incijalizacija Firebase
         mAuth = FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

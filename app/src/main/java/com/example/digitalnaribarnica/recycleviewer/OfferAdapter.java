@@ -137,7 +137,7 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 OfferID = offers.get(holder.getAdapterPosition()).getOfferID();
-                showDialog(searchFragment.getActivity(), "Upozorenje", "Želite li obrisati ponudu?");
+                showDialog(searchFragment.getActivity(), searchFragment.getActivity().getString(R.string.warning), searchFragment.getActivity().getString(R.string.wantToDeleteOffer));
             }
         });
 
@@ -220,10 +220,10 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
                         }
                         if(!deletable[0]){
                             repository.DeleteOffer(OfferID, "Offers");
-                            StyleableToast.makeText(context, "Ponuda uspješno obrisana", 3, R.style.ToastGreen).show();
+                            StyleableToast.makeText(context, searchFragment.getActivity().getString(R.string.offerSuccessfullyDeleted), 3, R.style.ToastGreen).show();
                             searchFragment.getMyOffers();
                         }else{
-                            StyleableToast.makeText(context, "Postoje neprovedene rezervacije vezane uz ponudu koju želite obrisati", 3, R.style.Toast).show();
+                            StyleableToast.makeText(context, searchFragment.getActivity().getString(R.string.reservationsExistsCantDelete), 3, R.style.Toast).show();
                         }
                     }
                 });
@@ -231,7 +231,7 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
             }
 
         });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(searchFragment.getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

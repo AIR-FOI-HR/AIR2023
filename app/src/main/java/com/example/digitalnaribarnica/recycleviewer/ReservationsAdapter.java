@@ -68,7 +68,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
 
             @Override
             public void onClick(View v) {
-                showDialog(reservationFragment.getActivity(), "Upozorenje", "Želite li sigurno obrisati rezervaciju?");
+                showDialog(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.warning), reservationFragment.getActivity().getString(R.string.wantToDeleteReservation));
                 ReservationID = reservations.get(holder.getAdapterPosition()).getReservationID();
             }
         });
@@ -216,7 +216,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         if (title != null) builder.setTitle(title);
 
         builder.setMessage(message);
-        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(reservationFragment.getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirestoreService firestoreService = new FirestoreService();
@@ -231,7 +231,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 }
             }
         });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(reservationFragment.getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }

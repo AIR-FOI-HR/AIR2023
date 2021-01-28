@@ -77,7 +77,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         registracija = binding.btnRegistracija;
 
-        //klikom na poveznicu "Prijavi se!", korisnik se usmjerava na MainActivity.java (login)
         prijava = binding.buttonPrijava;
         prijava.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +114,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(!fokusiran){
                     if(ime.getText().toString().equals("")){}
                     else if (!boolIme) {
-                        showToast(view, "Ime premašuje broj znakova");
+                        showToast(view, getString(R.string.nameTooBig));
                         ime.setTextColor(Color.RED);
                     }
                 }
@@ -154,7 +153,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(!fokusiran){
                     if(prezime.getText().toString().equals("")){}
                     else if (!boolPrezime) {
-                        showToast(view, "Prezime premašuje broj znakova");
+                        showToast(view, getString(R.string.surnameTooBig));
                         prezime.setTextColor(Color.RED);
                     }
                 }
@@ -192,7 +191,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(!fokusiran) {
                     if(adresa.getText().toString().equals("")){}
                     else if (!boolAdresa) {
-                        showToast(view, "Adresa premašuje broj znakova");
+                        showToast(view, getString(R.string.addressTooBig));
                         adresa.setTextColor(Color.RED);
                     }
                 }
@@ -219,7 +218,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -227,10 +225,10 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean fokusiran) {
                 if (!fokusiran) {
-                    //Log.d("NOVITAG", "Probaj ovo: " + brojMobitela.getText().toString().matches("^([+])([0-9\\s]){2,13}$|(0)([0-9\\s]){2,12}$"));
+
                     if(brojMobitela.getText().toString().equals("")){}
                     else if (!boolMobitel) {
-                        showToast(view, "Neispravan unos mobitela");
+                        showToast(view, getString(R.string.phoneNumberNotCorrect));
                         brojMobitela.setTextColor(Color.RED);
                     }
                 }
@@ -264,7 +262,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(email.getText().toString().equals("")){}
                     else {
                         if (!boolEmail) {
-                            showToast(view, "Neispravan unos email-a");
+                            showToast(view, getString(R.string.emailNotCorrect));
                             email.setTextColor(Color.RED);
                         }
                     }
@@ -297,55 +295,51 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(ime.getText().length() == 0){
                     boolIme = false;
-                    showToast(view, "Nije uneseno ime");
+                    showToast(view, getString(R.string.nameInputMissing));
                 }
                 else if(prezime.getText().length() == 0){
                     boolPrezime = false;
-                    showToast(view, "Nije uneseno prezime");
+                    showToast(view, getString(R.string.surnameInputMissing));
                 }
                 else if(adresa.getText().length() == 0){
                     boolAdresa = false;
-                    showToast(view, "Nije unesena adresa");
+                    showToast(view, getString(R.string.addressInputMissing));
                 }
                 else if(brojMobitela.getText().length() == 0){
                     boolMobitel = false;
-                    showToast(view, "Nije unesen broj mobitela");
+                    showToast(view, getString(R.string.phoneNumberInputMissing));
                 }
                 else if(email.getText().length() == 0){
                     boolEmail = false;
-                    showToast(view, "Nije unesen email");
+                    showToast(view, getString(R.string.emailInputMissing));
                 }
                 else if(lozinka.getText().length() == 0){
                     boolLozinka = false;
-                    showToast(view, "Nije unesena lozinka");
+                    showToast(view, getString(R.string.passwordInputMissing));
                 }
                 else if(ponovljenaLozinka.getText().length() == 0){
-                    showToast(view, "Nije unesena ponovljena lozinka");
+                    showToast(view, getString(R.string.repeatPasswordInputMissing));
                 }
                 else if(!boolLozinka){
-                    showToast(view, "Lozinka mora imati barem 1 malo, 1 veliko slovo i 1 broj te minimalno 6 znakova");
+                    showToast(view, getString(R.string.passwordCondition));
                     lozinka.setText("");
                     ponovljenaLozinka.setText("");
                 }
                 else if(!lozinka.getText().toString().equals(ponovljenaLozinka.getText().toString())){
-                    showToast(view, "Unesene lozinke nisu jednake");
+                    showToast(view, getString(R.string.passwordsNotIdentical));
                     lozinka.setText("");
                     ponovljenaLozinka.setText("");
                 }
                 else if (boolIme == true && boolPrezime == true && boolAdresa == true && boolMobitel == true && boolEmail == true && boolLozinka == true) {
-                    /*Intent intent = new Intent (RegistrationActivity.this, MainActivity.class);
-                    startActivity(intent);*/
-
                     kreirajKorisnika(email.getText().toString().trim(), lozinka.getText().toString().trim());
                 }
                 else{
-                    showToast(view, "Nisu svi podaci ispravno uneseni");
+                    showToast(view, getString(R.string.dataInputNotCorrect));
                 }
             }
         });
     }
 
-    //kreiranje novog korisnika i slanje verifikacijskog mail-a
     private void kreirajKorisnika(String user_email, String user_lozinka) {
         fAuth.createUserWithEmailAndPassword(user_email, user_lozinka).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -355,18 +349,12 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()) {
-                                //Toast.makeText(RegistrationActivity.this, "Uspješna registracija. Za dovršetak registracije potvrdite email.", Toast.LENGTH_LONG).show();
                                 imePrezime = ime.getText().toString() + " " +  prezime.getText().toString();
                                 userID = fAuth.getUid();
                                 repository = new Repository();
 
-                                //dodaj za sliku neku default (photo atribut)
                                 sharedViewModel.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
                                         lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Fuser_image.jpg?alt=media&token=e30a1426-9be2-40d8-8e5a-b5e4c43337e7", adresa.getText().toString());
-                               // repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
-                                //        lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Favatar_image.png?alt=media&token=af1f7cde-27fa-4c62-8fdc-92f9c6aa0029", adresa.getText().toString());
-
-                                //kada se korisnik uspješno registrira, preusmjeri ga na stranicu na kojoj obavjesatavamo korisnika da treba verificirati email (EmailVerificationActivity)
                                 startActivity(new Intent(RegistrationActivity.this, EmailVerificationActivity.class));
                             }
                             else {

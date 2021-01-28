@@ -72,7 +72,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogAccept(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da je preuzimanje i kupnja ribe uspješno provedena?");
+                showDialogAccept(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.warning), reservationFragment.getActivity().getString(R.string.transactionCompleted));
                 ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
                 buyerID = confirmedRequests.get(holder.getAdapterPosition()).getCustomerID();
 
@@ -82,7 +82,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         holder.decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogDecline(reservationFragment.getActivity(), "Upozorenje", "Želite li potvrditi da kupnja ribe nije uspješno provedena?");
+                showDialogDecline(reservationFragment.getActivity(), reservationFragment.getActivity().getString(R.string.warning), reservationFragment.getActivity().getString(R.string.transactionNotCompleted));
                 ReservationID = confirmedRequests.get(holder.getAdapterPosition()).getReservationID();
                 buyerID = confirmedRequests.get(holder.getAdapterPosition()).getCustomerID();
             }
@@ -201,7 +201,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
         if (title != null) builder.setTitle(title);
         builder.setMessage(message);
 
-        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(reservationFragment.getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
             Fragment selectedFragment =null;
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -223,11 +223,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        /*
-                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
-                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
-                                        customDialogBadge.PokaziNagradu();
-                                         */
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
@@ -241,11 +236,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        /*
-                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
-                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
-                                        customDialogBadge.PokaziNagradu();
-                                         */
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
@@ -259,11 +249,6 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                 badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka prodavatelja", new BadgeCallback() {
                                     @Override
                                     public void onCallback(ArrayList<BadgesData> badges) {
-                                        /*
-                                        badgesRepository.DodijeliZnackuProdavatelju(user,badges.get(0));
-                                        CustomDialogBadge customDialogBadge=new CustomDialogBadge(context, badges.get(0).getBadgeUrl());
-                                        customDialogBadge.PokaziNagradu();
-                                         */
                                         CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
