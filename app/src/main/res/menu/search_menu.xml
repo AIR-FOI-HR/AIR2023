@@ -30,4 +30,10 @@
     app:showAsAction="always|collapseActionView"
     app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <item
+        android:id="@+id/language"
+        android:title="@string/language"
+        android:icon="@drawable/ic_baseline_language_24"
+        app:showAsAction="always"/>
+
 </menu>

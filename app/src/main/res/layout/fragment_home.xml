@@ -7,7 +7,6 @@
     tools:ignore="VectorDrawableCompat"
     android:background="@drawable/second_blue_background">
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

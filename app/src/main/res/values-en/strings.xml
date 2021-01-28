@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">Digital Fish Market</string>
+    <string name="welcome">Welcome to Digital Fish Market</string>
+    <string name="login">Login</string>
+    <string name="registration">Register</string>
+    <string name="registrationHeader">Registration</string>
+    <string name="urediProfil">Edit profile</string>
+    <string name="username">Email</string>
+    <string name="password">Password</string>
+    <string name="secondpassword">Ponovljena lozinka</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="adresa">Address</string>
+    <string name="telefon">Mobile number</string>
+    <string name="forgotPassword">Forgot your password?</string>
+    <string name="facebook_app_id">345456403402437</string>
+    <string name="fb_login_protocol_scheme">fb345456403402437</string>
+
+    <string name="title_activity_register_form">RegisterActivityForm</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+
+    <string name="fishSpecies">Type of fish</string>
+    <string name="location">Location</string>
+    <string name="pricePerKg">Price per kilogram:</string>
+    <string name="fishClass">Fish class:</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="newOffer">New offer</string>
+    <string name="editImage">Change image</string>
+    <string name="saveChanges">Save</string>
+    <string name="reserve">Reserve</string>
+    <string name="offerDetails">Offer details</string>
+    <string name="offers">Offers</string>
+    <string name="picture">Photo</string>
+    <string name="offer_title">Offer title</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort by:</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="smallFish">Small fish: </string>
+    <string name="mediumFish">Medium fish: </string>
+    <string name="largeFish">Large fish: </string>
+    <string name="search">Search</string>
+    <string name="Odjava">Sign out</string>
+    <string name="ucitaj_sliku">Upload photo</string>
+    <string name="smallDescription">1 small fish = from 0,1 to 0,19 kg </string>
+    <string name="mediumDescription">1 medium fish = from 0,2 to 0,49 kg</string>
+    <string name="largeDescription">1 large fish = 0,5 kg and more</string>
+    <string name="Odustani">Cancel</string>
+    <string name="reservation_title">Reservations</string>
+    <string name="myReservations">Current reservations</string>
+    <string name="requests">Requests</string>
+    <string name="acceptedRequests">Confirmed</string>
+    <string name="reservationRecyclerView">Reservation title</string>
+    <string name="reservationLocation">Location</string>
+    <string name="gradeReservation">Ocjena</string>
+    <string name="nameSurname">Name Surname</string>
+    <string name="badge">Badge</string>
+    <string name="registerHere">Register!</string>
+    <string name="noAccount">Don\'t have an account? Sign Up.</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="least_expensive">Cheapest</string>
+    <string name="most_expensive">Most expensive</string>
+    <string name="kg">kg</string>
+    <string name="kn">kn</string>
+    <string name="knperkg">kn/kg</string>
+    <string name="_0_00">0.00</string>
+    <string name="_0">0</string>
+
+    <string name="pricePlaceholder">25,00 kn/kg</string>
+    <string name="available">Available:</string>
+    <string name="quantityNull">0 kg</string>
+    <string name="chooseQuantity">Select quantity:</string>
+    <string name="contact">Contact</string>
+    <string name="chooseFish">Choose fish type</string>
+    <string name="chooseLocation">Choose location</string>
+    <string name="_99">99</string>
+
+
+    <!--
+    <string name="_0">0</string>
+    <string name="_0">0</string>
+    -->
+    <string name="accountExists">Already registered? Sign up now.</string>
+    <string name="signinhere">Login!</string>
+    <string name="forgotPass">Forgot password?</string>
+    <string name="resetPassTxt">Enter your email to receive a link for changing your password.</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="sendEmail">Send</string>
+    <string name="date">Date</string>
+    <string name="dateReservation">Date and time of reservation:</string>
+    <string name="my_offers">My offers</string>
+    <string name="filter_menu">Filter</string>
+    <string name="all_offers">All offers</string>
+    <string name="requestRecyclerView">Request title</string>
+    <string name="nazad">Back</string>
+    <string name="gradeRequest">Review</string>
+    <string name="mailConfirmationDetails">Confirm your account in the email we sent you.</string>
+    <string name="mailConfirmationButton">Open e-mail</string>
+    <string name="mailConfirmation">Confirm your e-mail</string>
+    <string name="buyer">Buyer:</string>
+    <string name="sorting">Sort</string>
+    <string name="_999">999</string>
+    <string name="insertPrice">Or enter manually:</string>
+    <string name="lowPrice">Lowest price:</string>
+    <string name="upperPrice">Highest price:</string>
+    <string name="rateUser">Rate</string>
+    <string name="comment">Leave a comment:</string>
+    <string name="showRating">Show rating</string>
+    <string name="status">Status</string>
+    <string name="ukupnaCijena">Total price: </string>
+    <string name="badge_title">Badge name</string>
+    <string name="badge_description">Badge description</string>
+    <string name="newBadge">New badge</string>
+    <string name="newBadgeText">Congrats! You\'ve got a new badge!</string>
+    <string name="download">Got it</string>
+    <string name="_0_00kn">0,00 kn</string>
+    <string name="ocjenaKorisnika">User rating:</string>
+    <string name="showRatings"><u>Show all ratings</u></string>
+    <string name="rateSeller"><u>Rate the seller</u></string>
+    <string name="reviewer">Reviewer:</string>
+    <string name="seller">Seller: </string>
+    <string name="back">Go back</string>
+    <string name="buy">Buyer</string>
+    <string name="sell">Seller</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Profile</string>
+    <string name="reservationHistory">Reservation history</string>
+    <string name="continueAs">Continue as</string>
+    <string name="image">Photo</string>
+    <string name="buyerText">Buyer</string>
+    <string name="sellerText">Seller</string>
+    <string name="button">Button</string>
+    <string name="editOffer">Edit offer</string>
+    <string name="changeQuantity">Change quantity:</string>
+    <string name="currentQuantity">Current quantity:</string>
+    <string name="HRV">HRV</string>
+    <string name="ENG">ENG</string>
+    <string name="language">Language</string>
+</resources>

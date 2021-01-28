@@ -141,5 +141,8 @@
     <string name="editOffer">Uredi ponudu</string>
     <string name="changeQuantity">Promijenite količinu:</string>
     <string name="currentQuantity">Trenutna količina:</string>
+    <string name="HRV">HRV</string>
+    <string name="ENG">ENG</string>
+    <string name="language">Jezik</string>
 
 </resources>

@@ -292,6 +292,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
+        menu.findItem((R.id.language)).setVisible(false);
         actionMenu = menu;
         if (((RegisterActivity) getActivity()).buyer){
             actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);

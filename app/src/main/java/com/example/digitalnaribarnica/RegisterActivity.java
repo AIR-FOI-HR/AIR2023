@@ -185,6 +185,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    public void refreshFragmentHome(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                new HomeFragment(personId)).commit();
+    }
+
 
             private void signOut() {
         mGoogleSignInClient.signOut()

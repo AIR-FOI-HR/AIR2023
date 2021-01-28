@@ -511,6 +511,7 @@ public class OfferDetailFragment extends Fragment {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
+        menu.findItem((R.id.language)).setVisible(false);
         if (((RegisterActivity) getActivity()).buyer){
             menu.findItem((R.id.my_offers_menu)).setVisible(false);
         }
