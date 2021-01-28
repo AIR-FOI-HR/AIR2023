@@ -441,6 +441,7 @@ public class ReservationFragment extends Fragment {
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
         menu.findItem((R.id.current_language)).setVisible(false);
         SearchView searchView = (SearchView) item.getActionView();

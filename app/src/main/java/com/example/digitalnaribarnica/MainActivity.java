@@ -276,6 +276,8 @@ public class MainActivity extends AppCompatActivity {
                                     if(isEmpty) {
                                         try {
                                             sharedViewModel.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
+                                            //Intent intent = new Intent(MainActivity.this, OnboardingActivity.class);
+                                            //startActivity(intent);
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

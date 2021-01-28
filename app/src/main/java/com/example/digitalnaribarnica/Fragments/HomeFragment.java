@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +31,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.digitalnaribarnica.MainActivity;
+import com.example.digitalnaribarnica.OnboardingActivity;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.databinding.FragmentHomeBinding;
@@ -77,6 +79,23 @@ public class HomeFragment extends Fragment {
 
         textBuyer = binding.textbuyer;
         textSeller = binding.textseller;
+
+
+        /*if(korisnikovaPrvaPrijava==true){
+
+        Intent intent = new Intent(getActivity(), OnboardingActivity.class);
+                startActivity(intent);
+
+            i sad samo u bazi set   korisnikovaPrvaPrijava=false
+
+
+         }*/
+
+        //Intent intent = new Intent(getActivity(), OnboardingActivity.class);
+        //startActivity(intent);
+
+
+
 
         if(((RegisterActivity) getActivity()).buyer){
             statusBuyer.setVisibility(view.VISIBLE);
@@ -126,6 +145,7 @@ public class HomeFragment extends Fragment {
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.filter_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(true);
         if(textBuyer.getText().equals("Nastavi kao")){
             menu.findItem((R.id.current_language)).setTitle("HR");
         }
@@ -160,6 +180,11 @@ public class HomeFragment extends Fragment {
                 });
                 builder.show();
                 return true;
+            case R.id.onboardingHelp:
+                Intent intent = new Intent(getActivity(), OnboardingActivity.class);
+                startActivity(intent);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

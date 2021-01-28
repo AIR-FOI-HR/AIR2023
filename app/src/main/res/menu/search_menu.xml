@@ -9,6 +9,7 @@
         android:id="@+id/all_offers_menu"
         />
 
+
     <item
         android:title="@string/my_offers"
         android:id="@+id/my_offers_menu"
@@ -41,5 +42,12 @@
         android:title="@string/language"
         android:icon="@drawable/ic_baseline_language_24"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/onboardingHelp"
+        android:title="@string/onboardingHelp"
+        android:icon="@drawable/ic_baseline_help_outline_24"
+        app:showAsAction="always|collapseActionView"
+        />
 
 </menu>

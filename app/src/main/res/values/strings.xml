@@ -46,6 +46,7 @@
     <string name="mediumFish">Srednje ribe: </string>
     <string name="largeFish">Velike ribe: </string>
     <string name="search">Pretraži</string>
+    <string name="onboardingHelp">Pomoć</string>
     <string name="Odjava">ODJAVA</string>
     <string name="ucitaj_sliku">Učitaj sliku</string>
     <string name="smallDescription">1 mala riba = 0,1 do 0,19 kg </string>
@@ -232,5 +233,11 @@
     <string name="incorrectEmailFormat">Unijeli ste neispravan format email-a</string>
     <string name="emailNotInDatabase">Uneseni email ne postoji u bazi podataka</string>
     <string name="registrationTitle">Registracija</string>
+
+    <string name="homeHomeText">Početna stranica</string>
+    <string name="homeRezervacijeText">Rezervacije</string>
+    <string name="homePonudeText">Ponude</string>
+    <string name="homeChatText">Razgovori</string>
+    <string name="homeProfilText">Profil</string>
 
 </resources>

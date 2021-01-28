@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DigitalnaRibarnica">
-        <activity android:name=".EmailVerificationActivity"></activity>
+        <activity android:name=".OnboardingActivity"></activity>
+        <activity android:name=".EmailVerificationActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".KorisnickePostavke" />
         <activity android:name=".RegistrationActivity" />
