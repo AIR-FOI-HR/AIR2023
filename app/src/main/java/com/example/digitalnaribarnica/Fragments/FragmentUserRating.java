@@ -55,7 +55,7 @@ public class FragmentUserRating extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ocijeni korisnika");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.rateUser));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
@@ -102,7 +102,7 @@ public class FragmentUserRating extends Fragment {
             @Override
             public void onClick(View v) {
                 sharedViewModel.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
-                StyleableToast.makeText(getActivity(), "Uspješno ocjenjen korisnik", 3, R.style.ToastGreen).show();
+                StyleableToast.makeText(getActivity(), getActivity().getString(R.string.userSuccessfullyRated), 3, R.style.ToastGreen).show();
 
                 selectedFragment = new ReservationFragment(userID, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,

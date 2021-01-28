@@ -71,7 +71,7 @@ public class AddOfferFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Nova ponuda");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.newOffer));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding = FragmentAddOfferBinding.inflate(inflater, container, false);
@@ -422,11 +422,11 @@ public class AddOfferFragment extends Fragment {
                                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                                 newFragment = new SearchFragment(userId);
                                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-                                StyleableToast.makeText(getActivity(), "Ponuda uspješno kreirana", 3, R.style.ToastGreen).show();
+                                StyleableToast.makeText(getActivity(), getActivity().getString(R.string.offerSuccessfullyCreated), 3, R.style.ToastGreen).show();
                                 return;
                             }
                         }
-                        StyleableToast.makeText(getActivity(), "Upisana riba ne postoji u bazi", 3, R.style.Toast).show();
+                        StyleableToast.makeText(getActivity(),  getActivity().getString(R.string.fishDoesntExist), 3, R.style.Toast).show();
                     }
                 });
             }
@@ -452,19 +452,19 @@ public class AddOfferFragment extends Fragment {
     private boolean ProvjeraUnosa() {
         boolean provjera = true;
         if (fishSpecies.getText().toString().equals("") || location.getText().toString().equals("") || price.getText().toString().equals("")) {
-            StyleableToast.makeText(getActivity(), "Potrebni podaci nisu uneseni", 3, R.style.Toast).show();
+            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.noData), 3, R.style.Toast).show();
             provjera = false;
         } else if (!checkSmall.isChecked() && !checkLarge.isChecked() && !checkMedium.isChecked()) {
-            StyleableToast.makeText(getActivity(), "Nije odabran razred ribe", 3, R.style.Toast).show();
+            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.fishClassNotSelected), 3, R.style.Toast).show();
             provjera = false;
         } else if (checkSmall.isChecked() && (smallQuantity.getText().toString().equals("0") || smallQuantity.getText().toString().equals("0.0") || smallQuantity.getText().toString().equals(""))) {
-            StyleableToast.makeText(getActivity(), "Nije odabrana količina", 3, R.style.Toast).show();
+            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.quantityNotSelected), 3, R.style.Toast).show();
             provjera = false;
         } else if(checkMedium.isChecked() && (mediumQuantity.getText().toString().equals("0") || mediumQuantity.getText().toString().equals("0.0") || mediumQuantity.getText().toString().equals(""))) {
-            StyleableToast.makeText(getActivity(), "Nije odabrana količina", 3, R.style.Toast).show();
+            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.quantityNotSelected), 3, R.style.Toast).show();
             provjera = false;
         } else if(checkLarge.isChecked() && (largeQuantity.getText().toString().equals("0") || largeQuantity.getText().toString().equals("0.0") || largeQuantity.getText().toString().equals(""))){
-            StyleableToast.makeText(getActivity(), "Nije odabrana količina", 3, R.style.Toast).show();
+            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.quantityNotSelected), 3, R.style.Toast).show();
             provjera = false;
         }
         return provjera;

@@ -118,7 +118,7 @@ public class SearchFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.offers));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);// set drawable icon
@@ -196,7 +196,7 @@ public class SearchFragment extends Fragment {
                     offersListGeneral = offersList;
                     OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId, this);
                     if(offersList.size() == 0){
-                        showDialog(getActivity(), "Filtriranje ponuda", "Nije pronađena niti jedna ponuda na temelju zadanih karakteristika");
+                        showDialog(getActivity(), getActivity().getString(R.string.filterOffers),  getActivity().getString(R.string.filterOffersOffersNotFound));
                         Fragment newSearchFragment = new SearchFragment(userId);
                         getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                                 newSearchFragment).commit();
@@ -371,7 +371,7 @@ public class SearchFragment extends Fragment {
                     adapter.setOffers(offersList);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.offers));
                     actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
                     if (((RegisterActivity) getActivity()).buyer){
                         actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
@@ -396,7 +396,7 @@ public class SearchFragment extends Fragment {
                     adapter.setOffers(offersList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ponude");
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.offers));
                         actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
                     if (((RegisterActivity) getActivity()).buyer){
                         actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
@@ -418,10 +418,10 @@ public class SearchFragment extends Fragment {
                         selectedFragment).commit();
                 break;
             case R.id.sort_offers_menu:
-                String[] items = {"Najskuplje", "Najjeftinije"};
+                String[] items = {getActivity().getString(R.string.most_expensive), getActivity().getString(R.string.least_expensive)};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Prikaži prvo: ");
+                builder.setTitle(getActivity().getString(R.string.showFirst));
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -474,13 +474,13 @@ public class SearchFragment extends Fragment {
             adapter2.notifyDataSetChanged();
             recyclerView.setAdapter(adapter2);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Moje ponude");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.my_offers));
             actionMenu.findItem((R.id.all_offers_menu)).setVisible(true);
             actionMenu.findItem((R.id.my_offers_menu)).setVisible(false);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             if(offersList.size() == 0){
-                showDialog(getActivity(), "Moje ponude", "Trenutno nemate niti jednu kreiranu svoju ponudu");
+                showDialog(getActivity(), getActivity().getString(R.string.my_offers), getActivity().getString(R.string.emptyMyOffers));
             }
         });
     }
@@ -492,7 +492,7 @@ public class SearchFragment extends Fragment {
         if (title != null) builder.setTitle(title);
 
         builder.setMessage(message);
-        builder.setPositiveButton("U redu", null);
+        builder.setPositiveButton( getActivity().getString(R.string.okay), null);
         builder.show();
     }
 

@@ -103,7 +103,7 @@ public class ReservationFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Rezervacije");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.reservations));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
@@ -375,8 +375,8 @@ public class ReservationFragment extends Fragment {
                         }
 
                         if (deletedReservations > 0) {
-                            showDialog(getActivity(), "Obrisane rezervacije",
-                                    "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
+                            showDialog(getActivity(), getActivity().getString(R.string.deletedReservations),
+                                    getActivity().getString(R.string.deletedReservationsMessage)
                                             + String.valueOf(deletedReservations), "deletedFirebase");
                         }
 
@@ -484,16 +484,16 @@ public class ReservationFragment extends Fragment {
 
         builder.setMessage(message);
         if(condition.equals("deletedFirebase")){
-            builder.setPositiveButton("U redu", null);
+            builder.setPositiveButton(getActivity().getString(R.string.okay), null);
         }
         else if(condition.equals("userDeleted")) {
-            builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
 
-            builder.setNegativeButton("Ne", null);
+            builder.setNegativeButton(getActivity().getString(R.string.no), null);
         }
         builder.show();
     }
@@ -543,8 +543,8 @@ public class ReservationFragment extends Fragment {
                     }
 
                     if (deletedReservations > 0) {
-                        showDialog(getActivity(), "Obrisane rezervacije",
-                                "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
+                        showDialog(getActivity(), getActivity().getString(R.string.deletedReservations),
+                                getActivity().getString(R.string.deletedReservationsMessage)
                                         + String.valueOf(deletedReservations), "deletedFirebase");
                     }
 
@@ -629,9 +629,11 @@ public class ReservationFragment extends Fragment {
                 }
 
                 if (deletedReservations > 0) {
-                    showDialog(getActivity(), "Obrisane rezervacije",
-                            "Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "
-                                    + String.valueOf(deletedReservations), "deletedFirebase");}
+                    showDialog(getActivity(), getActivity().getString(R.string.deletedReservations),
+                            getActivity().getString(R.string.deletedReservationsMessage)
+                                    + String.valueOf(deletedReservations), "deletedFirebase");
+
+                }
 
                 reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                 adapterFromRequests.setReservations(reservationList);

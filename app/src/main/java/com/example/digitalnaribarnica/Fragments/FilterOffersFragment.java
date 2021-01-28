@@ -71,7 +71,7 @@ public class FilterOffersFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Filtriranje");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.filter));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         binding = FilterOffersBinding.inflate(inflater,container,false);
@@ -159,7 +159,7 @@ public class FilterOffersFragment extends Fragment {
                 }
 
                 if (Integer.parseInt(min) > Integer.parseInt(max)) {
-                    StyleableToast.makeText(getActivity(), "Najviša cijena mora biti veća od najniže!", 3, R.style.Toast).show();
+                    StyleableToast.makeText(getActivity(), getActivity().getString(R.string.higestPriceHigerThanLowest), 3, R.style.Toast).show();
                 }
 
                 else {

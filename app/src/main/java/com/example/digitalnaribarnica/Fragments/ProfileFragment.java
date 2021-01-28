@@ -281,13 +281,13 @@ public class ProfileFragment extends Fragment {
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(getActivity(),"Odjavljen!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),getActivity().getString(R.string.userSignOut),Toast.LENGTH_LONG).show();
                             getActivity().finish();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(),"Dogodila se pogreška!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),getActivity().getString(R.string.error),Toast.LENGTH_LONG).show();
         }
     }
 }

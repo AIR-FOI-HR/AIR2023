@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.home));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -126,17 +126,22 @@ public class HomeFragment extends Fragment {
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.filter_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
+        if(textBuyer.getText().equals(getActivity().getString(R.string.continueAs))){
+            menu.findItem((R.id.current_language)).setTitle("HR");
+        }
+        else{
+            menu.findItem((R.id.current_language)).setTitle("EN");
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.language:
-                String[] items = {"HRV", "ENG"};
-                Log.d("TagPolje", "ulazi za language");
+                String[] items = {getActivity().getString(R.string.croatian), getActivity().getString(R.string.english)};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Odaberite jezik: ");
+                builder.setTitle(getActivity().getString(R.string.chooseLanguage));
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

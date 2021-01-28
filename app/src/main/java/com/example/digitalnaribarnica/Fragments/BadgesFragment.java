@@ -85,7 +85,7 @@ public class BadgesFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Opis znački");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.badgesDescription));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);// set drawable icon
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -122,6 +122,7 @@ public class BadgesFragment extends Fragment {
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
         menu.findItem((R.id.action_search)).setVisible(false);
+        menu.findItem((R.id.language)).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

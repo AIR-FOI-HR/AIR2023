@@ -196,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(RegisterActivity.this,"Odjavljen!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,getString(R.string.userSignOut),Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });
@@ -215,11 +215,11 @@ public class RegisterActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Želite izaći iz aplikacije?");
+            alertDialogBuilder.setTitle(getString(R.string.exitApp));
             alertDialogBuilder
-                    .setMessage("Stisnite DA ako želite")
+                    .setMessage(getString(R.string.pressYes))
                     .setCancelable(false)
-                    .setPositiveButton("Da",
+                    .setPositiveButton(getString(R.string.yes),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     moveTaskToBack(true);
@@ -228,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             })
 
-                    .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
                             dialog.cancel();
@@ -240,7 +240,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Stisnite BACK još jednom za izlaz", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.pressBackforExit), Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override

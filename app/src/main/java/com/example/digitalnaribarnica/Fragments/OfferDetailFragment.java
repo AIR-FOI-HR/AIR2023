@@ -97,7 +97,7 @@ public class OfferDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Detalji ponude");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.offerDetails));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
@@ -245,7 +245,7 @@ public class OfferDetailFragment extends Fragment {
                 }
                 if(!currentValue.isEmpty()){
                   if(Double.parseDouble(smallAvailable) < Double.parseDouble(currentValue)){
-                      StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
+                      StyleableToast.makeText(getActivity(), getActivity().getString(R.string.unavailable), 3, R.style.Toast).show();
                       smallQuantity.setText(smallAvailable);
                   }
                }
@@ -330,7 +330,7 @@ public class OfferDetailFragment extends Fragment {
                 }
                 if(!currentValue.isEmpty()){
                     if(Double.parseDouble(mediumAvailable) < Double.parseDouble(currentValue)){
-                        StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
+                        StyleableToast.makeText(getActivity(), getActivity().getString(R.string.unavailable), 3, R.style.Toast).show();
                         mediumQuantity.setText(mediumAvailable);
                     }
                 }
@@ -414,7 +414,7 @@ public class OfferDetailFragment extends Fragment {
                 }
                 if(!currentValue.isEmpty()){
                     if(Double.parseDouble(largeAvailable) < Double.parseDouble(currentValue)){
-                        StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
+                        StyleableToast.makeText(getActivity(), getActivity().getString(R.string.unavailable), 3, R.style.Toast).show();
                         largeQuantity.setText(largeAvailable);
                     }
                 }
@@ -459,7 +459,7 @@ public class OfferDetailFragment extends Fragment {
             }
 
             if(smallQuantity.getText().toString().equals("0") && mediumQuantity.getText().toString().equals("0") && largeQuantity.getText().toString().equals("0")){
-                StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
+                StyleableToast.makeText(getActivity(), getActivity().getString(R.string.quantityNotSelected), 3, R.style.Toast).show();
             }
             else {
                 sharedViewModel.DodajRezervaciju(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
@@ -480,7 +480,7 @@ public class OfferDetailFragment extends Fragment {
                         Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity.getText().toString()))*100.0)/100.0;
 
                         if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
-                            StyleableToast.makeText(getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
+                            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.fishQuantityUnavailableAnymore), 3, R.style.Toast).show();
 
                             availableSmall.setText(offersData.get(0).getSmallFish());
                             availableMedium.setText(offersData.get(0).getMediumFish());
@@ -493,7 +493,7 @@ public class OfferDetailFragment extends Fragment {
                         }
                         else {
                             //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                            StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
+                            StyleableToast.makeText(getActivity(), getActivity().getString(R.string.reservationSuccessfullyCreated), 3, R.style.ToastGreen).show();
                             Fragment newFragment;
                             ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
                             newFragment = new ReservationFragment(userID);

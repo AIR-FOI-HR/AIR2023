@@ -92,7 +92,7 @@ public class EditOfferFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Uredi ponudu");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getString(R.string.editOffer));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding = FragmentEditOfferBinding.inflate(inflater, container, false);
@@ -377,12 +377,12 @@ public class EditOfferFragment extends Fragment {
             }
 
             if(smallQuantity.getText().toString().equals("0") && mediumQuantity.getText().toString().equals("0") && largeQuantity.getText().toString().equals("0")){
-                StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
+                StyleableToast.makeText(getActivity(), getActivity().getString(R.string.enterQuantityFirst), 3, R.style.Toast).show();
             }
             else {
                 sharedViewModel.AzurirajDostupneKolicinePonude(offerID, smallQuantity.getText().toString(), mediumQuantity.getText().toString(),
                         largeQuantity.getText().toString(), "Offers");
-                StyleableToast.makeText(getActivity(), "Ponuda uspješno ažurirana", 3, R.style.ToastGreen).show();
+                StyleableToast.makeText(getActivity(), getActivity().getString(R.string.offerSuccessfullyUpdated), 3, R.style.ToastGreen).show();
                 Fragment newFragment;
                 ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
                 newFragment = new SearchFragment(userID, true, true);
