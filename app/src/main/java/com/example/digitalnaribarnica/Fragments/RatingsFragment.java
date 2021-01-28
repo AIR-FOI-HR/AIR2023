@@ -119,6 +119,7 @@ public class RatingsFragment extends Fragment {
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
         menu.findItem((R.id.current_language)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

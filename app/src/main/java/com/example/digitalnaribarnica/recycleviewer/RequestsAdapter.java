@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Fish;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.Fragments.ProfileFragment;
@@ -30,6 +31,7 @@ import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.mailservise.JavaMailAPI;
 import com.example.digitalnaribarnica.R;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Repository;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
@@ -38,6 +40,7 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
@@ -103,7 +106,17 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             @Override
             public void onCallback(ArrayList<OffersData> offersData) {
                 holder.location.setText(offersData.get(0).getLocation());
-                holder.fish.setText(offersData.get(0).getName());
+
+                if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+                    holder.fish.setText(offersData.get(0).getName());
+                }else{
+                    repository.DohvatiRibuPoImenu(offersData.get(0).getName(), new FishCallback() {
+                        @Override
+                        public void onCallback(ArrayList<Fish> fishes) {
+                            holder.fish.setText(fishes.get(0).getNameeng());
+                        }
+                    });
+                }
 
                 Double quantity = 0.0;
                 String text ="";

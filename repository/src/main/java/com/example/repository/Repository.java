@@ -212,6 +212,33 @@ public class Repository {
         });
     }
 
+    public void DohvatiRibuPoImenu(String name, FishCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Fish","name", name).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<Fish> fishArrayList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    Fish fish=new Gson().fromJson(json,Fish.class);
+                    fishArrayList.add(fish);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                    //Log.d("TEST",offersData.getFullName());
+                }
+                firestoreCallback.onCallback(fishArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public void DohvatiLokacije(LocationCallback firestoreCallback){
         firestoreService.getCollection("Location").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

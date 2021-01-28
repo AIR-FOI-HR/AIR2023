@@ -29,6 +29,7 @@ import com.example.database.Fish;
 import com.example.database.Location;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Repository;
 import  com.example.digitalnaribarnica.databinding.FilterOffersBinding;
 
@@ -38,6 +39,7 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FilterOffersFragment extends Fragment {
 
@@ -97,19 +99,27 @@ public class FilterOffersFragment extends Fragment {
         btnFilter = binding.btnFilter;
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
         sharedViewModel.DohvatiRibe();
         sharedViewModel.fishDataArrayList.observe(this, new Observer<ArrayList<Fish>>() {
-            @Override
-            public void onChanged(ArrayList<Fish> fish) {
-                ArrayList<String> fishArrayList=new ArrayList<>();
-                for(Fish riba: fish){
-                    fishArrayList.add(riba.getName());
+                @Override
+                public void onChanged(ArrayList<Fish> fish) {
+                    ArrayList<String> fishArrayList=new ArrayList<>();
+                    for(Fish riba: fish){
+                        if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+                            fishArrayList.add(riba.getName());
+                        }else{
+                            fishArrayList.add(riba.getNameeng());
+                        }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
+                    adapter.notifyDataSetChanged();
+                    editFishSpecies.setAdapter(adapter);
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
-                adapter.notifyDataSetChanged();
-                editFishSpecies.setAdapter(adapter);
-            }
         });
+
+
+
         sharedViewModel.DohvatiLokacije();
         sharedViewModel.locationDataArrayList.observe(this, new Observer<ArrayList<Location>>() {
             @Override
@@ -266,6 +276,7 @@ public class FilterOffersFragment extends Fragment {
         menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
         menu.findItem((R.id.current_language)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(false);
         if (((RegisterActivity) getActivity()).buyer){
             menu.findItem((R.id.my_offers_menu)).setVisible(false);
         }

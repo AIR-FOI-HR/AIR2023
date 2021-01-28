@@ -39,6 +39,7 @@ import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class AddOfferFragment extends Fragment {
@@ -363,7 +364,11 @@ public class AddOfferFragment extends Fragment {
             public void onChanged(ArrayList<Fish> fishs) {
                 ArrayList<String> fishArrayList = new ArrayList<>();
                 for (Fish fish : fishs) {
-                    fishArrayList.add(fish.getName());
+                    if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+                        fishArrayList.add(fish.getName());
+                    }else{
+                        fishArrayList.add(fish.getNameeng());
+                    }
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.autocomplete_custom, R.id.autocomplete_text, fishArrayList);
                 adapter.notifyDataSetChanged();

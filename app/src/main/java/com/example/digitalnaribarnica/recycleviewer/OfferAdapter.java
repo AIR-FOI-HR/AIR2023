@@ -23,6 +23,7 @@ import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.badges.CustomDialogBadge;
 import com.example.database.FirestoreService;
+import com.example.database.Fish;
 import com.example.database.User;
 import com.example.digitalnaribarnica.Fragments.EditOfferFragment;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
@@ -32,6 +33,7 @@ import com.example.digitalnaribarnica.Fragments.SearchFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Data.ReservationsData;
 import com.example.repository.Listener.FirestoreCallback;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Listener.RezervationCallback;
 import com.example.repository.Repository;
 import com.example.repository.Data.OffersData;
@@ -42,6 +44,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class
 OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
@@ -53,6 +56,7 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
     private SearchFragment searchFragment;
     private TextView fishClassText;
     private Boolean myOffers = false;
+    Repository repository = new Repository();
     String OfferID;
 
 
@@ -81,7 +85,18 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
             holder.btnEditOffer.setVisibility(View.INVISIBLE);
             holder.btnDeleteOffer.setVisibility(View.INVISIBLE);
         }
-        holder.fish.setText(offers.get(position).getName());
+
+        if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+            holder.fish.setText(offers.get(position).getName());
+        }else{
+            repository.DohvatiRibuPoImenu(offers.get(position).getName(), new FishCallback() {
+                @Override
+                public void onCallback(ArrayList<Fish> fishes) {
+                    holder.fish.setText(fishes.get(0).getNameeng());
+                }
+            });
+        }
+
         holder.location.setText(offers.get(position).getLocation());
         String priceText = offers.get(position).getPrice() + " " + context.getString(R.string.knperkg);
         holder.price.setText(priceText);

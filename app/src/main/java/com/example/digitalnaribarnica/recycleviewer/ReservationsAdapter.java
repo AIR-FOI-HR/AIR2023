@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 import android.content.DialogInterface;
 import android.text.Html;
@@ -29,11 +30,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.database.FirestoreService;
+import com.example.database.Fish;
 import com.example.database.Utils.DateParse;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
 import com.example.digitalnaribarnica.R;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Repository;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
@@ -83,7 +86,18 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
            repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
                 @Override
                 public void onCallback(ArrayList<OffersData> offersData) {
-                    holder.fish.setText(offersData.get(0).getName());
+
+                    if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+                        holder.fish.setText(offersData.get(0).getName());
+                    }else{
+                        repository.DohvatiRibuPoImenu(offersData.get(0).getName(), new FishCallback() {
+                            @Override
+                            public void onCallback(ArrayList<Fish> fishes) {
+                                holder.fish.setText(fishes.get(0).getNameeng());
+                            }
+                        });
+                    }
+
                     holder.location.setText(offersData.get(0).getLocation());
                     Double quantity = 0.0;
                     String text ="";
@@ -119,8 +133,25 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                             break;
                     }
 
-                    String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
-                    holder.status.setText(Html.fromHtml(statusText));
+                    if(Locale.getDefault().getDisplayLanguage().equals("English")){
+                        if(reservations.get(position).getStatus().equals("Nepotvrđeno")){
+                             String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " Unconfirmed";
+                             holder.status.setText(Html.fromHtml(statusText));
+                        }else if(reservations.get(position).getStatus().equals("Potvrđeno")){
+                            String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " Confirmed";
+                            holder.status.setText(Html.fromHtml(statusText));
+                        }else if(reservations.get(position).getStatus().equals("Uspješno")){
+                            String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " Successful";
+                            holder.status.setText(Html.fromHtml(statusText));
+                        }else if(reservations.get(position).getStatus().equals("Neuspješno")){
+                            String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " Unsuccessful";
+                            holder.status.setText(Html.fromHtml(statusText));
+                        }
+                    }else{
+                        String statusText = "<b>" + context.getString(R.string.status) + ":</b>" +  " "  + reservations.get(position).getStatus();
+                        holder.status.setText(Html.fromHtml(statusText));
+                    }
+
                     Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
                     @SuppressLint("DefaultLocale") String textPrice = String.format("%.2f", priceQuantity) + " kn";
                     holder.price.setText(textPrice);

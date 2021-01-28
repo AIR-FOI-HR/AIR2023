@@ -206,4 +206,12 @@ public class HomeFragment extends Fragment {
 
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
+
+    public String getLanguage(){
+       if(textBuyer.getText().equals("Nastavi kao")){
+           return "HR";
+       }else{
+           return "EN";
+       }
+    }
 }

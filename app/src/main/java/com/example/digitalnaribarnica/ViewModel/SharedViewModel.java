@@ -36,6 +36,7 @@ public class SharedViewModel extends ViewModel {
     public MutableLiveData<ArrayList<Location>> locationDataArrayList= new MutableLiveData<>();
     public MutableLiveData<ArrayList<ReservationsData>> reservationDataArrayList= new MutableLiveData<>();
     public MutableLiveData<Uri> photoUrlData= new MutableLiveData<>();
+    public MutableLiveData<String> fishNameEng= new MutableLiveData<>();
     private Repository repository=new Repository();
     private BadgesRepository badgesRepository= new BadgesRepository();
 
@@ -185,5 +186,14 @@ public class SharedViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
+    }
+
+    public void DohvatiRibuPoImenu(String name) {
+        repository.DohvatiRibuPoImenu(name, new FishCallback() {
+            @Override
+            public void onCallback(ArrayList<Fish> fishes) {
+                fishNameEng.setValue(fishes.get(0).getNameeng());
+            }
+        });
     }
 }

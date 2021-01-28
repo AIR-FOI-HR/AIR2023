@@ -1,10 +1,12 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.database.Fish;
 import com.example.database.Review;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Listener.ReviewCallback;
 import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
@@ -45,6 +47,7 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class OfferDetailFragment extends Fragment {
 
@@ -147,7 +150,18 @@ public class OfferDetailFragment extends Fragment {
         sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
             @Override
             public void onChanged(ArrayList<OffersData> offersData) {
-                fish.setText(offersData.get(0).getName());
+                if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+                    fish.setText(offersData.get(0).getName());
+                }else{
+                    sharedViewModel.DohvatiRibuPoImenu(offersData.get(0).getName());
+                    sharedViewModel.fishNameEng.observe(getActivity(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            fish.setText(s);
+                        }
+                    });
+                }
+
                 location.setText(offersData.get(0).getLocation());
                 String priceText = offersData.get(0).getPrice() + " " + getString(R.string.knperkg);
                 price.setText(priceText);
@@ -513,6 +527,7 @@ public class OfferDetailFragment extends Fragment {
         menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
         menu.findItem((R.id.current_language)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(false);
         if (((RegisterActivity) getActivity()).buyer){
             menu.findItem((R.id.my_offers_menu)).setVisible(false);
         }

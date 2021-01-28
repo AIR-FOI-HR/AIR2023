@@ -1,6 +1,7 @@
 package com.example.badges;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.badges.BadgesData;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder> {
@@ -42,12 +44,18 @@ public class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull BadgesAdapter.ViewHolder holder, int position) {
+        
+        if(!Locale.getDefault().getDisplayLanguage().equals("English")){
+            holder.badgeTitle.setText(badges.get(position).getTitle());
+            holder.badgeDescription.setText(badges.get(position).getDescription());
+        }else{
+            holder.badgeTitle.setText(badges.get(position).getTitleeng());
+            holder.badgeDescription.setText(badges.get(position).getDescriptioneng());
+        }
 
-        holder.badgeTitle.setText(badges.get(position).getTitle());
-        holder.badgeDescription.setText(badges.get(position).getDescription());
         Glide.with(context)
                 .asBitmap()
-                .load(badges.get(position).getBadgeUrl())
+                .load(badges.get(position).getBadgeURL())
                 .into(holder.badgeImage);
 
     }

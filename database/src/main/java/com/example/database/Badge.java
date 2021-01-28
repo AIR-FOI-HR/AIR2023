@@ -4,6 +4,8 @@ public class Badge {
     private String title="";
     private String description="";
     private String badgeURL="";
+    private String titleeng;
+    private String descriptioneng;
 
     public String getTitle() {
         return title;
@@ -21,17 +23,35 @@ public class Badge {
         this.description = description;
     }
 
-    public String getBadgeUrl() {
+    public String getBadgeURL() {
         return badgeURL;
     }
 
-    public void setBadgeUrl(String badgeUrl) {
-        this.badgeURL = badgeUrl;
+    public void setBadgeURL(String badgeURL) {
+        this.badgeURL = badgeURL;
     }
 
-    public Badge (String badgeTitle, String badgeDescription, String imageurl) {
+    public String getTitleeng() {
+        return titleeng;
+    }
+
+    public void setTitleeng(String titleeng) {
+        this.titleeng = titleeng;
+    }
+
+    public String getDescriptioneng() {
+        return descriptioneng;
+    }
+
+    public void setDescriptioneng(String descriptioneng) {
+        this.descriptioneng = descriptioneng;
+    }
+
+    public Badge (String badgeTitle, String badgeTitleeng, String badgeDescription, String badgeDescriptioneng , String imageurl) {
         this.title = badgeTitle;
+        this.titleeng = badgeTitleeng;
         this.description = badgeDescription;
+        this.descriptioneng = badgeDescriptioneng;
         this.badgeURL = imageurl;
     }
 }

@@ -6,11 +6,15 @@ public class BadgesData {
 
     private String title;
     private String description;
+    private String titleeng;
+    private String descriptioneng;
     private String badgeURL;
 
-    public BadgesData (String badgeTitle, String badgeDescription, String imageurl) {
+    public BadgesData (String badgeTitle, String badgeTitleeng, String badgeDescription, String badgeDescriptioneng , String imageurl) {
         this.title = badgeTitle;
+        this.titleeng = badgeTitleeng;
         this.description = badgeDescription;
+        this.descriptioneng = badgeDescriptioneng;
         this.badgeURL = imageurl;
     }
 
@@ -30,12 +34,28 @@ public class BadgesData {
         this.description = description;
     }
 
-    public String getBadgeUrl() {
+    public String getTitleeng() {
+        return titleeng;
+    }
+
+    public void setTitleeng(String titleeng) {
+        this.titleeng = titleeng;
+    }
+
+    public String getDescriptioneng() {
+        return descriptioneng;
+    }
+
+    public void setDescriptioneng(String descriptioneng) {
+        this.descriptioneng = descriptioneng;
+    }
+
+    public String getBadgeURL() {
         return badgeURL;
     }
 
-    public void setBadgeUrl(String badgeUrl) {
-        this.badgeURL = badgeUrl;
+    public void setBadgeURL(String badgeURL) {
+        this.badgeURL = badgeURL;
     }
 
     @NonNull

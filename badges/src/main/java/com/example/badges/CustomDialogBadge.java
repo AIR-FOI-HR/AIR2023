@@ -61,7 +61,7 @@ public class CustomDialogBadge implements DataPresenter{
     public void setData(User user, BadgesData badge) {
         this.user=user;
         this.badge=badge;
-        this.badgeUri=badge.getBadgeUrl();
+        this.badgeUri=badge.getBadgeURL();
     }
 
     @Override

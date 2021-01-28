@@ -68,11 +68,11 @@ public class BadgesRepository {
     }
 
     public void DodijeliZnackuProdavatelju(User user, BadgesData badgesData){
-        firestoreService.updateBadgeSeller(user.getUserID(), Uri.parse(badgesData.getBadgeUrl()),"Users");
+        firestoreService.updateBadgeSeller(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
 
     public void DodijeliZnackuKupcu(User user, BadgesData badgesData){
-        firestoreService.updateBadgeBuyer(user.getUserID(), Uri.parse(badgesData.getBadgeUrl()),"Users");
+        firestoreService.updateBadgeBuyer(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
 
 
