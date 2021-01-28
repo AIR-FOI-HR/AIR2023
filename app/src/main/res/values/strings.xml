@@ -138,5 +138,8 @@
     <string name="buyerText">Kupac</string>
     <string name="sellerText">Prodavatelj</string>
     <string name="button">Gumb</string>
+    <string name="editOffer">Uredi ponudu</string>
+    <string name="changeQuantity">Promijenite količinu:</string>
+    <string name="currentQuantity">Trenutna količina:</string>
 
 </resources>

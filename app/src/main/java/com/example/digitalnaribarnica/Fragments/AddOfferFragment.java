@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,12 +45,12 @@ public class AddOfferFragment extends Fragment {
     FragmentAddOfferBinding binding;
 
     private Button btnSaveNewOffer;
-    private Button btnMinusSmall;
-    private Button btnPlusSmall;
-    private Button btnMinusMedium;
-    private Button btnPlusMedium;
-    private Button btnMinusLarge;
-    private Button btnPlusLarge;
+    private ImageView btnMinusSmall;
+    private ImageView btnPlusSmall;
+    private ImageView btnMinusMedium;
+    private ImageView btnPlusMedium;
+    private ImageView btnMinusLarge;
+    private ImageView btnPlusLarge;
     private AutoCompleteTextView fishSpecies;
     private AutoCompleteTextView location;
     private EditText price;
@@ -298,15 +299,15 @@ public class AddOfferFragment extends Fragment {
                  smallQuantity.setEnabled(false);
                  btnMinusSmall.setEnabled(false);
                  btnPlusSmall.setEnabled(false);
-                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
-                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                 btnMinusSmall.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                 btnPlusSmall.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
              }
              else {
                  smallQuantity.setEnabled(true);
                  btnMinusSmall.setEnabled(true);
                  btnPlusSmall.setEnabled(true);
-                 btnMinusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
-                 btnPlusSmall.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                 btnMinusSmall.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
+                 btnPlusSmall.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
              }
          }
         });
@@ -319,15 +320,15 @@ public class AddOfferFragment extends Fragment {
                     mediumQuantity.setEnabled(false);
                     btnMinusMedium.setEnabled(false);
                     btnPlusMedium.setEnabled(false);
-                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
-                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnMinusMedium.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusMedium.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     mediumQuantity.setEnabled(true);
                     btnMinusMedium.setEnabled(true);
                     btnPlusMedium.setEnabled(true);
-                    btnMinusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
-                    btnPlusMedium.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnMinusMedium.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusMedium.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });
@@ -340,15 +341,15 @@ public class AddOfferFragment extends Fragment {
                     largeQuantity.setEnabled(false);
                     btnMinusLarge.setEnabled(false);
                     btnPlusLarge.setEnabled(false);
-                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
-                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnMinusLarge.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
+                    btnPlusLarge.setColorFilter(getActivity().getResources().getColor(R.color.colorGrayBlue));
                 }
                 else {
                     largeQuantity.setEnabled(true);
                     btnMinusLarge.setEnabled(true);
                     btnPlusLarge.setEnabled(true);
-                    btnMinusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
-                    btnPlusLarge.setBackgroundColor(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnMinusLarge.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
+                    btnPlusLarge.setColorFilter(getActivity().getResources().getColor(R.color.colorBlue));
                 }
             }
         });

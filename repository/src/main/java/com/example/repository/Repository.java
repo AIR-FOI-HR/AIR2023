@@ -369,6 +369,15 @@ public class Repository {
         firestoreService.deleteReservation(reservationID,"Rezervation");
     }
 
+    public void UpdateOfferQuantity(String offerID, String smallFish, String mediumFish, String largeFish, String collection){
+        firestoreService.updateOfferQuantity(offerID, smallFish, mediumFish, largeFish, collection);
+
+    }
+
+    public void DeleteOffer(String offerID, String collection){
+        firestoreService.deleteOffer(offerID, "Offers");
+
+    }
 
 
     //dodavanje novog korisnika bez lozinke (Google i Facebook)

@@ -179,6 +179,9 @@ public class SharedViewModel extends ViewModel {
         repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email, brojMobitela, lozinka, photo, adresa);
     }
 
+    public void AzurirajDostupneKolicinePonude(String offerID, String smallFish, String mediumFish, String largeFish, String collection){
+        repository.UpdateOfferQuantity(offerID, smallFish, mediumFish, largeFish, collection);
+    }
     @Override
     protected void onCleared() {
         super.onCleared();

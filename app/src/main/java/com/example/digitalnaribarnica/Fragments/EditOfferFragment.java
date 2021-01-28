@@ -1,19 +1,11 @@
 package com.example.digitalnaribarnica.Fragments;
 
-import com.example.database.Review;
-import com.example.database.User;
-import com.example.database.Utils.DateParse;
-import com.example.digitalnaribarnica.RegisterActivity;
-import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
-import com.example.repository.Listener.ReviewCallback;
-import com.google.firebase.Timestamp;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,21 +26,29 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.database.FirestoreService;
-import com.example.repository.Listener.FirestoreOffer;
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.R;
-import com.example.repository.Repository;
-import com.example.digitalnaribarnica.databinding.FragmentOfferDetailBinding;
+import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
+import com.example.digitalnaribarnica.databinding.FragmentEditOfferBinding;
 import com.example.repository.Data.OffersData;
+import com.google.firebase.Timestamp;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class OfferDetailFragment extends Fragment {
+public class EditOfferFragment extends Fragment {
 
-    FragmentOfferDetailBinding binding;
+    FragmentEditOfferBinding binding;
+
+    private String priceWithoutKn;
+    private String offerID;
+    private String userID = "";
+    private String sellerID = "";
+    private Boolean cameFromMyOffers = false;
+
     private ImageView btnMinusSmall;
     private ImageView btnPlusSmall;
     private ImageView btnMinusMedium;
@@ -56,7 +56,7 @@ public class OfferDetailFragment extends Fragment {
     private ImageView btnMinusLarge;
     private ImageView btnPlusLarge;
 
-    private  Button btnReserve;
+    private  Button btnSaveChanges;
 
     private EditText smallQuantity;
     private EditText mediumQuantity;
@@ -75,17 +75,12 @@ public class OfferDetailFragment extends Fragment {
     private TextView location;
     private TextView fish;
 
-    private String priceWithoutKn;
-    private String offerID;
-    private String userID = "";
-    private String sellerID = "";
-    private Boolean cameFromMyOffers = false;
-
     private RatingBar rating;
 
     private SharedViewModel sharedViewModel;
 
-    public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
+
+    public EditOfferFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
         this.userID = userId;
         this.cameFromMyOffers = myOffers;
@@ -97,10 +92,10 @@ public class OfferDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Detalji ponude");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Uredi ponudu");
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding= FragmentOfferDetailBinding.inflate(inflater,container,false);
+        binding = FragmentEditOfferBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         setHasOptionsMenu(true);
@@ -110,26 +105,18 @@ public class OfferDetailFragment extends Fragment {
         location = binding.lokacijaPonude;
         fish = binding.nazivPonude;
         fishImage = binding.slikaRibe;
-        userImage = binding.slikaPonuditelja;
-        trophyImage = binding.slikaZnacke;
-        userName = binding.imePrezimePonuditelja;
         btnMinusSmall = binding.btnMinusSmall;
         btnPlusSmall = binding.btnPlusSmall;
         btnMinusMedium = binding.btnMinusMedium;
         btnPlusMedium = binding.btnPlusMedium;
         btnMinusLarge = binding.btnMinusLarge;
         btnPlusLarge = binding.btnPlusLarge;
-
-        btnReserve = binding.btnRezerviraj;
+        btnSaveChanges = binding.btnSpremiPromjene;
         date = binding.textDate;
         smallQuantity = binding.smallFishQuantity;
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
 
-
-        smallQuantity.setText("0");
-        mediumQuantity.setText("0");
-        largeQuantity.setText("0");
 
         availableSmall = binding.availableSmall;
         availableMedium = binding.availableMedium;
@@ -139,11 +126,8 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
-        rating = binding.ratingBar;
-
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.DohvatiPonuduPrekoID(offerID);
-
         sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
             @Override
             public void onChanged(ArrayList<OffersData> offersData) {
@@ -155,6 +139,11 @@ public class OfferDetailFragment extends Fragment {
                 availableSmall.setText(offersData.get(0).getSmallFish());
                 availableMedium.setText(offersData.get(0).getMediumFish());
                 availableLarge.setText(offersData.get(0).getLargeFish());
+
+                smallQuantity.setText(offersData.get(0).getSmallFish());
+                mediumQuantity.setText(offersData.get(0).getMediumFish());
+                largeQuantity.setText(offersData.get(0).getLargeFish());
+
                 Calendar calendar = DateParse.dateToCalendar(offersData.get(0).getDate().toDate());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
                 date.setText(dateFormat.format(calendar.getTime()));
@@ -168,64 +157,22 @@ public class OfferDetailFragment extends Fragment {
                 }
 
                 sellerID = offersData.get(0).getIdKorisnika();
-                if(!((RegisterActivity) getActivity()).buyer){
-                    btnReserve.setVisibility(view.INVISIBLE);
-                } else if (userID.equals(sellerID)){
-                    btnReserve.setVisibility(view.INVISIBLE);
-                }
 
-                String userID = offersData.get(0).getIdKorisnika();
-
-                sharedViewModel.DohvatiKorisnikaPoID(userID);
-                sharedViewModel.userMutableLiveData.observe(getActivity(), new Observer<User>() {
-                    @Override
-                    public void onChanged(User user) {
-                        userName.setText(user.getFullName());
-                        String userPhoto = user.getPhoto();
-                        if(userPhoto!=""){
-                            Glide.with(getContext())
-                                    .asBitmap()
-                                    .load(userPhoto)
-                                    .into(userImage);
-                        }
-                        String badge = user.getBadgeSellerURL();
-                        if(!badge.equals("")){
-                            Glide.with(getContext())
-                                    .asBitmap()
-                                    .load(badge)
-                                    .into(trophyImage);
-                        }
-                    }
-                });
-                sharedViewModel.DohvatiOcjenePoID(userID);
-                sharedViewModel.reviewDataArrayList.observe(getActivity(), new Observer<ArrayList<Review>>() {
-                    @Override
-                    public void onChanged(ArrayList<Review> reviews) {
-                        if(reviews.size()!=0){
-
-                            float sum = 0;
-                            for (int i = 0; i < reviews.size(); i++) {
-                                sum = sum + Float.parseFloat(reviews.get(i).getRating());
-                            }
-                            float ratingTotal = sum / reviews.size();
-                            rating.setRating(ratingTotal);
-                        }
-                    }
-                });
             }
         });
 
 
-                btnPlusSmall.setOnClickListener(view1 -> {
+        btnPlusSmall.setOnClickListener(view1 -> {
                     btnPlusSmall.requestFocus();
                     String currentValue = smallQuantity.getText().toString();
                     if (currentValue.equals("")) {
                         currentValue = "0";
                     }
-                    String availableQuantity = availableSmall.getText().toString();
-                    if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)) {
-                        smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue) + 0.1) * 100.0) / 100.0));
-                    }
+            if (Double.parseDouble(currentValue) <999){
+                smallQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.5)*100.0)/100.0));
+            }else {
+                smallQuantity.setText("999");
+            }
                     updateTotal();
                 });
 
@@ -243,12 +190,6 @@ public class OfferDetailFragment extends Fragment {
                     currentValue = "";
                     smallQuantity.setText("");
                 }
-                if(!currentValue.isEmpty()){
-                  if(Double.parseDouble(smallAvailable) < Double.parseDouble(currentValue)){
-                      StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
-                      smallQuantity.setText(smallAvailable);
-                  }
-               }
                 updateTotal();
             }
 
@@ -256,19 +197,6 @@ public class OfferDetailFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-
-        userName.setOnClickListener(new View.OnClickListener() {
-            Fragment selectedFragment = null;
-            @Override
-            public void onClick(View view) {
-                selectedFragment = new ProfileFragment(sellerID, userID, "Details", offerID);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
-            }
-        });
-
-
-
 
         smallQuantity.setOnFocusChangeListener((view15, fokusiran) -> {
             if (!fokusiran) {
@@ -307,9 +235,10 @@ public class OfferDetailFragment extends Fragment {
             if(currentValue.equals("")){
                 currentValue="0";
             }
-            String availableQuantity = availableMedium.getText().toString();
-            if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)){
-                mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.2)*100.0)/100.0));
+            if (Double.parseDouble(currentValue) <999){
+                mediumQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.5)*100.0)/100.0));
+            }else {
+                mediumQuantity.setText("999");
             }
             updateTotal();
         });
@@ -327,12 +256,6 @@ public class OfferDetailFragment extends Fragment {
                 if(currentValue.equals(".")){
                     currentValue = "";
                     mediumQuantity.setText("");
-                }
-                if(!currentValue.isEmpty()){
-                    if(Double.parseDouble(mediumAvailable) < Double.parseDouble(currentValue)){
-                        StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
-                        mediumQuantity.setText(mediumAvailable);
-                    }
                 }
                 updateTotal();
             }
@@ -391,9 +314,10 @@ public class OfferDetailFragment extends Fragment {
             if(currentValue.equals("")){
                 currentValue="0";
             }
-            String availableQuantity = availableLarge.getText().toString();
-            if (Double.parseDouble(availableQuantity) > Double.parseDouble(currentValue)){
+            if (Double.parseDouble(currentValue) <999){
                 largeQuantity.setText(String.valueOf(Math.round((Double.parseDouble(currentValue)+ 0.5)*100.0)/100.0));
+            }else {
+                largeQuantity.setText("999");
             }
             updateTotal();
         });
@@ -411,12 +335,6 @@ public class OfferDetailFragment extends Fragment {
                 if(currentValue.equals(".")){
                     currentValue = "";
                     largeQuantity.setText("");
-                }
-                if(!currentValue.isEmpty()){
-                    if(Double.parseDouble(largeAvailable) < Double.parseDouble(currentValue)){
-                        StyleableToast.makeText(getActivity(), "Nedostupno", 3, R.style.Toast).show();
-                        largeQuantity.setText(largeAvailable);
-                    }
                 }
                 updateTotal();
             }
@@ -444,7 +362,7 @@ public class OfferDetailFragment extends Fragment {
             updateTotal();
     });
 
-        btnReserve.setOnClickListener(v -> {
+        btnSaveChanges.setOnClickListener(v -> {
             smallQuantity.clearFocus();
             mediumQuantity.clearFocus();
             largeQuantity.clearFocus();
@@ -462,60 +380,32 @@ public class OfferDetailFragment extends Fragment {
                 StyleableToast.makeText(getActivity(), "Prvo unesite željenu količinu ribe", 3, R.style.Toast).show();
             }
             else {
-                sharedViewModel.DodajRezervaciju(offerID, Timestamp.now(), price.getText().toString(), smallQuantity.getText().toString(),
-                        mediumQuantity.getText().toString(), largeQuantity.getText().toString(), userID, "Nepotvrđeno");
+                sharedViewModel.AzurirajDostupneKolicinePonude(offerID, smallQuantity.getText().toString(), mediumQuantity.getText().toString(),
+                        largeQuantity.getText().toString(), "Offers");
+                StyleableToast.makeText(getActivity(), "Ponuda uspješno ažurirana", 3, R.style.ToastGreen).show();
+                Fragment newFragment;
+                ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+                newFragment = new SearchFragment(userID, true, true);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
 
 
-                sharedViewModel.DohvatiPonuduPrekoID(offerID);
-                sharedViewModel.offerDataArrayList.observe(this, new Observer<ArrayList<OffersData>>() {
-                    @Override
-                    public void onChanged(ArrayList<OffersData> offersData) {
-                        String currentSmall = offersData.get(0).getSmallFish();
-                        Double updatedSmall = Math.round((Double.parseDouble(currentSmall) - Double.parseDouble(smallQuantity.getText().toString()))*100.0)/100.0;
-
-                        String currentMedium = offersData.get(0).getMediumFish();
-                        Double updatedMedium = Math.round((Double.parseDouble(currentMedium) - Double.parseDouble(mediumQuantity.getText().toString()))*100.0)/100.0;
-
-                        String currentLarge = offersData.get(0).getLargeFish();
-                        Double updatedLarge = Math.round((Double.parseDouble(currentLarge) - Double.parseDouble(largeQuantity.getText().toString()))*100.0)/100.0;
-
-                        if(updatedSmall < 0 || updatedMedium < 0 || updatedLarge < 0){
-                            StyleableToast.makeText(getActivity(), "Unesena količina ribe više nije dostupna", 3, R.style.Toast).show();
-
-                            availableSmall.setText(offersData.get(0).getSmallFish());
-                            availableMedium.setText(offersData.get(0).getMediumFish());
-                            availableLarge.setText(offersData.get(0).getLargeFish());
-
-                            smallQuantity.setText("0");
-                            mediumQuantity.setText("0");
-                            largeQuantity.setText("0");
-
-                        }
-                        else {
-                            //  firestoreService.updateOfferQuantity(offerID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                            StyleableToast.makeText(getActivity(), "Rezervacija uspješno izvršena", 3, R.style.ToastGreen).show();
-                            Fragment newFragment;
-                            ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
-                            newFragment = new ReservationFragment(userID);
-                            getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-                        }
-                    }
-                });
             }
         });
 
         return view;
     }
 
+
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
-        menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
-
-        if (((RegisterActivity) getActivity()).buyer){
-            menu.findItem((R.id.my_offers_menu)).setVisible(false);
-        }
+        menu.findItem((R.id.filter_menu)).setVisible(false);
+        menu.findItem((R.id.all_offers_menu)).setVisible(false);
+        menu.findItem((R.id.my_offers_menu)).setVisible(false);
+        menu.findItem((R.id.sort_offers_menu)).setVisible(false);
+        menu.findItem((R.id.my_offers_menu)).setVisible(false);
     }
+
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -565,6 +455,7 @@ public class OfferDetailFragment extends Fragment {
         return true;
     }
 
+
     InputFilter filterDecimals = (source, start, end, dest, dstart, dend) -> {
         StringBuilder builder = new StringBuilder(dest);
         builder.replace(dstart, dend, source
@@ -609,3 +500,4 @@ public class OfferDetailFragment extends Fragment {
     }
 
 }
+

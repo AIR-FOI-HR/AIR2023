@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,9 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.recycleviewer.RequestsAdapter;
+import com.example.repository.Data.ReservationsData;
+import com.example.repository.Listener.FirestoreOffer;
+import com.example.repository.Listener.RezervationCallback;
 import com.example.repository.Repository;
 import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
 import com.example.repository.Data.OffersData;
@@ -36,6 +43,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class SearchFragment extends Fragment {
 
@@ -115,7 +123,6 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
         btnAddOffer = binding.floatingbtnAddOffer;
-
         if (((RegisterActivity) getActivity()).buyer){
             btnAddOffer.setVisibility(View.INVISIBLE);
         }
@@ -450,6 +457,7 @@ public class SearchFragment extends Fragment {
 
             myOffers = true;
             offersListGeneral = offersList;
+            adapter2.ShowIcons();
             adapter2.setOffers(offersList);
             adapter2.notifyDataSetChanged();
             recyclerView.setAdapter(adapter2);
@@ -464,6 +472,7 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
 
     public void showDialog(Activity activity, String title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

@@ -5,25 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    tools:ignore="VectorDrawableCompat">
+    tools:ignore="VectorDrawableCompat"
+    android:layout_centerVertical="true">
 
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeBlueBackground"
-        android:layout_centerVertical="true"
         tools:ignore="UnknownIdInLayout,UselessParent">
 
         <RelativeLayout
             android:id="@+id/relativeLayoutPodaci"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
 
             <RelativeLayout
                 android:id="@+id/relativeIcon"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_height="125dp">
 
                 <androidx.cardview.widget.CardView
@@ -129,7 +128,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -138,18 +137,13 @@
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
+                            android:layout_marginBottom="5dp"
                             android:elevation="5dp"
-                            android:text="@string/fishClass"
+                            android:text="@string/changeQuantity"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
-                            android:elevation="5dp"
-                            android:text="@string/chooseQuantity"
-                            android:textSize="14sp" />
+
 
                     </LinearLayout>
 
@@ -161,18 +155,20 @@
                         android:layout_marginRight="4dp"
                         android:orientation="vertical">
 
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/smallFish"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginEnd="10dp"
-                                android:text="@string/small"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -186,7 +182,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="3dp"
                                     android:layout_marginBottom="-10dp"
-                                    android:text="@string/available"
+                                    android:text="@string/currentQuantity"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -204,6 +200,7 @@
                                     android:layout_marginBottom="-10dp"
                                     android:text="@string/kg"
                                     android:textSize="14sp" />
+
 
                                 <ImageView
                                     android:id="@+id/btn_minus_small"
@@ -251,20 +248,21 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@android:color/darker_gray" />
+                            android:background="@android:color/darker_gray"
+                            android:layout_marginBottom="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/mediumFish"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/medium"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -278,7 +276,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="3dp"
                                     android:layout_marginBottom="-10dp"
-                                    android:text="@string/available"
+                                    android:text="@string/currentQuantity"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -344,20 +342,21 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:layout_marginBottom="10dp"
                             android:background="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/largeFish"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginEnd="10dp"
-                                android:text="@string/large"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -371,7 +370,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="3dp"
                                     android:layout_marginBottom="-10dp"
-                                    android:text="@string/available"
+                                    android:text="@string/currentQuantity"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -419,6 +418,7 @@
                                     android:text="@string/kg"
                                     android:textSize="14sp" />
 
+
                                 <ImageView
                                     android:id="@+id/btn_plus_large"
                                     style="@style/Widget.MaterialComponents.Button"
@@ -436,25 +436,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="20dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="2dp"
                                 android:gravity="end"
-                                android:layout_weight="1"
                                 android:elevation="5dp"
+                                android:layout_weight="1"
                                 android:text="@string/ukupnaCijena"
                                 android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/totalPrice"
-                                android:layout_width="60dp"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.08"
-                                android:gravity="end"
+                                android:gravity="start"
                                 android:elevation="5dp"
+                                android:layout_weight="0.6"
                                 android:textSize="14sp"
                                 android:text="@string/_0_00kn"/>
 
@@ -462,125 +463,19 @@
 
                     </RadioGroup>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="28dp"
-                        android:layout_marginBottom="20dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="74dp"
-                            android:layout_height="74dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="15dp"
-                            android:backgroundTint="@color/colorWhite"
-                            app:cardCornerRadius="70dp">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:layout_centerInParent="true"
-                                android:layout_margin="2dp"
-                                app:cardCornerRadius="58dp">
-
-                                <ImageView
-                                    android:id="@+id/slikaPonuditelja"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_centerHorizontal="true"
-                                    android:background="@color/colorWhite"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/profil"
-                                    android:contentDescription="@string/picture" />
-
-                            </androidx.cardview.widget.CardView>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <ImageView
-                            android:id="@+id/slikaZnacke"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:elevation="5dp"
-                            android:layout_marginStart="-22dp"
-                            android:contentDescription="@string/badge" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/imePrezimePonuditelja"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:text="@string/nameSurname"
-                                android:textSize="14sp"
-                                android:textColor="@color/colorBlue"
-                                android:textStyle="bold"
-                                android:foreground="?android:attr/selectableItemBackground"/>
-
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginTop="10dp">
-
-                                <RatingBar
-                                    android:id="@+id/ratingBar"
-                                    style="?android:attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:numStars="5"
-                                    android:rating="0"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:id="@+id/chat"
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_marginStart="15dp"
-                                    android:contentDescription="@string/picture"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/chat" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="15dp"
-                                    android:text="@string/contact"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <Button
-                android:id="@+id/btnRezerviraj"
+                android:id="@+id/btnSpremiPromjene"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/cv"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:text="@string/reserve"
+                android:text="@string/saveChanges"
                 android:textColor="@color/colorWhite"
                 android:backgroundTint="@color/colorBlue"
                 style="@style/Widget.MaterialComponents.Button"
