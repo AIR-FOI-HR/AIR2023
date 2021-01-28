@@ -511,7 +511,6 @@ public class OfferDetailFragment extends Fragment {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.action_search)).setVisible(false);
         menu.findItem(((R.id.sort_offers_menu))).setVisible(false);
-
         if (((RegisterActivity) getActivity()).buyer){
             menu.findItem((R.id.my_offers_menu)).setVisible(false);
         }
@@ -538,7 +537,7 @@ public class OfferDetailFragment extends Fragment {
 
                 break;
             case R.id.all_offers_menu:
-                setHasOptionsMenu(false);
+                setHasOptionsMenu(true);
                 Fragment selectedFragment1 = null;
                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 selectedFragment1 = new SearchFragment(userID);

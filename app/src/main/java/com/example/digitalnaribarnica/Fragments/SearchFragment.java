@@ -21,6 +21,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,6 +73,9 @@ public class SearchFragment extends Fragment {
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     private String userId = "";
+
+    SearchView searchViewThisSearch;
+    MenuItem itemThisSearch;
 
     public SearchFragment(String userId) {
         this.userId = userId;
@@ -126,6 +130,8 @@ public class SearchFragment extends Fragment {
         if (((RegisterActivity) getActivity()).buyer){
             btnAddOffer.setVisibility(View.INVISIBLE);
         }
+
+        ((RegisterActivity) getActivity()).fragmentId = this.getId();
 
         if(filtered){
                 Repository repository = new Repository();
@@ -294,6 +300,10 @@ public class SearchFragment extends Fragment {
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         MenuItem item = menu.findItem((R.id.action_search));
         SearchView searchView = (SearchView) item.getActionView();
+
+        itemThisSearch = item;
+        searchViewThisSearch = searchView;
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -401,6 +411,7 @@ public class SearchFragment extends Fragment {
                 break;
 
             case R.id.filter_menu:
+                destroySearch();
                 FilterOffersFragment selectedFragment = new FilterOffersFragment(userId);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
@@ -486,5 +497,14 @@ public class SearchFragment extends Fragment {
 
     public boolean getLastVisited(){
         return myOffers;
+    }
+
+    public void destroySearch(){
+        /*searchViewThisSearch.setQuery("", false);
+        searchViewThisSearch.clearFocus();
+        searchViewThisSearch.setIconified(true);
+        searchViewThisSearch.setIconified(true);
+        searchViewThisSearch.onActionViewCollapsed();*/
+        MenuItemCompat.collapseActionView(itemThisSearch);
     }
 }

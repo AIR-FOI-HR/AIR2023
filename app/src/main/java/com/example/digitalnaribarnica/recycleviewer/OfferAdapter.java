@@ -146,6 +146,7 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
 
             @Override
             public void onClick(View v) {
+                searchFragment.destroySearch();
                 selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID, searchFragment.getLastVisited());
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();

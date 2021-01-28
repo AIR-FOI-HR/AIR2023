@@ -52,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity {
     String phone="";
     String adress="";
 
+    public int fragmentId = 2131231000;
+    public boolean onReservation = false;
+    public boolean onSearch = false;
+
     public boolean buyer = true;
 
     @Override
@@ -121,6 +125,24 @@ public class RegisterActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment =null;
 
+                    if(onReservation) {
+                        try {
+                            ReservationFragment fragment = (ReservationFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+                            assert fragment != null;
+                            fragment.destroySearch();
+                        }catch (Exception e){}
+                    }
+                    if(onSearch){
+                        try {
+                            SearchFragment fragment = (SearchFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+                            assert fragment != null;
+                            fragment.destroySearch();
+                        }catch (Exception e){}
+                    }
+
+                    onReservation = false;
+                    onSearch = false;
+
                     switch (item.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment(personId);
@@ -133,9 +155,11 @@ public class RegisterActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_ponude:
                             selectedFragment = new ReservationFragment(personId);
+                            onReservation = true;
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment(personId);
+                            onSearch = true;
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
@@ -144,7 +168,25 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             };
 
-    private void signOut() {
+    public void destroySearch(){
+        if(onReservation) {
+            try {
+                ReservationFragment fragment = (ReservationFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+                assert fragment != null;
+                fragment.destroySearch();
+            }catch (Exception e){}
+        }
+        if(onSearch){
+            try {
+                SearchFragment fragment = (SearchFragment) getSupportFragmentManager().findFragmentById(fragmentId);
+                assert fragment != null;
+                fragment.destroySearch();
+            }catch (Exception e){}
+        }
+    }
+
+
+            private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override

@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,6 +76,10 @@ public class ReservationFragment extends Fragment {
     Boolean fromReview = false;
 
     MaterialButtonToggleGroup toggleButtonGroup;
+
+    SearchView searchViewThisSearch;
+    MenuItem itemThisSearch;
+
 
     public ReservationFragment(String userId){
         this.userID = userId;
@@ -438,6 +443,10 @@ public class ReservationFragment extends Fragment {
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
         SearchView searchView = (SearchView) item.getActionView();
+
+        itemThisSearch = item;
+        searchViewThisSearch = searchView;
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query)
@@ -795,5 +804,9 @@ public class ReservationFragment extends Fragment {
 
         toggleButtonGroup.uncheck(R.id.myReservations_button);
         toggleButtonGroup.uncheck(R.id.requests_button);
+    }
+
+    public void destroySearch() {
+        MenuItemCompat.collapseActionView(itemThisSearch);
     }
 }
