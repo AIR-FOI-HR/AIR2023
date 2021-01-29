@@ -239,5 +239,13 @@
     <string name="homePonudeText">Ponude</string>
     <string name="homeChatText">Razgovori</string>
     <string name="homeProfilText">Profil</string>
+    <string name="homeZnackeText">Značke</string>
+
+    <string name="homeHomeDescription">Postoje dvije uloge u aplikaciji; Kupac i Ponuditelj. Odabirom uloge mijenjaju se i funkcionalnosti koje možete koristiti, odnosno skrivaju nepotrebne.</string>
+    <string name="homeRezervacijeDescription">Kao Kupac, možete vidjeti sve trenutno rezervirane ponude i povijest rezervacija. Kao ponuditelj, možete vidjeti sve trenutne zahtjeve za vaše ponude, ali i sve rezervacije, odnosno zahtjeve koje ste potvrdili.</string>
+    <string name="homePonudeDescription">Ponude je moguće pretražiti, filtrirati i sortirati. Odabirom ponude otvaraju se detalji i mogućnost rezervacije. Ukoliko ste ulozi ponuditelja, moguće je pregledati vlastite ponude i kreirati nove.</string>
+    <string name="homeChatDescription">Razgovarajte sa drugim korisnicima i dogovorite prodaju.</string>
+    <string name="homeProfilDescription">Pogledajte detalje o svom profilu, uredite ga i pogledajte svoje ocjene.</string>
+    <string name="homeZnackeDescription">Značkama se nagrađuju vjerni korisnici, a možete ih osvojiti prodajom, kupnjom i rješavanjem kvizova.</string>
 
 </resources>

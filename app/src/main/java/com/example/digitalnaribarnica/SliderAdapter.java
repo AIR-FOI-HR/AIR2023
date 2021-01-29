@@ -32,10 +32,11 @@ public class SliderAdapter extends PagerAdapter {
             R.drawable.rezervacijeikona,
             R.drawable.ponudeikona,
             R.drawable.chatikona,
-            R.drawable.profilikona
+            R.drawable.profilikona,
+            R.drawable.badgeikona
     };
 
-
+/*
     public String[] slide_headings={
             "Početna stranica",
             "Rezervacije",
@@ -60,16 +61,53 @@ public class SliderAdapter extends PagerAdapter {
 
             "Pogledajte detalje o svom profilu, uredite ga i pogledajte svoje ocjene."
     };
-
+*/
 
     @Override
     public int getCount() {
-        return slide_headings.length;
+        return 6;
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == (RelativeLayout) object;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return context.getString(R.string.homeHomeText);
+            case 1:
+                return context.getString(R.string.homeRezervacijeText);
+            case 2:
+                return context.getString(R.string.homePonudeText);
+            case 3:
+                return context.getString(R.string.homeChatText);
+            case 4:
+                return context.getString(R.string.homeProfilText);
+            case 5:
+                return context.getString(R.string.homeZnackeText);
+        }
+        return null;
+    }
+
+    public CharSequence getPageDescription(int position) {
+        switch (position) {
+            case 0:
+                return context.getString(R.string.homeHomeDescription);
+            case 1:
+                return context.getString(R.string.homeRezervacijeDescription);
+            case 2:
+                return context.getString(R.string.homePonudeDescription);
+            case 3:
+                return context.getString(R.string.homeChatDescription);
+            case 4:
+                return context.getString(R.string.homeProfilDescription);
+            case 5:
+                return context.getString(R.string.homeZnackeDescription);
+        }
+        return null;
     }
 
     public Object instantiateItem(ViewGroup container, int position){
@@ -81,8 +119,8 @@ public class SliderAdapter extends PagerAdapter {
         TextView slideDescription=(TextView) view.findViewById(R.id.slide_description);
 
         slideImageView.setImageResource(slide_images[position]);
-        slideHeading.setText(slide_headings[position]);
-        slideDescription.setText(slide_descriptions[position]);
+        slideHeading.setText(getPageTitle(position));
+        slideDescription.setText(getPageDescription(position));
 
         container.addView(view);
 
