@@ -7,12 +7,24 @@
     tools:context=".OnboardingActivity"
     android:background="@drawable/blue_background">
 
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="574dp">
 
     </androidx.viewpager.widget.ViewPager>
+
+    <ImageButton
+        android:id="@+id/exitOnboardingButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/ic_baseline_close_24"
+        ></ImageButton>
 
     <LinearLayout
         android:id="@+id/dotsLayout"

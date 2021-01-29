@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class OnboardingActivity extends AppCompatActivity {
 
     private TextView[] mDots;
 
+    private ImageButton exitOnboarding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +39,21 @@ public class OnboardingActivity extends AppCompatActivity {
         mSlideViewPager=binding.slideViewPager;
         mDotLayout=binding.dotsLayout;
 
-
+        exitOnboarding=binding.exitOnboardingButton;
 
         sliderAdapter=new SliderAdapter(this);
         mSlideViewPager.setAdapter(sliderAdapter);
 
         addDotsIndicator(0);
         mSlideViewPager.addOnPageChangeListener(viewListener);
+
+        exitOnboarding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
 
