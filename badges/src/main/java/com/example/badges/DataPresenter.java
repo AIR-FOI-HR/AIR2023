@@ -16,8 +16,6 @@ public interface DataPresenter {
 
     void izvrsiUpdatePonuditelja();
 
-    void prikaziNagraduKorisniku();
-
-
+    void prikaziDialogKorisniku();
 
 }

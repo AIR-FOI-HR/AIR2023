@@ -21,6 +21,7 @@ public class BadgesRepository {
     public BadgesRepository() {
         firestoreService=new FirestoreService();
     }
+
     public void DohvatiSveZnačke(BadgeCallback firestoreCallback){
         firestoreService.getCollection("Badges").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -61,7 +62,6 @@ public class BadgesRepository {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
                 firestoreCallback.onCallback(null);
             }
         });
@@ -75,5 +75,30 @@ public class BadgesRepository {
         firestoreService.updateBadgeBuyer(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
 
+    public void DodijeliZnackuKorisniku(User user, BadgesData badgesData){
+        firestoreService.updateBadgeUser(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
+    }
+
+    public void DohvatiPitanjaZaKviz(QuizCallBack quizCallBack){
+        firestoreService.getCollection("Quiz").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<QuizData> quizDataArrayList = new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    QuizData quizData = new Gson().fromJson(json,QuizData.class);
+                    quizDataArrayList.add(quizData);
+                }
+                quizCallBack.onCallback(quizDataArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                quizCallBack.onCallback(null);
+            }
+        });
+    }
 
 }

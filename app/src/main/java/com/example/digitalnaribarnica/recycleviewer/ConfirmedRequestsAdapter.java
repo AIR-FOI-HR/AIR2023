@@ -239,7 +239,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
                                         customDialogBadge.izvrsiUpdatePonuditelja();
-                                        customDialogBadge.prikaziNagraduKorisniku();
+                                        customDialogBadge.prikaziDialogKorisniku();
                                     }
                                 });
                             }
@@ -252,7 +252,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
                                         customDialogBadge.izvrsiUpdatePonuditelja();
-                                        customDialogBadge.prikaziNagraduKorisniku();
+                                        customDialogBadge.prikaziDialogKorisniku();
                                     }
                                 });
                             }
@@ -265,7 +265,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         customDialogBadge.setContexPrikazivanja(context);
                                         customDialogBadge.setData(user,badges.get(0));
                                         customDialogBadge.izvrsiUpdatePonuditelja();
-                                        customDialogBadge.prikaziNagraduKorisniku();
+                                        customDialogBadge.prikaziDialogKorisniku();
                                     }
                                 });
                             }

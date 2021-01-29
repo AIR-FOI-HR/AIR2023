@@ -88,14 +88,9 @@ public class HomeFragment extends Fragment {
 
             i sad samo u bazi set   korisnikovaPrvaPrijava=false
 
-
          }*/
-
         //Intent intent = new Intent(getActivity(), OnboardingActivity.class);
         //startActivity(intent);
-
-
-
 
         if(((RegisterActivity) getActivity()).buyer){
             statusBuyer.setVisibility(view.VISIBLE);

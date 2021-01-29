@@ -34,6 +34,7 @@
     <item
         android:id="@+id/current_language"
         android:title="@string/currentLanguage"
+        android:iconTint="@color/colorWhite"
         android:enabled="false"
         app:showAsAction="always"/>
 

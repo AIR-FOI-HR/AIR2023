@@ -35,6 +35,8 @@
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:id="@+id/downloadBadge"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorBlue"
             android:layout_height="wrap_content" />
     </FrameLayout>
 </LinearLayout>

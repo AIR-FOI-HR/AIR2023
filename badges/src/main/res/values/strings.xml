@@ -129,5 +129,12 @@
     <string name="back">Vrati se</string>
     <string name="buy">Kupac</string>
     <string name="sell">Prodavatelj</string>
+    <string name="quizTitle">Quiz</string>
+    <string name="Question">Question</string>
+    <string name="next">Next</string>
+    <string name="answer">Answer</string>
+    <string name="finishQuiz">Završi kviz</string>
+    <string name="questionNumber">Question Number</string>
+    <string name="Pitanje">\"Pitanje \"</string>
 
 </resources>

@@ -19,12 +19,6 @@ public class CustomDialogBadge implements DataPresenter{
         BadgesRepository badgesRepository=new BadgesRepository();
         User user;
         BadgesData badge;
-    /*
-    public CustomDialogBadge(Context context, String badgeUri) {
-        this.context = context;
-        this.badgeUri=badgeUri;
-    }
-    */
 
     public CustomDialogBadge() {
     }
@@ -80,7 +74,7 @@ public class CustomDialogBadge implements DataPresenter{
     }
 
     @Override
-    public void prikaziNagraduKorisniku() {
+    public void prikaziDialogKorisniku() {
         PokaziNagradu();
     }
 }

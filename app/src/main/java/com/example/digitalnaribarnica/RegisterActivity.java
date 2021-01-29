@@ -124,7 +124,8 @@ public class RegisterActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment =null;
 
-                    if(onReservation) {
+                    //Ruši kod dodjele značke
+                    /*if(onReservation) {
                         try {
                             ReservationFragment fragment = (ReservationFragment) getSupportFragmentManager().findFragmentById(fragmentId);
                             assert fragment != null;
@@ -137,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
                             assert fragment != null;
                             fragment.destroySearch();
                         }catch (Exception e){}
-                    }
+                    }*/
 
                     onReservation = false;
                     onSearch = false;

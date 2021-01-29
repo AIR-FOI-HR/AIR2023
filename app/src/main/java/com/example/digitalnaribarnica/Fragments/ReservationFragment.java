@@ -30,6 +30,9 @@ import com.example.badges.BadgeCallback;
 import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.badges.CustomDialogBadge;
+import com.example.badges.CustomDialogBadgeQuiz;
+import com.example.badges.QuizCallBack;
+import com.example.badges.QuizData;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
@@ -178,23 +181,47 @@ public class ReservationFragment extends Fragment {
                 int compareTen = purchases.compareTo(10);
                 int compareTwenty = purchases.compareTo(20);
                 int compareThirty = purchases.compareTo(30);
+                int compareFifteen = purchases.compareTo(15);
+
+                Integer sales = user.getNumberOfSales();
+                int compareFifteenSales = sales.compareTo(15);
 
                 BadgesRepository badgesRepository=new BadgesRepository();
+                Log.d("TagPolje", "ulaziZaKviz22");
+               /* if((compareFifteen > 0 || compareFifteen == 0 || compareFifteenSales > 0 || compareFifteenSales == 0)  && user.getBadgeQuizURL().equals("")) {
+                    Log.d("TagPolje", "ulaziZaKviz");
+                    badgesRepository.DohvatiZnackuPoNazivu("Majstor kviza", new BadgeCallback() {
+                        @Override
+                        public void onCallback(ArrayList<BadgesData> badges) {
+                            badgesRepository.DohvatiPitanjaZaKviz(new QuizCallBack() {
+                                @Override
+                                public void onCallback(ArrayList<QuizData> quizData) {
+
+                                    for(int i = 0; i < quizData.size(); i++){
+
+                                        CustomDialogBadgeQuiz customDialogBadgeQuiz = new CustomDialogBadgeQuiz();
+                                        customDialogBadgeQuiz.setContexPrikazivanja(getContext());
+                                        customDialogBadgeQuiz.setData(user, badges.get(0));
+                                        customDialogBadgeQuiz.setQuestion(quizData.get(i), String.valueOf(i));
+                                        //customDialogBadgeQuiz.izvrsiUpdateKupca();
+                                        customDialogBadgeQuiz.prikaziDialogKorisniku();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }*/
+
                 if(((compareTen > 0 || compareTen == 0) && compareTwenty < 0) && !user.getBadgeBuyerURL().contains("broncana"))
                 {
                     badgesRepository.DohvatiZnackuPoNazivu("Brončana značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
-                            /*
-                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
-                            CustomDialogBadge customDialogBadge= new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
-                            customDialogBadge.PokaziNagradu();
-                             */
                             CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                             customDialogBadge.setContexPrikazivanja(getContext());
                             customDialogBadge.setData(user,badges.get(0));
                             customDialogBadge.izvrsiUpdateKupca();
-                            customDialogBadge.prikaziNagraduKorisniku();
+                            customDialogBadge.prikaziDialogKorisniku();
                         }
                     });
                 }
@@ -203,16 +230,11 @@ public class ReservationFragment extends Fragment {
                     badgesRepository.DohvatiZnackuPoNazivu("Srebrna značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
-                            /*
-                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
-                            CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
-                            customDialogBadge.PokaziNagradu();
-                             */
                             CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                             customDialogBadge.setContexPrikazivanja(getContext());
                             customDialogBadge.setData(user,badges.get(0));
                             customDialogBadge.izvrsiUpdateKupca();
-                            customDialogBadge.prikaziNagraduKorisniku();
+                            customDialogBadge.prikaziDialogKorisniku();
                         }
                     });
                 }
@@ -221,16 +243,11 @@ public class ReservationFragment extends Fragment {
                     badgesRepository.DohvatiZnackuPoNazivu("Zlatna značka kupca", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
-                            /*
-                            badgesRepository.DodijeliZnackuKupcu(user,badges.get(0));
-                            CustomDialogBadge customDialogBadge=new CustomDialogBadge(getContext(), badges.get(0).getBadgeUrl());
-                            customDialogBadge.PokaziNagradu();
-                             */
                             CustomDialogBadge customDialogBadge=new CustomDialogBadge();
                             customDialogBadge.setContexPrikazivanja(getContext());
                             customDialogBadge.setData(user,badges.get(0));
                             customDialogBadge.izvrsiUpdateKupca();
-                            customDialogBadge.prikaziNagraduKorisniku();
+                            customDialogBadge.prikaziDialogKorisniku();
                         }
                     });
                 }
