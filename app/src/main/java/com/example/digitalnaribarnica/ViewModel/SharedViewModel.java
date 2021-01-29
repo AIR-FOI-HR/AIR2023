@@ -176,8 +176,12 @@ public class SharedViewModel extends ViewModel {
         repository.DodajKorisnikaUBazuBezLozinke(GoogleUserID, GoogleUserName, GoogleUserEmail, GoogleUserPhoto);
     }
 
-    public void DodajKorisnikaUBazuSaID(String userID, String imePrezime, String email, String brojMobitela, String lozinka, String photo, String adresa){
-        repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email, brojMobitela, lozinka, photo, adresa);
+    public void DodajKorisnikaUBazuSaID(String userID, String imePrezime, String email, String brojMobitela, String lozinka, String photo, String adresa, Boolean userFirstLogin){
+        repository.DodajKorisnikaUBazuSaID(userID, imePrezime, email, brojMobitela, lozinka, photo, adresa, userFirstLogin);
+    }
+
+    public void AzurirajKorisnikovuPrvuPrijavu(User user){
+        repository.UpdateKorisnikovuPrvuPrijavu(user);
     }
 
     public void AzurirajDostupneKolicinePonude(String offerID, String smallFish, String mediumFish, String largeFish, String collection){

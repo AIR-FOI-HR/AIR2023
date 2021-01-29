@@ -18,6 +18,15 @@ public class User implements Serializable {
     Integer numberOfSales = 0;
     Integer numberOfPurchases = 0;
     Boolean blokiran=false;
+    Boolean userFirstLogin;
+
+    public Boolean getUserFirstLogin() {
+        return userFirstLogin;
+    }
+
+    public void setUserFirstLogin(Boolean userFirstLogin) {
+        this.userFirstLogin = userFirstLogin;
+    }
 
     public Boolean getBlokiran() {
         return blokiran;
@@ -115,6 +124,18 @@ public class User implements Serializable {
         this.photo = photo;
         this.password = password;
         this.blokiran=blokiran;
+    }
+
+    public User(String userID, String fullName, String email, String phone, String adress, String photo, String password, Boolean blokiran, Boolean userFirstLogin) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.adress = adress;
+        this.photo = photo;
+        this.password = password;
+        this.blokiran=blokiran;
+        this.userFirstLogin=userFirstLogin;
     }
 
     public String getUserID() {

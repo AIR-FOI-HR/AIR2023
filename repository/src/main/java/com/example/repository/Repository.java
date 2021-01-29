@@ -99,12 +99,16 @@ public class Repository {
     }
 
     //dodavanje novog korisnika sa ID
-    public void DodajKorisnikaUBazuSaID(String id, String name, String email, String phone,String password,String photo,String adress){
+    public void DodajKorisnikaUBazuSaID(String id, String name, String email, String phone,String password,String photo,String adress,Boolean userfirstLogin){
         try {
-            firestoreService.writeNewUser(id,name,email,phone, SHA256.toHexString(SHA256.getSHA(password)),photo,adress,"Users");
+            firestoreService.writeNewUser(id,name,email,phone, SHA256.toHexString(SHA256.getSHA(password)),photo,adress,userfirstLogin,"Users");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    public void UpdateKorisnikovuPrvuPrijavu(User korisnik){
+        firestoreService.updateUserFirstLogin(korisnik,"Users");
     }
 
     public void DohvatiPonudePoID(String id, FirestoreOffer firestoreCallback){

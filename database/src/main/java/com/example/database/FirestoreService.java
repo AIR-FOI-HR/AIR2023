@@ -107,12 +107,18 @@ public class FirestoreService {
         return FirebaseFirestore.getInstance().collection(collection).get();
     }
 
-    public void writeNewUser(String userId, String name, String email, String phone,String password,String photo,String adress,String collection) {
-        User user = new User(userId,name,email,phone,adress,photo,password,false);
+    public void writeNewUser(String userId, String name, String email, String phone,String password,String photo,String adress,Boolean userFirstLogin, String collection) {
+        User user = new User(userId,name,email,phone,adress,photo,password,false,userFirstLogin);
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();
         //FirebaseFirestore.getInstance().collection(collection).add(user);
         FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
     }
+
+    public void updateUserFirstLogin(User trenutniKorisnik,String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(trenutniKorisnik.userID).update(
+                "userFirstLogin",false);
+    }
+
     public void writeNewUserWithoutID(String name, String email, String phone,String password,String photo,String adress,String collection) {
 
         //FirebaseDatabase.getInstance().getReference().child(collection).child(user.userID).setValue(user).isSuccessful();

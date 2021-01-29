@@ -28,12 +28,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.database.User;
 import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.OnboardingActivity;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.databinding.FragmentHomeBinding;
 import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
 import com.example.repository.Data.OffersData;
@@ -53,7 +57,8 @@ public class HomeFragment extends Fragment {
     private ImageView statusSeller;
     private TextView textBuyer;
     private TextView textSeller;
-
+    private SharedViewModel sharedViewModel;
+    private Boolean userFirstLogin;
 
     public HomeFragment(String userId) {
         this.userId = userId;
@@ -79,6 +84,20 @@ public class HomeFragment extends Fragment {
 
         textBuyer = binding.textbuyer;
         textSeller = binding.textseller;
+
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel.DohvatiKorisnikaPoID(userId);
+        sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                userFirstLogin = user.getUserFirstLogin();
+                if (userFirstLogin) {
+                    Intent intent = new Intent(getActivity(), OnboardingActivity.class);
+                    startActivity(intent);
+                    sharedViewModel.AzurirajKorisnikovuPrvuPrijavu(user);
+                }
+            }
+        });
 
 
         /*if(korisnikovaPrvaPrijava==true){

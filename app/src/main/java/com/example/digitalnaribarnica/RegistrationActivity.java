@@ -354,7 +354,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 repository = new Repository();
 
                                 sharedViewModel.DodajKorisnikaUBazuSaID(userID, imePrezime, email.getText().toString(), brojMobitela.getText().toString(),
-                                        lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Fuser_image.jpg?alt=media&token=e30a1426-9be2-40d8-8e5a-b5e4c43337e7", adresa.getText().toString());
+                                        lozinka.getText().toString(), "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/default_profilna%2Fuser_image.jpg?alt=media&token=e30a1426-9be2-40d8-8e5a-b5e4c43337e7", adresa.getText().toString(),true);
                                 startActivity(new Intent(RegistrationActivity.this, EmailVerificationActivity.class));
                             }
                             else {
