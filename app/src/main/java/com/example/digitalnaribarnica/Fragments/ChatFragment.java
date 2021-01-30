@@ -80,24 +80,28 @@ public class ChatFragment extends Fragment {
                         @Override
                         public void onCallback(User user) {
                             Log.d("CONTACTS",user.getFullName());
-                            chatDataTest.add( new ChatData(user.getUserID(),user.getFullName(),"KURAC",user.getPhoto(),"10.4.2029"));
+                            chatDataTest.add( new ChatData(user.getUserID(),user.getFullName(),"Zadnja poruka",user.getPhoto(),"10.4.2029"));
+                            ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
+                            adapterChat.setChatMessages(chatDataTest);
+                            adapterChat.notifyDataSetChanged();
+                            recyclerView.setAdapter(adapterChat);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         }
 
                     });
                 }
-                ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
-                adapterChat.setChatMessages(chatDataTest);
-                adapterChat.notifyDataSetChanged();
-                recyclerView.setAdapter(adapterChat);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
             }
         });
 
+        /*chatDataTest.add(new ChatData("adjhak", "Neko ime", "Seen", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2F113865007966208087640.png?alt=media&token=083f1696-2b91-4247-a6c2-b1f974215874","2021-01-30 12:13:14"));
+        chatDataTest.add(new ChatData("adjhak", "Neko ime 2", "Bla bla", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2FXgsooqJxFjhuu2czKHmNccML6lA2.png?alt=media&token=d119f01d-e230-4b44-9b0c-aa78040dc369","2021-01-30 10:02:14"));*/
 
-        /*
-        chatDataTest.add(new ChatData("adjhak", "Neko ime", "Seen", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2F113865007966208087640.png?alt=media&token=083f1696-2b91-4247-a6c2-b1f974215874","2021-01-30 12:13:14"));
-        chatDataTest.add(new ChatData("adjhak", "Neko ime 2", "Bla bla", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2FXgsooqJxFjhuu2czKHmNccML6lA2.png?alt=media&token=d119f01d-e230-4b44-9b0c-aa78040dc369","2021-01-30 10:02:14"));
-        */
+
+
+
+
+
 
 
 
