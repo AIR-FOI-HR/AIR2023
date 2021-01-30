@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.Fragments.ChatFragment;
+import com.example.digitalnaribarnica.Fragments.ConversationFragment;
+import com.example.digitalnaribarnica.Fragments.OfferDetailFragment;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Data.ChatData;
 import com.example.repository.Data.OffersData;
@@ -76,16 +78,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
         String idSugovornika = chatMessages.get(position).getIdKorisnika();
 
-        /*cardView.setOnClickListener(new View.OnClickListener() {
+        cardView.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
             @Override
             public void onClick(View v) {
-                searchFragment.destroySearch();
-                selectedFragment = new OfferDetailFragment(offers.get(holder.getAdapterPosition()).getOfferID(), userID, searchFragment.getLastVisited());
+                //searchFragment.destroySearch();
+                selectedFragment = new ConversationFragment(userID, "kSfbtBmWjtMv65jL4mFcZUlDzho1");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
-        });*/
+        });
     }
 
     @Override
