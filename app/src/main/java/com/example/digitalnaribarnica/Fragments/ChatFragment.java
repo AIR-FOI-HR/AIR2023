@@ -5,33 +5,75 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.R;
+import com.example.digitalnaribarnica.RegisterActivity;
+import com.example.digitalnaribarnica.databinding.FragmentChatBinding;
+import com.example.digitalnaribarnica.databinding.FragmentSearchBinding;
+import com.example.digitalnaribarnica.recycleviewer.ChatAdapter;
+import com.example.digitalnaribarnica.recycleviewer.OfferAdapter;
+import com.example.repository.Data.ChatData;
+import com.example.repository.Data.OffersData;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChatFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String userId = "";
+    public String chatImage;
+    public String contactName;
+    public String chatZadnjaPoruka;
+    public String chatLastMessageDate;
 
+    private ArrayList<ChatData> chatMessagesGeneral =new ArrayList<>();
 
+    FragmentChatBinding binding;
+    RecyclerView recyclerView;
 
-
-
+    public ChatFragment(String userId) {
+        this.userId = userId;
+    }
 
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentChatBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
-        return inflater.inflate(R.layout.fragment_chat,container,false);
+
+        recyclerView = binding.recyclerViewChat;
+
+        ((RegisterActivity) getActivity()).fragmentId = this.getId();
+
+        ArrayList<ChatData> chatDataTest = new ArrayList<>();
+        chatDataTest.add(new ChatData("adjhak", "Neko ime", "Seen", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2F113865007966208087640.png?alt=media&token=083f1696-2b91-4247-a6c2-b1f974215874","2021-01-30 12:13:14"));
+        chatDataTest.add(new ChatData("adjhak", "Neko ime 2", "Bla bla", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2FXgsooqJxFjhuu2czKHmNccML6lA2.png?alt=media&token=d119f01d-e230-4b44-9b0c-aa78040dc369","2021-01-30 10:02:14"));
+
+        ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, this);
+        adapterChat.setChatMessages(chatDataTest);
+        adapterChat.notifyDataSetChanged();
+        recyclerView.setAdapter(adapterChat);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        return view;
     }
-
-
 }

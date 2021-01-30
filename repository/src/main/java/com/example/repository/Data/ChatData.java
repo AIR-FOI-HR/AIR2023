@@ -9,9 +9,9 @@ public class ChatData {
     private String name;
     private String lastMessage;
     private String imageurl;
-    private Timestamp date;
+    private String date;
 
-    public ChatData(String idKorisnika, String name, String lastMessage, String imageurl, Timestamp date) {
+    public ChatData(String idKorisnika, String name, String lastMessage, String imageurl, String date) {
         this.idKorisnika = idKorisnika;
         this.name = name;
         this.lastMessage = lastMessage;
@@ -51,11 +51,11 @@ public class ChatData {
         this.imageurl = imageurl;
     }
 
-    public Timestamp getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
