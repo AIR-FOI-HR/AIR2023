@@ -242,10 +242,13 @@
     <string name="homeZnackeText">Badges</string>
 
     <string name="homeHomeDescription">There are two main roles in the application; Buyer and Seller. When choosing one role, the application functionalities change.</string>
-    <string name="homeRezervacijeDescription">As a Buyer, all your current reservations are shown and purchase history. As a Seller, all your unconfirmed and confirmed requests are shown.</string>
+    <string name="homeRezervacijeDescription">As a Buyer, all your current reservations and your purchase history are shown. As a Seller, all your unconfirmed and confirmed requests are shown.</string>
     <string name="homePonudeDescription">You can search, filter and sort offers. Selecting an offer opens up the details and the possibility for reservation. As a Seller, you can search through your offers and create new ones.</string>
     <string name="homeChatDescription">Talk with other users and make new sales.</string>
     <string name="homeProfilDescription">Check and edit your profile information and view your ratings.</string>
     <string name="homeZnackeDescription">Loyal users are rewarded with badges which can be earned by selling, buying, and solving quizzes.</string>
 
+    <string name="contact_name">Contact name</string>
+    <string name="chatPoruka">Last message</string>
+    <string name="chatLastMessageDate">Last message date</string>
 </resources>

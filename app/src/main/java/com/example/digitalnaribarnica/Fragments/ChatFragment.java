@@ -10,10 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.digitalnaribarnica.R;
 
 public class ChatFragment extends Fragment {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
+
+
+
+
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
@@ -22,4 +32,6 @@ public class ChatFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setShowHideAnimationEnabled(false);
         return inflater.inflate(R.layout.fragment_chat,container,false);
     }
+
+
 }
