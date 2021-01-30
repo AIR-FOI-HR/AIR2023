@@ -21,6 +21,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -131,6 +132,16 @@ public class FirestoreService {
         //FirebaseFirestore.getInstance().collection(collection).document(user.userID).set(user);
         User user = new User(id,name,email,phone,adress,photo,password,false);
         FirebaseFirestore.getInstance().collection(collection).document(id).set(user);
+    }
+
+    public void addCollectionToDocument(String collection,String userId){
+        Contacts contact=new Contacts(userId);
+        FirebaseFirestore.getInstance().collection(collection).document(userId).collection("kontakti").document(userId).set(contact);
+    }
+
+    public void addUserToContacts(String collection,String userCurrentlyID, String newUserID){
+        Contacts contact=new Contacts(newUserID);
+        FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).set(contact);
     }
 
     public void writeReview(Review review, String collection) {

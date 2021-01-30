@@ -92,6 +92,14 @@ public class Repository {
         });
     }
 
+    public void DodajImenikKorisnik(String collection,String userId){
+        firestoreService.addCollectionToDocument(collection,userId);
+    }
+
+    public void DodatiKorisnikaUImenik(String collection,String userCurrentlyID, String newUserID){
+        firestoreService.addUserToContacts(collection,userCurrentlyID,newUserID);
+    }
+
     public void DohvatiImenikPoID(String userID, ContactsCallback contactsCallback){
         firestoreService.getCollectionWithCollection("Contacts",userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

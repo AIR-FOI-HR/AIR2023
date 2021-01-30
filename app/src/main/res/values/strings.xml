@@ -251,4 +251,6 @@
     <string name="chatPoruka">Zadnja poruka</string>
     <string name="chatLastMessageDate">Datum zadnje poruke</string>
 
+
+    <string name="chatFragment">Razgovori</string>
 </resources>

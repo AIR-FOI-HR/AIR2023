@@ -251,4 +251,7 @@
     <string name="contact_name">Contact name</string>
     <string name="chatPoruka">Last message</string>
     <string name="chatLastMessageDate">Last message date</string>
+
+    <string name="onboardingHelp">Help</string>
+    <string name="chatFragment">Chat</string>
 </resources>
