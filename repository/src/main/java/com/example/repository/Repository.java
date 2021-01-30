@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.database.Contacts;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
@@ -16,6 +17,7 @@ import com.example.database.Utils.SHA256;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
 
+import com.example.repository.Listener.ContactsCallback;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.repository.Listener.FishCallback;
@@ -86,6 +88,23 @@ public class Repository {
             public void onFailure(@NonNull Exception e) {
                 //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
                 firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
+    public void DohvatiImenikPoID(String userID, ContactsCallback contactsCallback){
+        firestoreService.getCollectionWithCollection("Contacts",userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                ArrayList<Contacts> contacts=new ArrayList<>();
+                for(DocumentSnapshot d: objekti){
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    Contacts contact= new Gson().fromJson(json, Contacts.class);
+                    contacts.add(contact);
+                }
+                contactsCallback.onCallback(contacts);
             }
         });
     }

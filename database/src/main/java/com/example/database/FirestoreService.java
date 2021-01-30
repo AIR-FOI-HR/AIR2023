@@ -101,6 +101,10 @@ public class FirestoreService {
         return FirebaseFirestore.getInstance().collection(collection).whereEqualTo(field, value).get();
     }
 
+    public Task<QuerySnapshot> getCollectionWithCollection(String collection,String userId){
+        //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
+        return FirebaseFirestore.getInstance().collection(collection).document(userId).collection("kontakti").get();
+    }
 
     public Task<QuerySnapshot> getCollection(String collection){
         //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
