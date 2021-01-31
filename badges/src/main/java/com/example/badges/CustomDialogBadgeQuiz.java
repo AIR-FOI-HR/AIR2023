@@ -34,6 +34,7 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
     RadioButton radioButtonAnswer1;
     RadioButton radioButtonAnswer2;
     RadioButton radioButtonAnswer3;
+    Boolean firstTime = true;
 
     public CustomDialogBadgeQuiz(){};
 
@@ -54,44 +55,61 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
         Button finishQuiz = (Button)MyDialog.findViewById(R.id.finish_quiz);
         Button endQuiz = (Button)MyDialog.findViewById(R.id.end_Quiz);
 
-        if(!quizDataArrayList.get(questionNumberInteger).getPicture().equals("")){
-            image.setVisibility(View.VISIBLE);
+        if(!firstTime) {
+            if (!quizDataArrayList.get(questionNumberInteger).getPicture().equals("")) {
+                image.setVisibility(View.VISIBLE);
 
-            Glide.with(context)
-                    .asBitmap()
-                    .load(quizDataArrayList.get(questionNumberInteger).getPicture())
-                    .into(image);
-        }
-        else{
-            image.setVisibility(View.GONE);
-        }
-
-        if(questionNumberInteger < quizDataArrayList.size()) {
-
-            if (!Locale.getDefault().getDisplayLanguage().equals("English")) {
-                questionNumber.setText("Pitanje " + (questionNumberInteger+1));
-                question.setText(quizDataArrayList.get(questionNumberInteger).getQuestion());
-
-                radioButtonAnswer1.setText(quizDataArrayList.get(questionNumberInteger).getAnswer1());
-                radioButtonAnswer2.setText(quizDataArrayList.get(questionNumberInteger).getAnswer2());
-                radioButtonAnswer3.setText(quizDataArrayList.get(questionNumberInteger).getAnswer3());
-                nextQuestion.setText("DALJE");
-                finishQuiz.setText("ZAVRŠI");
+                Glide.with(context)
+                        .asBitmap()
+                        .load(quizDataArrayList.get(questionNumberInteger).getPicture())
+                        .into(image);
             } else {
-                questionNumber.setText("Question " + (questionNumberInteger+1));
-                question.setText(quizDataArrayList.get(questionNumberInteger).getQuestioneng());
-
-                radioButtonAnswer1.setText(quizDataArrayList.get(questionNumberInteger).getAnswer1eng());
-                radioButtonAnswer2.setText(quizDataArrayList.get(questionNumberInteger).getAnswer2eng());
-                radioButtonAnswer3.setText(quizDataArrayList.get(questionNumberInteger).getAnswer3eng());
-                nextQuestion.setText("NEXT");
-                finishQuiz.setText("FINISH");
+                image.setVisibility(View.GONE);
             }
 
-            if(questionNumberInteger == (quizDataArrayList.size()-1)){
-                finishQuiz.setVisibility(View.VISIBLE);
-                nextQuestion.setVisibility(View.INVISIBLE);
+            if (questionNumberInteger < quizDataArrayList.size()) {
+
+                if (!Locale.getDefault().getDisplayLanguage().equals("English")) {
+                    questionNumber.setText(context.getString(R.string.questionNumber) + " " + (questionNumberInteger + 1));
+                    question.setText(quizDataArrayList.get(questionNumberInteger).getQuestion());
+
+                    radioButtonAnswer1.setText(quizDataArrayList.get(questionNumberInteger).getAnswer1());
+                    radioButtonAnswer2.setText(quizDataArrayList.get(questionNumberInteger).getAnswer2());
+                    radioButtonAnswer3.setText(quizDataArrayList.get(questionNumberInteger).getAnswer3());
+                    nextQuestion.setText(R.string.dalje);
+                    finishQuiz.setText(R.string.zavrsi);
+                } else {
+                    questionNumber.setText(context.getString(R.string.questionNumber) + " " + (questionNumberInteger + 1));
+                    question.setText(quizDataArrayList.get(questionNumberInteger).getQuestioneng());
+
+                    radioButtonAnswer1.setText(quizDataArrayList.get(questionNumberInteger).getAnswer1eng());
+                    radioButtonAnswer2.setText(quizDataArrayList.get(questionNumberInteger).getAnswer2eng());
+                    radioButtonAnswer3.setText(quizDataArrayList.get(questionNumberInteger).getAnswer3eng());
+                    nextQuestion.setText(R.string.dalje);
+                    finishQuiz.setText(R.string.zavrsi);
+                }
+
+                if (questionNumberInteger == (quizDataArrayList.size() - 1)) {
+                    finishQuiz.setVisibility(View.VISIBLE);
+                    nextQuestion.setVisibility(View.INVISIBLE);
+                }
             }
+        }else{
+            image.setVisibility(View.GONE);
+            radioButtonAnswer1.setVisibility(View.GONE);
+            radioButtonAnswer2.setVisibility(View.GONE);
+            radioButtonAnswer3.setVisibility(View.GONE);
+
+            questionNumber.setVisibility(View.GONE);
+
+            String intro = context.getString(R.string.welcomeQuiz);
+
+            question.setText(intro);
+            nextQuestion.setVisibility(View.INVISIBLE);
+
+            finishQuiz.setVisibility(View.GONE);
+            endQuiz.setVisibility(View.VISIBLE);
+            endQuiz.setText(context.getString(R.string.start));
         }
 
         nextQuestion.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +134,15 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
                     radioButtonAnswer3.setVisibility(View.GONE);
 
                     questionNumber.setVisibility(View.GONE);
-                    String correctAnswersText = "Broj točnih odgovora: " + correctAnswers;
+
+                    String correctAnswersText ="";
+                    if(correctAnswers == quizDataArrayList.size()) {
+                        correctAnswersText = context.getString(R.string.finishedQuizText1) + " " + correctAnswers + "/" + quizDataArrayList.size() + " " +  context.getString(R.string.finishedQuizText2);
+                    }
+                    else {
+                        correctAnswersText = context.getString(R.string.finishedQuizText1) + " " +  correctAnswers + "/" + quizDataArrayList.size() + " " +  context.getString(R.string.finishedQuizText3);
+                    }
+
                     question.setText(correctAnswersText);
                     nextQuestion.setVisibility(View.INVISIBLE);
 
@@ -130,15 +156,26 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
         endQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(correctAnswers.equals(quizDataArrayList.size())){
-                    izvrsiUpdateKupca();
-                    CustomDialogBadge customDialogBadge = new CustomDialogBadge();
-                    customDialogBadge.setContexPrikazivanja(context);
-                    customDialogBadge.setData(user, badge);
-                    customDialogBadge.prikaziDialogKorisniku();
-                }
-                else{
-                    izvrsiUpdatePonuditelja();
+                if(endQuiz.getText().equals(context.getString(R.string.start))){
+                    radioButtonAnswer1.setVisibility(View.VISIBLE);
+                    radioButtonAnswer2.setVisibility(View.VISIBLE);
+                    radioButtonAnswer3.setVisibility(View.VISIBLE);
+                    questionNumber.setVisibility(View.VISIBLE);
+                    nextQuestion.setVisibility(View.VISIBLE);
+                    endQuiz.setText(R.string.finish);
+                    endQuiz.setVisibility(View.INVISIBLE);
+                    firstTime = false;
+                    prikaziDialog();
+                }else {
+                    if (correctAnswers.equals(quizDataArrayList.size())) {
+                        izvrsiUpdateKupca();
+                        CustomDialogBadge customDialogBadge = new CustomDialogBadge();
+                        customDialogBadge.setContexPrikazivanja(context);
+                        customDialogBadge.setData(user, badge);
+                        customDialogBadge.prikaziDialogKorisniku();
+                    } else {
+                        izvrsiUpdatePonuditelja();
+                    }
                 }
                 MyDialog.dismiss();
             }

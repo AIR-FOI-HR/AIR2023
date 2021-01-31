@@ -43,18 +43,11 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     FragmentPersonBinding binding;
-    private Button showRatingFragment;
-    private String ime="";
-    private String id="";
-    private String photo="";
-    private String email="";
     private String adress="";
     private String phone="";
     private ImageView edit;
     private String userID="";
     private ImageView badges;
-    private ImageView buyerBadge;
-    private ImageView sellerBadge;
     private ImageView btnGoBack;
     private RatingBar ratingBar;
     private TextView showRatings;
@@ -107,8 +100,6 @@ public class ProfileFragment extends Fragment {
 
         edit = binding.btnUrediProfil;
         badges = binding.btnBadges;
-        buyerBadge = binding.badgeBuyer;
-        sellerBadge = binding.badgeSeller;
         ratingBar = binding.ratingBar;
         showRatings = binding.showRatings;
         btnGoBack = binding.btnBack;
@@ -153,6 +144,13 @@ public class ProfileFragment extends Fragment {
                             .asBitmap()
                             .load(user.getBadgeSellerURL())
                             .into(binding.badgeSeller);
+                }
+
+                if(!user.getBadgeQuizURL().equals("")){
+                    Glide.with(getActivity())
+                            .asBitmap()
+                            .load(user.getBadgeQuizURL())
+                            .into(binding.badgeQuiz);
                 }
             }
         });

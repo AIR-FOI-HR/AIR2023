@@ -21,14 +21,14 @@
             android:layout_height="35dp"
             android:src="@drawable/ic_baseline_arrow_back_24"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:visibility="gone"
             android:contentDescription="@string/back"/>
 
  <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
      android:layout_margin="20dp">
 
 
@@ -40,8 +40,7 @@
          android:layout_height="35dp"
          android:src="@drawable/ic_baseline_badges"
          android:background="?android:attr/selectableItemBackground"
-         android:layout_alignParentEnd="true"
-         android:layout_marginRight="18dp"
+         android:layout_marginEnd="18dp"
          android:contentDescription="@string/badge"/>
 
     <ImageView
@@ -52,8 +51,7 @@
         android:layout_height="35dp"
         android:src="@drawable/edit_icon"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
         android:contentDescription="@string/Odjava"/>
 
         <ImageView
@@ -64,9 +62,7 @@
         android:layout_height="34dp"
         android:src="@drawable/logout_icon"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_alignParentEnd="true"
-        android:contentDescription="@string/urediProfil"
-        android:layout_toRightOf="@id/btnUrediProfil"/>
+        android:contentDescription="@string/urediProfil" />
 
 </LinearLayout>
 
@@ -108,20 +104,33 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_toEndOf="@id/cardViewImage"
-            android:id="@+id/badge_seller"
-            android:contentDescription="@string/badge" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toEndOf="@id/badge_seller"
-            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@id/cardViewImage"
+            android:id="@+id/badge_quiz"
+            android:layout_marginStart="-40dp"
+            android:contentDescription="@string/badge"
+            android:elevation="5dp"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/badge_quiz"
+            android:layout_marginStart="-16dp"
             android:id="@+id/badge_buyer"
-            android:contentDescription="@string/badge" />
+            android:contentDescription="@string/badge"
+            android:elevation="10dp"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/badge_buyer"
+            android:layout_marginStart="-16dp"
+            android:id="@+id/badge_seller"
+            android:contentDescription="@string/badge"
+            android:elevation="15dp"/>
 
     </RelativeLayout>
 

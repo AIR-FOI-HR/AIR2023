@@ -30,8 +30,6 @@ public class CustomDialogBadge implements DataPresenter{
         MyDialog.setContentView(R.layout.customdialog);
         ImageView image=(ImageView)MyDialog.findViewById(R.id.BadgeImage);
 
-        Log.d("Badges","Nest "+badgeUri.toString());
-
         Glide.with(context)
                 .asBitmap()
                 .load(badgeUri)
