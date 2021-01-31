@@ -254,4 +254,5 @@
 
     <string name="onboardingHelp">Help</string>
     <string name="chatFragment">Chat</string>
+    <string name="hintMessage">Type a message...</string>
 </resources>

@@ -13,5 +13,16 @@
         android:padding="10dp">
 
     </TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/messageDateLeft"
+        android:text="1.1.2011."
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:textSize="12sp"
+        android:layout_below="@+id/show_message">
+
+    </TextView>
 
 </RelativeLayout>

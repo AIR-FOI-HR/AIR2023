@@ -253,4 +253,5 @@
 
 
     <string name="chatFragment">Razgovori</string>
+    <string name="hintMessage">Napišite poruku...</string>
 </resources>
