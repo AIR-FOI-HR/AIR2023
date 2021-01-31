@@ -75,8 +75,8 @@ public class BadgesRepository {
         firestoreService.updateBadgeBuyer(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
 
-    public void DodijeliZnackuKorisniku(User user, BadgesData badgesData){
-        firestoreService.updateBadgeUser(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
+    public void DodijeliZnackuKorisniku(User user, String badgesData){
+        firestoreService.updateBadgeUser(user.getUserID(), Uri.parse(badgesData),"Users");
     }
 
     public void DohvatiPitanjaZaKviz(QuizCallBack quizCallBack){

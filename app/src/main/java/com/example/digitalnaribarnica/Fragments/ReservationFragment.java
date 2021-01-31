@@ -187,9 +187,7 @@ public class ReservationFragment extends Fragment {
                 int compareFifteenSales = sales.compareTo(15);
 
                 BadgesRepository badgesRepository=new BadgesRepository();
-                Log.d("TagPolje", "ulaziZaKviz22");
-               /* if((compareFifteen > 0 || compareFifteen == 0 || compareFifteenSales > 0 || compareFifteenSales == 0)  && user.getBadgeQuizURL().equals("")) {
-                    Log.d("TagPolje", "ulaziZaKviz");
+                if((compareFifteen > 0 || compareFifteen == 0 || compareFifteenSales > 0 || compareFifteenSales == 0) && user.getBadgeQuizURL().equals("")) {
                     badgesRepository.DohvatiZnackuPoNazivu("Majstor kviza", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
@@ -197,20 +195,16 @@ public class ReservationFragment extends Fragment {
                                 @Override
                                 public void onCallback(ArrayList<QuizData> quizData) {
 
-                                    for(int i = 0; i < quizData.size(); i++){
-
                                         CustomDialogBadgeQuiz customDialogBadgeQuiz = new CustomDialogBadgeQuiz();
                                         customDialogBadgeQuiz.setContexPrikazivanja(getContext());
                                         customDialogBadgeQuiz.setData(user, badges.get(0));
-                                        customDialogBadgeQuiz.setQuestion(quizData.get(i), String.valueOf(i));
-                                        //customDialogBadgeQuiz.izvrsiUpdateKupca();
+                                        customDialogBadgeQuiz.setQuestions(quizData);
                                         customDialogBadgeQuiz.prikaziDialogKorisniku();
-                                    }
                                 }
                             });
                         }
                     });
-                }*/
+                }
 
                 if(((compareTen > 0 || compareTen == 0) && compareTwenty < 0) && !user.getBadgeBuyerURL().contains("broncana"))
                 {

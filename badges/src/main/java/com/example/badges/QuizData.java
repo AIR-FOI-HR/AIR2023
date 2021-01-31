@@ -11,6 +11,15 @@ public class QuizData {
     private String answer3eng;
     private String correctAnswer;
     private String correctAnswereng;
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public String getQuestion() {
         return question;

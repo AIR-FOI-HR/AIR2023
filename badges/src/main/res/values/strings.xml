@@ -136,5 +136,7 @@
     <string name="finishQuiz">Završi kviz</string>
     <string name="questionNumber">Question Number</string>
     <string name="Pitanje">\"Pitanje \"</string>
+    <string name="chooseAnswer">Odaberite odgovor</string>
+    <string name="finish">Završi</string>
 
 </resources>
