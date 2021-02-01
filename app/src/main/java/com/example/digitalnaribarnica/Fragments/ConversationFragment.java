@@ -22,15 +22,21 @@ import com.bumptech.glide.Glide;
 import com.example.database.Messages;
 
 import com.example.database.User;
+import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.R;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.databinding.FragmentConversationBinding;
 import com.example.digitalnaribarnica.recycleviewer.MessageAdapter;
+import com.example.repository.Data.OffersData;
 import com.example.repository.Listener.MessageCallback;
 import com.example.repository.Repository;
 import com.google.firebase.Timestamp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -127,16 +133,13 @@ public class ConversationFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
 
-        //čitanje poruka
-        readMessages(currentUserId);
-
         ArrayList<Messages> messagesTest = new ArrayList<>();
 
         Repository repository=new Repository();
         repository.DohvatiBrojPorukaKorisnika("Contacts", currentUserId, otherUserId, Long.valueOf(30), new MessageCallback() {
             @Override
-            public void onCallback(ArrayList<Messages> Messages) {
-                for(Messages poruka:Messages){
+            public void onCallback(ArrayList<Messages> messages) {
+                for(Messages poruka: messages){
                     //Log.d("PORUKA",poruka.getMessage());
                     //Log.d("PORUKA",poruka.getSender());
                     if(poruka.getSender().equals(currentUserId))
@@ -144,6 +147,7 @@ public class ConversationFragment extends Fragment {
                     else
                         messagesTest.add(new Messages(otherUserId, poruka.getMessage(), poruka.getDatetimeMessage()));
 
+                    sortMessages(messagesTest);
                     messageAdapter = new MessageAdapter(getActivity(), messagesTest, currentUserId);
                     messageAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(messageAdapter);
@@ -151,6 +155,8 @@ public class ConversationFragment extends Fragment {
                 }
             }
         });
+
+        sortMessages(messagesTest);
 
         messageAdapter = new MessageAdapter(getActivity(), messagesTest, currentUserId);
         Log.d("datumm", Timestamp.now().toString());
@@ -163,17 +169,17 @@ public class ConversationFragment extends Fragment {
                 String msg = text_send.getText().toString();
                 if(!msg.equals("")) {
                     messagesTest.add(new Messages(currentUserId, msg, Timestamp.now()));
+                    sortMessages(messagesTest);
                     messageAdapter.notifyDataSetChanged();
                     text_send.setText("");
-                    recyclerView.smoothScrollToPosition(recyclerView.getBottom());
-                    //slanje poruke na firestore
-                    sendMessage(currentUserId, msg);
+
                     Timestamp vrijeme_slanja =Timestamp.now();
                     repository.DodatiKorisnikaUImenik("Contacts",currentUserId,otherUserId);
                     repository.DodatiKorisnikaUImenik("Contacts",otherUserId,currentUserId);
 
                     repository.DodajPorukuKorisnik("Contacts",currentUserId,otherUserId,currentUserId,msg,vrijeme_slanja);
                     repository.DodajPorukuKorisnik("Contacts",otherUserId,currentUserId,currentUserId,msg,vrijeme_slanja);
+                    recyclerView.smoothScrollToPosition(recyclerView.getBottom());
                 }
             }
         });
@@ -185,19 +191,15 @@ public class ConversationFragment extends Fragment {
         return view;
     }
 
-    private void sendMessage(String sender, String message){
-        //ovdje pozvat funkciju za slanje poruke preko repositoryja
+    public ArrayList<Messages> sortMessages(ArrayList<Messages> messages) {
+        Collections.sort(messages, new Comparator<Messages>() {
+            @Override
+            public int compare(Messages m1, Messages m2) {
+                return m1.getDatetimeMessage().compareTo(m2.getDatetimeMessage());
+            }
+        });
 
-        /*ArrayList<Messages> messagesTest = new ArrayList<>();
-        messagesTest.add(new Messages(sender, receiver,message));*/
-    }
-
-    private void readMessages(String currentUserId) {
-        //ovdje pozvat funkciju za dohvaćanje poruka preko repositoryja i spremit u messagesList i stavit u messageAdapter (part 8)
-        /*messagesList.add(new Messages(currentUserId, poruka));
-          messageAdapter = new MessageAdapter(getActivity(), messagesList, currentUserId); ili getContext()
-          messageAdapter.notifyDataSetChanged();
-          recyclerView.setAdapter(messageAdapter);*/
+        return messages;
     }
 
 }
