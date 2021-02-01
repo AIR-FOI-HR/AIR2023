@@ -157,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment(personId);
                             break;
                         case R.id.nav_chat:
-                            selectedFragment = new ChatFragment();
+                            selectedFragment = new ChatFragment(personId);
                             break;
                         case R.id.nav_person:
                             selectedFragment = new ProfileFragment(personId, mGoogleSignInClient, mUser, mAuth);

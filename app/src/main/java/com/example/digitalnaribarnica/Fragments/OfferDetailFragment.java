@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -78,11 +77,9 @@ public class OfferDetailFragment extends Fragment {
     private TextView totalPrice;
     private TextView location;
     private TextView fish;
-    private LinearLayout linearSmallFish;
-    private LinearLayout linearMediumFish;
-    private LinearLayout linearLargeFish;
-    private View divider1;
-    private View divider2;
+    private TextView contactSeller;
+    private ImageView chatIconOfferDetail;
+
     private String priceWithoutKn;
     private String offerID;
     private String userID = "";
@@ -92,8 +89,6 @@ public class OfferDetailFragment extends Fragment {
     private RatingBar rating;
 
     private SharedViewModel sharedViewModel;
-
-    public OfferDetailFragment(){}
 
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
@@ -136,6 +131,9 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
 
+        contactSeller = binding.contactSeller;
+        chatIconOfferDetail = binding.chat;
+
 
         smallQuantity.setText("0");
         mediumQuantity.setText("0");
@@ -144,13 +142,6 @@ public class OfferDetailFragment extends Fragment {
         availableSmall = binding.availableSmall;
         availableMedium = binding.availableMedium;
         availableLarge = binding.availableLarge;
-
-        linearSmallFish = binding.linearSmallFish;
-        linearMediumFish = binding.linearMediumFish;
-        linearLargeFish = binding.linearLargeFish;
-
-        divider1 = binding.divider1;
-        divider2 = binding.divider2;
 
         smallQuantity.setFilters(new InputFilter[] { filterDecimals });
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
@@ -183,28 +174,6 @@ public class OfferDetailFragment extends Fragment {
                 availableSmall.setText(offersData.get(0).getSmallFish());
                 availableMedium.setText(offersData.get(0).getMediumFish());
                 availableLarge.setText(offersData.get(0).getLargeFish());
-
-                if (availableSmall.getText().toString().equals("0")) {
-                    linearSmallFish.setVisibility(View.GONE);
-                }
-
-                if (availableMedium.getText().toString().equals("0")) {
-                    linearMediumFish.setVisibility(View.GONE);
-                }
-
-                if (availableLarge.getText().toString().equals("0")) {
-                    linearLargeFish.setVisibility(View.GONE);
-                }
-
-                if(!availableMedium.getText().toString().equals("0") && !availableSmall.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0")){
-                    divider1.setVisibility(View.VISIBLE);
-                    divider2.setVisibility(View.VISIBLE);
-                }else if(!availableMedium.getText().toString().equals("0") && !availableSmall.getText().toString().equals("0")){
-                    divider1.setVisibility(View.VISIBLE);
-                }else if((!availableMedium.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0")) || (!availableSmall.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0"))){
-                    divider2.setVisibility(View.VISIBLE);
-                }
-
                 Calendar calendar = DateParse.dateToCalendar(offersData.get(0).getDate().toDate());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
                 date.setText(dateFormat.format(calendar.getTime()));
@@ -222,6 +191,8 @@ public class OfferDetailFragment extends Fragment {
                     btnReserve.setVisibility(view.INVISIBLE);
                 } else if (userID.equals(sellerID)){
                     btnReserve.setVisibility(view.INVISIBLE);
+                    contactSeller.setVisibility(TextView.INVISIBLE);
+                    chatIconOfferDetail.setVisibility(ImageView.INVISIBLE);
                 }
 
                 String userID = offersData.get(0).getIdKorisnika();
@@ -493,6 +464,18 @@ public class OfferDetailFragment extends Fragment {
         }
             updateTotal();
     });
+
+
+        contactSeller.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new ConversationFragment(sellerID, userID, "Details", offerID);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
 
         btnReserve.setOnClickListener(v -> {
             smallQuantity.clearFocus();

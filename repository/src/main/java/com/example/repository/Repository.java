@@ -5,9 +5,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.database.Contacts;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.Location;
+import com.example.database.Messages;
 import com.example.database.Offer;
 import com.example.database.Review;
 import com.example.database.Rezervation;
@@ -16,10 +18,12 @@ import com.example.database.Utils.SHA256;
 import com.example.repository.Data.OffersData;
 import com.example.repository.Data.ReservationsData;
 
+import com.example.repository.Listener.ContactsCallback;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.repository.Listener.FishCallback;
 import com.example.repository.Listener.LocationCallback;
+import com.example.repository.Listener.MessageCallback;
 import com.example.repository.Listener.ReviewCallback;
 import com.example.repository.Listener.RezervationCallback;
 
@@ -86,6 +90,69 @@ public class Repository {
             public void onFailure(@NonNull Exception e) {
                 //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
                 firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
+    public void DodajImenikKorisnik(String collection,String userId){
+        firestoreService.addCollectionToDocument(collection,userId);
+    }
+
+    public void DodatiKorisnikaUImenik(String collection,String userCurrentlyID, String newUserID){
+        firestoreService.addUserToContacts(collection,userCurrentlyID,newUserID);
+    }
+
+    public void DodajPorukuKorisnik(String collection,String userCurrentlyID, String newUserID,String posiljate, String sadrzaj, Timestamp dateTimeMessage){
+        firestoreService.addPorukaToUser(collection,userCurrentlyID, newUserID,posiljate,sadrzaj,dateTimeMessage);
+    }
+    public void DohvatiPorukeKorisnika(String collection, String userCurrentlyID, String newUserID, MessageCallback messageCallback){
+        firestoreService.getAllPorukeOfUser("Contacts",userCurrentlyID,newUserID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                ArrayList<Messages> porukeMNOZINA=new ArrayList<>();
+                for(DocumentSnapshot d: objekti){
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    Messages porukaJEDNINA= new Gson().fromJson(json, Messages.class);
+                    porukeMNOZINA.add(porukaJEDNINA);
+                }
+                messageCallback.onCallback(porukeMNOZINA);
+            }
+        });
+    }
+
+    public void DohvatiBrojPorukaKorisnika(String collection, String userCurrentlyID, String newUserID,Long number, MessageCallback messageCallback){
+        firestoreService.getLastNumberOfPorukeOfUser("Contacts",userCurrentlyID,newUserID,number).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                ArrayList<Messages> porukeMNOZINA=new ArrayList<>();
+                for(DocumentSnapshot d: objekti){
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    Messages porukaJEDNINA= new Gson().fromJson(json, Messages.class);
+                    porukeMNOZINA.add(porukaJEDNINA);
+                }
+                messageCallback.onCallback(porukeMNOZINA);
+            }
+        });
+    }
+
+
+    public void DohvatiImenikPoID(String userID, ContactsCallback contactsCallback){
+        firestoreService.getCollectionWithCollection("Contacts",userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                ArrayList<Contacts> contacts=new ArrayList<>();
+                for(DocumentSnapshot d: objekti){
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    Contacts contact= new Gson().fromJson(json, Contacts.class);
+                    contacts.add(contact);
+                }
+                contactsCallback.onCallback(contacts);
             }
         });
     }
