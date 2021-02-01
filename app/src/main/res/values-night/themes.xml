@@ -16,7 +16,6 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:actionOverflowButtonStyle">@style/optionsList</item>
-        <item name="android:actionMenuTextColor">@color/colorWhite</item>
     </style>
 
     <style name="Toast">

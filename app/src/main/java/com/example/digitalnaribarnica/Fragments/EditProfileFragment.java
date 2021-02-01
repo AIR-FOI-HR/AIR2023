@@ -53,8 +53,7 @@ public class EditProfileFragment extends Fragment {
     GoogleSignInClient mGoogleSignInClient;
     Uri imageUri;
     private static final int PICK_IMAGE = 100;
-    public EditProfileFragment() {
-    }
+    public EditProfileFragment() {}
 
     //Google
     public EditProfileFragment(String userId, String currentUser, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom) {

@@ -65,8 +65,7 @@ public class ProfileFragment extends Fragment {
 
     private SharedViewModel sharedViewModel;
 
-    public ProfileFragment() {
-    }
+    public ProfileFragment() {}
 
     public ProfileFragment(String selectedUser, String userID, String cameFrom) {
         this.userID = selectedUser;

@@ -44,6 +44,8 @@ public class FragmentUserRating extends Fragment {
     String userID;
     String ratedUser;
 
+    public FragmentUserRating() {}
+
     public FragmentUserRating( String userId, String ratedUser) {
         this.userID = userId;
         this.ratedUser = ratedUser;

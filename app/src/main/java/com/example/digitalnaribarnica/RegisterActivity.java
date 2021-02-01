@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -60,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onSearch = false;
 
     public boolean buyer = true;
+    public int refreshTimes = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         View view=binding.getRoot();
         setContentView(view);
 
-
+        refreshTimes = 0;
 
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
@@ -117,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
+        Log.d("TagPolje", "onCreate: ");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                 new HomeFragment(personId)).commit();
 

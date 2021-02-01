@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,15 +68,14 @@ public class SearchFragment extends Fragment {
     private Boolean filtered = false;
     private Boolean myOffers = false;
     private Boolean fromOfferDetails = false;
+    private TextView emptyView;
 
-    GoogleSignInAccount acct;
-    FirebaseUser mUser;
-    FirebaseAuth mAuth;
-    GoogleSignInClient mGoogleSignInClient;
     private String userId = "";
 
     SearchView searchViewThisSearch;
     MenuItem itemThisSearch;
+
+    public SearchFragment() {}
 
     public SearchFragment(String userId) {
         this.userId = userId;
@@ -127,6 +127,8 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = binding.recycleViewOffer;
         btnAddOffer = binding.floatingbtnAddOffer;
+        emptyView = binding.emptyView;
+
         if (((RegisterActivity) getActivity()).buyer){
             btnAddOffer.setVisibility(View.INVISIBLE);
         }
@@ -282,6 +284,16 @@ public class SearchFragment extends Fragment {
             }
 
             offersListGeneral = offersList;
+
+            if(offersListGeneral.size() == 0) {
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else{
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+
             OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
             adapter.setOffers(offersList);
             recyclerView.setAdapter(adapter);
@@ -338,6 +350,16 @@ public class SearchFragment extends Fragment {
                 }
 
                 offersListGeneral = offersList;
+
+                if(offersListGeneral.size() == 0){
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+
                 OfferAdapter adapter = new OfferAdapter(getActivity(), userId, this);
                 adapter.setOffers(offersList);
 
@@ -370,6 +392,16 @@ public class SearchFragment extends Fragment {
                     }
 
                     offersListGeneral = offersList;
+
+                    if(offersListGeneral.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
+
                     adapter.setOffers(offersList);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -395,6 +427,16 @@ public class SearchFragment extends Fragment {
                         }
                     }
                     offersListGeneral = offersList;
+
+                    if(offersListGeneral.size()==0){
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        emptyView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                    }
+
                     adapter.setOffers(offersList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -483,7 +525,14 @@ public class SearchFragment extends Fragment {
 
             if(offersList.size() == 0){
                 showDialog(getActivity(), getActivity().getString(R.string.my_offers), getActivity().getString(R.string.emptyMyOffers));
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
             }
+            else {
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+
         });
     }
 

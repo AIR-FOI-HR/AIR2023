@@ -60,6 +60,8 @@ public class HomeFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     private Boolean userFirstLogin;
 
+    public HomeFragment(){}
+
     public HomeFragment(String userId) {
         this.userId = userId;
     }

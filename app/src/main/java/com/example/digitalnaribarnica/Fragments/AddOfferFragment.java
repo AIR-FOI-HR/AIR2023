@@ -63,6 +63,7 @@ public class AddOfferFragment extends Fragment {
     private CheckBox checkLarge;
     private String userId = "";
     private SharedViewModel sharedViewModel;
+    public AddOfferFragment() {}
     public AddOfferFragment(String userId) {
         this.userId = userId;
     }
@@ -77,7 +78,7 @@ public class AddOfferFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding = FragmentAddOfferBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        String compareValue = "some value";
+
         setHasOptionsMenu(true);
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);

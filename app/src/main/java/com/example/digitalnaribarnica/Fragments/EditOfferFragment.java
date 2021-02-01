@@ -79,6 +79,7 @@ public class EditOfferFragment extends Fragment {
 
     private SharedViewModel sharedViewModel;
 
+    public EditOfferFragment(){}
 
     public EditOfferFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
@@ -403,6 +404,7 @@ public class EditOfferFragment extends Fragment {
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
+        menu.findItem((R.id.onboardingHelp)).setVisible(false);
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
         menu.findItem((R.id.language)).setVisible(false);
         menu.findItem((R.id.current_language)).setVisible(false);

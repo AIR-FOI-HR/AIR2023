@@ -88,6 +88,8 @@ public class OfferDetailFragment extends Fragment {
 
     private SharedViewModel sharedViewModel;
 
+    public OfferDetailFragment(){}
+
     public OfferDetailFragment(String offerID, String userId, Boolean myOffers){
         this.offerID = offerID;
         this.userID = userId;

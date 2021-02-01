@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +47,9 @@ public class RatingsFragment extends Fragment {
     private String offerID = "";
     private FloatingActionButton floatingActionButton;
     private SharedViewModel sharedViewModel;
+    private TextView emptyView;
 
+    public RatingsFragment(){}
     public RatingsFragment(String userId) {
         this.userId = userId;
     }
@@ -91,6 +94,9 @@ public class RatingsFragment extends Fragment {
         RatingsAdapter adapter = new RatingsAdapter(getActivity(), userId, this);
 
         floatingActionButton = binding.floatingbtnAddOffer;
+        emptyView = binding.emptyView;
+        recyclerView = binding.recycleViewOffer;
+
         floatingActionButton.setVisibility(view.INVISIBLE);
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
@@ -98,6 +104,16 @@ public class RatingsFragment extends Fragment {
         sharedViewModel.reviewDataArrayList.observe(this, new Observer<ArrayList<Review>>() {
             @Override
             public void onChanged(ArrayList<Review> reviews) {
+                if(reviews.size() == 0) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText(R.string.noRatings);
+                }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+
                 recyclerView = binding.recycleViewOffer;
                 adapter.setRatings(reviews);
                 adapter.notifyDataSetChanged();

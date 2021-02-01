@@ -64,6 +64,8 @@ public class FilterOffersFragment extends Fragment {
 
     private String userId ="";
     private SharedViewModel sharedViewModel;
+
+    public FilterOffersFragment(){}
     public FilterOffersFragment(String userID){
         this.userId = userID;
     }

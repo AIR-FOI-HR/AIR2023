@@ -46,6 +46,7 @@ public class BadgesFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     private FloatingActionButton floatingActionButton;
 
+    public BadgesFragment() {}
     public BadgesFragment(String userId) {
         this.userId = userId;
     }
