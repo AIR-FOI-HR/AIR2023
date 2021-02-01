@@ -26,27 +26,55 @@
             android:layout_height="wrap_content"
             android:background="@drawable/header_login"
             android:layout_marginTop="-2dp"
-            android:layout_marginStart="-2dp"
-            >
+            android:layout_marginStart="-2dp">
 
-            <TextView
-                android:id="@+id/tvDesc"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginStart="30dp"
                 android:elevation="5dp"
-                android:text="@string/welcome"
-                android:textColor="@color/colorWhite"
-                android:textSize="17sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/textLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="@string/langugeSelected"
+                    android:layout_marginRight="3dp"
+                    android:textColor="@color/colorWhite"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/badge"/>
+
+                <ImageView
+                    android:id="@+id/btnLanguage"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="15dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/picture"
+                    android:focusable="true"
+                    android:src="@drawable/ic_baseline_language_24" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDesc"
+                android:layout_below="@+id/linear"
                 android:transitionName="tvLogin"
-                android:layout_alignStart="@+id/tvDesc"
+                android:layout_alignStart="@+id/linear"
                 android:elevation="5dp"
                 android:text="@string/login"
                 android:textColor="@color/colorWhite"

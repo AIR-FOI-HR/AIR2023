@@ -247,5 +247,6 @@
     <string name="homeChatDescription">Razgovarajte sa drugim korisnicima i dogovorite prodaju.</string>
     <string name="homeProfilDescription">Pogledajte detalje o svom profilu, uredite ga i pogledajte svoje ocjene.</string>
     <string name="homeZnackeDescription">Značkama se nagrađuju vjerni korisnici, a možete ih osvojiti prodajom, kupnjom i rješavanjem kvizova.</string>
+    <string name="langugeSelected">HR</string>
 
 </resources>

@@ -13,6 +13,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.database.User;
 import com.example.database.Utils.SHA256;
+import com.example.digitalnaribarnica.Fragments.HomeFragment;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.databinding.ActivityMainBinding;
 import com.example.repository.Listener.FirestoreCallback;
@@ -43,6 +46,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -66,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
     int RC_SIGN_IN=0;
     int SIGN_IN_FB=1;
 
+    private ImageView btnLanguage;
     private View view;
+    private EditText email;
+    private TextInputEditText password;
     private Boolean vrijemeTece = false;
     private SharedViewModel sharedViewModel;
 
@@ -82,6 +89,40 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         registracija = binding.registracijaButton;
+        btnLanguage = binding.btnLanguage;
+        email = binding.emailEDIT;
+        password = binding.passwordEDIT;
+        email.setText("");
+        password.setText("");
+
+        btnLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] items = {getString(R.string.croatian), getString(R.string.english)};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.chooseLanguage));
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                updateResources(MainActivity.this, "");
+                                finish();
+                                startActivity(getIntent());
+                                break;
+
+                            case 1:
+                                updateResources(MainActivity.this, "en");
+                                finish();
+                                startActivity(getIntent());
+                                break;
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
 
         registracija.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,6 +414,23 @@ public class MainActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    public static void updateResources(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Resources resources = context.getResources();
+
+        Configuration configuration = resources.getConfiguration();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(locale);
+        } else {
+            configuration.locale = locale;
+        }
+
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
 }

@@ -182,12 +182,16 @@ public class HomeFragment extends Fragment {
                         switch (which){
                             case 0:
                                 updateResources(getContext(), "");
-                                ((RegisterActivity) getActivity()).refreshFragmentHome();
+                                Intent intent = ((RegisterActivity) getActivity()).getIntent();
+                                ((RegisterActivity) getActivity()).finish();
+                                startActivity(intent);
                                 break;
 
                             case 1:
                                 updateResources(getContext(), "en");
-                                ((RegisterActivity) getActivity()).refreshFragmentHome();
+                                Intent intent1 = ((RegisterActivity) getActivity()).getIntent();
+                                ((RegisterActivity) getActivity()).finish();
+                                startActivity(intent1);
                                 break;
                         }
                     }

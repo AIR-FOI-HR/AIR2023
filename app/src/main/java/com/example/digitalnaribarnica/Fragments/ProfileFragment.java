@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.example.badges.BadgesData;
 import com.example.database.FirestoreService;
 import com.example.database.Review;
 import com.example.database.User;
+import com.example.digitalnaribarnica.MainActivity;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.digitalnaribarnica.R;
@@ -281,6 +283,8 @@ public class ProfileFragment extends Fragment {
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(getActivity(),getActivity().getString(R.string.userSignOut),Toast.LENGTH_LONG).show();
                             getActivity().finish();
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
                         }
                     });
         } catch (Exception e) {

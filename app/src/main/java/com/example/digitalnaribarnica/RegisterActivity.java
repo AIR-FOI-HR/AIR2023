@@ -1,6 +1,7 @@
 package com.example.digitalnaribarnica;
 
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -74,6 +77,9 @@ public class RegisterActivity extends AppCompatActivity {
         binding=ActivityRegisterBinding.inflate((getLayoutInflater()));
         View view=binding.getRoot();
         setContentView(view);
+
+
+
         bottomNavigationView=binding.bottomNavigation;
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         acct = GoogleSignIn.getLastSignedInAccount(this);

@@ -7,7 +7,7 @@
     <string name="urediProfil">Edit profile</string>
     <string name="username">Email</string>
     <string name="password">Password</string>
-    <string name="secondpassword">Ponovljena lozinka</string>
+    <string name="secondpassword">Repeat password</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="adresa">Address</string>
@@ -62,7 +62,7 @@
     <string name="nameSurname">Name Surname</string>
     <string name="badge">Badge</string>
     <string name="registerHere">Register!</string>
-    <string name="noAccount">Don\'t have an account? Sign Up.</string>
+    <string name="noAccount">Don\'t have an account?</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="least_expensive">Cheapest</string>
@@ -87,7 +87,7 @@
     <string name="_0">0</string>
     <string name="_0">0</string>
     -->
-    <string name="accountExists">Already registered? Sign up now.</string>
+    <string name="accountExists">Already registered? </string>
     <string name="signinhere">Login!</string>
     <string name="forgotPass">Forgot password?</string>
     <string name="resetPassTxt">Enter your email to receive a link for changing your password.</string>
@@ -247,5 +247,6 @@
     <string name="homeChatDescription">Talk with other users and make new sales.</string>
     <string name="homeProfilDescription">Check and edit your profile information and view your ratings.</string>
     <string name="homeZnackeDescription">Loyal users are rewarded with badges which can be earned by selling, buying, and solving quizzes.</string>
+    <string name="langugeSelected">EN</string>
 
 </resources>
