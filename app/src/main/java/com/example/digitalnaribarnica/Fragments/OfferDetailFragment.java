@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -77,7 +78,11 @@ public class OfferDetailFragment extends Fragment {
     private TextView totalPrice;
     private TextView location;
     private TextView fish;
-
+    private LinearLayout linearSmallFish;
+    private LinearLayout linearMediumFish;
+    private LinearLayout linearLargeFish;
+    private View divider1;
+    private View divider2;
     private String priceWithoutKn;
     private String offerID;
     private String userID = "";
@@ -140,6 +145,13 @@ public class OfferDetailFragment extends Fragment {
         availableMedium = binding.availableMedium;
         availableLarge = binding.availableLarge;
 
+        linearSmallFish = binding.linearSmallFish;
+        linearMediumFish = binding.linearMediumFish;
+        linearLargeFish = binding.linearLargeFish;
+
+        divider1 = binding.divider1;
+        divider2 = binding.divider2;
+
         smallQuantity.setFilters(new InputFilter[] { filterDecimals });
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
@@ -171,6 +183,28 @@ public class OfferDetailFragment extends Fragment {
                 availableSmall.setText(offersData.get(0).getSmallFish());
                 availableMedium.setText(offersData.get(0).getMediumFish());
                 availableLarge.setText(offersData.get(0).getLargeFish());
+
+                if (availableSmall.getText().toString().equals("0")) {
+                    linearSmallFish.setVisibility(View.GONE);
+                }
+
+                if (availableMedium.getText().toString().equals("0")) {
+                    linearMediumFish.setVisibility(View.GONE);
+                }
+
+                if (availableLarge.getText().toString().equals("0")) {
+                    linearLargeFish.setVisibility(View.GONE);
+                }
+
+                if(!availableMedium.getText().toString().equals("0") && !availableSmall.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0")){
+                    divider1.setVisibility(View.VISIBLE);
+                    divider2.setVisibility(View.VISIBLE);
+                }else if(!availableMedium.getText().toString().equals("0") && !availableSmall.getText().toString().equals("0")){
+                    divider1.setVisibility(View.VISIBLE);
+                }else if((!availableMedium.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0")) || (!availableSmall.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0"))){
+                    divider2.setVisibility(View.VISIBLE);
+                }
+
                 Calendar calendar = DateParse.dateToCalendar(offersData.get(0).getDate().toDate());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
                 date.setText(dateFormat.format(calendar.getTime()));

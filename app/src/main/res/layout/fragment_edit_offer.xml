@@ -129,6 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -143,9 +144,15 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-
-
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@android:color/darker_gray"/>
 
                     <RadioGroup
                         android:id="@+id/radio_expensive"
@@ -433,30 +440,37 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <View
                             android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/darker_gray"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_gravity="right"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="20dp"
                             android:orientation="horizontal"
-                            android:layout_marginBottom="20dp">
+                            tools:ignore="RtlHardcoded">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="2dp"
-                                android:gravity="end"
                                 android:elevation="5dp"
-                                android:layout_weight="1"
                                 android:text="@string/ukupnaCijena"
+                                android:textStyle="bold"
                                 android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/totalPrice"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="start"
                                 android:elevation="5dp"
-                                android:layout_weight="0.6"
                                 android:textSize="14sp"
+                                android:textStyle="bold"
                                 android:text="@string/_0_00kn"/>
 
                         </LinearLayout>
