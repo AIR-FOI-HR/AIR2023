@@ -176,7 +176,7 @@ public class ChatFragment extends Fragment {
         isSearching = true;
         ArrayList<ChatData> novi=new ArrayList<>();
         for(ChatData chat:chatMessagesGeneral){
-            if(chat.getName().toLowerCase().contains(search)){
+            if(chat.getName().toLowerCase().contains(search.toLowerCase())){
                 novi.add(chat);
             }
         }
@@ -193,7 +193,6 @@ public class ChatFragment extends Fragment {
             recyclerView.setAdapter(adapterChat);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
-
     }
 
     public void destroySearch() {

@@ -1,19 +1,15 @@
 package com.example.digitalnaribarnica.recycleviewer;
 
 import android.content.Context;
-import android.os.Message;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.database.Messages;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.R;
@@ -21,7 +17,6 @@ import com.example.digitalnaribarnica.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     public static final int MSG_TYPE_LEFT = 0;
@@ -55,7 +50,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         Messages messages = messagesList.get(position);
         holder.show_message.setText(messages.getMessage());
 
-        Calendar calendar = DateParse.dateToCalendar(messagesList.get(position).getDateTimeMessage().toDate());
+        Calendar calendar = DateParse.dateToCalendar(messagesList.get(position).getDatetimeMessage().toDate());
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy.");
         String textDate = dateFormat.format(calendar.getTime());
 

@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,6 +108,20 @@ public class FirestoreService {
         //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
         return FirebaseFirestore.getInstance().collection(collection).document(userId).collection("kontakti").get();
     }
+
+    public void addPorukaToUser(String collection, String userCurrentlyID, String newUserID, String posiljaljet, String sadrzaj, Timestamp dateTimeMessage){
+        String id=FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).collection("poruke").document().getId();
+        Messages message=new Messages(posiljaljet,sadrzaj,dateTimeMessage);
+        FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).collection("poruke").document(id).set(message);
+    }
+
+    public Task<QuerySnapshot> getAllPorukeOfUser(String collection,String userCurrentlyID, String newUserID){
+        return FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).collection("poruke").whereIn("sender", Arrays.asList(newUserID, userCurrentlyID)).get();
+    }
+    public Task<QuerySnapshot> getLastNumberOfPorukeOfUser(String collection,String userCurrentlyID, String newUserID,Long brojPoruka){
+        return FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).collection("poruke").whereIn("sender", Arrays.asList(newUserID, userCurrentlyID)).limit(brojPoruka).get();
+    }
+
 
     public Task<QuerySnapshot> getCollection(String collection){
         //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
