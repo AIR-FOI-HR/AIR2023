@@ -1,14 +1,20 @@
 package com.example.database;
 
+import com.google.firebase.Timestamp;
+
+import java.sql.Time;
+
 public class Messages {
     private String sender;
     private String receiver;
     private String message;
+    private Timestamp dateTimeMessage;
 
-    public Messages(String sender, String receiver, String message) {
+    public Messages(String sender, String receiver, String message, Timestamp dateTimeMessage) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
+        this.dateTimeMessage = dateTimeMessage;
     }
 
     public String getSender() {
@@ -33,5 +39,13 @@ public class Messages {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Timestamp getDateTimeMessage() {
+        return dateTimeMessage;
+    }
+
+    public void setDateTimeMessage(Timestamp dateTimeMessage) {
+        this.dateTimeMessage = dateTimeMessage;
     }
 }

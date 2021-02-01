@@ -42,6 +42,7 @@ import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.repository.Listener.RezervationCallback;
 import com.example.repository.Repository;
+import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,14 +50,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 
 public class ChatFragment extends Fragment {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private String userId = "";
-    public String chatImage;
-    public String contactName;
-    public String chatZadnjaPoruka;
-    public String chatLastMessageDate;
     Boolean isSearching = false;
     Boolean startDontSearch = true;
     private ArrayList<ChatData> chatMessagesGeneral =new ArrayList<>();
@@ -84,12 +78,14 @@ public class ChatFragment extends Fragment {
         binding = FragmentChatBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         recyclerView = binding.recyclerViewChat;
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ((RegisterActivity) getActivity()).fragmentId = this.getId();
+        //((RegisterActivity) getActivity()).fragmentId = this.getId();
 
 
 
-        ArrayList<ChatData> chatDataTest = new ArrayList<>();
+        //ArrayList<ChatData> chatDataTest = new ArrayList<>();
         Repository repository=new Repository();
         //repository.DodajImenikKorisnik("Contacts","234234232ed2d2");
         //OVAKO CEMO DODAVATI KORISNIKE U IMENIK NAKON KONTAKTIRANJA PODNUDITELJA/KUPCA PREMA KUPCU/PONUDITELJU
@@ -108,8 +104,9 @@ public class ChatFragment extends Fragment {
                         @Override
                         public void onCallback(User user) {
                             Log.d("CONTACTS",user.getFullName());
-                            chatMessagesGeneral.add( new ChatData(user.getUserID(),user.getFullName(),"Zadnja poruka",user.getPhoto(),"10.4.2029"));
-                            ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
+                            chatMessagesGeneral.add( new ChatData(user.getUserID(),user.getFullName(),"Zadnja poruka",user.getPhoto(), Timestamp.now()));
+                            //ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
+                            ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
                             adapterChat.setChatMessages(chatMessagesGeneral);
                             adapterChat.notifyDataSetChanged();
                             recyclerView.setAdapter(adapterChat);
@@ -124,13 +121,6 @@ public class ChatFragment extends Fragment {
 
         /*chatDataTest.add(new ChatData("adjhak", "Neko ime", "Seen", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2F113865007966208087640.png?alt=media&token=083f1696-2b91-4247-a6c2-b1f974215874","2021-01-30 12:13:14"));
         chatDataTest.add(new ChatData("adjhak", "Neko ime 2", "Bla bla", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2FXgsooqJxFjhuu2czKHmNccML6lA2.png?alt=media&token=d119f01d-e230-4b44-9b0c-aa78040dc369","2021-01-30 10:02:14"));*/
-
-
-
-
-
-
-
 
 
         return view;
@@ -186,10 +176,11 @@ public class ChatFragment extends Fragment {
         isSearching = true;
         ArrayList<ChatData> novi=new ArrayList<>();
         for(ChatData chat:chatMessagesGeneral){
-            if(chat.getName().contains(search)){
+            if(chat.getName().toLowerCase().contains(search)){
                 novi.add(chat);
             }
         }
+
         ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
         adapterChat.setChatMessages(novi);
         adapterChat.notifyDataSetChanged();
@@ -204,8 +195,6 @@ public class ChatFragment extends Fragment {
         }
 
     }
-
-
 
     public void destroySearch() {
         MenuItemCompat.collapseActionView(itemThisSearch);

@@ -33,14 +33,10 @@ import java.util.Comparator;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
-    private ArrayList<ChatData> chatMessages=new ArrayList<>();
+    private ArrayList<ChatData> chatMessages = new ArrayList<>();
     private Context context;
     private CardView cardView;
     private String userID;
-    public ImageView chatImage;
-    public TextView contactName;
-    public TextView chatZadnjaPoruka;
-    public TextView chatLastMessageDate;
     private ChatFragment chatFragment;
 
     public ChatAdapter(Context context, String userID, ChatFragment chatFragment) {
@@ -49,32 +45,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         this.chatFragment = chatFragment;
     }
 
+    public ChatAdapter(Context context, ArrayList<ChatData> chatMessages, String userID) {
+        this.context = context;
+        this.chatMessages = chatMessages;
+        this.userID = userID;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.chat_item, parent, false);
         ChatAdapter.ViewHolder holder = new ChatAdapter.ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //dohvaćanje preko repositoryja
 
         holder.contactName.setText(chatMessages.get(position).getName());
         holder.chatZadnjaPoruka.setText(chatMessages.get(position).getLastMessage());
 
-        /*Calendar calendar = DateParse.dateToCalendar(chatMessages.get(position).getDate().toDate());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm | dd.MM.yyyy.");
-        String textDate = context.getString(R.string.chatLastMessageDate) + "\n" + dateFormat.format(calendar.getTime());*/
-        holder.chatLastMessageDate.setText(chatMessages.get(position).getDate());
+        Calendar calendar = DateParse.dateToCalendar(chatMessages.get(position).getDate().toDate());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy.");
+        String textDate = dateFormat.format(calendar.getTime());
+        holder.chatLastMessageDate.setText(textDate);
 
         Glide.with(context)
                 .asBitmap()
                 .load(chatMessages.get(position).getImageurl())
                 .into(holder.chatImage);
 
-        Log.d("slika", chatMessages.get(position).getImageurl());
 
         String idSugovornika = chatMessages.get(position).getIdKorisnika();
 
@@ -83,7 +83,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 //searchFragment.destroySearch();
-                selectedFragment = new ConversationFragment(userID, "kSfbtBmWjtMv65jL4mFcZUlDzho1");
+                selectedFragment = new ConversationFragment(userID, idSugovornika);
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -120,7 +120,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             chatZadnjaPoruka = itemView.findViewById(R.id.chatZadnjaPoruka);
             chatLastMessageDate = itemView.findViewById(R.id.chatLastMessageDate);
             cardView=itemView.findViewById(R.id.chatParent);
-
         }
     }
 }

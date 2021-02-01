@@ -4,30 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.ConversationFragment"
-    >
+    tools:context=".Fragments.ConversationFragment">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/conversationAppBar"
-        >
+        android:id="@+id/conversationAppBar">
 
         <androidx.appcompat.widget.Toolbar
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbarConversation"
-            >
+            android:id="@+id/toolbarConversation">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_baseline_arrow_back_24"
-                android:id="@+id/conversationBack"
-                ></ImageButton>
+                android:id="@+id/conversationBack" />
 
 
             <androidx.cardview.widget.CardView
@@ -64,13 +60,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/conversationImePrezime"
-                android:layout_marginLeft="10dp"
-                android:text="ime prezime"
+                android:layout_marginStart="10dp"
                 android:textSize="18sp"
-                android:textColor="@color/colorWhite"
-                ></TextView>
+                android:textColor="@color/colorWhite" />
         </androidx.appcompat.widget.Toolbar>
-
 
 
 
@@ -81,13 +74,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/conversationAppBar"
-        android:layout_marginBottom="50dp" />
+        android:layout_above="@+id/relativeLayoutSendMessage"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        >
+        android:id="@+id/relativeLayoutSendMessage">
 
         <EditText
             android:layout_width="match_parent"
@@ -98,8 +92,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginBottom="20dp"
-            ></EditText>
+            android:layout_marginBottom="20dp" />
 
         <ImageButton
             android:layout_width="35dp"

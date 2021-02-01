@@ -69,7 +69,6 @@
                         android:layout_height="match_parent"
                         android:text="@string/offer_title"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginEnd="@dimen/general_margin"
                         android:textIsSelectable="false"
                         android:layout_weight="1"/>

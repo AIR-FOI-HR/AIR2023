@@ -77,6 +77,8 @@ public class OfferDetailFragment extends Fragment {
     private TextView totalPrice;
     private TextView location;
     private TextView fish;
+    private TextView contactSeller;
+    private ImageView chatIconOfferDetail;
 
     private String priceWithoutKn;
     private String offerID;
@@ -128,6 +130,9 @@ public class OfferDetailFragment extends Fragment {
         smallQuantity = binding.smallFishQuantity;
         mediumQuantity = binding.mediumFishQuantity;
         largeQuantity = binding.largeFishQuantity;
+
+        contactSeller = binding.contactSeller;
+        chatIconOfferDetail = binding.chat;
 
 
         smallQuantity.setText("0");
@@ -186,6 +191,8 @@ public class OfferDetailFragment extends Fragment {
                     btnReserve.setVisibility(view.INVISIBLE);
                 } else if (userID.equals(sellerID)){
                     btnReserve.setVisibility(view.INVISIBLE);
+                    contactSeller.setVisibility(TextView.INVISIBLE);
+                    chatIconOfferDetail.setVisibility(ImageView.INVISIBLE);
                 }
 
                 String userID = offersData.get(0).getIdKorisnika();
@@ -457,6 +464,18 @@ public class OfferDetailFragment extends Fragment {
         }
             updateTotal();
     });
+
+
+        contactSeller.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                selectedFragment = new ConversationFragment(sellerID, userID, "Details", offerID);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                        selectedFragment).commit();
+            }
+        });
+
 
         btnReserve.setOnClickListener(v -> {
             smallQuantity.clearFocus();
