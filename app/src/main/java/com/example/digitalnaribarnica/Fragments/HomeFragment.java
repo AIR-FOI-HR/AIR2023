@@ -87,6 +87,13 @@ public class HomeFragment extends Fragment {
         textBuyer = binding.textbuyer;
         textSeller = binding.textseller;
 
+        if(textBuyer.getText().equals("Nastavi kao")){
+            updateResources(getContext(), "");
+        }
+        else{
+            updateResources(getContext(), "en");
+        }
+
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.DohvatiKorisnikaPoID(userId);
         sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {

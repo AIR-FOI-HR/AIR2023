@@ -52,7 +52,7 @@
     <string name="mediumDescription">1 medium fish = from 0,2 to 0,49 kg</string>
     <string name="largeDescription">1 large fish = 0,5 kg and more</string>
     <string name="Odustani">Cancel</string>
-    <string name="reservation_title">Reservations</string>
+    <string name="reservation_title">Reservation</string>
     <string name="myReservations">Current reservations</string>
     <string name="requests">Requests</string>
     <string name="acceptedRequests">Confirmed</string>

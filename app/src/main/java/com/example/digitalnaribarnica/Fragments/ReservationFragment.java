@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class ReservationFragment extends Fragment {
 
@@ -118,6 +119,8 @@ public class ReservationFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorBlue)));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
+
+        Log.d("TagPolje", Locale.getDefault().getDisplayLanguage());
 
         binding = FragmentReservationBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
