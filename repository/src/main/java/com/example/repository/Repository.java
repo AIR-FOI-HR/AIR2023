@@ -488,5 +488,7 @@ public class Repository {
     }
 
 
-
+    public void updateRating(String ratedUser, String ratingTotal) {
+        firestoreService.updateRating(ratedUser, ratingTotal);
+    }
 }

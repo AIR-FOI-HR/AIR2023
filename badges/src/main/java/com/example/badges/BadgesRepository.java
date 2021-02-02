@@ -159,7 +159,6 @@ public class BadgesRepository {
                     String json = new Gson().toJson(d.getData());
                     BadgeID badge= new Gson().fromJson(json, BadgeID.class);
                     badgesID.add(badge);
-                    Log.d("TagPolje",badge.getId());
                 }
                 badgeCallback.onCallback(badgesID);
             }

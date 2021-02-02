@@ -310,6 +310,11 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document(userID).update(
                 "numberOfPurchases", numberPurchases);
     }
+
+    public void updateRating(String ratedUser, String ratingTotal) {
+        FirebaseFirestore.getInstance().collection("Users").document(ratedUser).update(
+                "userRating", ratingTotal);
+    }
 /*
     public void updateBadgeSeller(String userID, Uri znacka, String collection) {
         FirebaseFirestore.getInstance().collection(collection).document(userID).update(

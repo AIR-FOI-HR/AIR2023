@@ -1,6 +1,9 @@
 package com.example.badges;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +47,6 @@ public class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull BadgesAdapter.ViewHolder holder, int position) {
-        
         if(!Locale.getDefault().getDisplayLanguage().equals("English")){
             holder.badgeTitle.setText(badges.get(position).getTitle());
             holder.badgeDescription.setText(badges.get(position).getDescription());
@@ -53,11 +55,30 @@ public class BadgesAdapter extends RecyclerView.Adapter<BadgesAdapter.ViewHolder
             holder.badgeDescription.setText(badges.get(position).getDescriptioneng());
         }
 
-        Glide.with(context)
-                .asBitmap()
-                .load(badges.get(position).getBadgeURL())
-                .into(holder.badgeImage);
-
+        BadgesRepository badgesRepository = new BadgesRepository();
+        badgesRepository.DohvatiIDZnackiKorisnika(userID, new BadgeIDCallback() {
+            @Override
+            public void onCallback(ArrayList<BadgeID> badgesID) {
+                boolean exists = false;
+                for (int i = 0; i < badgesID.size(); i++) {
+                    if (badges.get(position).getBadgeID().equals(badgesID.get(i).getId())) {
+                        exists = true;
+                    }
+                }
+                if(exists){
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(badges.get(position).getBadgeURL())
+                            .into(holder.badgeImage);
+                }else{
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(badges.get(position).getBadgeURL())
+                            .into(holder.badgeImage);
+                    holder.badgeImage.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                }
+            }
+        });
     }
 
     @Override

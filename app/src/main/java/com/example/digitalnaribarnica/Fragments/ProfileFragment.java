@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.badges.BadgeID;
 import com.example.badges.BadgesData;
 import com.example.database.FirestoreService;
 import com.example.database.Review;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     FragmentPersonBinding binding;
+    ArrayList<BadgesData> badgesList;
     private String adress="";
     private String phone="";
     private ImageView edit;
@@ -115,6 +117,47 @@ public class ProfileFragment extends Fragment {
          }
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
+
+        sharedViewModel.VratiSveZnacke();
+        sharedViewModel.badgesDataArrayList.observe(this, new Observer<ArrayList<BadgesData>>() {
+            @Override
+            public void onChanged(ArrayList<BadgesData> badgesData) {
+                badgesList = badgesData;
+            }
+        });
+
+        sharedViewModel.VratiSveIDZnackeKorisnika(userID);
+        sharedViewModel.badgesIDDataArrayList.observe(this, new Observer<ArrayList<BadgeID>>() {
+            @Override
+            public void onChanged(ArrayList<BadgeID> badgeIDS) {
+                for (int i = 0; i < badgesList.size(); i++) {
+                    for (int j = 0; j < badgeIDS.size(); j++) {
+                        if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                            if(badgesList.get(i).getTitle().contains("kupca")){
+                                Glide.with(getActivity())
+                                            .asBitmap()
+                                            .load(badgesList.get(i).getBadgeURL())
+                                            .into(binding.badgeBuyer);
+                            }else if(badgesList.get(i).getTitle().contains("prodavatelja")){
+                                Glide.with(getActivity())
+                                            .asBitmap()
+                                            .load(badgesList.get(i).getBadgeURL())
+                                            .into(binding.badgeSeller);
+                            }else{
+                                Glide.with(getActivity())
+                                            .asBitmap()
+                                            .load(badgesList.get(i).getBadgeURL())
+                                            .into(binding.badgeQuiz);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+
         sharedViewModel.DohvatiKorisnikaPoID(userID);
         sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
             @Override
@@ -133,7 +176,8 @@ public class ProfileFragment extends Fragment {
                         .asBitmap()
                         .load(user.getPhoto())
                         .into(binding.slikaProfila);
-                if(!user.getBadgeBuyerURL().equals("")){
+
+              /*  if(!user.getBadgeBuyerURL().equals("")){
                     Glide.with(getActivity())
                             .asBitmap()
                             .load(user.getBadgeBuyerURL())
@@ -152,7 +196,7 @@ public class ProfileFragment extends Fragment {
                             .asBitmap()
                             .load(user.getBadgeQuizURL())
                             .into(binding.badgeQuiz);
-                }
+                }*/
             }
         });
 

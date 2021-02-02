@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.database.Review;
 import com.example.database.User;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.repository.Data.OffersData;
@@ -105,6 +107,24 @@ public class FragmentUserRating extends Fragment {
             public void onClick(View v) {
                 sharedViewModel.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), getActivity().getString(R.string.userSuccessfullyRated), 3, R.style.ToastGreen).show();
+
+
+
+                sharedViewModel.DohvatiOcjenePoID(ratedUser);
+                sharedViewModel.reviewDataArrayList.observe(getActivity(), new Observer<ArrayList<Review>>() {
+                    @Override
+                    public void onChanged(ArrayList<Review> reviews) {
+                        if(reviews.size()!=0){
+                            float sum = 0;
+                            for (int i = 0; i < reviews.size(); i++) {
+                                sum = sum + Float.parseFloat(reviews.get(i).getRating());
+                            }
+                            float ratingTotal = sum / reviews.size();
+                            Log.d("TagPolje",  String.valueOf(ratingTotal));
+                            sharedViewModel.AzurirajRating(ratedUser, String.valueOf(ratingTotal));
+                        }
+                    }
+                });
 
                 selectedFragment = new ReservationFragment(userID, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter,

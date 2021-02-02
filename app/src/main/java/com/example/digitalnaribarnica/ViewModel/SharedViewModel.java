@@ -5,6 +5,8 @@ import android.net.Uri;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
 import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.database.CallbackUser;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 
 public class SharedViewModel extends ViewModel {
     public MutableLiveData<ArrayList<BadgesData>> badgesDataArrayList= new MutableLiveData<>();
+    public MutableLiveData<ArrayList<BadgeID>> badgesIDDataArrayList= new MutableLiveData<>();
     public MutableLiveData<User> userMutableLiveData= new MutableLiveData<>();
     public MutableLiveData<ArrayList<Review>> reviewDataArrayList= new MutableLiveData<>();
     public MutableLiveData<ArrayList<OffersData>> offerDataArrayList= new MutableLiveData<>();
@@ -49,6 +52,15 @@ public class SharedViewModel extends ViewModel {
             @Override
             public void onCallback(ArrayList<BadgesData> badges) {
                 badgesDataArrayList.setValue(badges);
+            }
+        });
+    }
+
+    public void VratiSveIDZnackeKorisnika(String userID){
+        badgesRepository.DohvatiIDZnackiKorisnika(userID, new BadgeIDCallback() {
+            @Override
+            public void onCallback(ArrayList<BadgeID> badgesID) {
+                badgesIDDataArrayList.setValue(badgesID);
             }
         });
     }
@@ -199,5 +211,9 @@ public class SharedViewModel extends ViewModel {
                 fishNameEng.setValue(fishes.get(0).getNameeng());
             }
         });
+    }
+
+    public void AzurirajRating(String ratedUser, String ratingTotal) {
+        repository.updateRating(ratedUser, ratingTotal);
     }
 }
