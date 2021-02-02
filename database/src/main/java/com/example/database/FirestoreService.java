@@ -326,6 +326,11 @@ public class FirestoreService {
                 "badgeQuizURL", znacka.toString());
     }
 
+    public Task<QuerySnapshot> DohvatiZnackeKorisnika(String collection, String userId){
+        //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
+        return FirebaseFirestore.getInstance().collection(collection).document(userId).collection("badges").get();
+    }
+
     //dohvati ID Google korisnika iz User kolekcije
     /*public boolean korisnikPostojiUKolekciji(String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();

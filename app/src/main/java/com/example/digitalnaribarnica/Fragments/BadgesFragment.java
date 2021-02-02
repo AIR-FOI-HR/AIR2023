@@ -3,6 +3,7 @@ package com.example.digitalnaribarnica.Fragments;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
 import com.example.badges.BadgesAdapter;
+import com.example.badges.BadgesRepository;
+import com.example.badges.Logic;
+import com.example.database.FirestoreService;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
 import com.example.digitalnaribarnica.R;
 import com.example.repository.Repository;
@@ -110,6 +117,7 @@ public class BadgesFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;

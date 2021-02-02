@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.database.Contacts;
 import com.example.database.FirestoreService;
 import com.example.database.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -67,6 +68,52 @@ public class BadgesRepository {
         });
     }
 
+    public void DohvatiZnackuPoID(String badgeID, BadgeCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Badges","badgeID", badgeID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
+                ArrayList<BadgesData> badgesDataArrayList=new ArrayList<>();
+                for(DocumentSnapshot d: ime){
+                    d.getData();
+                    String json= new Gson().toJson(d.getData());
+                    BadgesData badgesData=new Gson().fromJson(json,BadgesData.class);
+                    badgesDataArrayList.add(badgesData);
+                }
+                firestoreCallback.onCallback(badgesDataArrayList);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
+    public void DohvatiKorisnikaPoID(String userID, UserCallback firestoreCallback){
+        firestoreService.getCollectionWithField("Users","userID",userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d: objekti){
+                    //String fullName = d.getString("fullName");
+                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    User user= new Gson().fromJson(json,User.class);
+                    firestoreCallback.onCallback(user);
+                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
+                firestoreCallback.onCallback(null);
+            }
+        });
+    }
+
     public void DodijeliZnackuProdavatelju(User user, BadgesData badgesData){
         firestoreService.updateBadgeSeller(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
@@ -101,4 +148,26 @@ public class BadgesRepository {
         });
     }
 
+    public void DohvatiIDZnackiKorisnika(String userID, BadgeIDCallback badgeCallback){
+        firestoreService.DohvatiZnackeKorisnika("Users", userID).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> objekti=queryDocumentSnapshots.getDocuments();
+                ArrayList<BadgeID> badgesID=new ArrayList<>();
+                for(DocumentSnapshot d: objekti){
+                    d.getData();
+                    String json = new Gson().toJson(d.getData());
+                    BadgeID badge= new Gson().fromJson(json, BadgeID.class);
+                    badgesID.add(badge);
+                    Log.d("TagPolje",badge.getId());
+                }
+                badgeCallback.onCallback(badgesID);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    badgeCallback.onCallback(null);
+                }
+        });
+    }
 }

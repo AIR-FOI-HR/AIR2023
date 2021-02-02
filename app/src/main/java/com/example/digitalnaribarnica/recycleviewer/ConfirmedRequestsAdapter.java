@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -26,9 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
 import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.badges.CustomDialogBadge;
+import com.example.badges.Logic;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.User;
@@ -46,6 +51,7 @@ import com.example.repository.Data.ReservationsData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -230,6 +236,24 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             addSales++;
                             firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
                             BadgesRepository badgesRepository=new BadgesRepository();
+
+
+                            badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+                                @Override
+                                public void onCallback(ArrayList<BadgesData> badges) {
+                                    badgesRepository.DohvatiIDZnackiKorisnika(userID, new BadgeIDCallback() {
+                                        @RequiresApi(api = Build.VERSION_CODES.N)
+                                        @Override
+                                        public void onCallback(ArrayList<BadgeID> badgesID) {
+                                                Logic logic = new Logic(user, badges, badgesID);
+                                        }
+                                    });
+
+                                }
+                            });
+
+
+
                             if(addSales.equals(10))
                             {
                                 badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
