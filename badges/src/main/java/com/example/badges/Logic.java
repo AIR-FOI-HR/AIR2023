@@ -23,8 +23,6 @@ public class Logic {
     private String category;
     private Integer BRKUPNJI = 0;
     private Integer BRPRODAJA = 0;
-    private Integer BRODG;
-    private Integer BRPITANJA;
     private Integer POSTOJI = 0;
     private float OCJENA;
 
@@ -43,17 +41,18 @@ public class Logic {
     private void InicijalizirajVarijabe(){
       BRKUPNJI = user.getNumberOfPurchases();
       BRPRODAJA = user.getNumberOfSales();
+      OCJENA = user.getUserRating();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String PretvoriUPostfix(String condition, BadgesData badge){
+    public String PretvoriUPostfix(String condition, BadgesData badge, String category){
         condition = ZamijeniVarijable(condition);
         String[] conditionArray = condition.split(" ");
         //List<String> output = InfixToPostfix.infixToRPN(conditionArray);
         //Log.d("TagPolje", output.toString());
 
         String stringCondition = String.join(" ", conditionArray);
-        ProvjeriIstinitost(stringCondition, badge);
+        ProvjeriIstinitost(stringCondition, badge, category);
 
         return stringCondition;
     }
@@ -64,6 +63,9 @@ public class Logic {
         }
         if(condition.contains("BRPRODAJA")){
             condition = condition.replace("BRPRODAJA", BRPRODAJA.toString());
+        }
+        if(condition.contains("OCJENA")){
+            condition = condition.replace("OCJENA", String.valueOf(OCJENA));
         }
         if(condition.contains("==")){
             condition = condition.replace("==","=");
@@ -77,16 +79,30 @@ public class Logic {
         return condition;
     }
 
-    public Boolean ProvjeriIstinitost(String condition, BadgesData badge){
+    public Boolean ProvjeriIstinitost(String condition, BadgesData badge, String category){
         Log.d("TagPolje", condition);
         Log.d("TagPolje",  String.valueOf(CalculatePostfix.evaluatePostfix(condition)));
         Integer result = (CalculatePostfix.evaluatePostfix(condition));
-        if(result==1){
-            CustomDialogBadge customDialogBadge=new CustomDialogBadge();
-            customDialogBadge.setContexPrikazivanja(reservationFragmentContext);
-            customDialogBadge.setData(user,badge);
-            customDialogBadge.izvrsiUpdateKorisnika();
-            customDialogBadge.prikaziDialogKorisniku();
+
+        if(result==1) {
+            if (category.equals("quiz")) {
+                badgesRepository.DohvatiPitanjaZaKviz(new QuizCallBack() {
+                    @Override
+                    public void onCallback(ArrayList<QuizData> quizData) {
+                        CustomDialogBadgeQuiz customDialogBadgeQuiz = new CustomDialogBadgeQuiz();
+                        customDialogBadgeQuiz.setContexPrikazivanja(reservationFragmentContext);
+                        customDialogBadgeQuiz.setData(user, badge);
+                        customDialogBadgeQuiz.setQuestions(quizData);
+                        customDialogBadgeQuiz.prikaziDialogKorisniku();
+                    }
+                });
+            } else {
+                CustomDialogBadge customDialogBadge = new CustomDialogBadge();
+                customDialogBadge.setContexPrikazivanja(reservationFragmentContext);
+                customDialogBadge.setData(user, badge);
+                customDialogBadge.izvrsiUpdateKorisnika();
+                customDialogBadge.prikaziDialogKorisniku();
+            }
         }
         return true;
     }
@@ -97,7 +113,7 @@ public class Logic {
         for (int i = 0; i < badges.size(); i++) {
             exists = true;
             for (int j = 0; j < badgesID.size(); j++) {
-                if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && badges.get(i).getCategory().equals(category)) {
+                if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && category.contains(badges.get(i).getCategory())) {
                     POSTOJI = 0;
                     exists = false;
 
@@ -113,7 +129,7 @@ public class Logic {
                 if(condition.contains("POSTOJI")){
                     condition = condition.replace("POSTOJI", POSTOJI.toString());
                 }
-                PretvoriUPostfix(condition, badges.get(i));
+                PretvoriUPostfix(condition, badges.get(i), badges.get(i).getCategory());
             }
         }
     }

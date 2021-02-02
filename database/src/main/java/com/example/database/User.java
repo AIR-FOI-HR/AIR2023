@@ -19,6 +19,7 @@ public class User implements Serializable {
     Integer numberOfPurchases = 0;
     Boolean blokiran=false;
     Boolean userFirstLogin;
+    Float userRating = 0f;
 
     public Boolean getUserFirstLogin() {
         return userFirstLogin;
@@ -136,6 +137,14 @@ public class User implements Serializable {
         this.password = password;
         this.blokiran=blokiran;
         this.userFirstLogin=userFirstLogin;
+    }
+
+    public Float getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(Float userRating) {
+        this.userRating = userRating;
     }
 
     public String getUserID() {

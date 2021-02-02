@@ -197,7 +197,7 @@ public class ReservationFragment extends Fragment {
                 int compareFifteenSales = sales.compareTo(15);
 
                 BadgesRepository badgesRepository=new BadgesRepository();
-                if((compareFifteen > 0 || compareFifteen == 0 || compareFifteenSales > 0 || compareFifteenSales == 0) && user.getBadgeQuizURL().equals("")) {
+              /*  if((compareFifteen > 0 || compareFifteen == 0 || compareFifteenSales > 0 || compareFifteenSales == 0) && user.getBadgeQuizURL().equals("")) {
                     badgesRepository.DohvatiZnackuPoNazivu("Majstor kviza", new BadgeCallback() {
                         @Override
                         public void onCallback(ArrayList<BadgesData> badges) {
@@ -214,7 +214,7 @@ public class ReservationFragment extends Fragment {
                             });
                         }
                     });
-                }
+                }*/
                 
                 badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
                     @Override
@@ -224,7 +224,7 @@ public class ReservationFragment extends Fragment {
                             @Override
                             public void onCallback(ArrayList<BadgeID> badgesID) {
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    Logic logic = new Logic(user, badges, badgesID, getActivity(), "buyer");
+                                    Logic logic = new Logic(user, badges, badgesID, getActivity(), "buyer&quiz");
                                 }
                             }
                         });
