@@ -62,14 +62,10 @@ public class CustomDialogBadge implements DataPresenter{
     }
 
     @Override
-    public void izvrsiUpdateKupca() {
-        badgesRepository.DodijeliZnackuKupcu(user,badge);
+    public void izvrsiUpdateKorisnika() {
+        badgesRepository.DodijeliZnackuKorisniku(user,badge.getBadgeID());
     }
 
-    @Override
-    public void izvrsiUpdatePonuditelja() {
-        badgesRepository.DodijeliZnackuProdavatelju(user,badge);
-    }
 
     @Override
     public void prikaziDialogKorisniku() {

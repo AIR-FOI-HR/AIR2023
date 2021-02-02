@@ -1,9 +1,11 @@
 package com.example.badges;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
 import com.example.database.User;
 
@@ -17,6 +19,8 @@ public class Logic {
     private User user;
     ArrayList<BadgeID> badgesIDList;
     ArrayList<BadgesData> badgesList;
+    private Context reservationFragmentContext;
+    private String category;
     private Integer BRKUPNJI = 0;
     private Integer BRPRODAJA = 0;
     private Integer BRODG;
@@ -25,12 +29,14 @@ public class Logic {
     private float OCJENA;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Logic(User user, ArrayList<BadgesData> badges, ArrayList<BadgeID> badgesID) {
+    public Logic(User user, ArrayList<BadgesData> badges, ArrayList<BadgeID> badgesID, Context reservationFragmentContext, String category) {
         this.user = user;
         this.badgesList = badges;
         this.badgesIDList = badgesID;
+        this.reservationFragmentContext = reservationFragmentContext;
+        this.category = category;
         InicijalizirajVarijabe();
-        postaviPOSTOJI(badges, badgesID);
+        postaviPOSTOJI(badges, badgesID, category);
     }
 
 
@@ -40,17 +46,16 @@ public class Logic {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String PretvoriUPostfix(String condition){
+    public String PretvoriUPostfix(String condition, BadgesData badge){
         condition = ZamijeniVarijable(condition);
         String[] conditionArray = condition.split(" ");
-        List<String> output = InfixToPostfix.infixToRPN(conditionArray);
-        Log.d("TagPolje", output.toString());
+        //List<String> output = InfixToPostfix.infixToRPN(conditionArray);
+        //Log.d("TagPolje", output.toString());
 
+        String stringCondition = String.join(" ", conditionArray);
+        ProvjeriIstinitost(stringCondition, badge);
 
-        String stringCondition = String.join(" ", output);
-        ProvjeriIstinitost(stringCondition);
-
-        return output.toString();
+        return stringCondition;
     }
 
     private String ZamijeniVarijable(String condition) {
@@ -72,22 +77,27 @@ public class Logic {
         return condition;
     }
 
-    public Boolean ProvjeriIstinitost(String condition){
+    public Boolean ProvjeriIstinitost(String condition, BadgesData badge){
         Log.d("TagPolje", condition);
-        CalculatePostfix.evaluatePostfix( "100 200 + 2 / 5 * 7 +");
-        Log.d("TagPolje",  String.valueOf(CalculatePostfix.evaluatePostfix( "100 200 + 2 / 5 * 7 +")));
-        //CalculatePostfix.evaluatePostfix(condition);
-        //Log.d("TagPolje",  String.valueOf(CalculatePostfix.evaluatePostfix(condition)));
+        Log.d("TagPolje",  String.valueOf(CalculatePostfix.evaluatePostfix(condition)));
+        Integer result = (CalculatePostfix.evaluatePostfix(condition));
+        if(result==1){
+            CustomDialogBadge customDialogBadge=new CustomDialogBadge();
+            customDialogBadge.setContexPrikazivanja(reservationFragmentContext);
+            customDialogBadge.setData(user,badge);
+            customDialogBadge.izvrsiUpdateKorisnika();
+            customDialogBadge.prikaziDialogKorisniku();
+        }
         return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void postaviPOSTOJI(ArrayList<BadgesData> badges, ArrayList<BadgeID> badgesID) {
+    private void postaviPOSTOJI(ArrayList<BadgesData> badges, ArrayList<BadgeID> badgesID, String category) {
         boolean exists;
         for (int i = 0; i < badges.size(); i++) {
             exists = true;
             for (int j = 0; j < badgesID.size(); j++) {
-                if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && badges.get(i).getCategory().equals("seller")) {
+                if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && badges.get(i).getCategory().equals(category)) {
                     POSTOJI = 0;
                     exists = false;
 
@@ -103,7 +113,7 @@ public class Logic {
                 if(condition.contains("POSTOJI")){
                     condition = condition.replace("POSTOJI", POSTOJI.toString());
                 }
-                PretvoriUPostfix(condition);
+                PretvoriUPostfix(condition, badges.get(i));
             }
         }
     }

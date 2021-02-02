@@ -12,9 +12,7 @@ public interface DataPresenter {
 
     void setContexPrikazivanja(Context context);
 
-    void izvrsiUpdateKupca();
-
-    void izvrsiUpdatePonuditelja();
+    void izvrsiUpdateKorisnika();
 
     void prikaziDialogKorisniku();
 

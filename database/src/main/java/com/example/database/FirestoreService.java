@@ -310,7 +310,7 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection(collection).document(userID).update(
                 "numberOfPurchases", numberPurchases);
     }
-
+/*
     public void updateBadgeSeller(String userID, Uri znacka, String collection) {
         FirebaseFirestore.getInstance().collection(collection).document(userID).update(
                 "badgeSellerURL", znacka.toString());
@@ -319,12 +319,32 @@ public class FirestoreService {
     public void updateBadgeBuyer(String userID, Uri znacka, String collection) {
         FirebaseFirestore.getInstance().collection(collection).document(userID).update(
                 "badgeBuyerURL", znacka.toString());
+    }*/
+
+
+    public class BadgeID {
+
+        private String id;
+
+        public BadgeID(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 
-    public void updateBadgeUser(String userID, Uri znacka, String collection) {
-        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
-                "badgeQuizURL", znacka.toString());
+
+    public void updateBadgeUser(String userID, String badgeID, String collection) {
+            BadgeID badge = new BadgeID(badgeID);
+            FirebaseFirestore.getInstance().collection(collection).document(userID).collection("badges").document(badgeID).set(badge);
     }
+
 
     public Task<QuerySnapshot> DohvatiZnackeKorisnika(String collection, String userId){
         //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());

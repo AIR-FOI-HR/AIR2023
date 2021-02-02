@@ -245,16 +245,16 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         @RequiresApi(api = Build.VERSION_CODES.N)
                                         @Override
                                         public void onCallback(ArrayList<BadgeID> badgesID) {
-                                                Logic logic = new Logic(user, badges, badgesID);
+                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                Logic logic = new Logic(user, badges, badgesID, context, "seller");
+                                            }
                                         }
                                     });
 
                                 }
                             });
 
-
-
-                            if(addSales.equals(10))
+                         /*   if(addSales.equals(10))
                             {
                                 badgesRepository.DohvatiZnackuPoNazivu("Brončana značka prodavatelja", new BadgeCallback() {
                                     @Override
@@ -292,7 +292,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         customDialogBadge.prikaziDialogKorisniku();
                                     }
                                 });
-                            }
+                            }*/
                         }
                     });
 

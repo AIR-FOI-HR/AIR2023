@@ -28,10 +28,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
 import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.badges.CustomDialogBadge;
 import com.example.badges.CustomDialogBadgeQuiz;
+import com.example.badges.Logic;
 import com.example.badges.QuizCallBack;
 import com.example.badges.QuizData;
 import com.example.database.FirestoreService;
@@ -212,7 +215,22 @@ public class ReservationFragment extends Fragment {
                         }
                     });
                 }
-
+                
+                badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+                    @Override
+                    public void onCallback(ArrayList<BadgesData> badges) {
+                        badgesRepository.DohvatiIDZnackiKorisnika(userID, new BadgeIDCallback() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onCallback(ArrayList<BadgeID> badgesID) {
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    Logic logic = new Logic(user, badges, badgesID, getActivity(), "buyer");
+                                }
+                            }
+                        });
+                    }
+                });
+                /*
                 if(((compareTen > 0 || compareTen == 0) && compareTwenty < 0) && !user.getBadgeBuyerURL().contains("broncana"))
                 {
                     badgesRepository.DohvatiZnackuPoNazivu("Brončana značka kupca", new BadgeCallback() {
@@ -251,7 +269,7 @@ public class ReservationFragment extends Fragment {
                             customDialogBadge.prikaziDialogKorisniku();
                         }
                     });
-                }
+                }*/
             }
         });
 

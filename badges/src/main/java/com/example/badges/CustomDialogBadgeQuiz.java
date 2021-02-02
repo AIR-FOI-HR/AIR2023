@@ -168,13 +168,13 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
                     prikaziDialog();
                 }else {
                     if (correctAnswers.equals(quizDataArrayList.size())) {
-                        izvrsiUpdateKupca();
+                        izvrsiUpdateKorisnika();
                         CustomDialogBadge customDialogBadge = new CustomDialogBadge();
                         customDialogBadge.setContexPrikazivanja(context);
                         customDialogBadge.setData(user, badge);
                         customDialogBadge.prikaziDialogKorisniku();
                     } else {
-                        izvrsiUpdatePonuditelja();
+                        izvrsiUpdateKorisnika();
                     }
                 }
                 MyDialog.dismiss();
@@ -201,14 +201,10 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
     }
 
     @Override
-    public void izvrsiUpdateKupca() {
-        badgesRepository.DodijeliZnackuKorisniku(user,badge.getBadgeURL());
+    public void izvrsiUpdateKorisnika() {
+        badgesRepository.DodijeliZnackuKorisniku(user,badge.getBadgeID());
     }
 
-    @Override
-    public void izvrsiUpdatePonuditelja() {
-        badgesRepository.DodijeliZnackuKorisniku(user,"-" );
-    }
 
     @Override
     public void prikaziDialogKorisniku() {

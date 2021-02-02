@@ -113,17 +113,17 @@ public class BadgesRepository {
             }
         });
     }
-
+/*
     public void DodijeliZnackuProdavatelju(User user, BadgesData badgesData){
         firestoreService.updateBadgeSeller(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
     }
 
     public void DodijeliZnackuKupcu(User user, BadgesData badgesData){
         firestoreService.updateBadgeBuyer(user.getUserID(), Uri.parse(badgesData.getBadgeURL()),"Users");
-    }
+    }*/
 
-    public void DodijeliZnackuKorisniku(User user, String badgesData){
-        firestoreService.updateBadgeUser(user.getUserID(), Uri.parse(badgesData),"Users");
+    public void DodijeliZnackuKorisniku(User user, String badgeID){
+        firestoreService.updateBadgeUser(user.getUserID(), badgeID,"Users");
     }
 
     public void DohvatiPitanjaZaKviz(QuizCallBack quizCallBack){
