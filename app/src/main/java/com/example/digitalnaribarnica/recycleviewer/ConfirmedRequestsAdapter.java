@@ -154,13 +154,30 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
             @Override
             public void onCallback(User user) {
                 holder.buyer.setText(user.getFullName());
-                String badge = user.getBadgeBuyerURL();
-                if(!badge.equals("")){
-                    Glide.with(context)
-                            .asBitmap()
-                            .load(badge)
-                            .into(holder.badgeImage);
-                }
+            }
+        });
+
+        BadgesRepository badgesRepository = new BadgesRepository();
+        badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+            @Override
+            public void onCallback(ArrayList<BadgesData> badgesList) {
+                badgesRepository.DohvatiIDZnackiKorisnika(confirmedRequests.get(position).getCustomerID(), new BadgeIDCallback() {
+                    @Override
+                    public void onCallback(ArrayList<BadgeID> badgeIDS) {
+                        for (int i = 0; i < badgesList.size(); i++) {
+                            for (int j = 0; j < badgeIDS.size(); j++) {
+                                if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                                    if(badgesList.get(i).getCategory().equals("buyer")){
+                                        Glide.with(context)
+                                                .asBitmap()
+                                                .load(badgesList.get(i).getBadgeURL())
+                                                .into(holder.badgeImage);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }
         });
 
@@ -246,7 +263,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         @Override
                                         public void onCallback(ArrayList<BadgeID> badgesID) {
                                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                Logic logic = new Logic(user, badges, badgesID, context, "seller");
+                                                //Logic logic = new Logic(user, badges, badgesID, context, "seller");
                                             }
                                         }
                                     });

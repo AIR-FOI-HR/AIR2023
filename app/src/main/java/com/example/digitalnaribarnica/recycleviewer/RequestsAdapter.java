@@ -21,6 +21,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
+import com.example.badges.BadgesData;
+import com.example.badges.BadgesRepository;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
 import com.example.database.User;
@@ -153,16 +158,32 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             @Override
             public void onCallback(User user) {
                 holder.buyer.setText(user.getFullName());
-                String badge = user.getBadgeBuyerURL();
-                if(!badge.equals("")){
-                    Glide.with(context)
-                            .asBitmap()
-                            .load(badge)
-                            .into(holder.badgeImage);
-                }
             }
         });
 
+        BadgesRepository badgesRepository = new BadgesRepository();
+        badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+            @Override
+            public void onCallback(ArrayList<BadgesData> badgesList) {
+                badgesRepository.DohvatiIDZnackiKorisnika(reservations.get(position).getCustomerID(), new BadgeIDCallback() {
+                    @Override
+                    public void onCallback(ArrayList<BadgeID> badgeIDS) {
+                        for (int i = 0; i < badgesList.size(); i++) {
+                            for (int j = 0; j < badgeIDS.size(); j++) {
+                                if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                                    if(badgesList.get(i).getCategory().equals("buyer")){
+                                        Glide.with(context)
+                                                .asBitmap()
+                                                .load(badgesList.get(i).getBadgeURL())
+                                                .into(holder.badgeImage);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
 
         holder.buyer.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;

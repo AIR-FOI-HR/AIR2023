@@ -81,6 +81,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_height="23dp"
                         android:src="@drawable/edit_icon_blue"
+                        android:background="?selectableItemBackgroundBorderless"
                         android:contentDescription="@string/editOffer"
                         android:visibility="gone"/>
 
@@ -91,6 +92,7 @@
                         android:focusable="true"
                         android:layout_height="26dp"
                         android:src="@drawable/ic_delete"
+                        android:background="?selectableItemBackgroundBorderless"
                         android:contentDescription="@string/editOffer"
                         android:visibility="gone"/>
 

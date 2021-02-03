@@ -245,14 +245,6 @@ public class FirestoreService {
                 "status", status);
     }
 
-    public static void addPhoto(Uri data){
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://digitalna-ribarnica-fb.appspot.com");
-        String path="firememes/" + UUID.randomUUID() + ".png";
-        StorageReference firememeRef =storage.getReference(path);
-        UploadTask uploadTask=firememeRef.putFile(data);
-
-    }
-
     public static void addPhotoWithID(Uri data,String id){
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://digitalna-ribarnica-fb.appspot.com");
         String path="profilne/" + id + ".png";
@@ -315,17 +307,6 @@ public class FirestoreService {
         FirebaseFirestore.getInstance().collection("Users").document(ratedUser).update(
                 "userRating", ratingTotal);
     }
-/*
-    public void updateBadgeSeller(String userID, Uri znacka, String collection) {
-        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
-                "badgeSellerURL", znacka.toString());
-    }
-
-    public void updateBadgeBuyer(String userID, Uri znacka, String collection) {
-        FirebaseFirestore.getInstance().collection(collection).document(userID).update(
-                "badgeBuyerURL", znacka.toString());
-    }*/
-
 
     public class BadgeID {
 
@@ -352,7 +333,6 @@ public class FirestoreService {
 
 
     public Task<QuerySnapshot> DohvatiZnackeKorisnika(String collection, String userId){
-        //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
         return FirebaseFirestore.getInstance().collection(collection).document(userId).collection("badges").get();
     }
 

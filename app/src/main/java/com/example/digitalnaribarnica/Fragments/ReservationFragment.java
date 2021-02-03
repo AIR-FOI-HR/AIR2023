@@ -641,6 +641,16 @@ public class ReservationFragment extends Fragment {
             }
         });
 
+        if(adapterRequest.getItemCount() == 0){
+            recyclerView.setVisibility(View.INVISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+        }
+        else{
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
         recyclerView.setAdapter(adapterRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -769,7 +779,6 @@ public class ReservationFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCallback(ArrayList<ReservationsData> reservations) {
-                int deletedReservations = 0;
                 for (int i = 0; i < reservations.size(); i++) {
                     if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno"))){
                             reservationList.add(reservations.get(i));
@@ -834,6 +843,16 @@ public class ReservationFragment extends Fragment {
             }
         });
 
+        if(adapterRequest.getItemCount() == 0){
+            recyclerView.setVisibility(View.INVISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+        }
+        else{
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
         recyclerView.setAdapter(adapterRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -880,6 +899,16 @@ public class ReservationFragment extends Fragment {
                 }
             }
         });
+
+        if(adapterConfirmedRequests.getItemCount() == 0){
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+            }
+            else{
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
 
         recyclerView.setAdapter(adapterConfirmedRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

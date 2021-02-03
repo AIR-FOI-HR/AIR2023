@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -239,14 +240,8 @@ public class SearchFragment extends Fragment {
             ArrayList<OffersData> offersList = new ArrayList<>();
                 if(myOffers){
                     for (int i = 0; i < offersData.size(); i++) {
-                        if (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                        if (offersData.get(i).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(i).getLocation().toLowerCase().contains(search.toLowerCase()) && offersData.get(i).getIdKorisnika().equals(userId)) {
                             offersList.add(offersData.get(i));
-                        }
-                    }
-                    for (int i = 0; i < offersList.size(); i++) {
-                        if (!offersList.get(i).getIdKorisnika().equals(userId)){
-                            offersList.remove(offersData.get(i));
-                            i = i - 1;
                         }
                     }
                 }
@@ -260,6 +255,15 @@ public class SearchFragment extends Fragment {
 
             try {
                 if(search.equals("")){
+                    if(myOffers) {
+                        offersList.clear();
+                        for (int i = 0; i < offersData.size(); i++) {
+                            if (offersData.get(i).getIdKorisnika().equals(userId)) {
+                                offersList.add(offersData.get(i));
+                            }
+                        }
+                    }
+
                     actionMenu.findItem((R.id.all_offers_menu)).setVisible(false);
 
                     if (((RegisterActivity) getActivity()).buyer){
@@ -336,7 +340,6 @@ public class SearchFragment extends Fragment {
                 return true;
             }
         });
-
 
         if(!this.myOffers && !this.filtered) {
             Repository repository = new Repository();
@@ -474,7 +477,7 @@ public class SearchFragment extends Fragment {
                                 Collections.sort(offersListGeneral, (exp1, exp2) -> Double.compare(Double.parseDouble(exp2.getPrice()), Double.parseDouble(exp1.getPrice())));
 
                                 OfferAdapter adapter2 = new OfferAdapter(getActivity(), userId, SearchFragment.this);
-                                adapter2.setOffers(offersListGeneral);
+                                adapter2.setOffersWithoutSortDate(offersListGeneral);
                                 adapter2.notifyDataSetChanged();
                                 recyclerView.setAdapter(adapter2);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -484,7 +487,7 @@ public class SearchFragment extends Fragment {
                                 Collections.sort(offersListGeneral, (exp1, exp2) -> Double.compare(Double.parseDouble(exp1.getPrice()), Double.parseDouble(exp2.getPrice())));
 
                                 OfferAdapter adapter3 = new OfferAdapter(getActivity(), userId, SearchFragment.this);
-                                adapter3.setOffers(offersListGeneral);
+                                adapter3.setOffersWithoutSortDate(offersListGeneral);
                                 adapter3.notifyDataSetChanged();
                                 recyclerView.setAdapter(adapter3);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -494,7 +497,6 @@ public class SearchFragment extends Fragment {
                 });
                 builder.show();
             }
-
         return true;
     }
 

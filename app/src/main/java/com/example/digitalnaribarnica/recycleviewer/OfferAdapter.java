@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
 import com.example.badges.BadgesData;
 import com.example.badges.BadgesRepository;
 import com.example.badges.CustomDialogBadge;
@@ -177,16 +179,33 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
         Repository repository = new Repository();
         FirestoreService firestoreService=new FirestoreService();
 
+        BadgesRepository badgesRepository = new BadgesRepository();
+        badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+            @Override
+            public void onCallback(ArrayList<BadgesData> badgesList) {
+                badgesRepository.DohvatiIDZnackiKorisnika(userID, new BadgeIDCallback() {
+                    @Override
+                    public void onCallback(ArrayList<BadgeID> badgeIDS) {
+                        for (int i = 0; i < badgesList.size(); i++) {
+                            for (int j = 0; j < badgeIDS.size(); j++) {
+                                if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                                    if(badgesList.get(i).getCategory().equals("seller")){
+                                        Glide.with(context)
+                                                .asBitmap()
+                                                .load(badgesList.get(i).getBadgeURL())
+                                                .into(holder.trophyImage);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
         repository.DohvatiKorisnikaPoID(userID, user -> {
-           String badge = user.getBadgeSellerURL();
             String textSeller =  user.getFullName();
             holder.seller.setText(Html.fromHtml(textSeller));
-           if(!badge.equals("")){
-                Glide.with(context)
-                        .asBitmap()
-                        .load(badge)
-                        .into(holder.trophyImage);
-            }
         });
     }
 
@@ -203,6 +222,11 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
             }
         });
         Collections.reverse(offers);
+        this.offers = offers;
+        notifyDataSetChanged();
+    }
+
+    public void setOffersWithoutSortDate(ArrayList<OffersData> offers) {
         this.offers = offers;
         notifyDataSetChanged();
     }

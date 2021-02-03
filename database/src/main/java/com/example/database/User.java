@@ -12,9 +12,6 @@ public class User implements Serializable {
     String email ="";
     String phone ="";
     String adress="";
-    String badgeBuyerURL="";
-    String badgeSellerURL="";
-    String badgeQuizURL="";
     Integer numberOfSales = 0;
     Integer numberOfPurchases = 0;
     Boolean blokiran=false;
@@ -64,21 +61,6 @@ public class User implements Serializable {
 
     String password="";
 
-    public String getBadgeBuyerURL() {
-        return badgeBuyerURL;
-    }
-
-    public void setBadgeBuyerURL(String badgeBuyerURL) {
-        this.badgeBuyerURL = badgeBuyerURL;
-    }
-
-    public String getBadgeSellerURL() {
-        return badgeSellerURL;
-    }
-
-    public void setBadgeSellerURL(String badgeSellerURL) {
-        this.badgeSellerURL = badgeSellerURL;
-    }
 
     public Integer getNumberOfSales() {
         return numberOfSales;
@@ -94,14 +76,6 @@ public class User implements Serializable {
 
     public void setNumberOfPurchases(Integer numberOfPurchases) {
         this.numberOfPurchases = numberOfPurchases;
-    }
-
-    public String getBadgeQuizURL() {
-        return badgeQuizURL;
-    }
-
-    public void setBadgeQuizURL(String badgeQuizURL) {
-        this.badgeQuizURL = badgeQuizURL;
     }
 
     public User() {

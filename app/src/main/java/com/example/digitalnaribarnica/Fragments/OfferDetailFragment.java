@@ -1,5 +1,7 @@
 package com.example.digitalnaribarnica.Fragments;
 
+import com.example.badges.BadgeID;
+import com.example.badges.BadgesData;
 import com.example.database.Fish;
 import com.example.database.Review;
 import com.example.database.User;
@@ -53,6 +55,7 @@ import java.util.Locale;
 public class OfferDetailFragment extends Fragment {
 
     FragmentOfferDetailBinding binding;
+    //ArrayList<BadgesData> badgesList;
     private ImageView btnMinusSmall;
     private ImageView btnPlusSmall;
     private ImageView btnMinusMedium;
@@ -80,6 +83,9 @@ public class OfferDetailFragment extends Fragment {
     private TextView fish;
     private TextView contactSeller;
     private ImageView chatIconOfferDetail;
+    private TextView noQuantities;
+    private TextView fishClassTitle;
+    private LinearLayout totalCostLayout;
 
     private LinearLayout linearSmallFish;
     private LinearLayout linearMediumFish;
@@ -162,6 +168,10 @@ public class OfferDetailFragment extends Fragment {
         mediumQuantity.setFilters(new InputFilter[] { filterDecimals });
         largeQuantity.setFilters(new InputFilter[] { filterDecimals });
 
+        noQuantities = binding.noQuantities;
+        fishClassTitle = binding.fishClassTitle;
+        totalCostLayout = binding.linearTotalPrice;
+
         rating = binding.ratingBar;
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
@@ -213,6 +223,17 @@ public class OfferDetailFragment extends Fragment {
                     linearLargeFish.setVisibility(View.GONE);
                 }
 
+                if(availableMedium.getText().toString().equals("0") && availableSmall.getText().toString().equals("0") && availableLarge.getText().toString().equals("0")){
+                    noQuantities.setVisibility(View.VISIBLE);
+                    fishClassTitle.setVisibility(View.GONE);
+                    totalCostLayout.setVisibility(View.GONE);
+                }
+                else{
+                    noQuantities.setVisibility(View.GONE);
+                    fishClassTitle.setVisibility(View.VISIBLE);
+                    totalCostLayout.setVisibility(View.VISIBLE);
+                }
+
                 if(!availableMedium.getText().toString().equals("0") && !availableSmall.getText().toString().equals("0") && !availableLarge.getText().toString().equals("0")){
                     divider1.setVisibility(View.VISIBLE);
                     divider2.setVisibility(View.VISIBLE);
@@ -256,15 +277,60 @@ public class OfferDetailFragment extends Fragment {
                                     .load(userPhoto)
                                     .into(userImage);
                         }
-                        String badge = user.getBadgeSellerURL();
-                        if(!badge.equals("")){
-                            Glide.with(getContext())
-                                    .asBitmap()
-                                    .load(badge)
-                                    .into(trophyImage);
-                        }
                     }
                 });
+
+                sharedViewModel.VratiSveZnacke();
+                sharedViewModel.badgesDataArrayList.observe(getActivity(), new Observer<ArrayList<BadgesData>>() {
+                    @Override
+                    public void onChanged(ArrayList<BadgesData> badgesList) {
+                        try {
+                            sharedViewModel.VratiSveIDZnackeKorisnika(userID);
+                            sharedViewModel.badgesIDDataArrayList.observe(getActivity(), new Observer<ArrayList<BadgeID>>() {
+                                @Override
+                                public void onChanged(ArrayList<BadgeID> badgeIDS) {
+                                    //if (badgeIDS.size() != 0){
+                                    for (int i = 0; i < badgesList.size(); i++) {
+                                        for (int j = 0; j < badgeIDS.size(); j++) {
+                                            if (badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())) {
+                                                if (badgesList.get(i).getCategory().equals("seller")) {
+                                                    Glide.with(getActivity())
+                                                            .asBitmap()
+                                                            .load(badgesList.get(i).getBadgeURL())
+                                                            .into(trophyImage);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //  }
+                                }
+                            });
+                        }catch (Exception ex){}
+                    }
+                });
+                /*try {
+                    sharedViewModel.VratiSveIDZnackeKorisnika(userID);
+                    sharedViewModel.badgesIDDataArrayList.observe(getActivity(), new Observer<ArrayList<BadgeID>>() {
+                        @Override
+                        public void onChanged(ArrayList<BadgeID> badgeIDS) {
+                            //if (badgeIDS.size() != 0){
+                                for (int i = 0; i < badgesList.size(); i++) {
+                                    for (int j = 0; j < badgeIDS.size(); j++) {
+                                        if (badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())) {
+                                            if (badgesList.get(i).getCategory().equals("seller")) {
+                                                Glide.with(getActivity())
+                                                        .asBitmap()
+                                                        .load(badgesList.get(i).getBadgeURL())
+                                                        .into(trophyImage);
+                                            }
+                                        }
+                                    }
+                                }
+                      //  }
+                        }
+                    });
+                }catch (Exception ex){}*/
+
                 sharedViewModel.DohvatiOcjenePoID(userID);
                 sharedViewModel.reviewDataArrayList.observe(getActivity(), new Observer<ArrayList<Review>>() {
                     @Override

@@ -266,4 +266,5 @@
     <string name="hintMessage">Napišite poruku...</string>
     <string name="buyerData">"Podaci o kupcu: "</string>
     <string name="offerConfirmedBigTextSeller">Uspješno ste potvrdili rezervaciju kupca. Kako biste dovršili prodaju ribe, odnosno dogovorili mjesto preuzimanja ribe i plaćanje, kontaktirajte kupca putem kontakta navedenog u nastavku maila ili putem chata naše aplikacije \n\n\n</string>
+    <string name="noFishText">Trenutno nema dostupnih količina</string>
 </resources>

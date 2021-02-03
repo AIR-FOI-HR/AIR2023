@@ -178,33 +178,6 @@ public class Repository {
         firestoreService.updateUserFirstLogin(korisnik,"Users");
     }
 
-    public void DohvatiPonudePoID(String id, FirestoreOffer firestoreCallback){
-        firestoreService.getCollectionWithField("Offers","idKorisnika",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
-                ArrayList<OffersData> offersDataArrayList=new ArrayList<>();
-                for(DocumentSnapshot d: ime){
-                    //String fullName = d.getString("fullName");
-                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
-                    d.getData();
-                    String json= new Gson().toJson(d.getData());
-                    OffersData offersData=new Gson().fromJson(json,OffersData.class);
-                    offersDataArrayList.add(offersData);
-                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
-                    //Log.d("TEST",offersData.getFullName());
-                }
-                firestoreCallback.onCallback(offersDataArrayList);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
-                firestoreCallback.onCallback(null);
-            }
-        });
-    }
-
     public void DohvatiPonuduPrekoIdPonude(String id, FirestoreOffer firestoreCallback){
         firestoreService.getCollectionWithField("Offers","offerID",id).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -253,8 +226,6 @@ public class Repository {
             }
         });
     }
-
-
 
     public void DohvatiRibe(FishCallback firestoreCallback){
         firestoreService.getCollection("Fish").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -359,46 +330,10 @@ public class Repository {
             }
         });
     }
-/*
-    public void DohvatiRezervacije(RezervationCallback firestoreCallback){
-        firestoreService.getCollection("Rezervation").addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> ime=queryDocumentSnapshots.getDocuments();
-                ArrayList<Rezervation> rezervationArrayList=new ArrayList<>();
-                for(DocumentSnapshot d: ime){
-                    //String fullName = d.getString("fullName");
-                    //Toast.makeText(MainActivity.this, fullName, Toast.LENGTH_LONG).show();
-                    d.getData();
-                    String json= new Gson().toJson(d.getData());
-                    Rezervation rezervation=new Gson().fromJson(json,Rezervation.class);
-                    rezervationArrayList.add(rezervation);
-                    //Toast.makeText(MainActivity.this, user.getFullName(), Toast.LENGTH_LONG).show();
-                    //Log.d("TEST",offersData.getFullName());
-                }
-                firestoreCallback.onCallback(rezervationArrayList);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(MainActivity.this, "Ne valja", Toast.LENGTH_SHORT).show();
-                firestoreCallback.onCallback(null);
-            }
-        });
-    }*/
 
     public void DodajOcjenu(String ratedUser, String rating, String comment, String reviewer, Timestamp date){
         Review review = new Review(ratedUser, rating, comment, reviewer, date);
         firestoreService.writeReview(review,"Review");
-    }
-
-
-    public void DodajPonudu(String name,String description,String location, String imageurl, String price, String fishClass,String imageurlTrophey,String idKorisnika,String smallFish, String mediumFish, String largeFish, Timestamp date){
-        //Offer offer=new Offer("Štuka","Požega","https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/ribe%2Fstuka.png?alt=media&token=f29a9276-9b02-4a00-94e0-d6166c15bcfd","40,00kn","Razred 2","https://www.iconpacks.net/icons/1/free-badge-icon-1361-thumb.png");
-        Offer offer=new Offer(name, location, imageurl, price, idKorisnika, smallFish, mediumFish, largeFish, date, 1);
-        if(idKorisnika!="")
-            offer.setIdKorisnika(idKorisnika);
-        firestoreService.writeOffer(offer,"Offers");
     }
 
     public void DodajRezervacijuAutoID(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status){
@@ -477,7 +412,6 @@ public class Repository {
 
     }
 
-
     //dodavanje novog korisnika bez lozinke (Google i Facebook)
     public void DodajKorisnikaUBazuBezLozinke(String id, String name, String email,String photo){
         try {
@@ -486,7 +420,6 @@ public class Repository {
             e.printStackTrace();
         }
     }
-
 
     public void updateRating(String ratedUser, String ratingTotal) {
         firestoreService.updateRating(ratedUser, ratingTotal);

@@ -131,28 +131,30 @@ public class ProfileFragment extends Fragment {
         sharedViewModel.badgesIDDataArrayList.observe(this, new Observer<ArrayList<BadgeID>>() {
             @Override
             public void onChanged(ArrayList<BadgeID> badgeIDS) {
+                try{
                 for (int i = 0; i < badgesList.size(); i++) {
                     for (int j = 0; j < badgeIDS.size(); j++) {
-                        if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
-                            if(badgesList.get(i).getTitle().contains("kupca")){
+                        if (badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())) {
+                            if (badgesList.get(i).getCategory().equals("buyer")) {
                                 Glide.with(getActivity())
-                                            .asBitmap()
-                                            .load(badgesList.get(i).getBadgeURL())
-                                            .into(binding.badgeBuyer);
-                            }else if(badgesList.get(i).getTitle().contains("prodavatelja")){
+                                        .asBitmap()
+                                        .load(badgesList.get(i).getBadgeURL())
+                                        .into(binding.badgeBuyer);
+                            } else if (badgesList.get(i).getCategory().equals("seller")) {
                                 Glide.with(getActivity())
-                                            .asBitmap()
-                                            .load(badgesList.get(i).getBadgeURL())
-                                            .into(binding.badgeSeller);
-                            }else{
+                                        .asBitmap()
+                                        .load(badgesList.get(i).getBadgeURL())
+                                        .into(binding.badgeSeller);
+                            } else {
                                 Glide.with(getActivity())
-                                            .asBitmap()
-                                            .load(badgesList.get(i).getBadgeURL())
-                                            .into(binding.badgeQuiz);
+                                        .asBitmap()
+                                        .load(badgesList.get(i).getBadgeURL())
+                                        .into(binding.badgeQuiz);
                             }
                         }
                     }
                 }
+            }catch (Exception ex){}
             }
         });
 
