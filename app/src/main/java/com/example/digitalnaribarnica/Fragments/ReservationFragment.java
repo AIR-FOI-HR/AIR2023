@@ -454,11 +454,9 @@ public class ReservationFragment extends Fragment {
                 });
             });
         }
-
         else if(onRequests){
             refreshRequestsList();
         }
-
         else{
             confirmedRequests();
         }
@@ -613,6 +611,9 @@ public class ReservationFragment extends Fragment {
         repository.DohvatiRezervacije1(new RezervationCallback() {
             @Override
             public void onCallback(ArrayList<ReservationsData> rezervations) {
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
 
                 for (int i = 0; i < rezervations.size(); i++) {
                     if(rezervations.get(i).getStatus().equals("Nepotvrđeno")) {
@@ -627,11 +628,15 @@ public class ReservationFragment extends Fragment {
                                             reservationList.add(rezervations.get(finalI));
                                             reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                             adapterRequest.setRequests(reservationList);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            emptyView.setVisibility(View.GONE);
                                         }}
                                     else {
                                         reservationList.add(rezervations.get(finalI));
                                         reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                         adapterRequest.setRequests(reservationList);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.GONE);
                                     }
                                 }
                             }
@@ -640,16 +645,6 @@ public class ReservationFragment extends Fragment {
                 }
             }
         });
-
-        if(adapterRequest.getItemCount() == 0){
-            recyclerView.setVisibility(View.INVISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
-            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
-        }
-        else{
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
 
         recyclerView.setAdapter(adapterRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -819,6 +814,9 @@ public class ReservationFragment extends Fragment {
         repository.DohvatiRezervacije1(new RezervationCallback() {
             @Override
             public void onCallback(ArrayList<ReservationsData> reservations) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
 
                 for (int i = 0; i < reservations.size(); i++) {
                     if(reservations.get(i).getStatus().equals("Nepotvrđeno")) {
@@ -832,26 +830,16 @@ public class ReservationFragment extends Fragment {
                                     reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                     Collections.reverse(reservationList);
                                     adapterRequest.setRequests(reservationList);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    emptyView.setVisibility(View.GONE);
                                 }
                             }
-
 
                         });
                     }
                 }
-
             }
         });
-
-        if(adapterRequest.getItemCount() == 0){
-            recyclerView.setVisibility(View.INVISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
-            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
-        }
-        else{
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
 
         recyclerView.setAdapter(adapterRequest);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -873,6 +861,11 @@ public class ReservationFragment extends Fragment {
                 for (int i = 0; i < reservations.size(); i++) {
                     if(reservations.get(i).getStatus().equals("Potvrđeno")) {
                         int finalI = i;
+
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
                         repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
                             @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
@@ -884,6 +877,8 @@ public class ReservationFragment extends Fragment {
                                             reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                             Collections.reverse(reservationList);
                                             adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            emptyView.setVisibility(View.GONE);
                                         }
                                     }
                                     else {
@@ -891,6 +886,8 @@ public class ReservationFragment extends Fragment {
                                         reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                         Collections.reverse(reservationList);
                                         adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.GONE);
                                     }
                                 }
                             }
@@ -899,16 +896,6 @@ public class ReservationFragment extends Fragment {
                 }
             }
         });
-
-        if(adapterConfirmedRequests.getItemCount() == 0){
-                recyclerView.setVisibility(View.INVISIBLE);
-                emptyView.setVisibility(View.VISIBLE);
-                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
-            }
-            else{
-                recyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
-            }
 
         recyclerView.setAdapter(adapterConfirmedRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

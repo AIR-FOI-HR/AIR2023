@@ -46,7 +46,6 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     FragmentPersonBinding binding;
-    ArrayList<BadgesData> badgesList;
     private String adress="";
     private String phone="";
     private ImageView edit;
@@ -122,43 +121,39 @@ public class ProfileFragment extends Fragment {
         sharedViewModel.VratiSveZnacke();
         sharedViewModel.badgesDataArrayList.observe(this, new Observer<ArrayList<BadgesData>>() {
             @Override
-            public void onChanged(ArrayList<BadgesData> badgesData) {
-                badgesList = badgesData;
-            }
-        });
-
-        sharedViewModel.VratiSveIDZnackeKorisnika(userID);
-        sharedViewModel.badgesIDDataArrayList.observe(this, new Observer<ArrayList<BadgeID>>() {
-            @Override
-            public void onChanged(ArrayList<BadgeID> badgeIDS) {
-                try{
-                for (int i = 0; i < badgesList.size(); i++) {
-                    for (int j = 0; j < badgeIDS.size(); j++) {
-                        if (badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())) {
-                            if (badgesList.get(i).getCategory().equals("buyer")) {
-                                Glide.with(getActivity())
-                                        .asBitmap()
-                                        .load(badgesList.get(i).getBadgeURL())
-                                        .into(binding.badgeBuyer);
-                            } else if (badgesList.get(i).getCategory().equals("seller")) {
-                                Glide.with(getActivity())
-                                        .asBitmap()
-                                        .load(badgesList.get(i).getBadgeURL())
-                                        .into(binding.badgeSeller);
-                            } else {
-                                Glide.with(getActivity())
-                                        .asBitmap()
-                                        .load(badgesList.get(i).getBadgeURL())
-                                        .into(binding.badgeQuiz);
+            public void onChanged(ArrayList<BadgesData> badgesList) {
+                sharedViewModel.VratiSveIDZnackeKorisnika(userID);
+                sharedViewModel.badgesIDDataArrayList.observe(getActivity(), new Observer<ArrayList<BadgeID>>() {
+                    @Override
+                    public void onChanged(ArrayList<BadgeID> badgeIDS) {
+                        try{
+                            for (int i = 0; i < badgesList.size(); i++) {
+                                for (int j = 0; j < badgeIDS.size(); j++) {
+                                    if (badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())) {
+                                        if (badgesList.get(i).getCategory().equals("buyer")) {
+                                            Glide.with(getActivity())
+                                                    .asBitmap()
+                                                    .load(badgesList.get(i).getBadgeURL())
+                                                    .into(binding.badgeBuyer);
+                                        } else if (badgesList.get(i).getCategory().equals("seller")) {
+                                            Glide.with(getActivity())
+                                                    .asBitmap()
+                                                    .load(badgesList.get(i).getBadgeURL())
+                                                    .into(binding.badgeSeller);
+                                        } else {
+                                            Glide.with(getActivity())
+                                                    .asBitmap()
+                                                    .load(badgesList.get(i).getBadgeURL())
+                                                    .into(binding.badgeQuiz);
+                                        }
+                                    }
+                                }
                             }
-                        }
+                        }catch (Exception ex){}
                     }
-                }
-            }catch (Exception ex){}
+                });
             }
         });
-
-
 
         sharedViewModel.DohvatiKorisnikaPoID(userID);
         sharedViewModel.userMutableLiveData.observe(this, new Observer<User>() {
