@@ -421,8 +421,8 @@ public class AddOfferFragment extends Fragment {
                     @Override
                     public void onChanged(ArrayList<Fish> fish) {
                         for (int i = 0; i < fish.size(); i++) {
-                            if (fish.get(i).getName().contains(fishSpecies.getText().toString())) {
-                                sharedViewModel.DodajPonuduSAutoID(fishSpecies.getText().toString(), location.getText().toString(), fish.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
+                            if (fish.get(i).getName().contains(fishSpecies.getText().toString()) || fish.get(i).getNameeng().contains(fishSpecies.getText().toString())) {
+                                sharedViewModel.DodajPonuduSAutoID(fish.get(i).getName(), location.getText().toString(), fish.get(i).getUrl(), price.getText().toString(), userId, smallQuantity.getText().toString(),
                                         mediumQuantity.getText().toString(), largeQuantity.getText().toString(), Timestamp.now());
                                 Fragment newFragment;
                                 ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();

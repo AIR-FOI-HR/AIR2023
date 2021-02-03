@@ -189,6 +189,18 @@ public class OfferDetailFragment extends Fragment {
                 availableSmall.setText(offersData.get(0).getSmallFish());
                 availableMedium.setText(offersData.get(0).getMediumFish());
                 availableLarge.setText(offersData.get(0).getLargeFish());
+
+                if (availableSmall.getText().toString().equals("0.0")) {
+                    availableSmall.setText("0");
+                }
+                if (availableMedium.getText().toString().equals("0.0")) {
+                    availableMedium.setText("0");
+                }
+                if (availableLarge.getText().toString().equals("0.0")) {
+                    availableLarge.setText("0");
+                }
+
+
                 if (availableSmall.getText().toString().equals("0")) {
                     linearSmallFish.setVisibility(View.GONE);
                 }

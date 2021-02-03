@@ -491,4 +491,8 @@ public class Repository {
     public void updateRating(String ratedUser, String ratingTotal) {
         firestoreService.updateRating(ratedUser, ratingTotal);
     }
+
+    public void UpdateOfferStatus(String offerID, String status) {
+        firestoreService.updateOfferStatus(offerID, status, "Offers");
+    }
 }

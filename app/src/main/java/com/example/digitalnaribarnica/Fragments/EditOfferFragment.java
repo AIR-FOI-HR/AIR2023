@@ -367,6 +367,7 @@ public class EditOfferFragment extends Fragment {
             smallQuantity.clearFocus();
             mediumQuantity.clearFocus();
             largeQuantity.clearFocus();
+
             if(smallQuantity.getText().toString().equals("0.0") || smallQuantity.getText().toString().equals("")){
                 smallQuantity.setText("0");
             }
@@ -383,13 +384,12 @@ public class EditOfferFragment extends Fragment {
             else {
                 sharedViewModel.AzurirajDostupneKolicinePonude(offerID, smallQuantity.getText().toString(), mediumQuantity.getText().toString(),
                         largeQuantity.getText().toString(), "Offers");
+                sharedViewModel.AzurirajStatusPonude(offerID, "Aktivna");
                 StyleableToast.makeText(getActivity(), getActivity().getString(R.string.offerSuccessfullyUpdated), 3, R.style.ToastGreen).show();
                 Fragment newFragment;
-                ((RegisterActivity) getActivity()).changeOnReservationsNavigationBar();
+                ((RegisterActivity) getActivity()).changeOnSearchNavigationBar();
                 newFragment = new SearchFragment(userID, true, true);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_containter, newFragment).commit();
-
-
             }
         });
 

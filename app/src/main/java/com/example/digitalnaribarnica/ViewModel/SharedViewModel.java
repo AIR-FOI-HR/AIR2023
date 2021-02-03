@@ -199,6 +199,11 @@ public class SharedViewModel extends ViewModel {
     public void AzurirajDostupneKolicinePonude(String offerID, String smallFish, String mediumFish, String largeFish, String collection){
         repository.UpdateOfferQuantity(offerID, smallFish, mediumFish, largeFish, collection);
     }
+
+    public void AzurirajStatusPonude(String offerID, String status){
+        repository.UpdateOfferStatus(offerID, status);
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
