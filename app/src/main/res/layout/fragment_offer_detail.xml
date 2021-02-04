@@ -576,6 +576,7 @@
                                     android:layout_height="20dp"
                                     android:layout_marginStart="15dp"
                                     android:contentDescription="@string/picture"
+                                    android:background="?selectableItemBackgroundBorderless"
                                     android:scaleType="centerCrop"
                                     android:src="@drawable/chat" />
 
@@ -586,7 +587,9 @@
                                     android:layout_marginStart="15dp"
                                     android:text="@string/contact"
                                     android:textSize="14sp"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/colorBlue"
+                                    android:textStyle="bold"
+                                    android:foreground="?android:attr/selectableItemBackground"/>
 
                             </LinearLayout>
 

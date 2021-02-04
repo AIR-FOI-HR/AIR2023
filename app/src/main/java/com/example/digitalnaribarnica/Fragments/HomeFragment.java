@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -165,7 +166,10 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.search_menu, menu);
         menu.findItem((R.id.all_offers_menu)).setVisible(false);
         menu.findItem((R.id.my_offers_menu)).setVisible(false);
+
         menu.findItem((R.id.action_search)).setVisible(false);
+        menu.findItem((R.id.action_search)).collapseActionView();
+
         menu.findItem((R.id.filter_menu)).setVisible(false);
         menu.findItem((R.id.sort_offers_menu)).setVisible(false);
         menu.findItem((R.id.onboardingHelp)).setVisible(true);
@@ -175,6 +179,7 @@ public class HomeFragment extends Fragment {
         else{
             menu.findItem((R.id.current_language)).setTitle("EN");
         }
+
     }
 
     @Override
@@ -241,4 +246,5 @@ public class HomeFragment extends Fragment {
            return "EN";
        }
     }
+
 }

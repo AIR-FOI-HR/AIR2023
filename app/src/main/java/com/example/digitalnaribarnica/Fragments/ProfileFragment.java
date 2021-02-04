@@ -91,6 +91,16 @@ public class ProfileFragment extends Fragment {
         otherProfile = false;
     }
 
+    public ProfileFragment(String userId, GoogleSignInClient mGoogleSignInClient, FirebaseUser mUser, FirebaseAuth mAuth, String cameFrom) {
+        this.currentUser=userId;
+        this.userID = userId;
+        this.mGoogleSignInClient = mGoogleSignInClient;
+        this.mUser = mUser;
+        this.mAuth = mAuth;
+        this.cameFrom = cameFrom;
+        otherProfile = true;
+    }
+
     @SuppressLint("RestrictedApi")
     @Nullable
     @Override
@@ -106,7 +116,7 @@ public class ProfileFragment extends Fragment {
         showRatings = binding.showRatings;
         btnGoBack = binding.btnBack;
 
-        if(otherProfile==true){
+        if(otherProfile){
                 btnGoBack.setVisibility(view.VISIBLE);
             if(!currentUser.equals(userID)){
                 edit.setVisibility(view.INVISIBLE);
@@ -114,6 +124,9 @@ public class ProfileFragment extends Fragment {
                 binding.odjava.setVisibility(view.INVISIBLE);
             }
          }
+        if(cameFrom.equals("Person")){
+            btnGoBack.setVisibility(view.GONE);
+        }
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 

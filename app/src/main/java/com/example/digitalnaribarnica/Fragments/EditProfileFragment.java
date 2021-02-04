@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -158,7 +159,8 @@ public class EditProfileFragment extends Fragment {
 
                                 firestoreService.updateUser(updateKorisnik,"Users");
                                 try {
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ProfileFragment(id, mGoogleSignInClient, mUser, mAuth)).commit();
+                                    Log.d("TagPolje", cameFrom);
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,new ProfileFragment(id, mGoogleSignInClient, mUser, mAuth, cameFrom)).commit();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

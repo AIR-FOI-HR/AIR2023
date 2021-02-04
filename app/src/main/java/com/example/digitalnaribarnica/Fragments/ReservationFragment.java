@@ -38,12 +38,14 @@ import com.example.badges.Logic;
 import com.example.badges.QuizCallBack;
 import com.example.badges.QuizData;
 import com.example.database.FirestoreService;
+import com.example.database.Fish;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.RegisterActivity;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.R;
+import com.example.repository.Listener.FishCallback;
 import com.example.repository.Repository;
 import com.example.repository.Listener.RezervationCallback;
 import com.example.digitalnaribarnica.databinding.FragmentReservationBinding;
@@ -443,164 +445,137 @@ public class ReservationFragment extends Fragment {
         return view;
     }
 
-    public void showHistory() {
-        onMyReservations = false;
-        onReservationsHistory = false;
-        onRequests = false;
-        onAcceptedRequests = false;
-        ReservationsAdapter adapterFromRequests = new ReservationsAdapter(getActivity(),ReservationFragment.this, userID);
-        ArrayList<ReservationsData> reservationList = new ArrayList<>();
-        Repository repository=new Repository();
-        repository.DohvatiRezervacije1(new RezervationCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onCallback(ArrayList<ReservationsData> reservations) {
-                recyclerView.setVisibility(View.INVISIBLE);
-                emptyView.setVisibility(View.VISIBLE);
-                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
-
-                for (int i = 0; i < reservations.size(); i++) {
-                    int finalI = i;
-                    if ((reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno")) && !reservations.get(i).getDeletedSeller()) {
-                        repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onCallback(ArrayList<OffersData> offersData) {
-                                if (offersData.get(0).getIdKorisnika().equals(userID)) {
-                                    if (isSearching) {
-                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
-                                            reservationList.add(reservations.get(finalI));
-                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                            Collections.reverse(reservationList);
-                                            adapterFromRequests.setReservationsHistory(reservationList);
-                                            recyclerView.setVisibility(View.VISIBLE);
-                                            emptyView.setVisibility(View.GONE);
-                                            Log.d("TagPolje", "showHistory: ");
-                                        }
-                                    } else {
-                                        reservationList.add(reservations.get(finalI));
-                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                        Collections.reverse(reservationList);
-                                        adapterFromRequests.setReservationsHistory(reservationList);
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        emptyView.setVisibility(View.GONE);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-
-
-                if(reservationList.size() == 0){
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
-                }
-                else{
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
-
-                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                adapterFromRequests.setReservationsHistory(reservationList);
-            }
-        });
-
-        recyclerView.setAdapter(adapterFromRequests);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-    }
-
     public void searchReservation(String search) {
         isSearching = true;
 
         if(onMyReservations) {
             ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
             Repository repository = new Repository();
-            repository.DohvatiRezervacije1(offersData -> {
-                ArrayList<ReservationsData> reservationList = new ArrayList<>();
-                repository.DohvatiRezervacije1(new RezervationCallback() {
-                    @Override
-                    public void onCallback(ArrayList<ReservationsData> reservations) {
-                        int deletedReservations = 0;
-                        for (int i = 0; i < reservations.size(); i++) {
-                            if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Nepotvrđeno")) {
-                                if(deletedOldItems(reservations.get(i)) != 0) {
-                                    deletedReservations += deletedOldItems(reservations.get(i));
-                                }
-                                else {
-                                    reservationList.add(reservations.get(i));
-                                }
-                            }
-                            else if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Potvrđeno")){
-                                reservationList.add(reservations.get(i));
-                            }
-                        }
 
-                        ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+            repository.DohvatiRibe(new FishCallback() {
+                @Override
+                public void onCallback(ArrayList<Fish> fishes) {
 
-                        for (ReservationsData d : reservationList) {
-                            repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
-                                @RequiresApi(api = Build.VERSION_CODES.N)
-                                @Override
-                                public void onCallback(ArrayList<OffersData> offersData) {
-                                    if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
-                                        reservationListSearched.add(d);
-                                        reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
-                                        adapter.setReservations(reservationListSearched, "MyReservations");
+                    repository.DohvatiRezervacije1(offersData -> {
+                        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                        repository.DohvatiRezervacije1(new RezervationCallback() {
+                            @Override
+                            public void onCallback(ArrayList<ReservationsData> reservations) {
+                                int deletedReservations = 0;
+                                for (int i = 0; i < reservations.size(); i++) {
+                                    if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Nepotvrđeno")) {
+                                        if(deletedOldItems(reservations.get(i)) != 0) {
+                                            deletedReservations += deletedOldItems(reservations.get(i));
+                                        }
+                                        else {
+                                            reservationList.add(reservations.get(i));
+                                        }
+                                    }
+                                    else if(reservations.get(i).getCustomerID().equals(userID) && reservations.get(i).getStatus().equals("Potvrđeno")){
+                                        reservationList.add(reservations.get(i));
                                     }
                                 }
-                            });
-                        }
 
-                        if (deletedReservations > 0) {
-                            showDialog(getActivity(), getActivity().getString(R.string.deletedReservations),
-                                    getActivity().getString(R.string.deletedReservationsMessage)
-                                            + String.valueOf(deletedReservations), "deletedFirebase");
-                        }
+                                ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
 
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    }
-                });
+                                for (ReservationsData d : reservationList) {
+                                    repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                        @RequiresApi(api = Build.VERSION_CODES.N)
+                                        @Override
+                                        public void onCallback(ArrayList<OffersData> offersData) {
+
+                                            if(Locale.getDefault().getDisplayLanguage().equals("English")){
+                                                for (int j = 0; j < fishes.size(); j++) {
+                                                    if (offersData.get(0).getName().equals(fishes.get(j).getName())) {
+                                                        if (fishes.get(j).getNameeng().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                                                            reservationListSearched.add(d);
+                                                            reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                                                            adapter.setReservations(reservationListSearched, "MyReservations");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                                                    reservationListSearched.add(d);
+                                                    reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                                                    adapter.setReservations(reservationListSearched, "MyReservations");
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                if (deletedReservations > 0) {
+                                    showDialog(getActivity(), getActivity().getString(R.string.deletedReservations),
+                                            getActivity().getString(R.string.deletedReservationsMessage)
+                                                    + String.valueOf(deletedReservations), "deletedFirebase");
+                                }
+
+                                recyclerView.setAdapter(adapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            }
+                        });
+                    });
+
+                }
             });
         }
 
         else if(onReservationsHistory){
             ReservationsAdapter adapter = new ReservationsAdapter(getActivity(), this, userID);
             Repository repository = new Repository();
-            repository.DohvatiRezervacije1(offersData -> {
-                ArrayList<ReservationsData> reservationList = new ArrayList<>();
-                repository.DohvatiRezervacije1(new RezervationCallback() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onCallback(ArrayList<ReservationsData> reservations) {
-                        for (int i = 0; i < reservations.size(); i++) {
-                            if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
-                                    reservationList.add(reservations.get(i));
-                            }
-                        }
 
-                        ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+            repository.DohvatiRibe(new FishCallback() {
+                @Override
+                public void onCallback(ArrayList<Fish> fishes) {
 
-                        for (ReservationsData d : reservationList) {
-                            repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
-                                @Override
-                                public void onCallback(ArrayList<OffersData> offersData) {
-                                    if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
-                                         reservationListSearched.add(d);
-                                         reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
-                                         adapter.setReservations(reservationListSearched, "ReservationHistory");
+                    repository.DohvatiRezervacije1(offersData -> {
+                        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+                        repository.DohvatiRezervacije1(new RezervationCallback() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onCallback(ArrayList<ReservationsData> reservations) {
+                                for (int i = 0; i < reservations.size(); i++) {
+                                    if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
+                                        reservationList.add(reservations.get(i));
                                     }
                                 }
-                            });
-                        }
 
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    }
-                });
+                                ArrayList<ReservationsData> reservationListSearched = new ArrayList<ReservationsData>();
+
+                                for (ReservationsData d : reservationList) {
+                                    repository.DohvatiPonuduPrekoIdPonude(d.getOfferID(), new FirestoreOffer() {
+                                        @Override
+                                        public void onCallback(ArrayList<OffersData> offersData) {
+
+                                            if(Locale.getDefault().getDisplayLanguage().equals("English")){
+                                                for (int j = 0; j < fishes.size(); j++) {
+                                                    if (offersData.get(0).getName().equals(fishes.get(j).getName())) {
+                                                        if (fishes.get(j).getNameeng().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                                                            reservationListSearched.add(d);
+                                                            reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                                                            adapter.setReservations(reservationListSearched, "ReservationHistory");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else{
+                                                if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
+                                                    reservationListSearched.add(d);
+                                                    reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
+                                                    adapter.setReservations(reservationListSearched, "ReservationHistory");
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                                recyclerView.setAdapter(adapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            }
+                        });
+                    });
+                }
             });
         }
         else if(onRequests){
@@ -766,34 +741,56 @@ public class ReservationFragment extends Fragment {
                 emptyView.setVisibility(View.VISIBLE);
                 emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
 
-                for (int i = 0; i < rezervations.size(); i++) {
-                    if(rezervations.get(i).getStatus().equals("Nepotvrđeno")) {
-                        int finalI = i;
-                        repository.DohvatiPonuduPrekoIdPonude(rezervations.get(i).getOfferID(), new FirestoreOffer() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onCallback(ArrayList<OffersData> offersData) {
-                                if(offersData.get(0).getIdKorisnika().equals(userID)){
-                                    if(isSearching){
-                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
-                                            reservationList.add(rezervations.get(finalI));
-                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                            adapterRequest.setRequests(reservationList, "Requests");
-                                            recyclerView.setVisibility(View.VISIBLE);
-                                            emptyView.setVisibility(View.GONE);
-                                        }}
-                                    else {
-                                        reservationList.add(rezervations.get(finalI));
-                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                        adapterRequest.setRequests(reservationList, "Requests");
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        emptyView.setVisibility(View.GONE);
+                repository.DohvatiRibe(new FishCallback() {
+                    @Override
+                    public void onCallback(ArrayList<Fish> fishes) {
+                        for (int i = 0; i < rezervations.size(); i++) {
+                            if(rezervations.get(i).getStatus().equals("Nepotvrđeno")) {
+                                int finalI = i;
+                                repository.DohvatiPonuduPrekoIdPonude(rezervations.get(i).getOfferID(), new FirestoreOffer() {
+                                    @RequiresApi(api = Build.VERSION_CODES.N)
+                                    @Override
+                                    public void onCallback(ArrayList<OffersData> offersData) {
+                                        if(offersData.get(0).getIdKorisnika().equals(userID)){
+                                            if(isSearching){
+
+                                                if(Locale.getDefault().getDisplayLanguage().equals("English")){
+                                                    for (int j = 0; j < fishes.size(); j++) {
+                                                        if (offersData.get(0).getName().equals(fishes.get(j).getName())) {
+                                                            if (fishes.get(j).getNameeng().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                                reservationList.add(rezervations.get(finalI));
+                                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                                adapterRequest.setRequests(reservationList, "Requests");
+                                                                recyclerView.setVisibility(View.VISIBLE);
+                                                                emptyView.setVisibility(View.GONE);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else{
+                                                    if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                        reservationList.add(rezervations.get(finalI));
+                                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                        adapterRequest.setRequests(reservationList, "Requests");
+                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                        emptyView.setVisibility(View.GONE);
+                                                    }
+                                                }
+                                           }
+                                            else{
+                                                reservationList.add(rezervations.get(finalI));
+                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                adapterRequest.setRequests(reservationList,"Requests" );
+                                                recyclerView.setVisibility(View.VISIBLE);
+                                                emptyView.setVisibility(View.GONE);
+                                            }
+                                        }
                                     }
-                                }
+                                });
                             }
-                        });
+                        }
                     }
-                }
+                });
             }
         });
 
@@ -1005,46 +1002,78 @@ public class ReservationFragment extends Fragment {
         ConfirmedRequestsAdapter adapterConfirmedRequests = new ConfirmedRequestsAdapter(getActivity(), ReservationFragment.this, userID);
         ArrayList<ReservationsData> reservationList = new ArrayList<>();
         Repository repository=new Repository();
-        repository.DohvatiRezervacije1(new RezervationCallback() {
+
+        repository.DohvatiRibe(new FishCallback() {
             @Override
-            public void onCallback(ArrayList<ReservationsData> reservations) {
+            public void onCallback(ArrayList<Fish> fishes) {
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> reservations) {
 
-                for (int i = 0; i < reservations.size(); i++) {
-                    if(reservations.get(i).getStatus().equals("Potvrđeno")) {
-                        int finalI = i;
+                        for (int i = 0; i < reservations.size(); i++) {
+                            if(reservations.get(i).getStatus().equals("Potvrđeno")) {
+                                int finalI = i;
 
-                        recyclerView.setVisibility(View.INVISIBLE);
-                        emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                                recyclerView.setVisibility(View.INVISIBLE);
+                                emptyView.setVisibility(View.VISIBLE);
+                                emptyView.setText(getActivity().getString(R.string.loadingData));
 
-                        repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
-                            @RequiresApi(api = Build.VERSION_CODES.N)
-                            @Override
-                            public void onCallback(ArrayList<OffersData> offersData) {
-                                if(offersData.get(0).getIdKorisnika().equals(userID)){
-                                    if(isSearching){
-                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
-                                            reservationList.add(reservations.get(finalI));
-                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                            Collections.reverse(reservationList);
-                                            adapterConfirmedRequests.setConfirmedRequests(reservationList);
-                                            recyclerView.setVisibility(View.VISIBLE);
-                                            emptyView.setVisibility(View.GONE);
+                                repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
+                                    @RequiresApi(api = Build.VERSION_CODES.N)
+                                    @Override
+                                    public void onCallback(ArrayList<OffersData> offersData) {
+                                        if(offersData.get(0).getIdKorisnika().equals(userID)){
+                                            if(isSearching) {
+                                                if (Locale.getDefault().getDisplayLanguage().equals("English")) {
+                                                    for (int j = 0; j < fishes.size(); j++) {
+                                                        if (offersData.get(0).getName().equals(fishes.get(j).getName())) {
+                                                            if (fishes.get(j).getNameeng().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                                reservationList.add(reservations.get(finalI));
+                                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                                Collections.reverse(reservationList);
+                                                                adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                                                recyclerView.setVisibility(View.VISIBLE);
+                                                                emptyView.setVisibility(View.GONE);
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                        reservationList.add(reservations.get(finalI));
+                                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                        Collections.reverse(reservationList);
+                                                        adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                        emptyView.setVisibility(View.GONE);
+                                                    }
+                                                }
+
+                                            }
+
+                                            else {
+                                                reservationList.add(reservations.get(finalI));
+                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                Collections.reverse(reservationList);
+                                                adapterConfirmedRequests.setConfirmedRequests(reservationList);
+                                                recyclerView.setVisibility(View.VISIBLE);
+                                                emptyView.setVisibility(View.GONE);
+                                            }
                                         }
                                     }
-                                    else {
-                                        reservationList.add(reservations.get(finalI));
-                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                        Collections.reverse(reservationList);
-                                        adapterConfirmedRequests.setConfirmedRequests(reservationList);
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        emptyView.setVisibility(View.GONE);
-                                    }
-                                }
+                                });
                             }
-                        });
+                        }
+                        if(reservationList.size() == 0){
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            emptyView.setVisibility(View.VISIBLE);
+                            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                        }
+                        else{
+                            recyclerView.setVisibility(View.VISIBLE);
+                            emptyView.setVisibility(View.GONE);
+                        }
                     }
-                }
+                });
             }
         });
 
@@ -1053,6 +1082,97 @@ public class ReservationFragment extends Fragment {
 
         toggleButtonGroup.uncheck(R.id.myReservations_button);
         toggleButtonGroup.uncheck(R.id.requests_button);
+    }
+
+    public void showHistory() {
+        onMyReservations = false;
+        onReservationsHistory = false;
+        onRequests = false;
+        onAcceptedRequests = false;
+
+        ReservationsAdapter adapterFromRequests = new ReservationsAdapter(getActivity(),ReservationFragment.this, userID);
+        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+        Repository repository=new Repository();
+
+        repository.DohvatiRibe(new FishCallback() {
+            @Override
+            public void onCallback(ArrayList<Fish> fishes) {
+
+                repository.DohvatiRezervacije1(new RezervationCallback() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onCallback(ArrayList<ReservationsData> reservations) {
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        emptyView.setVisibility(View.VISIBLE);
+                        emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                        for (int i = 0; i < reservations.size(); i++) {
+                            int finalI = i;
+                            if ((reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno")) && !reservations.get(i).getDeletedSeller()) {
+                                repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
+                                    @RequiresApi(api = Build.VERSION_CODES.N)
+                                    @Override
+                                    public void onCallback(ArrayList<OffersData> offersData) {
+                                        if (offersData.get(0).getIdKorisnika().equals(userID)) {
+                                            if (isSearching) {
+                                                if (Locale.getDefault().getDisplayLanguage().equals("English")) {
+                                                    for (int j = 0; j < fishes.size(); j++) {
+                                                        if (offersData.get(0).getName().equals(fishes.get(j).getName())) {
+                                                            if (fishes.get(j).getNameeng().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                                reservationList.add(reservations.get(finalI));
+                                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                                Collections.reverse(reservationList);
+                                                                adapterFromRequests.setReservationsHistory(reservationList);
+                                                                recyclerView.setVisibility(View.VISIBLE);
+                                                                emptyView.setVisibility(View.GONE);
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                                        reservationList.add(reservations.get(finalI));
+                                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                        Collections.reverse(reservationList);
+                                                        adapterFromRequests.setReservationsHistory(reservationList);
+                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                        emptyView.setVisibility(View.GONE);
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                reservationList.add(reservations.get(finalI));
+                                                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                                Collections.reverse(reservationList);
+                                                adapterFromRequests.setReservationsHistory(reservationList);
+                                                recyclerView.setVisibility(View.VISIBLE);
+                                                emptyView.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                        if(reservationList.size() == 0){
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            emptyView.setVisibility(View.VISIBLE);
+                            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                        }
+                        else{
+                            recyclerView.setVisibility(View.VISIBLE);
+                            emptyView.setVisibility(View.GONE);
+                        }
+
+                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                        adapterFromRequests.setReservationsHistory(reservationList);
+                    }
+                });
+            }
+    });
+
+        recyclerView.setAdapter(adapterFromRequests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     public void destroySearch() {

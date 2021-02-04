@@ -267,4 +267,5 @@
     <string name="noFishText">Trenutno nema dostupnih količina</string>
     <string name="History">Povijest</string>
     <string name="rateBuyer"><u>Ocijeni kupca</u></string>
+    <string name="loadingData">Učitavam podatke...</string>
 </resources>
