@@ -117,7 +117,6 @@ public class ConversationFragment extends Fragment {
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }else if(cameFrom.equals("Details")){
-                }else if(cameFrom.equals("Details")){
                     selectedFragment = new OfferDetailFragment(offerId, currentUserId, false);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();

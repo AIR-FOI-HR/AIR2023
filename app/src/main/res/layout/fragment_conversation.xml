@@ -83,28 +83,39 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/relativeLayoutSendMessage">
 
-        <EditText
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/text_send"
-            android:layout_toLeftOf="@id/btn_send"
-            android:hint="@string/hintMessage"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="20dp" />
+            app:cardCornerRadius="15dp"
+            app:cardElevation="4dp"
+            android:layout_margin="20dp">
 
-        <ImageButton
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:id="@+id/btn_send"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_baseline_send_24">
+            <EditText
+                android:id="@+id/text_send"
+                android:layout_width="312dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/hintMessage"
 
-        </ImageButton>
+                />
+
+            <ImageButton
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:id="@+id/btn_send"
+                android:layout_gravity="right"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_baseline_send_24">
+
+            </ImageButton>
+
+        </androidx.cardview.widget.CardView>
 
 
     </RelativeLayout>

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.database.Contacts;
+import com.example.database.Messages;
 import com.example.database.User;
 import com.example.database.Utils.DateParse;
 import com.example.digitalnaribarnica.R;
@@ -40,6 +41,7 @@ import com.example.repository.Data.ReservationsData;
 import com.example.repository.Listener.ContactsCallback;
 import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
+import com.example.repository.Listener.MessageCallback;
 import com.example.repository.Listener.RezervationCallback;
 import com.example.repository.Repository;
 import com.google.firebase.Timestamp;
@@ -47,6 +49,7 @@ import com.google.firebase.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class ChatFragment extends Fragment {
@@ -95,6 +98,8 @@ public class ChatFragment extends Fragment {
 
         //repository.DodatiKorisnikaUImenik("Contacts","2112313442442","3202340430430");
         //repository.DodatiKorisnikaUImenik("Contacts",userId,"iUXn4446xJWhzG5u02sutYGqbZF2");
+        ArrayList<Messages> svePoruke = new ArrayList<>();
+
         repository.DohvatiImenikPoID(userId, new ContactsCallback() {
             @Override
             public void onCallback(ArrayList<Contacts> contacts) {
@@ -104,13 +109,41 @@ public class ChatFragment extends Fragment {
                         @Override
                         public void onCallback(User user) {
                             Log.d("CONTACTS",user.getFullName());
-                            chatMessagesGeneral.add( new ChatData(user.getUserID(),user.getFullName(),"Zadnja poruka",user.getPhoto(), Timestamp.now()));
-                            //ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
-                            ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
-                            adapterChat.setChatMessages(chatMessagesGeneral);
-                            adapterChat.notifyDataSetChanged();
-                            recyclerView.setAdapter(adapterChat);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                            repository.DohvatiBrojPorukaKorisnika("Contacts", userId, user.getUserID(), Long.valueOf(30), new MessageCallback() {
+                                @Override
+                                public void onCallback(ArrayList<Messages> messages) {
+                                    ArrayList<String> zadnjaPoruka = new ArrayList<>();
+                                    Timestamp datumVrijemeZadnjePoruke = Timestamp.now();
+                                    for(Messages poruka: messages){
+                                        if(poruka.getSender().equals(userId))
+                                            svePoruke.add(new Messages(userId, poruka.getMessage(), poruka.getDatetimeMessage()));
+                                        else
+                                            svePoruke.add(new Messages(user.getUserID(), poruka.getMessage(), poruka.getDatetimeMessage()));
+
+                                        sortMessages(svePoruke);
+                                        //Collections.reverse(svePoruke);
+                                    }
+
+                                    sortMessages(svePoruke);
+
+                                    for (Messages poruke: svePoruke) {
+                                        Log.d("porukee", poruke.getMessage());
+                                        zadnjaPoruka.add(poruke.getMessage());
+                                        datumVrijemeZadnjePoruke = poruke.getDatetimeMessage();
+                                    }
+
+                                    Log.d("porukae", zadnjaPoruka.get(zadnjaPoruka.size()-1));
+                                    Log.d("aaa", user.getUserID());
+                                    chatMessagesGeneral.add(new ChatData(user.getUserID(),user.getFullName(),zadnjaPoruka.get(zadnjaPoruka.size()-1),user.getPhoto(), datumVrijemeZadnjePoruke));
+                                    ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
+                                    adapterChat.setChatMessages(chatMessagesGeneral);
+                                    adapterChat.notifyDataSetChanged();
+                                    recyclerView.setAdapter(adapterChat);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                }
+                            });
+
                         }
 
                     });
@@ -119,11 +152,18 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        /*chatDataTest.add(new ChatData("adjhak", "Neko ime", "Seen", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2F113865007966208087640.png?alt=media&token=083f1696-2b91-4247-a6c2-b1f974215874","2021-01-30 12:13:14"));
-        chatDataTest.add(new ChatData("adjhak", "Neko ime 2", "Bla bla", "https://firebasestorage.googleapis.com/v0/b/digitalna-ribarnica-fb.appspot.com/o/profilne%2FXgsooqJxFjhuu2czKHmNccML6lA2.png?alt=media&token=d119f01d-e230-4b44-9b0c-aa78040dc369","2021-01-30 10:02:14"));*/
-
-
         return view;
+    }
+
+    public ArrayList<Messages> sortMessages(ArrayList<Messages> messages) {
+        Collections.sort(messages, new Comparator<Messages>() {
+            @Override
+            public int compare(Messages m1, Messages m2) {
+                return m1.getDatetimeMessage().compareTo(m2.getDatetimeMessage());
+            }
+        });
+
+        return messages;
     }
 
     @Override
