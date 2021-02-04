@@ -16,6 +16,7 @@
             android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:selectionRequired="true"
             android:layout_centerHorizontal="true">
 
             <Button
@@ -50,6 +51,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:text="@string/acceptedRequests"
+                android:layout_weight="1"
+                android:textSize="10dp"
+                style="?attr/materialButtonOutlinedStyle"
+                />
+            <Button
+                android:id="@+id/history"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/History"
                 android:layout_weight="1"
                 android:textSize="10dp"
                 style="?attr/materialButtonOutlinedStyle"

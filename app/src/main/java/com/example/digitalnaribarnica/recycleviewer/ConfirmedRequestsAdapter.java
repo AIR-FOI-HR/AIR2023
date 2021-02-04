@@ -322,8 +322,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                             firestoreService.updateNumberOfPurchases(buyerID, addPurchases.toString(), "Users");
                         }
                     });
-
-                    selectedFragment = new FragmentUserRating(userID, buyerID);
+                    selectedFragment = new FragmentUserRating(userID, buyerID, ReservationID, false, true);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                     }
@@ -350,7 +349,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
                     firestoreService.updateReservationStatus(ReservationID, "Neuspješno", "Rezervation");
-                    selectedFragment = new FragmentUserRating(userID, buyerID);
+                    selectedFragment = new FragmentUserRating(userID, buyerID, ReservationID, false, true);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }

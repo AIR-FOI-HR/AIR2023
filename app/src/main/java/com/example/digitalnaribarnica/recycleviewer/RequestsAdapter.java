@@ -61,6 +61,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     String ReservationID ="";
     String reservationDate ="";
     String buyerID = "";
+    String cameFrom ="";
 
     public RequestsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
         this.context = context;
@@ -189,7 +190,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new ProfileFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, "Requests");
+                selectedFragment = new ProfileFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, cameFrom);
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -201,8 +202,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         return reservations.size();
     }
 
-    public void setRequests(ArrayList<ReservationsData> reservations) {
+    public void setRequests(ArrayList<ReservationsData> reservations, String cameFrom) {
         this.reservations = reservations;
+        this.cameFrom = cameFrom;
         notifyDataSetChanged();
     }
 

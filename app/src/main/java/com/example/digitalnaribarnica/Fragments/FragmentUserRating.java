@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.database.FirestoreService;
 import com.example.database.Review;
 import com.example.database.User;
 import com.example.digitalnaribarnica.ViewModel.SharedViewModel;
@@ -45,12 +46,29 @@ public class FragmentUserRating extends Fragment {
 
     String userID;
     String ratedUser;
+    String reservationID;
 
+    private Boolean fromRequests = false;
+    private Boolean fromConfirmed = false;
     public FragmentUserRating() {}
 
     public FragmentUserRating( String userId, String ratedUser) {
         this.userID = userId;
         this.ratedUser = ratedUser;
+    }
+
+    public FragmentUserRating( String userId, String ratedUser, String reservationID) {
+        this.userID = userId;
+        this.ratedUser = ratedUser;
+        this.reservationID = reservationID;
+    }
+
+    public FragmentUserRating( String userId, String ratedUser, String reservationID, Boolean fromRequests, Boolean fromConfirmed) {
+        this.userID = userId;
+        this.ratedUser = ratedUser;
+        this.reservationID = reservationID;
+        this.fromRequests = fromRequests;
+        this.fromConfirmed =  fromConfirmed;
     }
 
     @SuppressLint("RestrictedApi")
@@ -107,9 +125,7 @@ public class FragmentUserRating extends Fragment {
             public void onClick(View v) {
                 sharedViewModel.DodajOcjenu(ratedUser, String.valueOf(rating.getRating()), comment.getText().toString(), userID, Timestamp.now());
                 StyleableToast.makeText(getActivity(), getActivity().getString(R.string.userSuccessfullyRated), 3, R.style.ToastGreen).show();
-
-
-
+                sharedViewModel.AzurirajStatusRezervacijeOcjena(reservationID, "Ocijenjeno", "Rezervation");
                 sharedViewModel.DohvatiOcjenePoID(ratedUser);
                 sharedViewModel.reviewDataArrayList.observe(getActivity(), new Observer<ArrayList<Review>>() {
                     @Override
@@ -125,10 +141,19 @@ public class FragmentUserRating extends Fragment {
                         }
                     }
                 });
-
-                selectedFragment = new ReservationFragment(userID, true);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                if(fromRequests){
+                    selectedFragment = new ReservationFragment(userID, true, true, false);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                } else if(fromConfirmed){
+                    selectedFragment = new ReservationFragment(userID, true, true, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new ReservationFragment(userID, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
             }
         });
         return  view;

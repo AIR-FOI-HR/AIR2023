@@ -73,6 +73,7 @@ public class ReservationFragment extends Fragment {
     Button buttonReservationHistory;
     Button buttonRequest;
     Button buttonAccepted;
+    Button buttonHistory;
 
     TextView emptyView;
 
@@ -80,12 +81,13 @@ public class ReservationFragment extends Fragment {
     public Boolean onRequests = false;
     public Boolean onAcceptedRequests = false;
     public Boolean onReservationsHistory = false;
-
+    public Boolean fromConfirmed = false;
     Boolean startDontSearch = true;
     Boolean isSearching = false;
     Boolean fromReview = false;
-
     Boolean isEmptyRequest = true;
+    Boolean fromRequests = false;
+    String cameFrom ="";
 
     MaterialButtonToggleGroup toggleButtonGroup;
 
@@ -100,6 +102,18 @@ public class ReservationFragment extends Fragment {
     public ReservationFragment(String userId, Boolean fromReview){
         this.userID = userId;
         this.fromReview = fromReview;
+    }
+
+    public ReservationFragment(String userId, String cameFrom){
+        this.userID = userId;
+        this.cameFrom = cameFrom;
+    }
+
+    public ReservationFragment(String userId, Boolean fromReview, Boolean fromRequests, Boolean fromConfirmed){
+        this.userID = userId;
+        this.fromReview = fromReview;
+        this.fromRequests = fromRequests;
+        this.fromConfirmed = fromConfirmed;
     }
 
     @Override
@@ -131,58 +145,100 @@ public class ReservationFragment extends Fragment {
         buttonRequest=binding.requestsButton;
         buttonAccepted=binding.acceptedRequestsButton;
         buttonReservationHistory=binding.reservationHistory;
+        buttonHistory=binding.history;
 
         recyclerView = binding.recyclerReservations;
         emptyView = binding.emptyView;
 
-        if(fromReview && ((RegisterActivity) getActivity()).buyer){
+        if (fromConfirmed && !((RegisterActivity) getActivity()).buyer){
+            fromReview=false;
+            buttonReservation.setVisibility(View.GONE);
+            buttonReservationHistory.setVisibility(View.GONE);
+            buttonRequest.setVisibility(View.VISIBLE);
+            buttonAccepted.setVisibility(View.VISIBLE);
+            buttonHistory.setVisibility(View.VISIBLE);
+            toggleButtonGroup.check(R.id.acceptedRequests_button);
+            buttonAccepted.setClickable(false);
+            confirmedRequests();
+        } else if(fromReview && ((RegisterActivity) getActivity()).buyer){
             fromReview = false;
             buttonReservation.setVisibility(View.VISIBLE);
             buttonReservationHistory.setVisibility(View.VISIBLE);
             buttonRequest.setVisibility(View.GONE);
             buttonAccepted.setVisibility(View.GONE);
-
+            buttonHistory.setVisibility(View.GONE);
             toggleButtonGroup.check(R.id.reservation_history);
             buttonReservationHistory.setClickable(false);
-
             showReservationHistory();
+            Log.d("TagPolje", "PRVI");
         }
 
-        else if(fromReview && !((RegisterActivity) getActivity()).buyer){
+        else if(fromReview && !fromRequests && !((RegisterActivity) getActivity()).buyer){
             fromReview = false;
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);
             buttonRequest.setVisibility(View.VISIBLE);
             buttonAccepted.setVisibility(View.VISIBLE);
-
+            buttonHistory.setVisibility(View.VISIBLE);
+            toggleButtonGroup.check(R.id.history);
+            buttonHistory.setClickable(false);
+            showHistory();
+            Log.d("TagPolje", "DRUGI");
+        }
+        else if(fromReview && fromRequests && !((RegisterActivity) getActivity()).buyer){
+            fromReview = false;
+            buttonReservation.setVisibility(View.GONE);
+            buttonReservationHistory.setVisibility(View.GONE);
+            buttonRequest.setVisibility(View.VISIBLE);
+            buttonAccepted.setVisibility(View.VISIBLE);
+            buttonHistory.setVisibility(View.VISIBLE);
             toggleButtonGroup.check(R.id.acceptedRequests_button);
             buttonAccepted.setClickable(false);
-
-            confirmedRequests();;
+            showHistory();
+            Log.d("TagPolje", "Treći");
         }
 
         else if (((RegisterActivity) getActivity()).buyer){
+            Log.d("TagPolje", "Cetvrti");
             buttonReservation.setVisibility(View.VISIBLE);
             buttonReservationHistory.setVisibility(View.VISIBLE);
             buttonRequest.setVisibility(View.GONE);
             buttonAccepted.setVisibility(View.GONE);
-
-            toggleButtonGroup.check(R.id.myReservations_button);
-            buttonReservation.setClickable(false);
-
-            showMyReservations();
-        }
-
-        else{
+            buttonHistory.setVisibility(View.GONE);
+            if(cameFrom.equals("ReservationHistory")){
+                toggleButtonGroup.check(R.id.reservation_history);
+                buttonReservationHistory.setClickable(false);
+                showReservationHistory();
+            }else {
+                toggleButtonGroup.check(R.id.myReservations_button);
+                buttonReservation.setClickable(false);
+                showMyReservations();
+            }
+        } else if (!((RegisterActivity) getActivity()).buyer){
+            Log.d("TagPolje", "PETI");
+            fromReview=false;
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);
             buttonRequest.setVisibility(View.VISIBLE);
             buttonAccepted.setVisibility(View.VISIBLE);
-
-            toggleButtonGroup.check(R.id.requests_button);
-            buttonRequest.setClickable(false);
-
-            showRequests();
+            buttonHistory.setVisibility(View.VISIBLE);
+            if(cameFrom.equals("History")){
+                toggleButtonGroup.check(R.id.history);
+                buttonHistory.setClickable(false);
+                showHistory();
+            }else if(cameFrom.equals("Requests")) {
+                toggleButtonGroup.check(R.id.requests_button);
+                buttonRequest.setClickable(false);
+                showRequests();
+            } else if(cameFrom.equals("Confirmed")){
+                toggleButtonGroup.check(R.id.acceptedRequests_button);
+                buttonAccepted.setClickable(false);
+                confirmedRequests();
+            }else{
+                toggleButtonGroup.check(R.id.requests_button);
+                buttonRequest.setClickable(false);
+                showRequests();
+            }
         }
 
         Repository repository = new Repository();
@@ -287,7 +343,8 @@ public class ReservationFragment extends Fragment {
                             buttonReservationHistory.setClickable(true);
                             buttonRequest.setClickable(true);
                             buttonAccepted.setClickable(true);
-
+                            buttonHistory.setClickable(true);
+                            toggleButtonGroup.uncheck(R.id.history);
                             toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.requests_button);
                             toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
@@ -298,7 +355,8 @@ public class ReservationFragment extends Fragment {
                             buttonReservationHistory.setClickable(false);
                             buttonRequest.setClickable(true);
                             buttonAccepted.setClickable(true);
-
+                            buttonHistory.setClickable(true);
+                            toggleButtonGroup.uncheck(R.id.history);
                             toggleButtonGroup.uncheck(R.id.myReservations_button);
                             toggleButtonGroup.uncheck(R.id.requests_button);
                             toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
@@ -309,7 +367,8 @@ public class ReservationFragment extends Fragment {
                             buttonReservationHistory.setClickable(true);
                             buttonRequest.setClickable(false);
                             buttonAccepted.setClickable(true);
-
+                            buttonHistory.setClickable(true);
+                            toggleButtonGroup.uncheck(R.id.history);
                             toggleButtonGroup.uncheck(R.id.myReservations_button);
                             toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
@@ -320,7 +379,20 @@ public class ReservationFragment extends Fragment {
                             buttonReservationHistory.setClickable(true);
                             buttonRequest.setClickable(true);
                             buttonAccepted.setClickable(false);
+                            buttonHistory.setClickable(true);
+                            toggleButtonGroup.uncheck(R.id.history);
+                            toggleButtonGroup.uncheck(R.id.myReservations_button);
+                            toggleButtonGroup.uncheck(R.id.reservation_history);
+                            toggleButtonGroup.uncheck(R.id.requests_button);
+                            break;
 
+                        case R.id.history:
+                            buttonReservation.setClickable(true);
+                            buttonReservationHistory.setClickable(true);
+                            buttonRequest.setClickable(true);
+                            buttonAccepted.setClickable(true);
+                            buttonHistory.setClickable(false);
+                            toggleButtonGroup.uncheck(R.id.acceptedRequests_button);
                             toggleButtonGroup.uncheck(R.id.myReservations_button);
                             toggleButtonGroup.uncheck(R.id.reservation_history);
                             toggleButtonGroup.uncheck(R.id.requests_button);
@@ -360,7 +432,84 @@ public class ReservationFragment extends Fragment {
             }
         });
 
+        buttonHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSearching = false;
+                showHistory();
+            }
+        });
+
         return view;
+    }
+
+    public void showHistory() {
+        onMyReservations = false;
+        onReservationsHistory = false;
+        onRequests = false;
+        onAcceptedRequests = false;
+        ReservationsAdapter adapterFromRequests = new ReservationsAdapter(getActivity(),ReservationFragment.this, userID);
+        ArrayList<ReservationsData> reservationList = new ArrayList<>();
+        Repository repository=new Repository();
+        repository.DohvatiRezervacije1(new RezervationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onCallback(ArrayList<ReservationsData> reservations) {
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                for (int i = 0; i < reservations.size(); i++) {
+                    int finalI = i;
+                    if ((reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno")) && !reservations.get(i).getDeletedSeller()) {
+                        repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onCallback(ArrayList<OffersData> offersData) {
+                                if (offersData.get(0).getIdKorisnika().equals(userID)) {
+                                    if (isSearching) {
+                                        if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
+                                            reservationList.add(reservations.get(finalI));
+                                            reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                            Collections.reverse(reservationList);
+                                            adapterFromRequests.setReservationsHistory(reservationList);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            emptyView.setVisibility(View.GONE);
+                                            Log.d("TagPolje", "showHistory: ");
+                                        }
+                                    } else {
+                                        reservationList.add(reservations.get(finalI));
+                                        reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                                        Collections.reverse(reservationList);
+                                        adapterFromRequests.setReservationsHistory(reservationList);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+
+                if(reservationList.size() == 0){
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                }
+                else{
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+
+                reservationList.sort(Comparator.comparing(ReservationsData::getDate));
+                adapterFromRequests.setReservationsHistory(reservationList);
+            }
+        });
+
+        recyclerView.setAdapter(adapterFromRequests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     public void searchReservation(String search) {
@@ -399,7 +548,7 @@ public class ReservationFragment extends Fragment {
                                     if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
                                         reservationListSearched.add(d);
                                         reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
-                                        adapter.setReservations(reservationListSearched);
+                                        adapter.setReservations(reservationListSearched, "MyReservations");
                                     }
                                 }
                             });
@@ -442,7 +591,7 @@ public class ReservationFragment extends Fragment {
                                     if (offersData.get(0).getName().toLowerCase().contains(search.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(search.toLowerCase())) {
                                          reservationListSearched.add(d);
                                          reservationListSearched.sort(Comparator.comparing(ReservationsData::getDate));
-                                         adapter.setReservations(reservationListSearched);
+                                         adapter.setReservations(reservationListSearched, "ReservationHistory");
                                     }
                                 }
                             });
@@ -457,8 +606,10 @@ public class ReservationFragment extends Fragment {
         else if(onRequests){
             refreshRequestsList();
         }
-        else{
+        else if(onAcceptedRequests){
             confirmedRequests();
+        } else{
+            showHistory();
         }
     }
 
@@ -593,7 +744,7 @@ public class ReservationFragment extends Fragment {
                         emptyView.setVisibility(View.GONE);
                     }
 
-                    adapter.setReservations(reservationList);
+                    adapter.setReservations(reservationList, "MyReservations");
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 }
@@ -627,14 +778,14 @@ public class ReservationFragment extends Fragment {
                                         if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
                                             reservationList.add(rezervations.get(finalI));
                                             reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                            adapterRequest.setRequests(reservationList);
+                                            adapterRequest.setRequests(reservationList, "Requests");
                                             recyclerView.setVisibility(View.VISIBLE);
                                             emptyView.setVisibility(View.GONE);
                                         }}
                                     else {
                                         reservationList.add(rezervations.get(finalI));
                                         reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                                        adapterRequest.setRequests(reservationList);
+                                        adapterRequest.setRequests(reservationList, "Requests");
                                         recyclerView.setVisibility(View.VISIBLE);
                                         emptyView.setVisibility(View.GONE);
                                     }
@@ -697,7 +848,7 @@ public class ReservationFragment extends Fragment {
                 }
 
                 reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                adapterFromRequests.setReservations(reservationList);
+                adapterFromRequests.setReservations(reservationList, "MyReservations");
             }
         });
 
@@ -717,7 +868,7 @@ public class ReservationFragment extends Fragment {
                     @Override
                     public void onCallback(ArrayList<ReservationsData> reservations) {
                         for (int i = 0; i < reservations.size(); i++) {
-                            if (reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
+                            if (reservations.get(i).getCustomerID().equals(userID) && !reservations.get(i).getDeletedBuyer() && (reservations.get(i).getStatus().equals("Uspješno")) || reservations.get(i).getStatus().equals("Neuspješno")) {
                                 reservationList.add(reservations.get(i));
                             }
                         }
@@ -730,7 +881,7 @@ public class ReservationFragment extends Fragment {
                                 public void onCallback(ArrayList<OffersData> offersData) {
                                     if (offersData.get(0).getName().toLowerCase().contains(searchText.toLowerCase()) || offersData.get(0).getLocation().toLowerCase().contains(searchText.toLowerCase())) {
                                         reservationListSearched.add(d);
-                                        adapter.setReservations(reservationListSearched);
+                                        adapter.setReservations(reservationListSearched, "ReservationHistory");
                                     }
                                 }
                             });
@@ -747,7 +898,7 @@ public class ReservationFragment extends Fragment {
                             emptyView.setVisibility(View.GONE);
                         }
 
-                        adapter.setReservations(reservationListSearched);
+                        adapter.setReservations(reservationListSearched, "ReservationHistory");
 
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -775,7 +926,7 @@ public class ReservationFragment extends Fragment {
             @Override
             public void onCallback(ArrayList<ReservationsData> reservations) {
                 for (int i = 0; i < reservations.size(); i++) {
-                    if(reservations.get(i).getCustomerID().equals(userID) && (reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno"))){
+                    if(reservations.get(i).getCustomerID().equals(userID) && !reservations.get(i).getDeletedBuyer() && (reservations.get(i).getStatus().equals("Uspješno") || reservations.get(i).getStatus().equals("Neuspješno"))){
                             reservationList.add(reservations.get(i));
                     }
                 }
@@ -791,7 +942,7 @@ public class ReservationFragment extends Fragment {
                 }
 
                 reservationList.sort(Comparator.comparing(ReservationsData::getDate));
-                adapterFromRequests.setReservations(reservationList);
+                adapterFromRequests.setReservations(reservationList, "ReservationHistory");
             }
         });
 
@@ -829,7 +980,7 @@ public class ReservationFragment extends Fragment {
                                     reservationList.add(reservations.get(finalI));
                                     reservationList.sort(Comparator.comparing(ReservationsData::getDate));
                                     Collections.reverse(reservationList);
-                                    adapterRequest.setRequests(reservationList);
+                                    adapterRequest.setRequests(reservationList, "Requests");
                                     recyclerView.setVisibility(View.VISIBLE);
                                     emptyView.setVisibility(View.GONE);
                                 }

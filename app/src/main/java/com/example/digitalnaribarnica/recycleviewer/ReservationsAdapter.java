@@ -29,9 +29,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.badges.BadgeCallback;
+import com.example.badges.BadgeID;
+import com.example.badges.BadgeIDCallback;
+import com.example.badges.BadgesData;
+import com.example.badges.BadgesRepository;
 import com.example.database.FirestoreService;
 import com.example.database.Fish;
+import com.example.database.User;
 import com.example.database.Utils.DateParse;
+import com.example.digitalnaribarnica.Fragments.ProfileFragment;
+import com.example.repository.Listener.FirestoreCallback;
 import com.example.repository.Listener.FirestoreOffer;
 import com.example.digitalnaribarnica.Fragments.FragmentUserRating;
 import com.example.digitalnaribarnica.Fragments.ReservationFragment;
@@ -52,6 +60,8 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     private ImageView deleteReservation;
     String userID ="";
     String ReservationID ="";
+    Boolean history = false;
+    String cameFrom;
 
 
     public ReservationsAdapter(Context context, ReservationFragment reservationFragment, String userId) {
@@ -81,7 +91,20 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+         if(history){
+            holder.rateSeller.setText(R.string.rateBuyer);
+            holder.buyer.setText(R.string.buyer);
+             if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && !reservations.get(position).getRatedBySeller()){
+                 holder.rateSeller.setVisibility(View.VISIBLE);
+             }
 
+         }else{
+             holder.rateSeller.setText(R.string.rateSeller);
+             holder.buyer.setText(R.string.seller);
+             if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && !reservations.get(position).getRatedByBuyer()){
+                 holder.rateSeller.setVisibility(View.VISIBLE);
+             }
+         }
         Repository repository = new Repository();
            repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
                 @Override
@@ -94,6 +117,67 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                             @Override
                             public void onCallback(ArrayList<Fish> fishes) {
                                 holder.fish.setText(fishes.get(0).getNameeng());
+                            }
+                        });
+                    }
+
+                    BadgesRepository badgesRepository = new BadgesRepository();
+                    if(history){
+                        repository.DohvatiKorisnikaPoID(reservations.get(position).getCustomerID(), new FirestoreCallback() {
+                            @Override
+                            public void onCallback(User user) {
+                                holder.textBuyer.setText(user.getFullName());
+                                badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<BadgesData> badgesList) {
+                                        badgesRepository.DohvatiIDZnackiKorisnika(reservations.get(position).getCustomerID(), new BadgeIDCallback() {
+                                            @Override
+                                            public void onCallback(ArrayList<BadgeID> badgeIDS) {
+                                                for (int i = 0; i < badgesList.size(); i++) {
+                                                    for (int j = 0; j < badgeIDS.size(); j++) {
+                                                        if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                                                            if(badgesList.get(i).getCategory().equals("buyer")){
+                                                                Glide.with(context)
+                                                                        .asBitmap()
+                                                                        .load(badgesList.get(i).getBadgeURL())
+                                                                        .into(holder.badgeImage);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                        repository.DohvatiKorisnikaPoID(offersData.get(0).getIdKorisnika(), new FirestoreCallback() {
+                            @Override
+                            public void onCallback(User user) {
+                                holder.textBuyer.setText(user.getFullName());
+                                badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
+                                    @Override
+                                    public void onCallback(ArrayList<BadgesData> badgesList) {
+                                        badgesRepository.DohvatiIDZnackiKorisnika(offersData.get(0).getIdKorisnika(), new BadgeIDCallback() {
+                                            @Override
+                                            public void onCallback(ArrayList<BadgeID> badgeIDS) {
+                                                for (int i = 0; i < badgesList.size(); i++) {
+                                                    for (int j = 0; j < badgeIDS.size(); j++) {
+                                                        if(badgesList.get(i).getBadgeID().equals(badgeIDS.get(j).getId())){
+                                                            if(badgesList.get(i).getCategory().equals("seller")){
+                                                                Glide.with(context)
+                                                                        .asBitmap()
+                                                                        .load(badgesList.get(i).getBadgeURL())
+                                                                        .into(holder.badgeImage);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     }
@@ -162,9 +246,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                             .into(holder.fishImage);
 
 
-                    if((reservations.get(position).getStatus().equals("Uspješno") || reservations.get(position).getStatus().equals("Neuspješno")) && reservations.get(position).getRatedStatus().equals("Neocijenjeno")){
-                        holder.rateSeller.setVisibility(View.VISIBLE);
-                    }
                 }
             });
 
@@ -173,21 +254,55 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         String textDate = "<b>" +  context.getString(R.string.dateReservation) + "</b>" + "\n" + dateFormat.format(calendar.getTime());
         holder.date.setText(Html.fromHtml(textDate));
 
+        holder.textBuyer.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                if(history) {
+                    selectedFragment = new ProfileFragment(reservations.get(holder.getAdapterPosition()).getCustomerID(), userID, "History");
+                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    repository.DohvatiPonuduPrekoIdPonude(reservations.get(holder.getAdapterPosition()).getOfferID(), new FirestoreOffer() {
+                                @Override
+                                public void onCallback(ArrayList<OffersData> offersData) {
+                                    if(cameFrom.equals("ReservationHistory")){
+                                        selectedFragment = new ProfileFragment(offersData.get(0).getIdKorisnika(), userID, cameFrom);
+                                        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                                selectedFragment).commit();
+                                    }else{
+                                        selectedFragment = new ProfileFragment(offersData.get(0).getIdKorisnika(), userID, cameFrom);
+                                        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                                selectedFragment).commit();
+                                    }
+
+                                }
+                           });
+                }
+            }
+        });
+
 
         holder.rateSeller.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
                 if(reservations.get(position).getStatus().equals("Neuspješno") || reservations.get(position).getStatus().equals("Uspješno")) {
-                    FirestoreService firestoreService=new FirestoreService();
-                    firestoreService.updateReservationRatedStatus(reservations.get(position).getReservationID(), "Ocijenjeno", "Rezervation");
-
                     repository.DohvatiPonuduPrekoIdPonude(reservations.get(position).getOfferID(), new FirestoreOffer() {
                                 @Override
                                 public void onCallback(ArrayList<OffersData> offersData) {
-                                    selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika());
-                                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                                            selectedFragment).commit();
+                                    if(history){
+                                        repository.AzurirajStatusOcijenioProdavatelj(reservations.get(holder.getAdapterPosition()).getReservationID(), true);
+                                        selectedFragment = new FragmentUserRating(userID, reservations.get(position).getCustomerID(), reservations.get(position).getReservationID());
+                                        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                                selectedFragment).commit();
+                                    }else{
+
+                                        repository.AzurirajStatusOcijenioKupac(reservations.get(holder.getAdapterPosition()).getReservationID(), true);
+                                        selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika(), reservations.get(position).getReservationID());
+                                        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                                                selectedFragment).commit();
+                                    }
                                 }
 
                             });
@@ -201,7 +316,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         return reservations.size();
     }
 
-    public void setReservations(ArrayList<ReservationsData> reservations) {
+    public void setReservations(ArrayList<ReservationsData> reservations, String cameFrom) {
         Collections.sort(reservations, new Comparator<ReservationsData>() {
             public int compare(ReservationsData m1, ReservationsData m2) {
                 return m1.getDate().compareTo(m2.getDate());
@@ -209,6 +324,19 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         });
         Collections.reverse(reservations);
         this.reservations = reservations;
+        this.cameFrom = cameFrom;
+        notifyDataSetChanged();
+    }
+
+    public void setReservationsHistory(ArrayList<ReservationsData> reservations) {
+        Collections.sort(reservations, new Comparator<ReservationsData>() {
+            public int compare(ReservationsData m1, ReservationsData m2) {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        });
+        Collections.reverse(reservations);
+        this.reservations = reservations;
+        this.history = true;
         notifyDataSetChanged();
     }
 
@@ -224,7 +352,10 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
         private TextView fishClassText;
         private TextView date;
         private ImageView deleteReservation;
+        private ImageView badgeImage;
         private TextView rateSeller;
+        private TextView buyer;
+        private TextView textBuyer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -237,7 +368,10 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             status = itemView.findViewById(R.id.status);
             cardView = itemView.findViewById(R.id.parentReservation);
             deleteReservation = itemView.findViewById(R.id.delete_reservation);
+            buyer = itemView.findViewById(R.id.Buyer);
             rateSeller = itemView.findViewById(R.id.rate_seller);
+            textBuyer = itemView.findViewById(R.id.textBuyer);
+            badgeImage = itemView.findViewById(R.id.badgeImage);
         }
     }
 
@@ -252,13 +386,22 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             public void onClick(DialogInterface dialog, int which) {
                 FirestoreService firestoreService = new FirestoreService();
                 if(!ReservationID.equals("")) {
-                    firestoreService.deleteReservation(ReservationID, "Rezervation");
-                    if(reservationFragment.onMyReservations) {
-                        reservationFragment.refreshReservationList();
+                    if (history) {
+                        firestoreService.updateReservationSellerDeleted(ReservationID, true,  "Rezervation");
+                        reservationFragment.showHistory();
+
+                    }else{
+                        if(reservationFragment.onMyReservations) {
+                            firestoreService.deleteReservation(ReservationID, "Rezervation");
+                            reservationFragment.refreshReservationList();
+                        }
+                        else if (reservationFragment.onReservationsHistory){
+                            firestoreService.updateReservationBuyerDeleted(ReservationID, true,  "Rezervation");
+                            reservationFragment.showReservationHistoryDelete();
+                        }
                     }
-                    else if (reservationFragment.onReservationsHistory){
-                        reservationFragment.showReservationHistoryDelete();
-                    }
+
+
                 }
             }
         });

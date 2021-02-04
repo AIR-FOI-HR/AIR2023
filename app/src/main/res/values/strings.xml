@@ -260,11 +260,11 @@
     <string name="chatPoruka">Zadnja poruka</string>
     <string name="chatLastMessageDate">Datum zadnje poruke</string>
 
-
-
     <string name="chatFragment">Razgovori</string>
     <string name="hintMessage">Napišite poruku...</string>
     <string name="buyerData">"Podaci o kupcu: "</string>
     <string name="offerConfirmedBigTextSeller">Uspješno ste potvrdili rezervaciju kupca. Kako biste dovršili prodaju ribe, odnosno dogovorili mjesto preuzimanja ribe i plaćanje, kontaktirajte kupca putem kontakta navedenog u nastavku maila ili putem chata naše aplikacije \n\n\n</string>
     <string name="noFishText">Trenutno nema dostupnih količina</string>
+    <string name="History">Povijest</string>
+    <string name="rateBuyer"><u>Ocijeni kupca</u></string>
 </resources>

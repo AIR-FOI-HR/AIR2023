@@ -237,21 +237,37 @@ public class ProfileFragment extends Fragment {
                 if(!userID.equals(currentUser)){
                     userID = currentUser;
                 }
-                if(cameFrom.equals("Requests")){
-                    selectedFragment = new ReservationFragment(userID);
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                            selectedFragment).commit();
-                }else if(cameFrom.equals("Offers")){
+                if(cameFrom.equals("Offers")){
                     selectedFragment = new SearchFragment(userID);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }else if(cameFrom.equals("Confirmed")){
-                    selectedFragment = new ReservationFragment(userID);
+                    selectedFragment = new ReservationFragment(userID, cameFrom);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }else if(cameFrom.equals("Details")){
                    selectedFragment = new OfferDetailFragment(offerID, userID, false);
                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter, selectedFragment).commit();
+                }else if(cameFrom.equals("ReservationHistory")){
+                    selectedFragment = new ReservationFragment(userID, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                else if(cameFrom.equals("MyReservations")){
+                    selectedFragment = new ReservationFragment(userID, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                else if(cameFrom.equals("History")){
+                    selectedFragment = new ReservationFragment(userID, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                else if(cameFrom.equals("Requests")){
+                    Log.d("TagPolje", "REQUESTS");
+                    selectedFragment = new ReservationFragment(userID, cameFrom);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
                 }
 
             }

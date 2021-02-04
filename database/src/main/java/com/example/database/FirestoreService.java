@@ -308,6 +308,26 @@ public class FirestoreService {
                 "userRating", ratingTotal);
     }
 
+    public void updateReservationSellerDeleted(String reservationID, boolean b, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).update(
+                "deletedSeller",  b);
+    }
+    public void updateReservationBuyerDeleted(String reservationID, boolean b, String collection) {
+        FirebaseFirestore.getInstance().collection(collection).document(reservationID).update(
+                "deletedBuyer",  b);
+    }
+
+    public void updateReservationRatedByBuyer(String reservationID, boolean b) {
+        FirebaseFirestore.getInstance().collection("Rezervation").document(reservationID).update(
+                "ratedByBuyer",  b);
+    }
+
+    public void updateReservationRatedBySeller(String reservationID, boolean b) {
+        FirebaseFirestore.getInstance().collection("Rezervation").document(reservationID).update(
+                "ratedBySeller",  b);
+    }
+
+
     public class BadgeID {
 
         private String id;

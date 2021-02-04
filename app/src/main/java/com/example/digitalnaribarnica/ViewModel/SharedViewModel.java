@@ -221,4 +221,9 @@ public class SharedViewModel extends ViewModel {
     public void AzurirajRating(String ratedUser, String ratingTotal) {
         repository.updateRating(ratedUser, ratingTotal);
     }
+
+    public void AzurirajStatusRezervacijeOcjena(String reservationID, String ocijenjeno, String rezervation) {
+        repository.updateReservationRatedStatus(reservationID, ocijenjeno, rezervation);
+
+    }
 }

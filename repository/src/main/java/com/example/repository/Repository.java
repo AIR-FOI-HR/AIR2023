@@ -428,4 +428,16 @@ public class Repository {
     public void UpdateOfferStatus(String offerID, String status) {
         firestoreService.updateOfferStatus(offerID, status, "Offers");
     }
+
+    public void updateReservationRatedStatus(String reservationID, String ocijenjeno, String rezervation) {
+        firestoreService.updateReservationRatedStatus(reservationID, ocijenjeno, rezervation);
+    }
+
+    public void AzurirajStatusOcijenioKupac(String reservationID, boolean b) {
+        firestoreService.updateReservationRatedByBuyer(reservationID, b);
+    }
+
+    public void AzurirajStatusOcijenioProdavatelj(String reservationID, boolean b) {
+        firestoreService.updateReservationRatedBySeller(reservationID, b);
+    }
 }

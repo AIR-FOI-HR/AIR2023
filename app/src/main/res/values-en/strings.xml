@@ -267,5 +267,7 @@
     <string name="buyerData">"Buyer data: "</string>
     <string name="offerConfirmedBigTextSeller">You have successfully confirmed your customer reservation. To complete the sale or arrange a place to pick up fish and pay, contact customers via the contact listed below or via chat of our applications \n\n\n</string>
     <string name="noFishText">There are currently no quantities available</string>
+    <string name="History">History</string>
+    <string name="rateBuyer"><u>Rate buyer</u></string>
 
 </resources>

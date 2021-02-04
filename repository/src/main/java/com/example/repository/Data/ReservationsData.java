@@ -14,7 +14,10 @@ public class ReservationsData {
     private String largeFish;
     private String customerID;
     private String status;
-    private String ratedStatus;
+    private Boolean ratedByBuyer = false;
+    private Boolean ratedBySeller = false;
+    private Boolean deletedSeller = false;
+    private Boolean deletedBuyer = false;
 
     public ReservationsData(String offerID, Timestamp date, String price, String smallFish, String mediumFish, String largeFish, String customerID, String status) {
         this.offerID=offerID;
@@ -26,6 +29,22 @@ public class ReservationsData {
         this.customerID = customerID;
         this.status=status;
 
+    }
+
+    public Boolean getDeletedSeller() {
+        return deletedSeller;
+    }
+
+    public void setDeletedSeller(Boolean deletedSeller) {
+        this.deletedSeller = deletedSeller;
+    }
+
+    public Boolean getDeletedBuyer() {
+        return deletedBuyer;
+    }
+
+    public void setDeletedBuyer(Boolean deletedBuyer) {
+        this.deletedBuyer = deletedBuyer;
     }
 
     public String getReservationID() {
@@ -100,14 +119,23 @@ public class ReservationsData {
         this.status = status;
     }
 
-    public String getRatedStatus() {
-        return ratedStatus;
+    public Boolean getRatedByBuyer() {
+        return ratedByBuyer;
     }
 
-    public void setRatedStatus(String ratedStatus) {
-        this.ratedStatus = ratedStatus;
+    public void setRatedByBuyer(Boolean ratedByBuyer) {
+        this.ratedByBuyer = ratedByBuyer;
     }
-/*
+
+    public Boolean getRatedBySeller() {
+        return ratedBySeller;
+    }
+
+    public void setRatedBySeller(Boolean ratedBySeller) {
+        this.ratedBySeller = ratedBySeller;
+    }
+
+    /*
     public ReservationsData(String reservationTitle, String location) {
         this.reservationTitle = reservationTitle;
         this.location = location;
