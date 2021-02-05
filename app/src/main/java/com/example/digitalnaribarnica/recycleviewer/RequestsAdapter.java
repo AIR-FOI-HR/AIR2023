@@ -271,10 +271,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                 final String[] userEmail = {""};
                                 final String[] sellerEmail = {""};
 
-                                Log.d("TagPolje", "        ");
-                                Log.d("TagPolje", "        ");
-                                Log.d("TagPolje", "        ");
-
                                 repository.DohvatiKorisnikaPoID(buyerID, new FirestoreCallback() {
                                     @Override
                                     public void onCallback(User user) {
@@ -290,9 +286,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                                 + reservationFragment.getActivity().getString(R.string.address) + user.getAdress() + "\n" + "\n";
                                         messageSeller[0] = messageSeller[0] + messageForSeller2;
 
-                                        Log.d("TagPolje", message[0]);
-                                        Log.d("TagPolje", userEmail[0]);
-
                                         repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
                                             @Override
                                             public void onCallback(User user) {
@@ -300,9 +293,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                                 String messageString = reservationFragment.getActivity().getString(R.string.sellerData) + user.getFullName() + "\nE-mail: " + user.getEmail() + reservationFragment.getActivity().getString(R.string.phoneNumber) + user.getPhone()
                                                         + reservationFragment.getActivity().getString(R.string.address) + user.getAdress() + "\n" + "\n";
                                                 message[0] = message[0] + messageString;
-
-                                                Log.d("TagPolje", message[0]);
-                                                Log.d("TagPolje", sellerEmail[0]);
 
                                                 repository.DohvatiPonuduPrekoIdPonude(OfferID, new FirestoreOffer() {
                                                     @Override
@@ -336,8 +326,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                                             firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
                                                             reservationFragment.refreshRequestsList();
                                                         }
-                                                        Log.d("TagPolje", userEmail[0]);
-                                                        Log.d("TagPolje", sellerEmail[0]);
 
                                                         sendMail(userEmail[0], message[0]);
                                                         sendMail(sellerEmail[0], messageSeller[0]);
@@ -348,57 +336,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                                     }
                                 });
-
-                                /*repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
-                                    @Override
-                                    public void onCallback(User user) {
-                                        sellerEmail[0] = user.getEmail();
-                                        String messageString = reservationFragment.getActivity().getString(R.string.sellerData) + user.getFullName() + "\nE-mail: " + user.getEmail() + reservationFragment.getActivity().getString(R.string.phoneNumber) + user.getPhone()
-                                                + reservationFragment.getActivity().getString(R.string.address) + user.getAdress() + "\n" + "\n";
-                                        message[0] = message[0] + messageString;
-
-                                        Log.d("TagPolje", message[0]);
-                                        Log.d("TagPolje", sellerEmail[0]);
-                                    }
-                                });*/
-
-                                /*repository.DohvatiPonuduPrekoIdPonude(OfferID, new FirestoreOffer() {
-                                    @Override
-                                    public void onCallback(ArrayList<OffersData> offersData) {
-                                        Double quantity= Double.parseDouble(smallQuantity) + Double.parseDouble(mediumQuantity) + Double.parseDouble(largeQuantity);
-                                        Double priceQuantity = quantity * Double.parseDouble(offersData.get(0).getPrice());
-                                        String messageOffer = reservationFragment.getActivity().getString(R.string.messageOffer1) + offersData.get(0).getName() + reservationFragment.getActivity().getString(R.string.messageOffer2) + smallQuantity + reservationFragment.getActivity().getString(R.string.messageOffer3) + mediumQuantity +
-                                                reservationFragment.getActivity().getString(R.string.messageOffer4) + largeQuantity + reservationFragment.getActivity().getString(R.string.messageOffer5) + offersData.get(0).getPrice() + reservationFragment.getActivity().getString(R.string.messageOffer6) + priceQuantity.toString()
-                                                + reservationFragment.getActivity().getString(R.string.messageOffer7) + reservationDate + reservationFragment.getActivity().getString(R.string.messageOffer8);
-                                        message[0] = message[0] + messageOffer;
-
-                                        messageSeller[0] = messageSeller[0] + messageOffer;
-
-                                        //brisanje svih rezervacija koje su povezane s ponudom čija je dostupna količina jednaka nuli
-                                        if(updatedSmall == 0 && updatedMedium == 0 && updatedLarge == 0) {
-                                            for (int i = 0; i < reservations.size(); i++) {
-                                                if (reservations.get(i).getOfferID().equals(OfferID)) {
-                                                    firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                                                    firestoreService.deleteReservation(reservations.get(i).getReservationID(), "Rezervation");
-                                                    reservationFragment.refreshRequestsList();
-                                                }
-                                            }
-
-                                            //Izmjena statusa prilikom smanjenja dostupne količine ponude na nulu
-                                            firestoreService.updateOfferStatus(OfferID, "Neaktivna", "Offers");
-                                            reservationFragment.refreshRequestsList();
-
-                                        } else {
-                                            firestoreService.updateOfferQuantity(OfferID, updatedSmall.toString(), updatedMedium.toString(), updatedLarge.toString(), "Offers");
-                                            reservationFragment.refreshRequestsList();
-                                        }
-                                        Log.d("TagPolje", userEmail[0]);
-                                        Log.d("TagPolje", sellerEmail[0]);
-
-                                        sendMail(userEmail[0], message[0]);
-                                        sendMail(sellerEmail[0], messageSeller[0]);
-                                    }
-                                });*/
                             }
                             reservationFragment.refreshRequestsList();
                         }

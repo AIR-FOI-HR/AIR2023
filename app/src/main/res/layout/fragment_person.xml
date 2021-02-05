@@ -8,6 +8,11 @@
     tools:ignore="VectorDrawableCompat">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relative">
+
+    <RelativeLayout
         android:id="@+id/relativeBlueBackground"
         android:layout_width="match_parent"
         android:layout_height="190dp"
@@ -282,7 +287,11 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+
 <!--
+
+
             <Button
                 android:id="@+id/btnUrediProfil"
                 android:layout_centerHorizontal="true"
@@ -298,6 +307,21 @@
 
         </RelativeLayout>
 
+
     </ScrollView>
+
+        </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingbtnContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/add"
+        android:elevation="@dimen/general_margin"
+        android:layout_margin="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/relative"/>
 
 </RelativeLayout>

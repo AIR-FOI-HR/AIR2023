@@ -257,12 +257,13 @@ public class OfferDetailFragment extends Fragment {
                 }
 
                 sellerID = offersData.get(0).getIdKorisnika();
+
                 if(!((RegisterActivity) getActivity()).buyer){
-                    btnReserve.setVisibility(view.INVISIBLE);
-                    chatCloud.setVisibility(View.GONE);
-                    contactSeller.setVisibility(View.GONE);
-                } else if (userID.equals(sellerID)){
-                    btnReserve.setVisibility(view.INVISIBLE);
+                    btnReserve.setVisibility(view.GONE);
+                }
+
+                if (userID.equals(sellerID)){
+                    btnReserve.setVisibility(view.GONE);
                     chatCloud.setVisibility(View.GONE);
                     contactSeller.setVisibility(View.GONE);
                     contactSeller.setVisibility(TextView.INVISIBLE);

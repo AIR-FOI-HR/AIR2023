@@ -349,6 +349,7 @@
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="-10dp"
                     android:text="@string/add"
                     android:textColor="@color/colorWhite"
                     android:backgroundTint="@color/colorBlue"

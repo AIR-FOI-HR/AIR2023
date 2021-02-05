@@ -153,6 +153,7 @@ public class ReservationFragment extends Fragment {
 
         if(fromReview && fromConfirmed && !((RegisterActivity) getActivity()).buyer) {
             fromReview = false;
+            confirmedRequests();
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);
             buttonRequest.setVisibility(View.VISIBLE);
