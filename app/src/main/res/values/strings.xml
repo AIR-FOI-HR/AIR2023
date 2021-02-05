@@ -15,14 +15,8 @@
     <string name="forgotPassword">Zaboravljena lozinka?</string>
     <string name="facebook_app_id">345456403402437</string>
     <string name="fb_login_protocol_scheme">fb345456403402437</string>
-
     <string name="title_activity_register_form">RegisterActivityForm</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
     <string name="hello_world">Hello Square World!</string>
-
     <string name="fishSpecies">Vrsta ribe</string>
     <string name="location">Lokacija</string>
     <string name="pricePerKg">Cijena po kilogramu:</string>
@@ -73,7 +67,6 @@
     <string name="knperkg">kn/kg</string>
     <string name="_0_00">0.00</string>
     <string name="_0">0</string>
-
     <string name="pricePlaceholder">25,00 kn/kg</string>
     <string name="available">Dostupno:</string>
     <string name="quantityNull">0 kg</string>
@@ -82,12 +75,6 @@
     <string name="chooseFish">Odaberi vrstu</string>
     <string name="chooseLocation">Odaberi lokaciju</string>
     <string name="_99">99</string>
-
-
-    <!--
-    <string name="_0">0</string>
-    <string name="_0">0</string>
-    -->
     <string name="accountExists">Imaš račun?</string>
     <string name="signinhere">Prijavi se!</string>
     <string name="forgotPass">Zaboravljena lozinka?</string>
@@ -173,7 +160,7 @@
     <string name="reservationSuccessfullyCreated">Rezervacija uspješno izvršena</string>
     <string name="reservations">Rezervacije</string>
     <string name="deletedReservations">Obrisane rezervacije</string>
-    <string name="deletedReservationsMessage">"Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: "</string>
+    <string name="deletedReservationsMessage">Zbog isteka vremena, obrisan je sljedeći broj Vaših rezervacija: </string>
     <string name="okay">U redu</string>
     <string name="filterOffers">Filtriranje ponuda</string>
     <string name="filterOffersOffersNotFound">Nije pronađena niti jedna ponuda na temelju zadanih karakteristika</string>
@@ -267,5 +254,5 @@
     <string name="noFishText">Trenutno nema dostupnih količina</string>
     <string name="History">Povijest</string>
     <string name="rateBuyer"><u>Ocijeni kupca</u></string>
-    <string name="loadingData">Učitavam podatke...</string>
+
 </resources>

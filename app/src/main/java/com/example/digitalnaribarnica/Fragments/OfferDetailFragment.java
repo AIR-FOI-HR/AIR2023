@@ -278,6 +278,9 @@ public class OfferDetailFragment extends Fragment {
                         userName.setText(user.getFullName());
                         String userPhoto = user.getPhoto();
                         if(userPhoto!=""){
+                            if(getActivity() == null){
+                                return;
+                            }
                             Glide.with(getContext())
                                     .asBitmap()
                                     .load(userPhoto)

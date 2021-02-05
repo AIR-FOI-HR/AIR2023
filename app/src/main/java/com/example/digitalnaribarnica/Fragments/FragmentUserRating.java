@@ -183,9 +183,15 @@ public class FragmentUserRating extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                selectedFragment = new ReservationFragment(userID, true);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
-                        selectedFragment).commit();
+                if(fromConfirmed){
+                    selectedFragment = new ReservationFragment(userID, true, true, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }else{
+                    selectedFragment = new ReservationFragment(userID, true);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
                 break;
         }
 

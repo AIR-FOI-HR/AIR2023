@@ -15,14 +15,8 @@
     <string name="forgotPassword">Forgot your password?</string>
     <string name="facebook_app_id">345456403402437</string>
     <string name="fb_login_protocol_scheme">fb345456403402437</string>
-
     <string name="title_activity_register_form">RegisterActivityForm</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
     <string name="hello_world">Hello Square World!</string>
-
     <string name="fishSpecies">Type of fish</string>
     <string name="location">Location</string>
     <string name="pricePerKg">Price per kilogram:</string>
@@ -58,7 +52,7 @@
     <string name="acceptedRequests">Confirmed</string>
     <string name="reservationRecyclerView">Reservation title</string>
     <string name="reservationLocation">Location</string>
-    <string name="gradeReservation">Ocjena</string>
+    <string name="gradeReservation">Rating</string>
     <string name="nameSurname">Name Surname</string>
     <string name="badge">Badge</string>
     <string name="registerHere">Register!</string>
@@ -72,7 +66,6 @@
     <string name="knperkg">kn/kg</string>
     <string name="_0_00">0.00</string>
     <string name="_0">0</string>
-
     <string name="pricePlaceholder">25,00 kn/kg</string>
     <string name="available">Available:</string>
     <string name="quantityNull">0 kg</string>
@@ -81,12 +74,6 @@
     <string name="chooseFish">Choose fish type</string>
     <string name="chooseLocation">Choose location</string>
     <string name="_99">99</string>
-
-
-    <!--
-    <string name="_0">0</string>
-    <string name="_0">0</string>
-    -->
     <string name="accountExists">Already registered? </string>
     <string name="signinhere">Login!</string>
     <string name="forgotPass">Forgot password?</string>
@@ -172,16 +159,15 @@
     <string name="reservationSuccessfullyCreated">Reservation successfully created</string>
     <string name="reservations">Reservations</string>
     <string name="deletedReservations">Deleted reservations</string>
-    <string name="deletedReservationsMessage">"Due to time expiration, the following number of your reservations has been deleted: "</string>
+    <string name="deletedReservationsMessage">Due to time expiration, the following number of your reservations has been deleted: </string>
     <string name="okay">Okay</string>
     <string name="filterOffers">Offers filtering</string>
     <string name="filterOffersOffersNotFound">No offers were found based on default characteristics</string>
     <string name="emptyMyOffers">You currently don\'t have any offers created</string>
     <string name="showFirst">"Show first: "</string>
     <string name="warning">Warning</string>
-
     <string name="transactionCompleted">Do you want to confirm that the fish transaction was successful?</string>
-    <string name="transactionNotCompleted">\"Do you want to confirm that the fish transaction was unsuccessful?\"</string>
+    <string name="transactionNotCompleted">Do you want to confirm that the fish transaction was unsuccessful?</string>
     <string name="wantToDeleteOffer">Do you want to delete offer?</string>
     <string name="offerSuccessfullyDeleted">Offer successfully deleted</string>
     <string name="reservationsExistsCantDelete">There are some reservations related to offer which you want to delete</string>

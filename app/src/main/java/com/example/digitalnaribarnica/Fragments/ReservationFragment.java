@@ -714,7 +714,10 @@ public class ReservationFragment extends Fragment {
                     if(reservationList.size() == 0){
                         recyclerView.setVisibility(View.INVISIBLE);
                         emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                        try {
+                            emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                        }catch (Exception ex){};
+
                     }
                     else{
                         recyclerView.setVisibility(View.VISIBLE);
@@ -741,7 +744,10 @@ public class ReservationFragment extends Fragment {
             public void onCallback(ArrayList<ReservationsData> rezervations) {
                 recyclerView.setVisibility(View.INVISIBLE);
                 emptyView.setVisibility(View.VISIBLE);
-                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                try {
+                    emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                }catch (Exception ex){};
 
                 repository.DohvatiRibe(new FishCallback() {
                     @Override
@@ -839,7 +845,11 @@ public class ReservationFragment extends Fragment {
                 if(reservationList.size() == 0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+
+                    try {
+                        emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                    }catch (Exception ex){};
+
                 }
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
@@ -890,7 +900,11 @@ public class ReservationFragment extends Fragment {
                         if(reservationListSearched.size() == 0){
                             recyclerView.setVisibility(View.INVISIBLE);
                             emptyView.setVisibility(View.VISIBLE);
-                            emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+
+                            try {
+                                emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                            }catch (Exception ex){};
+
                         }
                         else{
                             recyclerView.setVisibility(View.VISIBLE);
@@ -933,7 +947,11 @@ public class ReservationFragment extends Fragment {
                 if(reservationList.size() == 0){
                     recyclerView.setVisibility(View.INVISIBLE);
                     emptyView.setVisibility(View.VISIBLE);
-                    emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+
+                    try {
+                        emptyView.setText(getActivity().getString(R.string.noDataAvailableReservations));
+                    }catch (Exception ex){};
+
                 }
                 else{
                     recyclerView.setVisibility(View.VISIBLE);
@@ -966,7 +984,11 @@ public class ReservationFragment extends Fragment {
             public void onCallback(ArrayList<ReservationsData> reservations) {
                     recyclerView.setVisibility(View.INVISIBLE);
                     emptyView.setVisibility(View.VISIBLE);
+
+
+                try {
                     emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                }catch (Exception ex){};
 
                 for (int i = 0; i < reservations.size(); i++) {
                     if(reservations.get(i).getStatus().equals("Nepotvrđeno")) {
@@ -1001,6 +1023,8 @@ public class ReservationFragment extends Fragment {
         onRequests = false;
         onAcceptedRequests = true;
 
+        Log.d("TagPolje", "Ulazi za confirmed requests");
+
         ConfirmedRequestsAdapter adapterConfirmedRequests = new ConfirmedRequestsAdapter(getActivity(), ReservationFragment.this, userID);
         ArrayList<ReservationsData> reservationList = new ArrayList<>();
         Repository repository=new Repository();
@@ -1018,7 +1042,10 @@ public class ReservationFragment extends Fragment {
 
                                 recyclerView.setVisibility(View.INVISIBLE);
                                 emptyView.setVisibility(View.VISIBLE);
-                                emptyView.setText(getActivity().getString(R.string.loadingData));
+
+                                try {
+                                    emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                                }catch (Exception ex){};
 
                                 repository.DohvatiPonuduPrekoIdPonude(reservations.get(i).getOfferID(), new FirestoreOffer() {
                                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -1068,7 +1095,11 @@ public class ReservationFragment extends Fragment {
                         if(reservationList.size() == 0){
                             recyclerView.setVisibility(View.INVISIBLE);
                             emptyView.setVisibility(View.VISIBLE);
-                            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                            try {
+                                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                            }catch (Exception ex){};
+
                         }
                         else{
                             recyclerView.setVisibility(View.VISIBLE);
@@ -1106,7 +1137,10 @@ public class ReservationFragment extends Fragment {
                     public void onCallback(ArrayList<ReservationsData> reservations) {
                         recyclerView.setVisibility(View.INVISIBLE);
                         emptyView.setVisibility(View.VISIBLE);
-                        emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                        try {
+                            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                        }catch (Exception ex){};
 
                         for (int i = 0; i < reservations.size(); i++) {
                             int finalI = i;
@@ -1158,7 +1192,11 @@ public class ReservationFragment extends Fragment {
                         if(reservationList.size() == 0){
                             recyclerView.setVisibility(View.INVISIBLE);
                             emptyView.setVisibility(View.VISIBLE);
-                            emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+
+                            try {
+                                emptyView.setText(getActivity().getString(R.string.noDataAvailableRequests));
+                            }catch (Exception ex){};
+
                         }
                         else{
                             recyclerView.setVisibility(View.VISIBLE);
