@@ -45,15 +45,16 @@ public class ConversationFragment extends Fragment {
 
     private String currentUserId;
     private String otherUserId;
-    private String offerId;
+    private String offerId = "";
     MessageAdapter messageAdapter;
     FragmentConversationBinding binding;
     List<Messages> messagesList;
     RecyclerView recyclerView;
     private ImageButton conversationBack;
-    private String cameFrom="Chat";
+    private String cameFrom="";
     ImageButton btn_send;
     EditText text_send;
+
 
     ImageView conversationPhoto;
     TextView conversationName;
@@ -63,9 +64,10 @@ public class ConversationFragment extends Fragment {
     public ConversationFragment() {
     }
 
-    public ConversationFragment(String currentUserId, String otherUserId){
+    public ConversationFragment(String currentUserId, String otherUserId, String cameFrom){
         this.currentUserId = currentUserId;
         this.otherUserId = otherUserId;
+        this.cameFrom = cameFrom;
     }
 
     public ConversationFragment(String otherUserId, String currentUserId, String cameFrom, String offerId) {
@@ -116,8 +118,22 @@ public class ConversationFragment extends Fragment {
                     selectedFragment = new ChatFragment(currentUserId);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
-                }else if(cameFrom.equals("Details")){
+                }
+
+                else if(cameFrom.equals("Details")){
                     selectedFragment = new OfferDetailFragment(offerId, currentUserId, false);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+
+                else if(cameFrom.equals("Profile") && !offerId.equals("Search")){
+                    selectedFragment = new ProfileFragment(otherUserId, currentUserId, "Details", offerId);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+
+                else {
+                    selectedFragment = new ProfileFragment(otherUserId, currentUserId, cameFrom);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }

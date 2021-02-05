@@ -39,6 +39,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -58,6 +59,8 @@ public class ProfileFragment extends Fragment {
     private String currentUser = "";
     private String cameFrom = "Person";
     private String offerID = "";
+
+    private FloatingActionButton contactFltButton;
 
     GoogleSignInAccount acct;
     FirebaseUser mUser;
@@ -116,6 +119,8 @@ public class ProfileFragment extends Fragment {
         showRatings = binding.showRatings;
         btnGoBack = binding.btnBack;
 
+        contactFltButton = binding.floatingbtnContact;
+
         if(otherProfile){
                 btnGoBack.setVisibility(view.VISIBLE);
             if(!currentUser.equals(userID)){
@@ -124,8 +129,14 @@ public class ProfileFragment extends Fragment {
                 binding.odjava.setVisibility(view.INVISIBLE);
             }
          }
+
         if(cameFrom.equals("Person")){
+            contactFltButton.setVisibility(View.GONE);
             btnGoBack.setVisibility(view.GONE);
+        }
+
+        if(currentUser.equals(userID)){
+            contactFltButton.setVisibility(View.GONE);
         }
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
@@ -227,6 +238,7 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+
         showRatings.setOnClickListener(new View.OnClickListener() {
             Fragment selectedFragment =null;
             @Override
@@ -282,6 +294,11 @@ public class ProfileFragment extends Fragment {
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }
+                else if(cameFrom.equals("Search")){
+                    selectedFragment = new SearchFragment(userID);
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
 
             }
         });
@@ -297,6 +314,24 @@ public class ProfileFragment extends Fragment {
                 }else{
                     selectedFragment = new BadgesFragment(userID, currentUser, mGoogleSignInClient, mUser, mAuth, cameFrom);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+            }
+        });
+
+        contactFltButton.setOnClickListener(new View.OnClickListener() {
+            Fragment selectedFragment = null;
+            @Override
+            public void onClick(View view) {
+                Log.d("TagPolje", cameFrom);
+                if(cameFrom.equals("Details")){
+                    selectedFragment = new ConversationFragment(userID, currentUser, "Profile", offerID);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
+                            selectedFragment).commit();
+                }
+                else {
+                    selectedFragment = new ConversationFragment(currentUser, userID, cameFrom);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                             selectedFragment).commit();
                 }
             }

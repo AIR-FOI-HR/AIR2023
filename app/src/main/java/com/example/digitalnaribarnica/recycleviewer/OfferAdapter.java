@@ -134,7 +134,7 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
             Fragment selectedFragment = null;
             @Override
             public void onClick(View view) {
-                selectedFragment = new ProfileFragment(offers.get(holder.getAdapterPosition()).getIdKorisnika(), userID, "Offers");
+                selectedFragment = new ProfileFragment(offers.get(holder.getAdapterPosition()).getIdKorisnika(), userID, "Search");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }
@@ -215,6 +215,13 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
     }
 
     public void setOffers(ArrayList<OffersData> offers) {
+        for (int i = 0; i < offers.size(); i++) {
+            if (offers.get(i).getStatus().equals("Deleted")) {
+                offers.remove(offers.get(i));
+                i = i - 1;
+            }
+        }
+
         Collections.sort(offers, new Comparator<OffersData>() {
             @Override
             public int compare(OffersData offersData, OffersData t1) {
@@ -227,6 +234,13 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
     }
 
     public void setOffersWithoutSortDate(ArrayList<OffersData> offers) {
+        for (int i = 0; i < offers.size(); i++) {
+            if (offers.get(i).getStatus().equals("Deleted")) {
+                offers.remove(offers.get(i));
+                i = i - 1;
+            }
+        }
+
         this.offers = offers;
         notifyDataSetChanged();
     }
@@ -258,7 +272,8 @@ OfferAdapter extends RecyclerView.Adapter<OfferAdapter.ViewHolder> {
                             }
                         }
                         if(!deletable[0]){
-                            repository.DeleteOffer(OfferID, "Offers");
+                            //repository.DeleteOffer(OfferID, "Offers");
+                            repository.UpdateOfferStatus(OfferID,"Deleted");
                             StyleableToast.makeText(context, searchFragment.getActivity().getString(R.string.offerSuccessfullyDeleted), 3, R.style.ToastGreen).show();
                             searchFragment.getMyOffers();
                         }else{

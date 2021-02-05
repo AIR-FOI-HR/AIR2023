@@ -8,7 +8,7 @@
     </corners>
 
     <solid
-        android:color="@color/com_facebook_messenger_blue">
+        android:color="@color/colorBlue">
     </solid>
 
 </shape>

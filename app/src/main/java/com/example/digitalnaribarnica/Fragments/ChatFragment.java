@@ -54,15 +54,16 @@ import java.util.Comparator;
 
 public class ChatFragment extends Fragment {
     private String userId = "";
-    Boolean isSearching = false;
-    Boolean startDontSearch = true;
     private ArrayList<ChatData> chatMessagesGeneral =new ArrayList<>();
     public String searchText;
+
+    Boolean isSearching = false;
+    Boolean startDontSearch = true;
     FragmentChatBinding binding;
     RecyclerView recyclerView;
-
     SearchView searchViewThisSearch;
     MenuItem itemThisSearch;
+    TextView emptyView;
 
     public ChatFragment(String userId) {
         this.userId = userId;
@@ -86,30 +87,16 @@ public class ChatFragment extends Fragment {
 
         //((RegisterActivity) getActivity()).fragmentId = this.getId();
 
-
-
-        //ArrayList<ChatData> chatDataTest = new ArrayList<>();
         Repository repository=new Repository();
-        //repository.DodajImenikKorisnik("Contacts","234234232ed2d2");
-        //OVAKO CEMO DODAVATI KORISNIKE U IMENIK NAKON KONTAKTIRANJA PODNUDITELJA/KUPCA PREMA KUPCU/PONUDITELJU
-        //repository.DodatiKorisnikaUImenik("Contacts","Nikola","Pero");
-        //repository.DodatiKorisnikaUImenik("Contacts","Pero","Nikola");
-
-
-        //repository.DodatiKorisnikaUImenik("Contacts","2112313442442","3202340430430");
-        //repository.DodatiKorisnikaUImenik("Contacts",userId,"iUXn4446xJWhzG5u02sutYGqbZF2");
         ArrayList<Messages> svePoruke = new ArrayList<>();
 
         repository.DohvatiImenikPoID(userId, new ContactsCallback() {
             @Override
             public void onCallback(ArrayList<Contacts> contacts) {
                 for(Contacts d:contacts){
-                    Log.d("CONTACTS",d.getId());
                     repository.DohvatiKorisnikaPoID(d.getId(), new FirestoreCallback() {
                         @Override
                         public void onCallback(User user) {
-                            Log.d("CONTACTS",user.getFullName());
-
                             repository.DohvatiBrojPorukaKorisnika("Contacts", userId, user.getUserID(), Long.valueOf(30), new MessageCallback() {
                                 @Override
                                 public void onCallback(ArrayList<Messages> messages) {
@@ -122,20 +109,28 @@ public class ChatFragment extends Fragment {
                                             svePoruke.add(new Messages(user.getUserID(), poruka.getMessage(), poruka.getDatetimeMessage()));
 
                                         sortMessages(svePoruke);
-                                        //Collections.reverse(svePoruke);
                                     }
 
                                     sortMessages(svePoruke);
 
                                     for (Messages poruke: svePoruke) {
-                                        Log.d("porukee", poruke.getMessage());
                                         zadnjaPoruka.add(poruke.getMessage());
                                         datumVrijemeZadnjePoruke = poruke.getDatetimeMessage();
                                     }
 
-                                    Log.d("porukae", zadnjaPoruka.get(zadnjaPoruka.size()-1));
-                                    Log.d("aaa", user.getUserID());
                                     chatMessagesGeneral.add(new ChatData(user.getUserID(),user.getFullName(),zadnjaPoruka.get(zadnjaPoruka.size()-1),user.getPhoto(), datumVrijemeZadnjePoruke));
+
+                                    /*Log.d("TagPolje", String.valueOf(chatMessagesGeneral.size()));
+
+                                    if(chatMessagesGeneral.size() == 0){
+                                        recyclerView.setVisibility(View.INVISIBLE);
+                                        emptyView.setVisibility(View.VISIBLE);
+                                    }
+                                    else{
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        emptyView.setVisibility(View.GONE);
+                                    }*/
+
                                     ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
                                     adapterChat.setChatMessages(chatMessagesGeneral);
                                     adapterChat.notifyDataSetChanged();
@@ -143,15 +138,11 @@ public class ChatFragment extends Fragment {
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 }
                             });
-
                         }
-
                     });
                 }
-
             }
         });
-
         return view;
     }
 

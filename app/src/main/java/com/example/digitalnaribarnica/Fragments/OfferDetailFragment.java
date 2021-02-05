@@ -411,9 +411,6 @@ public class OfferDetailFragment extends Fragment {
             }
         });
 
-
-
-
         smallQuantity.setOnFocusChangeListener((view15, fokusiran) -> {
             if (!fokusiran) {
                 if (smallQuantity.getText().length() > 1) {

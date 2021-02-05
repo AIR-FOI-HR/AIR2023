@@ -82,8 +82,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             Fragment selectedFragment = null;
             @Override
             public void onClick(View v) {
-                //searchFragment.destroySearch();
-                selectedFragment = new ConversationFragment(userID, idSugovornika);
+                selectedFragment = new ConversationFragment(userID, idSugovornika, "Chat");
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                         selectedFragment).commit();
             }

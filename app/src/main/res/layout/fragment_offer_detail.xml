@@ -579,7 +579,7 @@
                                     android:contentDescription="@string/picture"
                                     android:background="?selectableItemBackgroundBorderless"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/chat" />
+                                    android:src="@drawable/ic_round_message_24_blue" />
 
                                 <TextView
                                     android:id="@+id/contactSeller"
