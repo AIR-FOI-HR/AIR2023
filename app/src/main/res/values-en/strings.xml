@@ -53,7 +53,7 @@
     <string name="largeDescription">1 large fish = 0,5 kg and more</string>
     <string name="Odustani">Cancel</string>
     <string name="reservation_title">Reservation</string>
-    <string name="myReservations">Current reservations</string>
+    <string name="myReservations">Active reservations</string>
     <string name="requests">Requests</string>
     <string name="acceptedRequests">Confirmed</string>
     <string name="reservationRecyclerView">Reservation title</string>

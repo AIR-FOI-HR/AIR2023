@@ -136,8 +136,6 @@ public class ReservationFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setHasOptionsMenu(true);
 
-        Log.d("TagPolje", Locale.getDefault().getDisplayLanguage());
-
         binding = FragmentReservationBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
@@ -152,7 +150,17 @@ public class ReservationFragment extends Fragment {
         recyclerView = binding.recyclerReservations;
         emptyView = binding.emptyView;
 
-        if (fromConfirmed && !((RegisterActivity) getActivity()).buyer){
+
+        if(fromReview && fromConfirmed && !((RegisterActivity) getActivity()).buyer) {
+            fromReview = false;
+            buttonReservation.setVisibility(View.GONE);
+            buttonReservationHistory.setVisibility(View.GONE);
+            buttonRequest.setVisibility(View.VISIBLE);
+            buttonAccepted.setVisibility(View.VISIBLE);
+            buttonHistory.setVisibility(View.VISIBLE);
+            toggleButtonGroup.check(R.id.acceptedRequests_button);
+            buttonAccepted.setClickable(false);
+        } else if (fromConfirmed && !fromReview && !((RegisterActivity) getActivity()).buyer){
             fromReview=false;
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);
@@ -172,10 +180,8 @@ public class ReservationFragment extends Fragment {
             toggleButtonGroup.check(R.id.reservation_history);
             buttonReservationHistory.setClickable(false);
             showReservationHistory();
-            Log.d("TagPolje", "PRVI");
-        }
 
-        else if(fromReview && !fromRequests && !((RegisterActivity) getActivity()).buyer){
+        } else if(fromReview && !fromRequests && !((RegisterActivity) getActivity()).buyer){
             fromReview = false;
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);
@@ -185,7 +191,6 @@ public class ReservationFragment extends Fragment {
             toggleButtonGroup.check(R.id.history);
             buttonHistory.setClickable(false);
             showHistory();
-            Log.d("TagPolje", "DRUGI");
         }
         else if(fromReview && fromRequests && !((RegisterActivity) getActivity()).buyer){
             fromReview = false;
@@ -197,11 +202,9 @@ public class ReservationFragment extends Fragment {
             toggleButtonGroup.check(R.id.acceptedRequests_button);
             buttonAccepted.setClickable(false);
             showHistory();
-            Log.d("TagPolje", "Treći");
         }
 
         else if (((RegisterActivity) getActivity()).buyer){
-            Log.d("TagPolje", "Cetvrti");
             buttonReservation.setVisibility(View.VISIBLE);
             buttonReservationHistory.setVisibility(View.VISIBLE);
             buttonRequest.setVisibility(View.GONE);
@@ -217,7 +220,6 @@ public class ReservationFragment extends Fragment {
                 showMyReservations();
             }
         } else if (!((RegisterActivity) getActivity()).buyer){
-            Log.d("TagPolje", "PETI");
             fromReview=false;
             buttonReservation.setVisibility(View.GONE);
             buttonReservationHistory.setVisibility(View.GONE);

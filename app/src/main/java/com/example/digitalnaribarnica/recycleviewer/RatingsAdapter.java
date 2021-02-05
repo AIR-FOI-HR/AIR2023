@@ -61,8 +61,8 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingsAdapter.ViewHold
         repository.DohvatiKorisnikaPoID(ratings.get(position).getReviewer(), new FirestoreCallback() {
             @Override
             public void onCallback(User user) {
-                String text = " " + user.getFullName();
-                holder.reviewer.append(text);
+                String text = "Ocjenjivač: " + user.getFullName();
+                holder.reviewer.setText(text);
             }
         });
 

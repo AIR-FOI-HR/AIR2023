@@ -54,7 +54,7 @@
     <string name="largeDescription">1 velika riba = 0,5 kg i više</string>
     <string name="Odustani">Odustani</string>
     <string name="reservation_title">Rezervacije</string>
-    <string name="myReservations">Aktualne rezervacije</string>
+    <string name="myReservations">Aktivne rezervacije</string>
     <string name="requests">Zahtjevi</string>
     <string name="acceptedRequests">Potvrđeno</string>
     <string name="reservationRecyclerView">Naziv rezervacije</string>
@@ -181,7 +181,7 @@
     <string name="showFirst">"Prikaži prvo: "</string>
     <string name="warning">Upozorenje</string>
     <string name="transactionCompleted">Želite li potvrditi da je preuzimanje i kupnja ribe uspješno provedena?</string>
-    <string name="transactionNotCompleted">\"Želite li potvrditi da kupnja ribe nije uspješno provedena?\"</string>
+    <string name="transactionNotCompleted">Želite li potvrditi da kupnja ribe nije uspješno provedena?</string>
     <string name="wantToDeleteOffer">Želite li obrisati ponudu?</string>
     <string name="offerSuccessfullyDeleted">Ponuda uspješno obrisana</string>
     <string name="reservationsExistsCantDelete">Postoje neprovedene rezervacije vezane uz ponudu koju želite obrisati</string>

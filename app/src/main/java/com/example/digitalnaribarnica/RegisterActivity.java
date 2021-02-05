@@ -154,6 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.nav_home:
+                            destroySearch();
                             selectedFragment = new HomeFragment(personId);
                             break;
                         case R.id.nav_chat:

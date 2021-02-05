@@ -226,4 +226,12 @@ public class SharedViewModel extends ViewModel {
         repository.updateReservationRatedStatus(reservationID, ocijenjeno, rezervation);
 
     }
+
+    public void AzurirajStatusOcijenioProdavatelj(String reservationID, boolean b) {
+        repository.AzurirajStatusOcijenioProdavatelj(reservationID, true);
+    }
+
+    public void AzurirajStatusOcijenioKupac(String reservationID, boolean b) {
+        repository.AzurirajStatusOcijenioKupac(reservationID, true);
+    }
 }

@@ -292,14 +292,12 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                                 @Override
                                 public void onCallback(ArrayList<OffersData> offersData) {
                                     if(history){
-                                        repository.AzurirajStatusOcijenioProdavatelj(reservations.get(holder.getAdapterPosition()).getReservationID(), true);
-                                        selectedFragment = new FragmentUserRating(userID, reservations.get(position).getCustomerID(), reservations.get(position).getReservationID());
+                                        selectedFragment = new FragmentUserRating(userID, reservations.get(position).getCustomerID(), reservations.get(position).getReservationID(), "seller");
                                         ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                                                 selectedFragment).commit();
                                     }else{
 
-                                        repository.AzurirajStatusOcijenioKupac(reservations.get(holder.getAdapterPosition()).getReservationID(), true);
-                                        selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika(), reservations.get(position).getReservationID());
+                                        selectedFragment = new FragmentUserRating(userID, offersData.get(0).getIdKorisnika(), reservations.get(position).getReservationID(), "buyer");
                                         ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_containter,
                                                 selectedFragment).commit();
                                     }
