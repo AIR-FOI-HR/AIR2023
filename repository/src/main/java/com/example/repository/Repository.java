@@ -440,4 +440,8 @@ public class Repository {
     public void AzurirajStatusOcijenioProdavatelj(String reservationID, boolean b) {
         firestoreService.updateReservationRatedBySeller(reservationID, b);
     }
+
+    public void AzurirajZadnjuPoruku(String contacts, String currentUserId, String otherUserId, String msg, Timestamp dateTimeLastMsg) {
+        firestoreService.updateLastMessage(contacts, currentUserId, otherUserId, msg, dateTimeLastMsg);
+    }
 }

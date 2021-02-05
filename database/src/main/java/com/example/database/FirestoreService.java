@@ -122,6 +122,10 @@ public class FirestoreService {
         return FirebaseFirestore.getInstance().collection(collection).document(userCurrentlyID).collection("kontakti").document(newUserID).collection("poruke").whereIn("sender", Arrays.asList(newUserID, userCurrentlyID)).limit(brojPoruka).get();
     }
 
+    public void updateLastMessage(String contacts, String currentUserId, String otherUserId, String msg, Timestamp lastMessageDateTime) {
+        FirebaseFirestore.getInstance().collection(contacts).document(currentUserId).collection("kontakti").document(otherUserId).update("lastMessage", msg, "lastMessageDateTime", lastMessageDateTime);
+        FirebaseFirestore.getInstance().collection(contacts).document(otherUserId).collection("kontakti").document(currentUserId).update("lastMessage", msg, "lastMessageDateTime", lastMessageDateTime);
+    }
 
     public Task<QuerySnapshot> getCollection(String collection){
         //Log.d("Pokusaj",FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Email", "bozo.kvesic1@gmail.com").get().toString());
@@ -345,31 +349,12 @@ public class FirestoreService {
         }
     }
 
-
     public void updateBadgeUser(String userID, String badgeID, String collection) {
             BadgeID badge = new BadgeID(badgeID);
             FirebaseFirestore.getInstance().collection(collection).document(userID).collection("badges").document(badgeID).set(badge);
     }
 
-
     public Task<QuerySnapshot> DohvatiZnackeKorisnika(String collection, String userId){
         return FirebaseFirestore.getInstance().collection(collection).document(userId).collection("badges").get();
     }
-
-    //dohvati ID Google korisnika iz User kolekcije
-    /*public boolean korisnikPostojiUKolekciji(String userID) {
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("Users").whereEqualTo("userID", userID)
-                .limit(1).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean korisnikPostoji = task.getResult().isEmpty();
-                        }
-                    }
-                });
-        return korisnikPostoji;
-    }*/
-
 }

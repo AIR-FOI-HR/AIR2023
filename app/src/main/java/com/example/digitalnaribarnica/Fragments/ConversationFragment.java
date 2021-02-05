@@ -194,6 +194,18 @@ public class ConversationFragment extends Fragment {
 
                     repository.DodajPorukuKorisnik("Contacts",currentUserId,otherUserId,currentUserId,msg,vrijeme_slanja);
                     repository.DodajPorukuKorisnik("Contacts",otherUserId,currentUserId,currentUserId,msg,vrijeme_slanja);
+
+                    if(msg.length() > 10) {
+                        msg = msg.substring(0, 9) + "...";
+                    }
+                    if(msg.contains(System.getProperty("line.separator"))) {
+                        Log.d("noviRed", "ima novi red");
+                        msg = msg.replaceAll(System.getProperty("line.separator"), " ");
+                    }
+
+                    repository.AzurirajZadnjuPoruku("Contacts", currentUserId, otherUserId, msg, Timestamp.now());
+                    repository.AzurirajZadnjuPoruku("Contacts", otherUserId, currentUserId, msg, Timestamp.now());
+
                     recyclerView.smoothScrollToPosition(recyclerView.getBottom());
                 }
             }

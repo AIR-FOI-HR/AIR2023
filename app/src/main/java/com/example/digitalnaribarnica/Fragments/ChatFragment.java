@@ -87,8 +87,7 @@ public class ChatFragment extends Fragment {
 
         //((RegisterActivity) getActivity()).fragmentId = this.getId();
 
-        Repository repository=new Repository();
-        ArrayList<Messages> svePoruke = new ArrayList<>();
+        Repository repository = new Repository();
 
         repository.DohvatiImenikPoID(userId, new ContactsCallback() {
             @Override
@@ -97,47 +96,26 @@ public class ChatFragment extends Fragment {
                     repository.DohvatiKorisnikaPoID(d.getId(), new FirestoreCallback() {
                         @Override
                         public void onCallback(User user) {
-                            repository.DohvatiBrojPorukaKorisnika("Contacts", userId, user.getUserID(), Long.valueOf(30), new MessageCallback() {
-                                @Override
-                                public void onCallback(ArrayList<Messages> messages) {
-                                    ArrayList<String> zadnjaPoruka = new ArrayList<>();
-                                    Timestamp datumVrijemeZadnjePoruke = Timestamp.now();
-                                    for(Messages poruka: messages){
-                                        if(poruka.getSender().equals(userId))
-                                            svePoruke.add(new Messages(userId, poruka.getMessage(), poruka.getDatetimeMessage()));
-                                        else
-                                            svePoruke.add(new Messages(user.getUserID(), poruka.getMessage(), poruka.getDatetimeMessage()));
 
-                                        sortMessages(svePoruke);
-                                    }
+                            chatMessagesGeneral.add(new ChatData(user.getUserID(), user.getFullName(), d.getLastMessage(), user.getPhoto(), d.getLastMessageDateTime()));
+                            ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
+                            adapterChat.setChatMessages(chatMessagesGeneral);
+                            adapterChat.notifyDataSetChanged();
+                            recyclerView.setAdapter(adapterChat);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                                    sortMessages(svePoruke);
+                            sortMessages(chatMessagesGeneral);
 
-                                    for (Messages poruke: svePoruke) {
-                                        zadnjaPoruka.add(poruke.getMessage());
-                                        datumVrijemeZadnjePoruke = poruke.getDatetimeMessage();
-                                    }
+                            Log.d("TagPolje", String.valueOf(chatMessagesGeneral.size()));
 
-                                    chatMessagesGeneral.add(new ChatData(user.getUserID(),user.getFullName(),zadnjaPoruka.get(zadnjaPoruka.size()-1),user.getPhoto(), datumVrijemeZadnjePoruke));
-
-                                    /*Log.d("TagPolje", String.valueOf(chatMessagesGeneral.size()));
-
-                                    if(chatMessagesGeneral.size() == 0){
-                                        recyclerView.setVisibility(View.INVISIBLE);
-                                        emptyView.setVisibility(View.VISIBLE);
-                                    }
-                                    else{
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        emptyView.setVisibility(View.GONE);
-                                    }*/
-
-                                    ChatAdapter adapterChat = new ChatAdapter(getContext(), chatMessagesGeneral, userId);
-                                    adapterChat.setChatMessages(chatMessagesGeneral);
-                                    adapterChat.notifyDataSetChanged();
-                                    recyclerView.setAdapter(adapterChat);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                }
-                            });
+                            /*if(chatMessagesGeneral.size() == 0){
+                                recyclerView.setVisibility(View.INVISIBLE);
+                                emptyView.setVisibility(View.VISIBLE);
+                            }
+                            else {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                emptyView.setVisibility(View.GONE);
+                            }*/
                         }
                     });
                 }
@@ -146,13 +124,15 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    public ArrayList<Messages> sortMessages(ArrayList<Messages> messages) {
-        Collections.sort(messages, new Comparator<Messages>() {
+    public ArrayList<ChatData> sortMessages(ArrayList<ChatData> messages) {
+        Collections.sort(messages, new Comparator<ChatData>() {
             @Override
-            public int compare(Messages m1, Messages m2) {
-                return m1.getDatetimeMessage().compareTo(m2.getDatetimeMessage());
+            public int compare(ChatData c1, ChatData c2) {
+                return c1.getDate().compareTo(c2.getDate());
             }
         });
+
+        Collections.reverse(messages);
 
         return messages;
     }
