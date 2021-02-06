@@ -7,6 +7,15 @@
     tools:context=".MainActivity"
     tools:ignore="VectorDrawableCompat">
 
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/relative"
         android:layout_width="match_parent"
@@ -302,6 +311,11 @@
 
     </ScrollView>
 
+
+        </RelativeLayout>
+
+    </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingbtnContact"
         android:layout_width="wrap_content"
@@ -311,9 +325,6 @@
         android:contentDescription="@string/add"
         android:elevation="@dimen/general_margin"
         android:layout_margin="25dp"
-        android:layout_alignBottom="@+id/relative"/>
-
-
-
+        android:layout_alignBottom="@+id/scroll"/>
 
 </RelativeLayout>
