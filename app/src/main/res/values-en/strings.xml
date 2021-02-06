@@ -255,5 +255,7 @@
     <string name="noFishText">There are currently no quantities available</string>
     <string name="History">History</string>
     <string name="rateBuyer"><u>Rate buyer</u></string>
+    <string name="noContacts">No contacts found</string>
+    <string name="typeMail">Enter email</string>
 
 </resources>

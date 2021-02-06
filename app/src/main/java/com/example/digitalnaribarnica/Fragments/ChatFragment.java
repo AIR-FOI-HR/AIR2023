@@ -84,14 +84,23 @@ public class ChatFragment extends Fragment {
         recyclerView = binding.recyclerViewChat;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        //((RegisterActivity) getActivity()).fragmentId = this.getId();
+        emptyView = binding.emptyView;
 
         Repository repository = new Repository();
 
         repository.DohvatiImenikPoID(userId, new ContactsCallback() {
             @Override
             public void onCallback(ArrayList<Contacts> contacts) {
+
+                if(contacts.size() == 0){
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                }
+
                 for(Contacts d:contacts){
                     repository.DohvatiKorisnikaPoID(d.getId(), new FirestoreCallback() {
                         @Override
@@ -105,17 +114,6 @@ public class ChatFragment extends Fragment {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                             sortMessages(chatMessagesGeneral);
-
-                            Log.d("TagPolje", String.valueOf(chatMessagesGeneral.size()));
-
-                            /*if(chatMessagesGeneral.size() == 0){
-                                recyclerView.setVisibility(View.INVISIBLE);
-                                emptyView.setVisibility(View.VISIBLE);
-                            }
-                            else {
-                                recyclerView.setVisibility(View.VISIBLE);
-                                emptyView.setVisibility(View.GONE);
-                            }*/
                         }
                     });
                 }
@@ -195,12 +193,32 @@ public class ChatFragment extends Fragment {
         ChatAdapter adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
         adapterChat.setChatMessages(novi);
         adapterChat.notifyDataSetChanged();
+
+        if(novi.size() == 0){
+            recyclerView.setVisibility(View.INVISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+        
         recyclerView.setAdapter(adapterChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(search.equals("")){
             adapterChat = new ChatAdapter(getActivity(), userId, ChatFragment.this);
             adapterChat.setChatMessages(chatMessagesGeneral);
             adapterChat.notifyDataSetChanged();
+            
+            if(chatMessagesGeneral.size() == 0){
+                recyclerView.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else {
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
+            
             recyclerView.setAdapter(adapterChat);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
