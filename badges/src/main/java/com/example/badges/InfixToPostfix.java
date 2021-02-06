@@ -8,7 +8,102 @@ import java.util.Stack;
 
 public class InfixToPostfix {
 
-    public static final int                LEFT_ASSOC      = 0;
+    static int Prec(String ch)
+    {
+        switch (ch)
+        {
+            case "|":
+                return 1;
+            case "&":
+                return 2;
+            case "=":
+                return 3;
+            case ">":
+            case "<":
+                return 4;
+        }
+        return -1;
+    }
+
+    // The main method that converts
+    // given infix expression
+    // to postfix expression.
+    static String infixToPostfix(String exp)
+    {
+        // initializing empty String for result
+        String result = new String("");
+
+        // initializing empty stack
+        Stack<String> stack = new Stack<>();
+
+        for (int i = 0; i<exp.length(); i++)
+        {
+            String c = "";
+            c = exp.substring(i,i+1);
+
+            // If the scanned character is an
+            // operand, add it to output.
+            if (c.matches(".*\\d.*")) {
+                result += c;
+                //result += " ";
+            }
+
+            // If the scanned character is an '(',
+            // push it to the stack.
+            //c == '('
+            else if (c.equals("("))
+                stack.push(c);
+
+                // If the scanned character is an ')',
+                // pop and output from the stack
+                // until an '(' is encountered.
+            else if (c.equals(")"))
+            {
+                //stack.peek() != '('
+                while (!stack.isEmpty() &&
+                        !stack.peek().equals("(")) {
+                    result += stack.pop();
+                    result += " ";
+                }
+
+
+                stack.pop();
+            }
+            else // an operator is encountered
+            {
+                result += " ";
+                while (!stack.isEmpty() && Prec(c)
+                        <= Prec(stack.peek())){
+
+                    result += stack.pop();
+                    result += " ";
+                }
+                stack.push(c);
+            }
+
+        }
+
+        // pop all the operators from the stack
+        while (!stack.isEmpty()){
+            //stack.peek() == '('
+            if(stack.peek().equals("("))
+                return "Invalid Expression";
+            result += stack.pop();
+        }
+        return result;
+    }
+
+    // Driver method
+    public static String calculateInfixToPostfix(String condition)
+    {
+        String postfix;
+        postfix = infixToPostfix(condition);
+        //String exp = "a+b*(c^d-e)^(f+g*h)-i";
+        //System.out.println(infixToPostfix(exp));
+        return postfix;
+    }
+
+    /*public static final int                LEFT_ASSOC      = 0;
     public static final int                RIGHT_ASSOC     = 1;
     public static final Map<String, int[]> ARITH_OPERATORS = new HashMap<String, int[]>();
     public static final Map<String, int[]> REL_OPERATORS   = new HashMap<String, int[]>();
@@ -100,6 +195,6 @@ public class InfixToPostfix {
             out.add(stack.pop()); // [S13]
         }
         return out;
-    }
+    }*/
 
 }

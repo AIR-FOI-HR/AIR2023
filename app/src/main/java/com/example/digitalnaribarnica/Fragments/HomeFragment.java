@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -67,6 +68,7 @@ public class HomeFragment extends Fragment {
         this.userId = userId;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"RestrictedApi", "SetTextI18n"})
     @Nullable
     @Override
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment {
         else{
             updateResources(getContext(), "en");
         }
+
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.DohvatiKorisnikaPoID(userId);

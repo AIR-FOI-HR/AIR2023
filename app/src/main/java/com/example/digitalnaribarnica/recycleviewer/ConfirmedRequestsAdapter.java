@@ -263,7 +263,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         @Override
                                         public void onCallback(ArrayList<BadgeID> badgesID) {
                                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                //Logic logic = new Logic(user, badges, badgesID, context, "seller");
+                                                Logic logic = new Logic(user, badges, badgesID, context, "seller");
                                             }
                                         }
                                     });

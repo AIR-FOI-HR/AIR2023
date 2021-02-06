@@ -115,19 +115,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_toEndOf="@id/cardViewImage"
-            android:id="@+id/badge_quiz"
+            android:id="@+id/badge_buyer"
             android:layout_marginStart="-40dp"
             android:contentDescription="@string/badge"
             android:elevation="5dp"/>
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_toEndOf="@id/badge_quiz"
-            android:layout_marginStart="-16dp"
-            android:id="@+id/badge_buyer"
-            android:contentDescription="@string/badge"
-            android:elevation="10dp"/>
 
         <ImageView
             android:layout_width="50dp"
@@ -136,7 +127,7 @@
             android:layout_marginStart="-16dp"
             android:id="@+id/badge_seller"
             android:contentDescription="@string/badge"
-            android:elevation="15dp"/>
+            android:elevation="10dp"/>
 
     </RelativeLayout>
 

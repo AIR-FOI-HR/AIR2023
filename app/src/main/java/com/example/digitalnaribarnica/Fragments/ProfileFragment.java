@@ -164,11 +164,6 @@ public class ProfileFragment extends Fragment {
                                                     .asBitmap()
                                                     .load(badgesList.get(i).getBadgeURL())
                                                     .into(binding.badgeSeller);
-                                        } else {
-                                            Glide.with(getActivity())
-                                                    .asBitmap()
-                                                    .load(badgesList.get(i).getBadgeURL())
-                                                    .into(binding.badgeQuiz);
                                         }
                                     }
                                 }
