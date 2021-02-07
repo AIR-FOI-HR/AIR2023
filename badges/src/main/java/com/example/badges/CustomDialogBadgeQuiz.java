@@ -173,8 +173,6 @@ public class CustomDialogBadgeQuiz implements DataPresenter {
                         customDialogBadge.setContexPrikazivanja(context);
                         customDialogBadge.setData(user, badge);
                         customDialogBadge.prikaziDialogKorisniku();
-                    } else {
-                        izvrsiUpdateKorisnika();
                     }
                 }
                 MyDialog.dismiss();

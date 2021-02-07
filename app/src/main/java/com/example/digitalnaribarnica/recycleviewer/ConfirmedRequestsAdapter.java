@@ -249,11 +249,7 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                         @Override
                         public void onCallback(User user) {
                             FirestoreService firestoreService = new FirestoreService();
-                            Integer addSales = user.getNumberOfSales();
-                            addSales++;
-                            firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
                             BadgesRepository badgesRepository=new BadgesRepository();
-
 
                             badgesRepository.DohvatiSveZnačke(new BadgeCallback() {
                                 @Override
@@ -262,8 +258,17 @@ public class ConfirmedRequestsAdapter extends RecyclerView.Adapter<ConfirmedRequ
                                         @RequiresApi(api = Build.VERSION_CODES.N)
                                         @Override
                                         public void onCallback(ArrayList<BadgeID> badgesID) {
+                                            Integer addSales = user.getNumberOfSales();
+                                            addSales++;
+                                            firestoreService.updateNumberOfSales(userID, addSales.toString(), "Users");
                                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                                Logic logic = new Logic(user, badges, badgesID, context, "seller");
+
+                                                repository.DohvatiKorisnikaPoID(userID, new FirestoreCallback() {
+                                                    @Override
+                                                    public void onCallback(User updatedUser) {
+                                                        Logic logic = new Logic(updatedUser, badges, badgesID, context, "seller");
+                                                    }
+                                                });
                                             }
                                         }
                                     });

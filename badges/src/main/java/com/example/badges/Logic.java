@@ -155,8 +155,6 @@ public class Logic {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Boolean ProvjeriIstinitost(String condition, BadgesData badge, String category){
-        Log.d("TagPolje", condition);
-        Log.d("TagPolje",  String.valueOf(CalculatePostfix.evaluatePostfix(condition)));
         Integer result = (CalculatePostfix.evaluatePostfix(condition));
 
         Boolean returnResult;
@@ -169,7 +167,7 @@ public class Logic {
         }
 
         if(result==1) {
-            if (category.equals("quiz")) {
+            if (category.contains("quiz")) {
                 badgesRepository.DohvatiPitanjaZaKviz(new QuizCallBack() {
                     @Override
                     public void onCallback(ArrayList<QuizData> quizData) {
@@ -177,7 +175,11 @@ public class Logic {
                         customDialogBadgeQuiz.setContexPrikazivanja(reservationFragmentContext);
                         customDialogBadgeQuiz.setData(user, badge);
                         customDialogBadgeQuiz.setQuestions(quizData);
-                        customDialogBadgeQuiz.prikaziDialogKorisniku();
+                        try {
+                            customDialogBadgeQuiz.prikaziDialogKorisniku();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             } else {
@@ -194,17 +196,34 @@ public class Logic {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void postaviPOSTOJI(ArrayList<BadgesData> badges, ArrayList<BadgeID> badgesID, String category) {
         boolean exists;
+        Log.d("TagPolje", "postaviPOSTOJI: ");
         for (int i = 0; i < badges.size(); i++) {
             exists = true;
-            for (int j = 0; j < badgesID.size(); j++) {
-                if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && category.contains(badges.get(i).getCategory())) {
+            if(badgesID.size() == 0){
+                if (category.contains(badges.get(i).getCategory())) {
                     POSTOJI = 0;
+                    Log.d("TagPolje", "1NEPOSTOJI: ");
                     exists = false;
 
                 }else{
                     POSTOJI = 1;
+                    Log.d("TagPolje", "1POSTOJI: ");
                     exists = true;
-                    break;
+                }
+            }
+            else{
+                for (int j = 0; j < badgesID.size(); j++) {
+                    if ((!(badges.get(i).getBadgeID().equals(badgesID.get(j).getId()))) && category.contains(badges.get(i).getCategory())) {
+                        POSTOJI = 0;
+                        Log.d("TagPolje", "2NEPOSTOJI: ");
+                        exists = false;
+
+                    }else{
+                        POSTOJI = 1;
+                        Log.d("TagPolje", "2POSTOJI: ");
+                        exists = true;
+                        break;
+                    }
                 }
             }
 
